@@ -2,8 +2,6 @@
 
 int		main(int ac, char **av)
 {
-	int 	ret;
-
 	(void)ac;
 	(void)av;
 	while (read_input());

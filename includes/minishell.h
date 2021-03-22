@@ -5,6 +5,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <stdio.h>
+# include "../libft/libft.h"
 
 # define BLACK "\033[0;30m"
 # define RED "\033[0;31m"
@@ -17,5 +18,7 @@
 # define RESET "\033[0;0m"
 
 # define CLEAR "\e[H\e[2J"
+
+int	read_input(void);
 
 #endif
