@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:50:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/02/11 13:57:52 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/03/22 17:38:20 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
+# include "get_next_line.h"
 
 typedef struct		s_list
 {
@@ -75,5 +76,7 @@ char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
+int					get_next_line(int fd, char **line);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ndemont <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/22 16:19:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/22 17:36:02 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ int	read_input(void)
 	char *line;
 
 	display_prompt();
-	ret = get_next_line(0, line);
+	ret = get_next_line(0, &line);
 	return (ret);
 }
