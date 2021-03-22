@@ -2,14 +2,10 @@
 
 int		main(int ac, char **av)
 {
-	int ret;
+	int 	ret;
 
 	(void)ac;
 	(void)av;
-	printf(minishellrose);
-	while (ret = read(0, 0_RDONLY))
-	{
-		printf($);
-	}
+	while (read_input());
 	return (0);
 }
