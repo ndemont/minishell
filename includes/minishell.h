@@ -4,6 +4,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
+# include <stdio.h>
 
 # define BLACK "\033[0;30m"
 # define RED "\033[0;31m"
