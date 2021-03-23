@@ -42,36 +42,16 @@
 - dup / dup2
 - pipe
 - opendir / readdir / closedir
-
-strerror -- system error messages
-
-errno -- introduction to system calls and error numbers
-
-isatty -- get name of associated terminal (tty) from file descriptor
-
-ttyname -- get name of associated terminal (tty) from file descriptor
-
-ttyslot -- get name of associated terminal (tty) from file descriptor
-
-ioctl -- control device
-
-getenv -- environment variable functions
-
-tcsetattr -- manipulating the termios structure
-
-tcgetattr -- manipulating the termios structure
-
-tgetent - direct curses interface to the terminfo capability database
-
-tgetflag - direct curses interface to the terminfo capability database
-
-tgetnum - direct curses interface to the terminfo capability database
-
-tgetstr - direct curses interface to the terminfo capability database
-
-tgoto - direct curses interface to the terminfo capability database
-
-tputs - direct curses interface to the terminfo capability database
+- strerror
+- errno
+- isatty / ttyname / ttyslot
+- ioctl
+- getenv
+- tcsetattr / tcgetattr
+- tgetent
+- tgetflag / tgetnum / tgetstr
+- tgoto
+- tputs
 
 ## Commands builtins:
 
