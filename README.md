@@ -14,6 +14,7 @@
 ## How-To save our datas
 
 - [ ] struct global avec tout 
+- [ ] char ** env
 - [ ] liste chainees de commandes (termcap)
 - [ ] struct par commande 
 - [ ] arbre binaire: 1.operation 2.command 3.command arg 4.command return 5.leftchild 6.rightchild
