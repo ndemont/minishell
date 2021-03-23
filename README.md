@@ -31,36 +31,17 @@
 - close
 - fork 
 - wait
-- witpid /wait3 / wait4
-- signal -- simplified software signal facilities
-
-kill -- terminate or signal a process
-
-exit
-
-getcwd -- get working directory pathname
-
-chdir
-
-stat -- display file status
-
-lstat -- get file status
-
-fstat -- get file status
-
-execve -- execute a file
-
-dup -- duplicate an existing file descriptor
-
-dup2 -- duplicate an existing file descriptor
-
-pipe - Postfix delivery to external command
-
-opendir -- directory operations
-
-readdir -- directory operations
-
-closedir -- directory operations
+- witpid / wait3 / wait4
+- signal 
+- kill
+- exit
+- getcwd
+- chdir
+- stat / lstat / fstat
+- execve
+- dup / dup2
+- pipe
+- opendir / readdir / closedir
 
 strerror -- system error messages
 
