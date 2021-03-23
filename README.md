@@ -16,7 +16,7 @@
 - [ ] struct global avec tout 
 - [ ] liste chainees de commandes (termcap)
 - [ ] struct par commande 
-- [ ] arbre binaire de commandes relatives a la ligne
+- [ ] arbre binaire: 1.operation 2.command 3.command arg 4.command return 5.leftchild 6.rightchild
 - [ ] le current path (cd)
 - [ ] le retour de la derniere commande ($?)
 
