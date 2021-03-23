@@ -5,6 +5,18 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <sys/stat.h>
+# include <dirent.h>
+# include <sys/errno.h>
+# include <sys/ioctl.h>
+# include <termios.h>
+# include <curses.h>
+# include <term.h>
+
 # include "../libft/libft.h"
 
 # define BLACK "\033[0;30m"
