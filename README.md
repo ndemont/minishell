@@ -1,5 +1,11 @@
 # minishellrose
 
+expected commands:
+
+export (sans arg) -> "declre -x var" affichage var alpha
+
+allowed functions:
+
 printf
 malloc
 free
