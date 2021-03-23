@@ -4,6 +4,17 @@ expected commands:
 
 export (sans arg) -> "declre -x var" affichage var alpha
 
+## gpetit 
+- [ ] pwd
+- [ ] env
+- [ ] cd
+- [ ] echo
+- [ ] unset
+- [ ] exit
+
+## ndemont 
+- [ ] export 
+
 allowed functions:
 
 printf
@@ -83,3 +94,12 @@ tgetstr - direct curses interface to the terminfo capability database
 tgoto - direct curses interface to the terminfo capability database
 
 tputs - direct curses interface to the terminfo capability database
+
+## List data
+
+- [ ] struct gloabale avec tout 
+- [ ] liste chainees de commandes (termcap)
+- [ ] struct par commande 
+- [ ] arbre binaire de commandes relatives a la ligne
+- [ ] le current path (cd)
+- [ ] le retour de la derniere commande ($?)
