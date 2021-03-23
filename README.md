@@ -1,29 +1,42 @@
-# minishellrose
-
-expected commands:
-
-export (sans arg) -> "declre -x var" affichage var alpha
+# minishellrose ☎️
 
 ## gpetit 
 - [ ] pwd
 - [ ] env
 - [ ] cd
+
+## ndemont 
+- [ ] export
 - [ ] echo
 - [ ] unset
 - [ ] exit
 
-## ndemont 
-- [ ] export 
+## How-To save our datas
 
-allowed functions:
+- [ ] struct gloabale avec tout 
+- [ ] liste chainees de commandes (termcap)
+- [ ] struct par commande 
+- [ ] arbre binaire de commandes relatives a la ligne
+- [ ] le current path (cd)
+- [ ] le retour de la derniere commande ($?)
 
-printf
-malloc
-free
-write
-open
-read
-close
+## allowed functions:
+
+- printf
+- malloc
+- free
+- write
+- open
+- read
+- close
+
+## Commands builtins:
+
+1) **export** (sans arg) -> "declre -x var" affichage var alpha
+
+
+
+## Small MAN for minishell functions 📚
 
 fork -- create a new process
 
@@ -95,11 +108,4 @@ tgoto - direct curses interface to the terminfo capability database
 
 tputs - direct curses interface to the terminfo capability database
 
-## List data
 
-- [ ] struct gloabale avec tout 
-- [ ] liste chainees de commandes (termcap)
-- [ ] struct par commande 
-- [ ] arbre binaire de commandes relatives a la ligne
-- [ ] le current path (cd)
-- [ ] le retour de la derniere commande ($?)
