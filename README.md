@@ -13,7 +13,7 @@
 
 ## How-To save our datas
 
-- [ ] struct gloabale avec tout 
+- [ ] struct global avec tout 
 - [ ] liste chainees de commandes (termcap)
 - [ ] struct par commande 
 - [ ] arbre binaire de commandes relatives a la ligne
