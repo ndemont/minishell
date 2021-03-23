@@ -30,8 +30,7 @@
 - read
 - close
 - fork 
-- wait
-- witpid / wait3 / wait4
+- wait / waitpid / wait3 / wait4
 - signal 
 - kill
 - exit
@@ -65,7 +64,7 @@ fork -- create a new process
 
 wait -- wait for process termination
 
-witpid
+waitpid -- wait for process termination
 
 wait3 -- wait for process termination
 
