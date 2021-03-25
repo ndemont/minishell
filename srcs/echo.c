@@ -53,7 +53,7 @@ static char	*ft_env(int *i, char *str) /*add the general structure to the argume
 	return (new);
 }
 
-static char	*quote_mark(int i, char *str) /*add the general structure to the arguments*/
+static char	*ft_quote_mark(int i, char *str) /*add the general structure to the arguments*/
 {
 	char	*new;
 
@@ -80,7 +80,6 @@ int			ft_echo(char *str, char *echo) /*add the general structure to the argument
 	int		option;
 	char		*new;
 	char		*tmp;
-	int		count;
 
 	i = 0;
 	option = 0;
@@ -97,23 +96,18 @@ int			ft_echo(char *str, char *echo) /*add the general structure to the argument
 		{
 			new = ft_quote_mark(i, str);
 			echo = ft_strjoin(echo, new);
-			free(tmp);
 			free(new);
-			i++;
 		}
 		else if (str[i] == '$')
 		{
 			new = ft_env(i, str);
 			echo = ft_strjoin(echo, new);
-			free(tmp);
 			free(new);
 		}
 		else
-		{
 			echo = ft_strjoin(echo, (char *)str[i]);
-			i++;
-		}
-
+		free(tmp);
+		i++;
 	}
 	free_split(split);
 	if (!option)
