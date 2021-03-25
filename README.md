@@ -56,10 +56,15 @@
 ## Commands builtins:
 
 1) **export** (sans arg) -> "declre -x var" affichage var alpha
+  KO : |
   ne fonctionne pas lorsquil est suivi d'un '|'
   ex: export BANANE=1 | cat -e --> la variable n'est pas crée
-
-
+  
+  OK : >
+  OK : >>
+  OK : <
+  fonctionne lorsqu'il est suivi d'un '<'
+  ex: export B00=3 < file --> creer la variable BOO=3
 
 ## Small MAN for minishell functions 📚
 
