@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/25 21:21:19 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/25 21:32:47 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ static char	*ft_quote_mark(int i, char *str) /*add the general structure to the 
 		{
 			var = ft_env(&i, str);
 			if (!var)
+			{
+				free(tmp);
 				return (0);
+			}
 			new = ft_strjoin(new, ft_env(&i, str));
 		}
 		free(tmp);
@@ -82,12 +85,22 @@ static int	ft_parse_echo(char *arg, char *echo, int i)
 		if (arg[i] == '"')
 		{
 			new = ft_quote_mark(i, arg);
+			if (!new)
+			{
+				free(tmp)
+				return (0);
+			}
 			echo = ft_strjoin(echo, new);
 			free(new);
 		}
 		else if (arg[i] == '$')
 		{
 			new = ft_env(i, arg);
+			if (!new)
+			{
+				free(tmp);
+				return (0);
+			}
 			echo = ft_strjoin(echo, new);
 			free(new);
 		}
