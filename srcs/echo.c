@@ -77,28 +77,45 @@ static char	*quote_mark(int i, char *str) /*add the general structure to the arg
 int			ft_echo(char *str, char *echo) /*add the general structure to the arguments*/
 {
 	int		i;
-	char	*new;
+	int		option;
+	char		*new;
+	char		*tmp;
 	int		count;
-	char	**split;
 
+	i = 0;
+	option = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '-' && str[i + 1] == 'n')
+		option = 1;
 	while (str[i])
 	{
-		if (str[i] == "\"")
+		tmp = echo;
+		while (str[i] == ' ')
+			i++;
+		if (str[i] == '"')
 		{
 			new = ft_quote_mark(i, str);
 			echo = ft_strjoin(echo, new);
+			free(tmp);
+			free(new);
+			i++;
 		}
 		else if (str[i] == '$')
 		{
 			new = ft_env(i, str);
 			echo = ft_strjoin(echo, new);
+			free(tmp);
+			free(new);
 		}
 		else
 		{
 			echo = ft_strjoin(echo, (char *)str[i]);
+			i++;
 		}
-		i++;
+
 	}
 	free_split(split);
-	echo = ft_strjoin(echo, "\n");
+	if (!option)
+		echo = ft_strjoin(echo, "\n");
 }
