@@ -58,7 +58,6 @@
 1) **export** (sans arg) -> "declare -x var" affichage var alpha
 
   KO : |
-  
   ne fonctionne pas lorsquil est suivi d'un '|'
   ex: export BANANE=1 | cat -e --> la variable n'est pas crée
   
@@ -69,6 +68,18 @@
   OK : <
   fonctionne lorsqu'il est suivi d'un '<'
   ex: export B00=3 < file --> creer la variable BOO=3
+
+1) **echo** avec variables. ex BOO=2
+
+echo BOO -> BOO
+
+echo "BOO" -> BOO
+
+echo $BOO -> 2
+
+echo $"BOO" -> BOO
+
+echo "$BOO" -> 2
 
 ## Small MAN for minishell functions 📚
 
