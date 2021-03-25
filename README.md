@@ -70,6 +70,7 @@
   ex: export B00=3 < file --> creer la variable BOO=3
 
 1) **echo** avec variables. ex BOO=2
+si la variable n'existe pas, n'effiche rien
 
 echo BOO -> BOO
 
