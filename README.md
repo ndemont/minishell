@@ -56,6 +56,8 @@
 ## Commands builtins:
 
 1) **export** (sans arg) -> "declre -x var" affichage var alpha
+  ne fonctionne pas lorsquil est suivi d'un '|'
+  ex: export BANANE=1 | cat -e --> la variable n'est pas crée
 
 
 
