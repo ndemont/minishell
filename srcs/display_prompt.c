@@ -6,15 +6,10 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/03/26 17:34:58 by ndemont          ###   ########.fr       */
-=======
-/*   Updated: 2021/03/26 15:21:51 by ndemont          ###   ########.fr       */
->>>>>>> lexer debut
+/*   Updated: 2021/03/26 17:36:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 
 int	display_prompt(void)
 {
