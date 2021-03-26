@@ -6,7 +6,7 @@
 /*   By: ndemont <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/22 17:47:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/26 15:23:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	display_prompt(void)
 {
 	write(1, PURPLE, 7);
 	write(1, "minishellrose-v1$ ", 18);
-   	write(1, RESET, 9);
+   	write(1, RESET, 6);
 	return (1);
 }
 
