@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 17:14:46 by gpetit            #+#    #+#             */
-/*   Updated: 2020/12/27 15:36:12 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/03/26 14:27:24 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	j = 0;
 	if (!s)
 		return (NULL);
-	s2 = malloc(sizeof(char) * len + 1);
+	s2 = malloc(sizeof(char) * (len + 1));
 	if (!s2)
 		return (NULL);
 	while (s[i])

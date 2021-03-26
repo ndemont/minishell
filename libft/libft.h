@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:50:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/03/22 17:38:20 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/03/26 14:19:51 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
-# include "get_next_line.h"
+# include <sys/types.h>
+# include <sys/uio.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
 
 typedef struct		s_list
 {

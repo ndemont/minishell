@@ -6,13 +6,27 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 16:44:21 by gpetit            #+#    #+#             */
-/*   Updated: 2021/01/15 18:04:14 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/03/26 14:23:50 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-void	ft_isolator(char **stock, char **line)
+static char	*ft_strchr2(const char *s, int c)
+{
+	char	*ptr;
+
+	ptr = (char *)s;
+	while (*ptr != c)
+	{
+		if (*ptr == '\0')
+			return (NULL);
+		ptr++;
+	}
+	return (ptr);
+}
+
+static void	ft_isolator(char **stock, char **line)
 {
 	char	*tmp;
 	size_t	i;
@@ -35,7 +49,7 @@ void	ft_isolator(char **stock, char **line)
 	}
 }
 
-int		ft_fork(char **stock, char **line, ssize_t by)
+static int	ft_fork(char **stock, char **line, ssize_t by)
 {
 	if (by < 0)
 	{
