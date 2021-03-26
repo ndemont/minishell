@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/26 13:26:15 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/26 15:20:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,55 @@ int		ft_is_grammar(char *str, int i)
 		return (0);
 }
 
+int 	ft_is_quote(char *input, int i)
+{
+	int j;
+
+	if (input[i] == '\'')
+	{
+		j = i;
+		while (input[j] && input[i] != '\'')
+			j++;
+		if (input[i] == '\'')
+			return (j - i);
+		else
+			return (-1);
+	}
+	if (input[i] == '"')
+	{
+		j = i;
+		while (input[j] && input[i] != '"')
+			j++;
+		if (input[i] == '"')
+			return (j - i);
+		else
+			return (-1);
+	}
+	return (0);
+}
+
 void	ft_lexer(char *input)
 {
 	int i;
 	int j;
 
 	i = 0;
+	j = 0;
 	while (input[i])
 	{
-		while (input[j] && input[j] == ' ')
+		while (input[i] && !ft_is_grammar(input, i) && !ft_is_quote(input, i))
 			i++;
-		j = i;
-		while (input[j] && !ft_is_grammar(input, j))
+		if (ft_is_grammar(input, i))
+		{
+			i += ft_is_grammar(input, i);
 			j++;
-		
+		}
+		else if (ft_is_quote(input, i))
+			i+= ft_is_quote(input, i);
+		else
+			break ;
 	}
-		
+	write(1, "token numbers = ", 16);
+	write(1, &j, 4);
+	write(1, "\n", 1);
 }
