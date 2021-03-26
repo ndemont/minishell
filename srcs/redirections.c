@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 11:23:19 by gpetit            #+#    #+#             */
-/*   Updated: 2021/03/26 15:54:16 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/03/26 16:26:57 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,14 @@ void	redirect_file(char *path)
 	while (ret > 0)
 	{
 		ft_putstr_fd(line, 0);
+		free(line);
 		ret = get_next_line(fd, &line);
 	}
 	if (ret != -1)
+	{
 		ft_putstr_fd(line, 0);
+		free(line);
+	}
 	close(fd);
 }
 
