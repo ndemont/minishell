@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/26 16:33:20 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/26 17:24:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,34 @@ typedef struct		s_node
 	char	*builtin;
 }                  t_node;
 
-int		ft_is_grammar(char *str, int *i)
+int		ft_is_grammar(char *str, int i)
 {
-	if (str[*i] == '|')
+	if (str[i] == '|')
 	{
-		*i = *i + 1;
+		i = i + 1;
 		return (1);
 	}
-	else if (str[*i] == '>')
+	else if (str[i] == '>')
 	{
-		if (str[*i + 1] && str[*i + 1] == '>')
+		if (str[i + 1] && str[i + 1] == '>')
 		{
-			*i = *i + 2;
+			i = i + 2;
 			return (2);
 		}
 		else
 		{
-			*i = *i + 1;
+			i = i + 1;
 			return (3);
 		}
 	}
-	else if (str[*i] == '<')
+	else if (str[i] == '<')
 	{
-		*i = *i + 1;
+		i = i + 1;
 		return (4);
 	}
-	else if (str[*i] == ';')
+	else if (str[i] == ';')
 	{
-		*i = *i + 1;
+		i = i + 1;
 		return (5);
 	}
 	else
@@ -92,11 +92,13 @@ int 	ft_count_tokens(char *input)
 	j = 0;
 	while (input[i])
 	{
-		while (input[i] && !ft_is_grammar(input, &i) && !ft_is_quote(input, i))
+		while (input[i] && !ft_is_grammar(input, i) && !ft_is_quote(input, i))
 			i++;
-		if (ft_is_grammar(input, &i))
+		if (ft_is_grammar(input, i))
 		{
-			ft_is_grammar(input, &i);
+			if (ft_is_grammar(input, i) == 2)
+				i++;
+			i++;
 			j++;
 		}
 		else if (ft_is_quote(input, i))
@@ -138,7 +140,7 @@ t_node 	*ft_new_node(char *input, int *i)
 		while (input[*i] && input[*i] == ' ')
 			*i = *i + 1;
 		j = *i;
-		if ((type = ft_is_grammar(input, i)))
+		if ((type = ft_is_grammar(input, *i)))
 		{
 			new_node = ft_new_grammar_node(input, *i, type);
 			return (new_node);
