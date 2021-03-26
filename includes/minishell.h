@@ -31,6 +31,7 @@
 
 # define CLEAR "\e[H\e[2J"
 
-int	read_input(void);
+int		read_input(void);
+void	ft_lexer(char *input);
 
 #endif
