@@ -69,7 +69,7 @@
   fonctionne lorsqu'il est suivi d'un '<'
   ex: export B00=3 < file --> creer la variable BOO=3
 
-1) **echo** avec variables. ex BOO=2
+2) **echo** avec variables. ex BOO=2
 si la variable n'existe pas, n'effiche rien
 
 echo BOO -> BOO
@@ -81,6 +81,9 @@ echo $BOO -> 2
 echo $"BOO" -> BOO
 
 echo "$BOO" -> 2
+
+3) **pwd** 
+prend des arguments mais ne les traite jamais. Les redirections et l'appending fonctionnent, sauf '<'. En effet, pwd ne prend pas d'argument.
 
 ## Small MAN for minishell functions 📚
 
