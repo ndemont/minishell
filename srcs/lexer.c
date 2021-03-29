@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/26 17:24:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/29 12:34:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,25 @@ typedef struct		s_node
 	char	**arg;
 	char	*ret;
 	char	*builtin;
+	char	*left;
+	char	*right;
 }                  t_node;
 
 int		ft_is_grammar(char *str, int i)
 {
 	if (str[i] == '|')
-	{
-		i = i + 1;
 		return (1);
-	}
 	else if (str[i] == '>')
 	{
-		if (str[i + 1] && str[i + 1] == '>')
-		{
-			i = i + 2;
+		if (str[i + 1] == '>')
 			return (2);
-		}
 		else
-		{
-			i = i + 1;
 			return (3);
-		}
 	}
 	else if (str[i] == '<')
-	{
-		i = i + 1;
 		return (4);
-	}
 	else if (str[i] == ';')
-	{
-		i = i + 1;
 		return (5);
-	}
 	else
 		return (0);
 }
@@ -127,25 +114,51 @@ t_node	*ft_new_grammar_node(char *input, int i, int type)
 	return (new);
 }
 
+t_node	*ft_new_buildin_node(char *input, int i, int type)
+{
+	t_node *new;
+
+	(void)i;
+	(void)type;
+	new = (t_node *)malloc(sizeof(t_node));
+	new->type = type;
+	new->input = input;
+	new->arg = 0;
+	new->ret = 0;
+	new->builtin = 0;
+	return (new);
+}
+
 t_node 	*ft_new_node(char *input, int *i)
 {
 	int		j;
 	int 	type;
 	t_node	*new_node;
 
-	j = 0;
 	new_node = 0;
-	while (input[*i])
-	{
-		while (input[*i] && input[*i] == ' ')
-			*i = *i + 1;
-		j = *i;
-		if ((type = ft_is_grammar(input, *i)))
-		{
-			new_node = ft_new_grammar_node(input, *i, type);
-			return (new_node);
-		}
+	while (input[*i] && input[*i] == ' ')
 		*i = *i + 1;
+	if ((type = ft_is_grammar(input, *i)))
+	{
+		new_node = ft_new_grammar_node(input, *i, type);
+		*i = *i + 1;
+		if (type == 2)
+			*i = *i + 1;
+	}
+	else
+	{
+		j = *i;
+		while (input[*i] && ft_is_grammar(input, *i) <= 0)
+		{
+			if (input[*i] == '\'' || input[*i] == '"')
+			{
+				*i = *i + 1;
+				while (input[*i] && input[*i] != '\'' && input[*i] != '"')
+					*i = *i + 1;
+			}
+			*i = *i + 1;
+		}
+		new_node = ft_new_buildin_node(ft_substr(input, j, (*i - j)), *i, 0);
 	}
 	return (new_node);
 }
@@ -160,10 +173,14 @@ t_node	**ft_create_nodes(char *input, int nb)
 	nodes[nb] = 0;
 	i = 0;
 	j = 0;
-	while (i < nb)
+	while (j < nb)
 	{
-		nodes[i] = ft_new_node(input, &j);
-		i++;
+		nodes[j] = ft_new_node(input, &i);
+		if (nodes[j]->type > 0)
+			printf("[grammar %d]\n", nodes[j]->type);
+		else
+			printf("[%s]\n", nodes[j]->input);
+		j++;
 	}
 	return (nodes);
 }
