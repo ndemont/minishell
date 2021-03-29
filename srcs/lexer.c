@@ -6,22 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/29 15:01:22 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/29 15:46:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct		s_node
-{
-	int		type;
-	char	*input;
-	char	**arg;
-	char	*ret;
-	char	*builtin;
-	char	*left;
-	char	*right;
-}                  t_node;
 
 int		ft_is_grammar(char *str, int i)
 {
@@ -185,7 +174,7 @@ t_node	**ft_create_nodes(char *input, int nb)
 	return (nodes);
 }
 
-void	ft_lexer(char *input)
+t_node	**ft_lexer(char *input)
 {
 	int 	token_nb;
 	t_node	**nodes_tab;
@@ -195,4 +184,5 @@ void	ft_lexer(char *input)
 	write(1, ft_itoa(token_nb), 1);
 	write(1, "\n", 1);
 	nodes_tab = ft_create_nodes(input, token_nb);
+	return (nodes_tab);
 }

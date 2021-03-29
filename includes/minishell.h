@@ -31,7 +31,19 @@
 
 # define CLEAR "\e[H\e[2J"
 
+typedef struct		s_node
+{
+	int		type;
+	char	*input;
+	char	**arg;
+	char	*ret;
+	char	*builtin;
+	char	*left;
+	char	*right;
+}					t_node;
+
 int		read_input(void);
-void	ft_lexer(char *input);
+t_node	**ft_lexer(char *input);
+t_node	**ft_buldin_parser(t_node **token_tab);
 
 #endif
