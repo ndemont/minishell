@@ -57,16 +57,12 @@ char	*reverse_polish(char *str)
 		{
 			if (stack && rank(str[i]) < rank(*(char *)stack->content))
 			{
-				printf("1 : %c\n", str[i]);
 				while (stack && rank(str[i]) < rank(*(char *)stack->content))
 					pop(&(polish[j++]), &stack);
 				push(str[i], &stack);
 			}
 			else
-			{
-				printf("2 : %c\n", str[i]);
 				push(str[i], &stack);
-			}
 		}
 		i++;
 	}
@@ -76,12 +72,24 @@ char	*reverse_polish(char *str)
 	return (polish);
 }
 
+int	solver(char *polish)
+{
+	while (polish)
+	{
+		if (ft_isdigit(polish))
+		
+		polish++;
+	}
+}
+
 void	shunting_yard(char *str)
 {
-	char *polish;
+	char	*polish;
+	int		solution;
 	
 	polish = reverse_polish(str);
 	ft_putstr(polish);
+	solution = solver(polish);
 }
 
 int main(int ac, char **av)
