@@ -8,16 +8,32 @@ typedef struct		s_shunt
 	struct s_shunt	*next;
 }					t_shunt;
 
-void	print_array(t_shunt *polish)
+void	free_array(t_shunt *polish)
 {
+	t_shunt *tmp;
+
 	while (polish)
 	{
-		if (polish->type == 'c')
-			printf("%c", *((char *)polish->content));
-		else if (polish->type == 'i')
-			printf("%i", *((int *)polish->content));
+		tmp = polish;
+		polish = (polish)->next;
+		free(tmp->content);
+		free(tmp);
+	}
+}
+
+void	print_array(t_shunt *polish)
+{
+	t_shunt *tmp;
+
+	tmp = polish;
+	while (tmp)
+	{
+		if (tmp->type == 'c')
+			printf("%c", *((char *)tmp->content));
+		else if (tmp->type == 'i')
+			printf("%i", *((int *)tmp->content));
 		printf(" ");
-		polish = polish->next;
+		tmp = tmp->next;
 	}
 	printf("\n");
 }
@@ -112,6 +128,8 @@ t_shunt	*reverse_polish(char *str)
 	t_shunt *stack;
 	int i = 0;
 
+	polish = NULL;
+	stack = NULL;
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]))
@@ -138,27 +156,35 @@ t_shunt	*reverse_polish(char *str)
 	return (polish);
 }
 
-/* int	solver(char *polish)
+int		solver(t_shunt *polish)
 {
+	t_shunt *stack;
+
 	while (polish)
 	{
-		if (ft_isdigit(polish))
+		if (polish->type == 'c')
+		else if (polish->type == '')
 		
-		polish++;
+		polish = polish->next;
 	}
-} */
+}
 
 void	shunting_yard(char *str)
 {
 	t_shunt	*polish;
+	int		solution;
 	
 	polish = reverse_polish(str);
 	print_array(polish);
+	solution = solver(polish);
+	free_array(polish);
 }
 
 int main(int ac, char **av)
 {
-	(void)ac;
-	shunting_yard(av[1]);
+	if (ac != 2)
+		printf("Wrong Number of arguments");
+	else
+		shunting_yard(av[1]);
 	return (0);
 }
