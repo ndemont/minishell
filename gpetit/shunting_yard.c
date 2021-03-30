@@ -84,13 +84,21 @@ int		rank(char c)
 		return (-1);
 }
 
-void	push(char c, t_shunt **stack, char type)
+void	push(void *c, t_shunt **stack, char type)
 {
 	t_shunt *new;
-	char *content;
+	void *content;
 
-	content = (char*)malloc(sizeof(char));
-	*content = c;
+	if (type == 'c')
+	{
+		content = (char*)malloc(sizeof(char));
+		*(char *)content = *(char *)c;
+	}
+	else
+	{
+		content = (int *)malloc(sizeof(int));
+		*(int *)content = *(int *)c;
+	}
 	new = ft_lstnew_type(content, type);
 	if (!(*stack))
 		*stack = new;
@@ -121,6 +129,43 @@ void	queue(t_shunt **polish, char *nbr)
 	else
 		ft_lstadd_back_type(polish, new);
 }
+	
+int		*do_math(int i, int j, char c)
+{
+	void *result;
+
+	printf("i = %i || j = %i\n", i, j);
+	result = (int *)malloc(sizeof(int)); 
+	if (c == '+')
+		*(int *)result = i + j;
+	else if (c == '-')
+		*(int *)result = i - j;
+	else if (c == '/')
+		*(int *)result = i / j;
+	else
+		*(int *)result = i * j;
+	return (result);
+}
+
+void	poprock(t_shunt *stack, char c)
+{
+	t_shunt *tmp;
+	t_shunt *tmp2;
+	void *tmp3;
+
+	tmp = stack;
+	stack = stack->next;
+	tmp->next = NULL;
+	tmp2 = stack;
+	stack = stack->next;
+	tmp2->next = NULL;
+	tmp3 = do_math(*(int *)tmp2->content, *(int *)tmp->content, c);
+	free(tmp->content);
+	free(tmp2->content);
+	free(tmp2);
+	tmp->content = tmp3;
+	ft_lstadd_front_type(&stack, tmp);
+}
 
 t_shunt	*reverse_polish(char *str)
 {
@@ -144,10 +189,10 @@ t_shunt	*reverse_polish(char *str)
 			{
 				while (stack && rank(str[i]) < rank(*(char *)stack->content))
 					pop(&polish, &stack);
-				push(str[i], &stack, 'c');
+				push(&str[i], &stack, 'c');
 			}
 			else
-				push(str[i], &stack, 'c');
+				push(&str[i], &stack, 'c');
 		}
 		i++;
 	}
@@ -159,14 +204,26 @@ t_shunt	*reverse_polish(char *str)
 int		solver(t_shunt *polish)
 {
 	t_shunt *stack;
+	t_shunt *tmp;
+	int solution;
 
-	while (polish)
+	tmp = polish;
+	while (tmp)
 	{
-		if (polish->type == 'c')
-		else if (polish->type == '')
-		
-		polish = polish->next;
+		if (tmp->type == 'c')
+		{
+			poprock(stack, *(char *)tmp->content);
+		}
+		else
+		{
+			push(tmp->content, &stack, 'i');
+			print_array(stack);
+		}
+		tmp = tmp->next;
 	}
+	solution = *(int *)stack->content;
+	free_array(stack);
+	return (solution);
 }
 
 void	shunting_yard(char *str)
@@ -177,6 +234,7 @@ void	shunting_yard(char *str)
 	polish = reverse_polish(str);
 	print_array(polish);
 	solution = solver(polish);
+	printf("%i\n", solution);
 	free_array(polish);
 }
 
