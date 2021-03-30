@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/29 15:46:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/30 12:09:26 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ int	display_prompt(void)
 
 int	read_input(void)
 {
-	int ret;
-	char *line;
+	int		ret;
+	char	*line;
+	t_node	**token_tab;
 
 	display_prompt();
 	ret = get_next_line(0, &line);
-	ft_lexer(line);
+	token_tab = ft_lexer(line);
+	ft_buldin_parser(token_tab);
 	return (ret);
 }
