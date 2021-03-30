@@ -1,6 +1,63 @@
 
 #include "../includes/minishell.h"
 
+typedef struct		s_shunt
+{
+	void			*content;
+	char			type;				
+	struct s_shunt	*next;
+}					t_shunt;
+
+void	print_array(t_shunt *polish)
+{
+	while (polish)
+	{
+		if (polish->type == 'c')
+			printf("%c", *((char *)polish->content));
+		else if (polish->type == 'i')
+			printf("%i", *((int *)polish->content));
+		printf(" ");
+		polish = polish->next;
+	}
+	printf("\n");
+}
+
+t_shunt	*ft_lstnew_type(void *content, char type)
+{
+	t_shunt	*new;
+
+	new = malloc(sizeof(t_shunt));
+	if (!new)
+		return (NULL);
+	new->content = content;
+	new->type = type;
+	new->next = NULL;
+	return (new);
+}
+
+void	ft_lstadd_front_type(t_shunt **alst, t_shunt *new)
+{
+	new->next = *alst;
+	*alst = new;
+}
+
+void	ft_lstadd_back_type(t_shunt **alst, t_shunt *new)
+{
+	t_shunt	*lst;
+
+	if (!alst)
+		return ;
+	lst = *alst;
+	if (!lst)
+	{
+		*alst = new;
+		return ;
+	}
+	while (lst->next)
+		lst = lst->next;
+	lst->next = new;
+}
+
 int		rank(char c)
 {
 	if (c == '+' || c == '-')
@@ -11,68 +68,77 @@ int		rank(char c)
 		return (-1);
 }
 
-void	push(char c, t_list **stack)
+void	push(char c, t_shunt **stack, char type)
 {
-	t_list *new;
+	t_shunt *new;
 	char *content;
 
 	content = (char*)malloc(sizeof(char));
 	*content = c;
-	new = ft_lstnew(content);
+	new = ft_lstnew_type(content, type);
 	if (!(*stack))
 		*stack = new;
 	else
-		ft_lstadd_front(stack, new);
+		ft_lstadd_front_type(stack, new);
 }
 
-void	pop(char *polish, t_list **stack)
+void	pop(t_shunt **polish, t_shunt **stack)
 {
-	t_list *tmp;
+	t_shunt *tmp;
 
-	*polish = *(char *)(*stack)->content;
 	tmp = *stack;
 	*stack = (*stack)->next;
-	free(tmp->content);
-	free(tmp);
+	tmp->next = NULL;
+	ft_lstadd_back_type(polish, tmp);
 }
 
-void	queue(char *polish, char c)
+void	queue(t_shunt **polish, char *nbr)
 {
-	*polish = c;
+	int *content;
+	t_shunt *new;
+
+	content = (int *)malloc(sizeof(int));
+	*content = ft_atoi(nbr);
+	new = ft_lstnew_type(content, 'i');
+	if (!polish)
+		*polish = new;
+	else
+		ft_lstadd_back_type(polish, new);
 }
 
-char	*reverse_polish(char *str)
+t_shunt	*reverse_polish(char *str)
 {
-	char *polish;
-	t_list *stack;
+	t_shunt *polish;
+	t_shunt *stack;
 	int i = 0;
-	int j = 0;
 
-	polish = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]))
-			queue(&(polish[j++]), str[i]);
+		{
+			queue(&polish, str + i);
+			while (str[i + 1] && ft_isdigit(str[i + 1]))
+				i++;
+		}
 		else if (ft_strchr( "+-*/", str[i]))
 		{
 			if (stack && rank(str[i]) < rank(*(char *)stack->content))
 			{
 				while (stack && rank(str[i]) < rank(*(char *)stack->content))
-					pop(&(polish[j++]), &stack);
-				push(str[i], &stack);
+					pop(&polish, &stack);
+				push(str[i], &stack, 'c');
 			}
 			else
-				push(str[i], &stack);
+				push(str[i], &stack, 'c');
 		}
 		i++;
 	}
 	while (stack)
-		pop(&(polish[j++]), &stack);
-	polish[j] = '\0';
+		pop(&polish, &stack);
 	return (polish);
 }
 
-int	solver(char *polish)
+/* int	solver(char *polish)
 {
 	while (polish)
 	{
@@ -80,16 +146,14 @@ int	solver(char *polish)
 		
 		polish++;
 	}
-}
+} */
 
 void	shunting_yard(char *str)
 {
-	char	*polish;
-	int		solution;
+	t_shunt	*polish;
 	
 	polish = reverse_polish(str);
-	ft_putstr(polish);
-	solution = solver(polish);
+	print_array(polish);
 }
 
 int main(int ac, char **av)
