@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/31 12:06:48 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/03/31 15:16:34 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,19 @@ char	*get_arg(char *input, int *i)
 		*i = *i + 1;
 		while (input[*i] != '\'')
 			*i = *i + 1;
+		*i = *i + 1;
 	}
 	else if (input[*i] == '"')
 	{
 		*i = *i + 1;
 		while (input[*i] != '"')
 			*i = *i + 1;
+		*i = *i + 1;
 	}
+	else if (input[*i] == '"')
+		*i = *i + 1;
 	arg = ft_substr(input, j, *i - j);
+	printf("arg = %s\n", arg);
 	return (arg);
 }
 
@@ -48,9 +53,11 @@ int	count_arg(char *input)
 	i = 0;
 	while (input[i])
 	{
-		count++;
 		while (input[i] && input[i] == ' ')
 			i++;
+		if (!input[i])
+			break ;
+		count++;
 		while (input[i] && input[i] != ' ' && input[i] != '\'' && input[i] != '"')
 			i++;
 		if (input[i] == '\'')
@@ -81,25 +88,23 @@ void	get_buildin(t_node *token)
 
 	(void)list;
 	i = 0;
-	j = 0;
 	printf("token input = [%s]\n", token->input);
 	count = count_arg(token->input);
-	//printf("count = %i\n", count);
+	printf("count = [%d]\n", count);
+	token->builtin = get_arg(token->input, &i);
 	if (count > 1)
 	{
-		token->arg = (char **)malloc(sizeof(char) * count);
-		token->arg[count] = 0;
-	}
-	while (token->input[i])
-	{
-		if (!i)
-			token->builtin = get_arg(token->input, &i);
-		else
+		j = 0;
+		token->arg = (char **)malloc(sizeof(char *) * count);
+		while (token->input[i] && j < count - 1)
 		{
 			token->arg[j] = get_arg(token->input, &i);
+			printf("j = [%d]\n", j);
+			printf("[%p]\n", token->arg[j]);
+			printf("[%s]\n", token->arg[j]);
 			j++;
 		}
-		i++;
+		token->arg[count - 1] = 0;
 	}
 	printf("Builtin = [%s]\n", token->builtin);
 	if (token->arg)
@@ -108,7 +113,9 @@ void	get_buildin(t_node *token)
 		printf("Args =");
 		while (token->arg[i])
 		{
-			printf("[%s]  ", token->arg[i]);
+			printf("i = [%d]\n", i);
+			printf("[%p]\n", token->arg[i]);
+			printf("[%s]\n", (char *)token->arg[i]);
 			i++;
 		}
 		printf("\n");
