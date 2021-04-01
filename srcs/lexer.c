@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/31 11:30:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/01 11:51:03 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_node	*ft_new_grammar_node(char *input, int i, int type)
 	new->arg = 0;
 	new->ret = 0;
 	new->builtin = 0;
+	new->command = 0;
 	return (new);
 }
 
