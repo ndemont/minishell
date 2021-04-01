@@ -83,7 +83,6 @@ int 	ft_count_tokens(char *input)
 			break ;
 	}
 	write(1, "grammar numbers = ", 18);
-	write(1, ft_itoa(j), 1);
 	write(1, "\n", 1);
 	return ((j * 2) + 1);
 }
@@ -182,7 +181,6 @@ t_node	**ft_lexer(char *input)
 
 	token_nb = ft_count_tokens(input);
 	write(1, "token numbers = ", 16);
-	write(1, ft_itoa(token_nb), 1);
 	write(1, "\n", 1);
 	nodes_tab = ft_create_nodes(input, token_nb);
 	free(input);
