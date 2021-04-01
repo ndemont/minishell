@@ -43,7 +43,12 @@ typedef struct		s_node
 	char	*right;
 }					t_node;
 
-int		read_input(void);
+typedef struct 		s_big
+{
+	char **env;
+}					t_big;
+
+int		read_input(t_big *datas);
 t_node	**ft_lexer(char *input);
 t_node	**ft_buldin_parser(t_node **token_tab);
 
