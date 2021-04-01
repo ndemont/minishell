@@ -23,7 +23,8 @@ int		main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	store_env(env, &datas);
+	(void)env;
+	//store_env(env, &datas);
 	while (read_input(&datas));
 	return (0);
 }

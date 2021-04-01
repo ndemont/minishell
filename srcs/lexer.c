@@ -185,5 +185,6 @@ t_node	**ft_lexer(char *input)
 	write(1, ft_itoa(token_nb), 1);
 	write(1, "\n", 1);
 	nodes_tab = ft_create_nodes(input, token_nb);
+	free(input);
 	return (nodes_tab);
 }
