@@ -6,11 +6,7 @@
 #    By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 14:42:49 by gpetit            #+#    #+#              #
-<<<<<<< Updated upstream
-#    Updated: 2021/04/01 13:20:08 by ndemont          ###   ########.fr        #
-=======
-#    Updated: 2021/04/01 17:24:46 by gpetit           ###   ########.fr        #
->>>>>>> Stashed changes
+#    Updated: 2021/04/01 17:58:31 by gpetit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,11 +20,7 @@ IFLAGS = -I${INC_DIR}
 
 LIBFT = -Llibft -lft
 
-<<<<<<< Updated upstream
-SRCS = $(addprefix srcs/, main.c display_prompt.c lexer.c buildin_parser.c free.c)
-=======
-SRCS = $(addprefix srcs/, main.c display_prompt.c lexer.c buildin_parser.c binaries.c)
->>>>>>> Stashed changes
+SRCS = $(addprefix srcs/, main.c display_prompt.c lexer.c buildin_parser.c free.c binaries.c)
 
 INC_DIR = includes
 
