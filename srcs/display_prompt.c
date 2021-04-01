@@ -25,14 +25,22 @@ int	read_input(t_big *datas)
 	int		ret;
 	char	*line;
 	t_node	**token_tab;
+<<<<<<< Updated upstream
 	(void)datas;
+=======
+>>>>>>> Stashed changes
 
 	display_prompt();
 	ret = get_next_line(0, &line);
 	token_tab = 0;
 	token_tab = ft_lexer(line);
+<<<<<<< Updated upstream
 	//ft_buldin_parser(token_tab);
 	free_tokens(token_tab);
 	ret = 0;
+=======
+	ft_buldin_parser(token_tab);
+	binaries(token_tab[0], datas);
+>>>>>>> Stashed changes
 	return (ret);
 }
