@@ -38,6 +38,7 @@ typedef struct		s_node
 	char	**arg;
 	char	*ret;
 	char	*builtin;
+	char	*command;
 	char	*left;
 	char	*right;
 }					t_node;
