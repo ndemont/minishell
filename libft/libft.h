@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:50:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/03/26 14:19:51 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/01 16:18:48 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlen(const char *str);
+int					ft_dbstrlen(char **str);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int					ft_strncmp(const char *str, const char *str2, \
 size_t n);
@@ -84,6 +85,6 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					get_next_line(int fd, char **line);
-
+void				free_double(char **arr);
 
 #endif
