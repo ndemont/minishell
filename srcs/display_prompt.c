@@ -33,6 +33,6 @@ int	read_input(t_big *datas)
 	ft_buldin_parser(token_tab);
 	binaries(token_tab[0], datas);
 	free_tokens(token_tab);
-	ret = 0;
+	//ret = 0;
 	return (ret);
 }
