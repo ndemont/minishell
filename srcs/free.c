@@ -29,21 +29,16 @@ void	free_tokens(t_node **tokens)
 			if (tokens[i]->arg)
 			{
 				j = 0;
-				write(1, "4\n", 2);
 				while (tokens[i]->arg[j])
 				{
 					free(tokens[i]->arg[j]);
-					write(1, "5\n", 2);
 					j++;
 				}
-				write(1, "6\n", 2);
 				free(tokens[i]->arg);
 			}
-			write(1, "6\n", 2);
 			free(tokens[i]);
 			i++;
 		}
-		write(1, "7\n", 2);
 		free(tokens);
 	}
 }
