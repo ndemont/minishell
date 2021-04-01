@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/01 11:16:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/01 11:17:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	get_buildin(t_node *token)
 	if (count > 1)
 	{
 		j = 0;
-		token->arg = (char **)malloc(sizeof(char *) * (count + 1);
+		token->arg = (char **)malloc(sizeof(char *) * (count + 1));
 		token->arg[0] = token->builtin;
 		j = 1;
 		while (token->input[i] && j < count)
