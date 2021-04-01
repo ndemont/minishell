@@ -29,6 +29,7 @@ int	read_input(t_big *datas)
 
 	display_prompt();
 	ret = get_next_line(0, &line);
+	token_tab = 0;
 	token_tab = ft_lexer(line);
 	//ft_buldin_parser(token_tab);
 	free_tokens(token_tab);
