@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/01 11:17:19 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/01 12:00:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	*get_arg(char *input, int *i)
 	else if (input[*i] == '"')
 		*i = *i + 1;
 	arg = ft_substr(input, j, *i - j);
-	printf("arg = %s\n", arg);
 	return (arg);
 }
 
@@ -88,36 +87,36 @@ void	get_buildin(t_node *token)
 
 	(void)list;
 	i = 0;
-	printf("token input = [%s]\n", token->input);
 	count = count_arg(token->input);
-	printf("count = [%d]\n", count);
-	token->builtin = get_arg(token->input, &i);
-	if (count > 1)
+	token->arg = (char **)malloc(sizeof(char *) * (count + 1));
+	j = 0;
+	while (token->input[i] && j < count)
 	{
-		j = 0;
-		token->arg = (char **)malloc(sizeof(char *) * (count + 1));
-		token->arg[0] = token->builtin;
-		j = 1;
-		while (token->input[i] && j < count)
-		{
-			token->arg[j] = get_arg(token->input, &i);
-			printf("j = [%d]\n", j);
-			printf("[%p]\n", token->arg[j]);
-			printf("[%s]\n", token->arg[j]);
-			j++;
-		}
-		token->arg[count] = 0;
+		token->arg[j] = get_arg(token->input, &i);
+		j++;
 	}
-	printf("Builtin = [%s]\n", token->builtin);
+	token->arg[count] = 0;
+	token->command = token->arg[0];
+	i = 0;
+	while (i < 8)
+	{
+		if (!ft_strcmp(list[i], token->arg[0]))
+		{
+			token->builtin = token->arg[0];
+			token->command = 0;
+			break ;
+		}
+		i++;
+	}
+	printf("\nBuiltin = [%s]\n", token->builtin);
+	printf("Command = [%s]\n", token->command);
 	if (token->arg)
 	{
 		i = 0;
-		printf("Args =");
+		printf("Args = ");
 		while (token->arg[i])
 		{
-			printf("i = [%d]\n", i);
-			printf("[%p]\n", token->arg[i]);
-			printf("[%s]\n", (char *)token->arg[i]);
+			printf("[%s] ", (char *)token->arg[i]);
 			i++;
 		}
 		printf("\n");
