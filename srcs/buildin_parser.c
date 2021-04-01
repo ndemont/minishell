@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/31 15:16:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/01 11:16:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ void	get_buildin(t_node *token)
 	if (count > 1)
 	{
 		j = 0;
-		token->arg = (char **)malloc(sizeof(char *) * count);
-		while (token->input[i] && j < count - 1)
+		token->arg = (char **)malloc(sizeof(char *) * (count + 1);
+		token->arg[0] = token->builtin;
+		j = 1;
+		while (token->input[i] && j < count)
 		{
 			token->arg[j] = get_arg(token->input, &i);
 			printf("j = [%d]\n", j);
@@ -104,7 +106,7 @@ void	get_buildin(t_node *token)
 			printf("[%s]\n", token->arg[j]);
 			j++;
 		}
-		token->arg[count - 1] = 0;
+		token->arg[count] = 0;
 	}
 	printf("Builtin = [%s]\n", token->builtin);
 	if (token->arg)
