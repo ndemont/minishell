@@ -30,7 +30,7 @@ int	read_input(t_big *datas)
 	ret = get_next_line(0, &line);
 	token_tab = ft_lexer(line);
 	ft_buldin_parser(token_tab);
-	binaries(token_tab[0], datas);
+	binaries(token_tab, datas);
 	free_tokens(token_tab);
 	return (ret);
 }
