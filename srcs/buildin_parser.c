@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/01 12:00:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/02 11:09:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*get_arg(char *input, int *i)
 		*i = *i + 1;
 		while (input[*i] != '\'')
 			*i = *i + 1;
+		arg = ft_substr(input, j + 1, *i - j - 1);
 		*i = *i + 1;
 	}
 	else if (input[*i] == '"')
@@ -35,11 +36,11 @@ char	*get_arg(char *input, int *i)
 		*i = *i + 1;
 		while (input[*i] != '"')
 			*i = *i + 1;
+		arg = ft_substr(input, j + 1, *i - j - 1);
 		*i = *i + 1;
 	}
-	else if (input[*i] == '"')
-		*i = *i + 1;
-	arg = ft_substr(input, j, *i - j);
+	else
+		arg = ft_substr(input, j, *i - j);
 	return (arg);
 }
 
@@ -85,7 +86,6 @@ void	get_buildin(t_node *token)
 	int		j;
 	int		count;
 
-	(void)list;
 	i = 0;
 	count = count_arg(token->input);
 	token->arg = (char **)malloc(sizeof(char *) * (count + 1));
