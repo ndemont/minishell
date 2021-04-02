@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/01 13:31:48 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/02 12:39:24 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,26 @@ char **path_array(char *command)
 	return (binaries);
 }
 
+char **mono_array(char *str)
+{
+	char **cmd;
+
+	cmd = (char **)malloc(sizeof(char*) * 1);
+	if (!cmd)
+	{
+		perror("Malloc failed in mono_array ");
+		exit(0); //replace by custom exit fct
+	}
+	cmd[0] = ft_strdup(str);
+	if (!cmd[0])
+	{
+		perror("Malloc failed in mono_array2 ");
+		exit (0);
+	}
+	cmd[1] = 0;
+	return (cmd);
+}
+
 //call this function if (elem->command != 0), Fork higher or here ? 
 void	binaries(t_node *token, t_big *datas)
 {
@@ -59,12 +79,18 @@ void	binaries(t_node *token, t_big *datas)
 	int status;
 
 	pid = fork();
-	cmd = path_array(token->command);
+	if (ft_strchr(token->command, '/'))
+		cmd = mono_array(token->command);
+	else
+		cmd = path_array(token->command);
  	k = 0;
 	if (pid == 0)
 	{
 		while (cmd[k] && (execve(cmd[k], token->arg, datas->env) == -1))
 			k++;
+		write(1, "minishellrose: ", 15);
+		ft_putstr(token->command);
+		write(1, ": command not found\n", 20);
 	}
 	else
 		wait(&status);
