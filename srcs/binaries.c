@@ -76,6 +76,7 @@ void	binaries(t_node *token, t_big *datas)
 	char **cmd;
 	int k;
 	int pid;
+	int ret;
 	int status;
 
 	pid = fork();
@@ -86,11 +87,15 @@ void	binaries(t_node *token, t_big *datas)
  	k = 0;
 	if (pid == 0)
 	{
-		while (cmd[k] && (execve(cmd[k], token->arg, datas->env) == -1))
+		while (cmd[k] && ((ret = execve(cmd[k], token->arg, datas->env)) == -1))
 			k++;
-		write(1, "minishellrose: ", 15);
-		ft_putstr(token->command);
-		write(1, ": command not found\n", 20);
+		if (ret == -1)
+		{
+			write(1, "minishellrose: ", 15);
+			ft_putstr(token->command);
+			write(1, ": command not found\n", 20);
+		}
+		exit(0); //permet de fermer execve dans le fork après l'avoir RUN
 	}
 	else
 		wait(&status);
