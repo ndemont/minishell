@@ -53,5 +53,6 @@ t_node	**ft_lexer(char *input);
 t_node	**ft_buldin_parser(t_node **token_tab);
 void	free_tokens(t_node **token_tab);
 void	binaries(t_node *token, t_big *datas);
+void	tree(t_node **tokens, t_big *datas);
 
 #endif
