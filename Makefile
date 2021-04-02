@@ -6,7 +6,7 @@
 #    By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 14:42:49 by gpetit            #+#    #+#              #
-#    Updated: 2021/04/01 13:20:08 by ndemont          ###   ########.fr        #
+#    Updated: 2021/04/01 17:45:48 by ndemont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C libft/
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT)
+	$(CC) -fsanitize=address $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT)
 
 clean:
 	make clean -C libft/
