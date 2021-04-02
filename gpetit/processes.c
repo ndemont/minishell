@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:14:14 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/01 10:47:33 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/02 17:41:01 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,51 @@
 int	main(int ac, char **av, char **env)
 {
 	char *cmd;
-	int pid;
-	int	status;
-	char *path;
-	char **paths;
+	pid_t pid;
+	pid_t pid2;
+	int fd[2];
+	
 
 	(void)ac;
-	pid = fork();
+	if ((pipe(fd) == -1))
+	{
+		perror("Pipe not Working");
+		exit(0);
+	}
+	if ((pid = fork()) == -1)
+	{
+		perror("pid error");
+		exit(0);
+	}
 	if (pid == 0)
 	{
-		while (paths[k])
-		{
-			cmd = ft_strjoin(paths[k], tmp);
-			printf("cmd =  %s\n", cmd);
-			printf("retour de EXECVE = %i\n", execve(cmd, av + 1, env));
-			free(cmd);
-			printf("k = %i\n", k);
-			k++;
-		}
-		free(tmp);
-		printf("errno = %i\n", errno);
-		perror(NULL);
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		cmd = ft_strjoin("/bin/", av[1]);
+		execve(cmd, av + 1, env);
+		free(cmd);
+		exit(0);
 	}
-	else
+	if ((pid2 = fork()) == -1)
 	{
-		wait(&status);
+		perror("Pipe not Working");
+		exit(0);
 	}
+	if (pid2 == 0)
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		char *line;
+		get_next_line(STDIN_FILENO, &line);
+		printf("line = %s\n", line);
+		execlp("grep", "grep", "shunting", NULL);
+		exit(0);
+	}
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid, NULL, 0);
+	waitpid(pid2, NULL, 0);
 	return (0);
 }
