@@ -33,19 +33,20 @@
 
 typedef struct		s_node
 {
-	int		type;
-	char	*input;
-	char	**arg;
-	char	*ret;
-	char	*builtin;
-	char	*command;
-	char	*left;
-	char	*right;
+	int				type;
+	char			*input;
+	char			**arg;
+	char			*ret;
+	char			*builtin;
+	char			*command;
+	struct s_node	*left;
+	struct s_node	*right;
 }					t_node;
 
 typedef struct 		s_big
 {
-	char **env;
+	char 	**env;
+	t_node	*root;
 }					t_big;
 
 int		read_input(t_big *datas);
