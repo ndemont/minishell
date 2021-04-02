@@ -32,7 +32,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C libft/
-	$(CC) -fsanitize=address $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT)
 
 clean:
 	make clean -C libft/
