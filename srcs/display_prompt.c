@@ -25,11 +25,15 @@ int	read_input(t_big *datas)
 	int		ret;
 	char	*line;
 	t_node	**token_tab;
-	(void)datas;
 
 	display_prompt();
 	ret = get_next_line(0, &line);
 	token_tab = ft_lexer(line);
 	ft_buldin_parser(token_tab);
+<<<<<<< HEAD
+=======
+	binaries(token_tab[0], datas);
+	free_tokens(token_tab);
+>>>>>>> 7abe3dffc9bc94e92ee4fdbfd47f5aab88bc15e4
 	return (ret);
 }
