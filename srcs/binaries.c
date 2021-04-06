@@ -88,7 +88,6 @@ void	binaries(t_node **token, t_big *datas)
 	int k;
 	int pid;
 	int ret;
-	int status;
 	int i = 0;
 	int fd[2];
 
@@ -114,6 +113,5 @@ void	binaries(t_node **token, t_big *datas)
 		free_double(cmd);
 		exit(0); //permet de fermer execve dans le fork après l'avoir RUN
 	}
-	else
-		wait(&status);
+	waitpid(pid, NULL, 0);
 }
