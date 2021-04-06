@@ -23,27 +23,27 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	if ((pipe(fd) == -1))
 	{
-		perror("Pipe not Working");
+		perror("Pipe not Working ");
 		exit(0);
 	}
 	if ((pid = fork()) == -1)
 	{
-		perror("pid error");
+		perror("pid error ");
 		exit(0);
 	}
 	if (pid == 0)
 	{
-		close(fd[0]);
+		dup2(fd[0], STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
 		close(fd[1]);
-		cmd = ft_strjoin("/bin/", av[1]);
-		execve(cmd, av + 1, env);
+		execlp("grep", "grep", "shunting", "shunting_yard.c" NULL);
 		free(cmd);
 		exit(0);
 	}
 	if ((pid2 = fork()) == -1)
 	{
-		perror("Pipe not Working");
+		perror("pid error ");
 		exit(0);
 	}
 	if (pid2 == 0)
