@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/02 18:29:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/06 12:14:08 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_tree(t_node *root)
 	if (root->type)
 	{
 		write(1, "grammar type ", 14);
-		write(1, &root->type, 4);
+		write(1, ft_itoa(root->type), 1);
 		write(1, "\n", 1);
 	}
 	else
@@ -56,31 +56,39 @@ void	tree(t_node **tokens, t_big *datas)
 	tokens[count] = 0;
 	i = 0;
 	j = 0;
-	while (tmp[i])
+	if (!count)
 	{
-		if (tmp[i]->type)
-		{
-			tokens[j] = tmp[i];
-			j++;
-		}
-		i++;
+		tokens[0] = tmp[0];
+		datas->root = tokens[0];
 	}
-	//free(tmp);
-	datas->root = tokens[0];
-	i = 1;
-	while (tokens[i])
+	else
 	{
-		if (tokens[i]->type)
+		while (tmp[i])
 		{
-			if (tokens[i]->type == 5)
-				tokens[i - 1]->right = tokens[i];
-			else
+			if (tmp[i]->type)
 			{
-				tokens[i]->left = datas->root;
-				datas->root = tokens[i];
+				tokens[j] = tmp[i];
+				j++;
 			}
+			i++;
 		}
-		i++;
+		//free(tmp);
+		datas->root = tokens[0];
+		i = 1;
+		while (tokens[i])
+		{
+			if (tokens[i]->type)
+			{
+				if (tokens[i]->type == 5)
+					tokens[i - 1]->right = tokens[i];
+				else
+				{
+					tokens[i]->left = datas->root;
+					datas->root = tokens[i];
+				}
+			}
+			i++;
+		}
 	}
 	write(1, "\n", 1);
 	print_tree(datas->root);

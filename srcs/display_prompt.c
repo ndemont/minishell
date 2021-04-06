@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/02 19:43:28 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/06 11:54:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	read_input(t_big *datas)
 	token_tab = ft_lexer(line);
 	ft_buldin_parser(token_tab);
 	tree(token_tab, datas);
-	binaries(token_tab[0], datas);
+	//binaries(token_tab[0], datas);
 	free_tokens(token_tab);
 	return (ret);
 }
