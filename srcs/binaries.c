@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binaries.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/02 12:39:24 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/06 11:52:04 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	binaries(t_node **token, t_big *datas)
 	int fd[2];
 
 	(void)datas;
+	(void)fd;
 	cmd = build_array(token[i]->command);
 	if ((pid = fork()) == -1)
 	{
