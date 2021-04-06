@@ -12,54 +12,60 @@
 
 #include "../includes/minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	binaires2(int *fd_out)
 {
-	char *cmd;
-	pid_t pid;
-	pid_t pid2;
 	int fd[2];
-	
+	pid_t pid1;
 
-	(void)ac;
-	if ((pipe(fd) == -1))
+	pipe(fd);
+	pid1 = fork();
+	dup2(*fd_out, STDIN_FILENO);
+	if (pid1 == 0)
 	{
-		perror("Pipe not Working ");
-		exit(0);
-	}
-	if ((pid = fork()) == -1)
-	{
-		perror("pid error ");
-		exit(0);
-	}
-	if (pid == 0)
-	{
-		dup2(fd[0], STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
 		close(fd[1]);
-		execlp("grep", "grep", "shunting", "shunting_yard.c" NULL);
-		free(cmd);
-		exit(0);
-	}
-	if ((pid2 = fork()) == -1)
-	{
-		perror("pid error ");
-		exit(0);
-	}
-	if (pid2 == 0)
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
-		char *line;
-		get_next_line(STDIN_FILENO, &line);
-		printf("line = %s\n", line);
 		execlp("grep", "grep", "shunting", NULL);
 		exit(0);
 	}
-	close(fd[0]);
+	waitpid(pid1, NULL, 0);
+	dup2(fd[0], *fd_out);
 	close(fd[1]);
-	waitpid(pid, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	close(fd[0]);
+}
+
+void	binaires(int *fd_out)
+{
+	int fd[2];
+	pid_t pid1;
+
+	pipe(fd);
+	pid1 = fork();
+	dup2(*fd_out, STDIN_FILENO);
+	if (pid1 == 0)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		close(fd[0]);
+		execlp("ls", "ls", "-la", NULL);
+		exit(0);
+	}
+	waitpid(pid1, NULL, 0);
+	dup2(fd[0], *fd_out);
+	close(fd[1]);
+	close(fd[0]);
+}
+
+int	main(void)
+{
+	int fd_out;
+
+	fd_out = dup(STDIN_FILENO);
+	binaires(&fd_out);
+	binaires2(&fd_out);
+	char *line;
+	while (get_next_line(fd_out, &line))
+		printf("%s\n", line);
+	close(fd_out);
 	return (0);
 }
