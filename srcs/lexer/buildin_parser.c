@@ -6,29 +6,23 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/02 11:09:22 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 11:59:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_arg(char *input, int *i)
+char	*get_quote(char *input, int *i, int *j)
 {
-	char	*arg;
-	int 	j;
+	char *arg;
 
 	arg = 0;
-	while (input[*i] && input[*i] == ' ')
-		*i = *i + 1;
-	j = *i;
-	while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"')
-		*i = *i + 1;
 	if (input[*i] == '\'')
 	{
 		*i = *i + 1;
 		while (input[*i] != '\'')
 			*i = *i + 1;
-		arg = ft_substr(input, j + 1, *i - j - 1);
+		arg = ft_substr(input, *j + 1, *i - *j - 1);
 		*i = *i + 1;
 	}
 	else if (input[*i] == '"')
@@ -36,10 +30,24 @@ char	*get_arg(char *input, int *i)
 		*i = *i + 1;
 		while (input[*i] != '"')
 			*i = *i + 1;
-		arg = ft_substr(input, j + 1, *i - j - 1);
+		arg = ft_substr(input, *j + 1, *i - *j - 1);
 		*i = *i + 1;
 	}
-	else
+	return (arg);
+}
+
+char	*get_arg(char *input, int *i)
+{
+	char	*arg;
+	int		j;
+
+	arg = 0;
+	while (input[*i] && input[*i] == ' ')
+		*i = *i + 1;
+	j = *i;
+	while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"')
+		*i = *i + 1;
+	if (!(arg = get_quote(input, i, &j)))
 		arg = ft_substr(input, j, *i - j);
 	return (arg);
 }
@@ -81,7 +89,7 @@ int	count_arg(char *input)
 
 void	get_buildin(t_node *token)
 {
-	char	*list[8] = {"echo", "export", "env", "cd", "pwd", "unset", "exit", "$?"};
+	static char	*list[8] = {"echo", "export", "env", "cd", "pwd", "unset", "exit", "$?"};
 	int		i;
 	int		j;
 	int		count;
