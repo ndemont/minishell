@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 13:59:28 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 15:11:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,35 @@ int		ft_count_tokens(char *input)
 	{
 		while (input[i] && !ft_is_grammar(input, i) && !ft_is_quote(input, i))
 			i++;
-		if (ft_is_grammar(input, i))
+		if (ft_is_grammar(input, i) > 0)
 		{
+
 			if (ft_is_grammar(input, i) == 2)
 				i++;
 			i++;
 			j++;
 		}
-		else if (ft_is_quote(input, i))
+		else if (ft_is_grammar(input, i) < 0)
+			return (-1);
+		else if (ft_is_quote(input, i) > 0)
 			i = ft_is_quote(input, i);
+		else if (ft_is_quote(input, i) < 0)
+			return (-1);
 		else
 			break ;
 	}
+	if (!i)
+		return (0);
 	return ((j * 2) + 1);
 }
 
-t_node	*ft_new_grammar_node(char *input, int i, int type)
+t_node	*ft_new_grammar_node(int type)
 {
 	t_node *new;
 
-	(void)input;
-	(void)i;
 	new = (t_node *)malloc(sizeof(t_node));
+	if (!new)
+		return (0);
 	new->type = type;
 	new->input = 0;
 	new->arg = 0;
@@ -103,14 +110,16 @@ t_node	*ft_new_grammar_node(char *input, int i, int type)
 	return (new);
 }
 
-t_node	*ft_new_buildin_node(char *input, int i, int type)
+t_node	*ft_new_buildin_node(char *input, int type)
 {
 	t_node *new;
 
-	(void)i;
-	(void)type;
 	new = (t_node *)malloc(sizeof(t_node));
+	if (!new)
+		return (0);
 	new->type = type;
+	if (!input)
+		return (0);
 	new->input = input;
 	new->arg = 0;
 	new->ret = 0;
@@ -131,7 +140,9 @@ t_node	*ft_new_node(char *input, int *i)
 		*i = *i + 1;
 	if ((type = ft_is_grammar(input, *i)))
 	{
-		new_node = ft_new_grammar_node(input, *i, type);
+		new_node = ft_new_grammar_node(type);
+		if (!new_node)
+			print_errors(strerror(errno));
 		*i = *i + 1;
 		if (type == 2)
 			*i = *i + 1;
@@ -149,7 +160,9 @@ t_node	*ft_new_node(char *input, int *i)
 			}
 			*i = *i + 1;
 		}
-		new_node = ft_new_buildin_node(ft_substr(input, j, (*i - j)), *i, 0);
+		new_node = ft_new_buildin_node(ft_substr(input, j, (*i - j)), 0);
+		if (!new_node)
+			print_errors(strerror(errno));
 	}
 	return (new_node);
 }
@@ -161,15 +174,33 @@ t_node	**ft_create_nodes(char *input, int nb)
 	int		j;
 
 	nodes = (t_node **)malloc(sizeof(t_node) * (nb + 1));
+	if (!nodes)
+		return (0);
 	nodes[nb] = 0;
 	i = 0;
 	j = 0;
 	while (j < nb)
 	{
 		nodes[j] = ft_new_node(input, &i);
+		if (!nodes[j])
+			return (0);
 		j++;
 	}
 	return (nodes);
+}
+
+int  	check_isspace(char *input)
+{
+	int i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] != ' ' && input[i] != '\t')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 t_node	**ft_lexer(char *input)
@@ -178,7 +209,16 @@ t_node	**ft_lexer(char *input)
 	t_node	**nodes_tab;
 
 	token_nb = ft_count_tokens(input);
+	if (token_nb < 0)
+		print_errors("Quotes should be closed");
+	if (!token_nb)
+		return (0);
+	if (!check_isspace(input))
+		return (0);
 	nodes_tab = ft_create_nodes(input, token_nb);
-	free(input);
+	if (!nodes_tab)
+		print_errors(strerror(errno));
+	if (input)
+		free(input);
 	return (nodes_tab);
 }
