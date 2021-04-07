@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 15:11:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 16:40:12 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ t_node	*ft_new_node(char *input, int *i)
 	t_node	*new_node;
 
 	new_node = 0;
-	while (input[*i] && input[*i] == ' ')
+	while (input[*i] && input[*i] == ' ' && input[*i] == '\t')
 		*i = *i + 1;
 	if ((type = ft_is_grammar(input, *i)))
 	{
@@ -182,10 +182,16 @@ t_node	**ft_create_nodes(char *input, int nb)
 	while (j < nb)
 	{
 		nodes[j] = ft_new_node(input, &i);
+		if (j == 0 && nodes[j]->type)
+			print_errors("minishellrose: syntax error near unexpected token");
+		else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
+			print_errors("minishellrose: syntax error near unexpected token");
 		if (!nodes[j])
 			return (0);
 		j++;
 	}
+	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0])
+		print_errors("minishellrose: missing command at end of line");
 	return (nodes);
 }
 
