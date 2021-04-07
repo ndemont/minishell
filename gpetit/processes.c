@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:14:14 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/02 17:41:01 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/07 11:23:36 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	binaires2(int *fd_out)
 
 	pipe(fd);
 	pid1 = fork();
-	dup2(*fd_out, STDIN_FILENO);
 	if (pid1 == 0)
 	{
+		dup2(*fd_out, STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		close(fd[0]);
@@ -41,9 +41,9 @@ void	binaires(int *fd_out)
 
 	pipe(fd);
 	pid1 = fork();
-	dup2(*fd_out, STDIN_FILENO);
 	if (pid1 == 0)
 	{
+		dup2(*fd_out, STDIN_FILENO); // P-e à l'extérieur(au-dessus) serait mieux ??? let's see
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		close(fd[0]);
