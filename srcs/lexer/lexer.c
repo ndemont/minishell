@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/01 11:51:03 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 12:01:48 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_is_grammar(char *str, int i)
 		return (0);
 }
 
-int 	ft_is_quote(char *input, int i)
+int		ft_is_quote(char *input, int i)
 {
 	int j;
 
@@ -59,7 +59,7 @@ int 	ft_is_quote(char *input, int i)
 	return (0);
 }
 
-int 	ft_count_tokens(char *input)
+int		ft_count_tokens(char *input)
 {
 	int i;
 	int j;
@@ -116,10 +116,10 @@ t_node	*ft_new_buildin_node(char *input, int i, int type)
 	return (new);
 }
 
-t_node 	*ft_new_node(char *input, int *i)
+t_node	*ft_new_node(char *input, int *i)
 {
 	int		j;
-	int 	type;
+	int		type;
 	t_node	*new_node;
 
 	new_node = 0;
@@ -153,8 +153,8 @@ t_node 	*ft_new_node(char *input, int *i)
 t_node	**ft_create_nodes(char *input, int nb)
 {
 	t_node	**nodes;
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 
 	nodes = (t_node **)malloc(sizeof(t_node) * (nb + 1));
 	nodes[nb] = 0;
@@ -170,7 +170,7 @@ t_node	**ft_create_nodes(char *input, int nb)
 
 t_node	**ft_lexer(char *input)
 {
-	int 	token_nb;
+	int		token_nb;
 	t_node	**nodes_tab;
 
 	token_nb = ft_count_tokens(input);
