@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 16:40:12 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 18:25:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,15 +183,15 @@ t_node	**ft_create_nodes(char *input, int nb)
 	{
 		nodes[j] = ft_new_node(input, &i);
 		if (j == 0 && nodes[j]->type)
-			print_errors("minishellrose: syntax error near unexpected token");
+			return (print_errors("minishellrose: syntax error near unexpected token"));
 		else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
-			print_errors("minishellrose: syntax error near unexpected token");
+			return (print_errors("minishellrose: syntax error near unexpected token"));
 		if (!nodes[j])
 			return (0);
 		j++;
 	}
 	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0])
-		print_errors("minishellrose: missing command at end of line");
+		return (print_errors("minishellrose: missing command at end of line"));
 	return (nodes);
 }
 
@@ -216,14 +216,14 @@ t_node	**ft_lexer(char *input)
 
 	token_nb = ft_count_tokens(input);
 	if (token_nb < 0)
-		print_errors("Quotes should be closed");
+		return (print_errors("minishellrose: missing quote at end of line"));
 	if (!token_nb)
 		return (0);
 	if (!check_isspace(input))
 		return (0);
 	nodes_tab = ft_create_nodes(input, token_nb);
 	if (!nodes_tab)
-		print_errors(strerror(errno));
+		return (0);
 	if (input)
 		free(input);
 	return (nodes_tab);

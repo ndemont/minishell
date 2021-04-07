@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 15:47:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 18:33:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	tree(t_node **tokens, t_big *datas)
 	{
 		if (tokens[i]->type)
 		{
+			if (!count)
+				datas->root = tokens[i];
 			if (i > 0)
 				tokens[i]->left = tokens[i - 1];
 			if (tokens[i + 1])
@@ -57,7 +59,6 @@ void	tree(t_node **tokens, t_big *datas)
 		}
 		i++;
 	}
-	printf("count = %d\n", count);
 	tmp = tokens;
 	tokens = malloc(sizeof(t_node *) * (count + 1));
 	if (!tokens)

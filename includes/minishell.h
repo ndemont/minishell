@@ -55,7 +55,7 @@ t_node	**ft_builtin_parser(t_node **token_tab);
 void	free_tokens(t_node **token_tab);
 void	executions(t_node **token, t_big *datas);
 void	tree(t_node **tokens, t_big *datas);
-void    print_errors(char *error);
+void	*print_errors(char *error);
 
 int		ft_is_quote(char *input, int i);
 
