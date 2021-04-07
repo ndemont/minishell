@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 14:57:14 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 15:47:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,30 +65,33 @@ void	tree(t_node **tokens, t_big *datas)
 	tokens[count] = 0;
 	i = 0;
 	j = 0;
-	while (tmp[i])
+	if (count)
 	{
-		if (tmp[i]->type)
+		while (tmp[i])
 		{
-			tokens[j] = tmp[i];
-			j++;
-		}
-		i++;
-	}
-	//free(tmp);
-	i = 1;
-	while (tokens[i])
-	{
-		if (tokens[i]->type)
-		{
-			if (tokens[i]->type == 5)
-				tokens[i - 1]->right = tokens[i];
-			else
+			if (tmp[i]->type)
 			{
-				tokens[i]->left = datas->root;
-				datas->root = tokens[i];
+				tokens[j] = tmp[i];
+				j++;
 			}
+			i++;
 		}
-		i++;
+		//free(tmp);
+		i = 1;
+		while (tokens[i])
+		{
+			if (tokens[i]->type)
+			{
+				if (tokens[i]->type == 5)
+					tokens[i - 1]->right = tokens[i];
+				else
+				{
+					tokens[i]->left = datas->root;
+					datas->root = tokens[i];
+				}
+			}
+			i++;
+		}
 	}
 	write(1, "\n", 1);
 	print_tree(datas->root);

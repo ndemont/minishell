@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 14:55:21 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 16:27:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ char	*get_arg(char *input, int *i)
 	int		j;
 
 	arg = 0;
-	while (input[*i] && input[*i] == ' ')
+	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
 		*i = *i + 1;
 	j = *i;
-	while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"')
+	while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"' && input[*i] != '\t')
 		*i = *i + 1;
 	if (ft_is_quote(input, *i))
 	{
@@ -75,12 +75,12 @@ int	count_arg(char *input)
 	i = 0;
 	while (input[i])
 	{
-		while (input[i] && input[i] == ' ')
+		while (input[i] && (input[i] == ' ' || input[i] == '\t'))
 			i++;
 		if (!input[i])
 			break ;
 		count++;
-		while (input[i] && input[i] != ' ' && input[i] != '\'' && input[i] != '"')
+		while (input[i] && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '\t')
 			i++;
 		if (input[i] == '\'')
 		{
@@ -154,9 +154,14 @@ t_node	**ft_builtin_parser(t_node **token_tab)
 	i = 0;
 	while (token_tab[i])
 	{
+		printf("type  = [%d]\n", token_tab[i]->type);
+		printf("input = [%s]\n", token_tab[i]->input);
 		if (!token_tab[i]->type)
 			get_builtin(token_tab[i]);
 		i++;
 	}
+	printf("type final = %d\n", token_tab[i - 1]->type);
+	if (token_tab[i - 1]->type)
+		print_errors("Missing command at end of line");
 	return (token_tab);
 }

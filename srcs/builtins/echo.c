@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/25 21:32:47 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 16:12:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*ft_env(int *i, char *str) /*add the general structure to the argume
 
 	new = 0;
 	count = i;
-	while (str[count] != ' ')
+	while (str[count] != ' ' && str[count] != '\t')
 		count++;
 	new = malloc(sizeof(char) * (count + 1));
 	if (!new)
@@ -80,7 +80,7 @@ static int	ft_parse_echo(char *arg, char *echo, int i)
 	while (arg[i])
 	{
 		tmp = echo;
-		while (arg[i] == ' ')
+		while (arg[i] == ' ' || arg[i] == '\t')
 			i++;
 		if (arg[i] == '"')
 		{
@@ -120,7 +120,7 @@ int			ft_echo(char *arg, char *echo) /*add the general structure to the argument
 
 	i = 0;
 	option = 0;
-	while (arg[i] == ' ')
+	while (arg[i] == ' ' || arg[i] == '\t')
 		i++;
 	if (arg[i] == '-' && arg[i + 1] == 'n')
 		option = 1;
