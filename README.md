@@ -10,6 +10,7 @@
 - [ ] echo
 - [ ] unset
 - [ ] exit
+- [ ] error -> edit to not quit the program
 
 ## How-To save our datas
 
