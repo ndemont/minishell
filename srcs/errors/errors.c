@@ -6,15 +6,15 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:26 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 14:32:35 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 18:21:06 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    print_errors(char *error)
+void	*print_errors(char *error)
 {
-    write(1, error, ft_strlen(error));
-    write(1, "\n", 1);
-    exit (1);
+	write(1, error, ft_strlen(error));
+	write(1, "\n", 1);
+	return (0);
 }

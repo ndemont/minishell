@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 16:27:10 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 18:30:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,13 +154,10 @@ t_node	**ft_builtin_parser(t_node **token_tab)
 	i = 0;
 	while (token_tab[i])
 	{
-		printf("type  = [%d]\n", token_tab[i]->type);
-		printf("input = [%s]\n", token_tab[i]->input);
 		if (!token_tab[i]->type)
 			get_builtin(token_tab[i]);
 		i++;
 	}
-	printf("type final = %d\n", token_tab[i - 1]->type);
 	if (token_tab[i - 1]->type)
 		print_errors("Missing command at end of line");
 	return (token_tab);
