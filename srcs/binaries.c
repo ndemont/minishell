@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+void	print_std(int fd)
+{
+	char *line;
+
+	//dup2(fd_out, STDOUT_FILENO);
+	while (get_next_line(fd, &line))
+		printf("%s\n", line);
+}
+
 char **path_array(char *command)
 {
 	char *tmp;
@@ -81,37 +90,77 @@ char **build_array(char *command)
 		cmd = path_array(command);
 	return (cmd);
 }
-//call this function if (elem->command != 0), Fork higher or here ? 
-void	binaries(t_node **token, t_big *datas)
+
+void	exec_built_in(char *command, char **argv)
+{
+	(void)command;
+	(void)argv;
+	return;
+}
+
+void	exec_binary(char *command, char **argv)
 {
 	char **cmd;
 	int k;
-	int pid;
 	int ret;
-	int i = 0;
+
+	cmd = build_array(command);
+ 	k = 0;
+	while (cmd[k] && ((ret = execve(cmd[k], argv, NULL)) == -1))
+		k++;
+	if (ret == -1)
+	{
+		write(1, "minishellrose: ", 15);
+		ft_putstr(command);
+		write(1, ": command not found\n", 20);
+	}
+	free_double(cmd);
+}
+
+
+void	exec_cmd(char *command, char **argv, int is_built_in, int *fd_out)
+{
 	int fd[2];
+	pid_t pid1;
+
+	pipe(fd);
+	pid1 = fork();
+	if (pid1 == 0)
+	{
+		dup2(*fd_out, STDIN_FILENO); // ?? attention peut etre mieux à l'exterieur
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		close(fd[0]);
+		if (is_built_in == 1)
+			exec_built_in(command, argv);
+		else
+			exec_binary(command, argv);
+		close(*fd_out);
+		exit(0);  //permet de fermer execve dans le fork après l'avoir RUN
+	}
+	waitpid(pid1, NULL, 0);
+	dup2(fd[0], *fd_out);
+	close(fd[1]);
+	close(fd[0]);
+}
+
+void	executions(t_node **token, t_big *datas)
+{
+	int fd_out;
+	int i;
 
 	(void)datas;
-	(void)fd;
-	cmd = build_array(token[i]->command);
-	if ((pid = fork()) == -1)
-	{
-		perror("Fork didn't work in Binaries ");
-		exit(0); //replace by own exit fct
-	}
- 	k = 0;
-	if (pid == 0)
-	{
-		while (cmd[k] && ((ret = execve(cmd[k], token[i]->arg, NULL)) == -1))
-			k++;
-		if (ret == -1)
-		{
-			write(1, "minishellrose: ", 15);
-			ft_putstr(token[i]->command);
-			write(1, ": command not found\n", 20);
-		}
-		free_double(cmd);
-		exit(0); //permet de fermer execve dans le fork après l'avoir RUN
-	}
-	waitpid(pid, NULL, 0);
+	i = 0;
+	fd_out = dup(STDIN_FILENO);
+	if (!token[i]->command)
+		exec_cmd(token[i]->builtin, token[i]->arg, 1, &fd_out); //Envoyer commande ou BUILTIN en FLAG
+	else
+		exec_cmd(token[i]->command, token[i]->arg, 0, &fd_out);
+	i = 2;
+	if (!token[i]->command)
+		exec_cmd(token[i]->builtin, token[i]->arg, 1, &fd_out); //Envoyer commande ou BUILTIN en FLAG
+	else
+		exec_cmd(token[i]->command, token[i]->arg, 0, &fd_out);
+	print_std(fd_out);
+	close(fd_out);
 }
