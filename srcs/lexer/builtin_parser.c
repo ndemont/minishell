@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buildin_parser.c                                   :+:      :+:    :+:   */
+/*   builtin_parser.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 11:59:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/07 14:55:21 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	*get_quote(char *input, int *i, int *j)
 		while (input[*i] != '\'')
 			*i = *i + 1;
 		arg = ft_substr(input, *j + 1, *i - *j - 1);
+		if (!arg)
+			return (0);
 		*i = *i + 1;
 	}
 	else if (input[*i] == '"')
@@ -31,6 +33,8 @@ char	*get_quote(char *input, int *i, int *j)
 		while (input[*i] != '"')
 			*i = *i + 1;
 		arg = ft_substr(input, *j + 1, *i - *j - 1);
+		if (!arg)
+			return (0);
 		*i = *i + 1;
 	}
 	return (arg);
@@ -47,8 +51,18 @@ char	*get_arg(char *input, int *i)
 	j = *i;
 	while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"')
 		*i = *i + 1;
-	if (!(arg = get_quote(input, i, &j)))
+	if (ft_is_quote(input, *i))
+	{
+		arg = get_quote(input, i, &j);
+		if (!arg)
+			print_errors(strerror(errno));
+	}
+	else
+	{
 		arg = ft_substr(input, j, *i - j);
+		if (!arg)
+			print_errors(strerror(errno));
+	}
 	return (arg);
 }
 
@@ -87,7 +101,7 @@ int	count_arg(char *input)
 	return (count);
 }
 
-void	get_buildin(t_node *token)
+void	get_builtin(t_node *token)
 {
 	static char	*list[8] = {"echo", "export", "env", "cd", "pwd", "unset", "exit", "$?"};
 	int		i;
@@ -97,6 +111,8 @@ void	get_buildin(t_node *token)
 	i = 0;
 	count = count_arg(token->input);
 	token->arg = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!token->arg)
+		print_errors(strerror(errno));
 	j = 0;
 	while (token->input[i] && j < count)
 	{
@@ -131,7 +147,7 @@ void	get_buildin(t_node *token)
 	}
 }
 
-t_node	**ft_buldin_parser(t_node **token_tab)
+t_node	**ft_builtin_parser(t_node **token_tab)
 {
 	int i;
 
@@ -139,7 +155,7 @@ t_node	**ft_buldin_parser(t_node **token_tab)
 	while (token_tab[i])
 	{
 		if (!token_tab[i]->type)
-			get_buildin(token_tab[i]);
+			get_builtin(token_tab[i]);
 		i++;
 	}
 	return (token_tab);
