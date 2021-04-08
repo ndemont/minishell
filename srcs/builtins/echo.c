@@ -6,129 +6,42 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 16:12:40 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/08 11:22:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
 
-static char	*ft_env(int *i, char *str) /*add the general structure to the arguments*/
+int			ft_echo(t_big *datas, t_node *builtin)
 {
-	char	*new;
-	int		count;
-	int		j;
+	int flag;
+	int i;
+	int len;
 
-	new = 0;
-	count = i;
-	while (str[count] != ' ' && str[count] != '\t')
-		count++;
-	new = malloc(sizeof(char) * (count + 1));
-	if (!new)
-		return(0);
-	new[count] = 0;
-	j = 0;
-	while (*i < count)
-	{
-		new[j] = str[*i];
-		j++;
-		*i = *i + 1;
-	}
-	//browse the env to find a corresponding variable
-	//
-	//if there is, itoa the value and join it to new
-	// else no join
-	return (new);
-}
-
-static char	*ft_quote_mark(int i, char *str) /*add the general structure to the arguments*/
-{
-	char	*new;
-	char	*var;
-	char	*tmp;
-
-	while (str[i] && str[i] != "\"")
-	{
-		tmp = new;
-		if (str[i] != "$")
-		{
-			new = ft_strjoin(new, (char *)str[i]);
-			i++;
-		}
-		else
-		{
-			var = ft_env(&i, str);
-			if (!var)
-			{
-				free(tmp);
-				return (0);
-			}
-			new = ft_strjoin(new, ft_env(&i, str));
-		}
-		free(tmp);
-		if (!new)
-			return (0);
-	}
-	if (str[i] == '\0')
+	flag = 0;
+	if (!builtin->arg[0])
 		return (0);
-	return (new);
-}
-
-static int	ft_parse_echo(char *arg, char *echo, int i)
-{
-	char *tmp;
-	
-	while (arg[i])
+	i = 1;
+	if (!(ft_strcmp(builtin->arg[i], "-n")))
 	{
-		tmp = echo;
-		while (arg[i] == ' ' || arg[i] == '\t')
-			i++;
-		if (arg[i] == '"')
-		{
-			new = ft_quote_mark(i, arg);
-			if (!new)
-			{
-				free(tmp)
-				return (0);
-			}
-			echo = ft_strjoin(echo, new);
-			free(new);
-		}
-		else if (arg[i] == '$')
-		{
-			new = ft_env(i, arg);
-			if (!new)
-			{
-				free(tmp);
-				return (0);
-			}
-			echo = ft_strjoin(echo, new);
-			free(new);
-		}
-		else
-			echo = ft_strjoin(echo, (char *)arg[i]);
-		free(tmp);
+		flag = 1;
 		i++;
 	}
-	
-}
-
-int			ft_echo(char *arg, char *echo) /*add the general structure to the arguments*/
-{
-	int		i;
-	int		option;
-	char	*tmp;
-
-	i = 0;
-	option = 0;
-	while (arg[i] == ' ' || arg[i] == '\t')
-		i++;
-	if (arg[i] == '-' && arg[i + 1] == 'n')
-		option = 1;
-	ft_parse_echo(arg, echo, i);
-	if (!option)
+	while (builtin->arg[i] && builtin->arg[i + 1])
 	{
-		tmp = echo;
-		echo = ft_strjoin(echo, "\n");
-		free(tmp);
-	}		
+		len = ft_strlen(builtin->arg[i]);
+		builtin->ret = (char *)malloc(sizeof(char) * (len + 2));
+		builtin->ret = strcpy(builtin->ret, builtin->arg[i]);
+		builtin->ret[len] = ' ';
+		builtin->ret[len] = '\0';
+		i++;
+	}
+	len = ft_strlen(builtin->arg[i]);
+	builtin->ret = (char *)malloc(sizeof(char) * (len + 1 + flag));
+	builtin->ret = strcpy(builtin->ret, builtin->arg[i]);
+	if (flag)
+		builtin->ret[len] = '\n';
+	builtin->ret[len] = '\0';
+	return (1);
 }
