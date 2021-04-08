@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 19:15:06 by ndemont           #+#    #+#             */
-/*   Updated: 2021/03/25 19:16:19 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/08 15:00:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,5 @@
 
 int		ft_export(char *str)
 {
-	if (!str)
-		print_env_export();
-	else
+	return (1);
 }
