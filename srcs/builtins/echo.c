@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/08 11:33:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/08 14:44:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int			ft_echo_cat(t_node *builtin, int i)
 		builtin->ret[len + 1] = '\0';
 		i++;
 	}
+	return (1);
 }
 
 int			ft_echo_catlast(t_node *builtin, int i, int flag)
@@ -42,14 +43,15 @@ int			ft_echo_catlast(t_node *builtin, int i, int flag)
 	if (flag)
 		builtin->ret[len] = '\n';
 	builtin->ret[len + flag] = '\0';
+	return (1);
 }
 
 int			ft_echo(t_big *datas, t_node *builtin)
 {
 	int flag;
 	int i;
-	int len;
 
+	(void)datas;
 	flag = 1;
 	if (!builtin->arg[0])
 		return (0);
