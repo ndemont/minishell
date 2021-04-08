@@ -93,8 +93,8 @@ char **build_array(char *command)
 
 void	exec_built_in(char *command, char **argv)
 {
-	(void)command;
-	(void)argv;
+	if (!(ft_strcmp(command, "echo")))
+		ft_echo(argv);
 	return;
 }
 
@@ -117,8 +117,7 @@ void	exec_binary(char *command, char **argv)
 	free_double(cmd);
 }
 
-
-void	exec_cmd(char *command, char **argv, int is_built_in, int *fd_out)
+void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas)
 {
 	int fd[2];
 	pid_t pid1;
@@ -127,7 +126,7 @@ void	exec_cmd(char *command, char **argv, int is_built_in, int *fd_out)
 	pid1 = fork();
 	if (pid1 == 0)
 	{
-		dup2(*fd_out, STDIN_FILENO); // ?? attention peut etre mieux à l'exterieur
+		dup2(datas->fd, STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		close(fd[0]);
@@ -135,32 +134,36 @@ void	exec_cmd(char *command, char **argv, int is_built_in, int *fd_out)
 			exec_built_in(command, argv);
 		else
 			exec_binary(command, argv);
-		close(*fd_out);
+		close(datas->fd);
 		exit(0);  //permet de fermer execve dans le fork après l'avoir RUN
 	}
 	waitpid(pid1, NULL, 0);
-	dup2(fd[0], *fd_out);
+	dup2(fd[0], datas->fd);
 	close(fd[1]);
 	close(fd[0]);
 }
 
-void	executions(t_node **token, t_big *datas)
+void	execute_tree(t_node *root, int n, t_big *datas)
 {
-	int fd_out;
+	if (root->left)
+		execute_tree(root->left, root->type, datas);
+	if (root->right)
+		execute_tree(root->right, root->type, datas);
+	if (n == 1 && root->command)
+		exec_piped_cmd(root->command, root->arg, 0, datas); //RAjOUTER FD_OUT
+	if (n == 1 && root->builtin)
+		exec_piped_cmd(root->builtin, root->arg, 1, datas);
+	if (n == 0 && root->builtin)
+		exec_built_in(root->builtin, root->arg);
+}
+
+void	executions(t_big *datas)
+{
 	int i;
 
-	(void)datas;
 	i = 0;
-	fd_out = dup(STDIN_FILENO);
-	if (!token[i]->command)
-		exec_cmd(token[i]->builtin, token[i]->arg, 1, &fd_out); //Envoyer commande ou BUILTIN en FLAG
-	else
-		exec_cmd(token[i]->command, token[i]->arg, 0, &fd_out);
-	i = 2;
-	if (!token[i]->command)
-		exec_cmd(token[i]->builtin, token[i]->arg, 1, &fd_out); //Envoyer commande ou BUILTIN en FLAG
-	else
-		exec_cmd(token[i]->command, token[i]->arg, 0, &fd_out);
-	print_std(fd_out);
-	close(fd_out);
+	datas->fd = dup(STDIN_FILENO);
+	execute_tree(datas->root, 0, datas);
+	print_std(datas->fd);
+	close(datas->fd);
 }

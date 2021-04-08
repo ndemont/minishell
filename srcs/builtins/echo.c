@@ -13,55 +13,59 @@
 #include "minishell.h"
 #include <string.h>
 
-int			ft_echo_cat(t_node *builtin, int i)
+char		*ft_echo_cat(char **arg, int i)
 {
 	int len;
+	char *ret;
 
-	while (builtin->arg[i] && builtin->arg[i + 1])
+	while (arg[i] && arg[i + 1])
 	{
-		len = ft_strlen(builtin->arg[i]);
-		builtin->ret = (char *)malloc(sizeof(char) * (len + 2));
-		if (!builtin->ret)
+		len = ft_strlen(arg[i]);
+		ret = (char *)malloc(sizeof(char) * (len + 2));
+		if (!ret)
 			print_errors(strerror(errno));
-		builtin->ret = strcpy(builtin->ret, builtin->arg[i]);
-		builtin->ret[len] = ' ';
-		builtin->ret[len + 1] = '\0';
+		ret = strcpy(ret, arg[i]);
+		ret[len] = ' ';
+		ret[len + 1] = '\0';
 		i++;
 	}
-	return (1);
+	return (ret);
 }
 
-int			ft_echo_catlast(t_node *builtin, int i, int flag)
+char 		*ft_echo_catlast(char *ret, char **arg, int i, int flag)
 {
 	int	len;
+	char *tmp;
 
-	len = ft_strlen(builtin->arg[i]);
-	builtin->ret = (char *)malloc(sizeof(char) * (len + 1 + flag));
-	if (!builtin->ret)
+	len = ft_strlen(arg[i]);
+	tmp = (char *)malloc(sizeof(char) * (len + 1 + flag));
+	if (!tmp)
 		print_errors(strerror(errno));
-	builtin->ret = strcpy(builtin->ret, builtin->arg[i]);
+	tmp = strcpy(ret, arg[i]);
 	if (flag)
-		builtin->ret[len] = '\n';
-	builtin->ret[len + flag] = '\0';
-	return (1);
+		tmp[len] = '\n';
+	tmp[len + flag] = '\0';
+	return (tmp);
 }
 
-int			ft_echo(t_big *datas, t_node *builtin)
+int			ft_echo(char **arg)
 {
 	int flag;
 	int i;
+	char *ret;
 
 	(void)datas;
 	flag = 1;
-	if (!builtin->arg[0])
+	if (!arg[0])
 		return (0);
 	i = 1;
-	if (!(ft_strcmp(builtin->arg[i], "-n")))
+	if (!(ft_strcmp(arg[i], "-n")))
 	{
 		flag = 0;
 		i++;
 	}
-	ft_echo_cat(builtin, i);
-	ft_echo_catlast(builtin, i, flag);
+	ret = ft_echo_cat(arg, i); //PENSER A FREE
+	ret = ft_echo_catlast(ret, arg, i, flag); //NAS, PENSE A FREE STP
+	ft_putstr_fd(ret, STDOUT_FILENO);
 	return (1);
 }

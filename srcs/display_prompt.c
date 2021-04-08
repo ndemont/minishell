@@ -37,7 +37,7 @@ int	read_input(t_big *datas)
 	if (!ft_builtin_parser(token_tab))
 		return (ret);
 	tree(token_tab, datas);
-	executions(token_tab, datas);
+	executions(datas);
 	free_tokens(token_tab);
 	return (ret);
 }
