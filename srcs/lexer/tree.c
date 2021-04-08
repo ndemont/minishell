@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 18:33:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/08 14:58:16 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,13 @@ void	print_tree(t_node *root)
 	}
 }
 
-void	tree(t_node **tokens, t_big *datas)
+int		ft_count_nodes(t_node **tokens, t_big *datas)
 {
-	int		i;
-	int		j;
-	int		count;
-	t_node	**tmp;
-	
+	int	count;
+	int	i;
+
 	i = 0;
 	count = 0;
-	datas->root = tokens[0];
 	while (tokens[i])
 	{
 		if (tokens[i]->type)
@@ -59,6 +56,51 @@ void	tree(t_node **tokens, t_big *datas)
 		}
 		i++;
 	}
+	return (count);
+}
+
+void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (tmp[i])
+	{
+		if (tmp[i]->type)
+		{
+			tokens[j] = tmp[i];
+			j++;
+		}
+		i++;
+	}
+	i = 1;
+	while (tokens[i])
+	{
+		if (tokens[i]->type)
+		{
+			if (tokens[i]->type == 5)
+				tokens[i - 1]->right = tokens[i];
+			else
+			{
+				tokens[i]->left = datas->root;
+				datas->root = tokens[i];
+			}
+		}
+		i++;
+	}	
+}
+
+void	tree(t_node **tokens, t_big *datas)
+{
+	int		i;
+	int		j;
+	int		count;
+	t_node	**tmp;
+
+	datas->root = tokens[0];
+	count = ft_count_nodes(tokens, datas);
 	tmp = tokens;
 	tokens = malloc(sizeof(t_node *) * (count + 1));
 	if (!tokens)
@@ -67,34 +109,31 @@ void	tree(t_node **tokens, t_big *datas)
 	i = 0;
 	j = 0;
 	if (count)
-	{
-		while (tmp[i])
-		{
-			if (tmp[i]->type)
-			{
-				tokens[j] = tmp[i];
-				j++;
-			}
-			i++;
-		}
+		create_tree(tokens, datas, tmp);
+		//while (tmp[i])
+		//{
+		//	if (tmp[i]->type)
+		//	{
+		//		tokens[j] = tmp[i];
+		//		j++;
+		//	}
+		//	i++;
+		//}
 		//free(tmp);
-		i = 1;
-		while (tokens[i])
-		{
-			if (tokens[i]->type)
-			{
-				if (tokens[i]->type == 5)
-					tokens[i - 1]->right = tokens[i];
-				else
-				{
-					tokens[i]->left = datas->root;
-					datas->root = tokens[i];
-				}
-			}
-			i++;
-		}
-	}
-	write(1, "\n", 1);
+		//i = 1;
+		//while (tokens[i])
+		//{
+		//	if (tokens[i]->type)
+		//	{
+		//		if (tokens[i]->type == 5)
+		//			tokens[i - 1]->right = tokens[i];
+		//		else
+		//		{
+		//			tokens[i]->left = datas->root;
+		//			datas->root = tokens[i];
+		//		}
+		//	}
+		//	i++;
+		//}
 	print_tree(datas->root);
-	write(1, "\n", 1);
 }
