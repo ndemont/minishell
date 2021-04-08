@@ -59,4 +59,9 @@ void	*print_errors(char *error);
 
 int		ft_is_quote(char *input, int i);
 
+int			ft_echo(t_big *datas, t_node *builtin);
+int			ft_export(t_big *datas, t_node *builtin);
+int			ft_unset(t_big *datas, t_node *builtin);
+int			ft_exit(t_big *datas, t_node *builtin);
+
 #endif
