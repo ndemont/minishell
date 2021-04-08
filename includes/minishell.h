@@ -45,6 +45,7 @@ typedef struct		s_node
 
 typedef struct 		s_big
 {
+	int fd;
 	char 	**env;
 	t_node	*root;
 }					t_big;
@@ -53,13 +54,13 @@ int		read_input(t_big *datas);
 t_node	**ft_lexer(char *input);
 t_node	**ft_builtin_parser(t_node **token_tab);
 void	free_tokens(t_node **token_tab);
-void	executions(t_node **token, t_big *datas);
+void	executions(t_big *datas);
 void	tree(t_node **tokens, t_big *datas);
 void	*print_errors(char *error);
 
 int		ft_is_quote(char *input, int i);
 
-int			ft_echo(t_big *datas, t_node *builtin);
+int			ft_echo(char **arg);
 int			ft_export(t_big *datas, t_node *builtin);
 int			ft_unset(t_big *datas, t_node *builtin);
 int			ft_exit(t_big *datas, t_node *builtin);
