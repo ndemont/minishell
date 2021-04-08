@@ -16,9 +16,9 @@ void	print_std(int fd)
 {
 	char *line;
 
-	//dup2(fd_out, STDOUT_FILENO);
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 		printf("%s\n", line);
+	printf("%s", line);
 }
 
 char **path_array(char *command)
