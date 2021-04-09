@@ -19,12 +19,18 @@ void	store_env(char **env, t_big *datas)
 
 int		main(int ac, char **av, char **env)
 {
-	t_big datas;
+	t_big	datas;
+	int		i;
 
 	(void)ac;
 	(void)av;
-	(void)env;
-	//store_env(env, &datas);
+	store_env(env, &datas);
+	i = 0;
+	while (datas.env[i])
+	{
+		printf("%s\n", datas.env[i]);
+		i++;
+	}
 	while (read_input(&datas));
 	return (0);
 }

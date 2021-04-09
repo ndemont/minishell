@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_parser.c                                   :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 14:26:35 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/09 15:40:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ char	*get_arg(char *input, int *i)
 				tmp2 = malloc(sizeof(char) * (ft_strlen(tmp3) + 3));
 				tmp2 = ft_strjoin("\"", tmp3);
 				tmp2 = ft_strjoin(tmp2, "\"");
-				printf("tmp2 = [%s]\n", tmp2);
 			}
 		}
 		arg = ft_strjoin(tmp1, tmp2);
