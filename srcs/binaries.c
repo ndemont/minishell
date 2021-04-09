@@ -122,6 +122,7 @@ void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas)
 	int fd[2];
 	pid_t pid1;
 
+	datas->flag_pipe = 1;
 	pipe(fd);
 	pid1 = fork();
 	if (pid1 == 0)
@@ -155,6 +156,8 @@ void	execute_tree(t_node *root, int n, t_big *datas)
 		exec_piped_cmd(root->builtin, root->arg, 1, datas);
 	if (n == 0 && root->builtin)
 		exec_built_in(root->builtin, root->arg);
+	if (n == 0 && root->command)
+		exec_piped_cmd(root->command, root->arg, 0, datas);
 }
 
 void	executions(t_big *datas)
@@ -162,8 +165,10 @@ void	executions(t_big *datas)
 	int i;
 
 	i = 0;
+	datas->flag_pipe = 0;
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas);
-	print_std(datas->fd);
+	if (datas->flag_pipe)
+		print_std(datas->fd);
 	close(datas->fd);
 }
