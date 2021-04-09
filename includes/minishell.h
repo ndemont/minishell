@@ -51,16 +51,20 @@ typedef struct 		s_big
 	t_node	*root;
 }					t_big;
 
-int		read_input(t_big *datas);
-t_node	**ft_lexer(char *input);
-t_node	**ft_builtin_parser(t_node **token_tab);
-void	free_tokens(t_node **token_tab);
-void	executions(t_big *datas);
-void	tree(t_node **tokens, t_big *datas);
-void	*print_errors(char *error);
+int			read_input(t_big *datas);
+t_node		**ft_lexer(char *input);
+t_node		**ft_builtin_parser(t_node **token_tab);
+void		free_tokens(t_node **token_tab);
+void		executions(t_big *datas);
+void		tree(t_node **tokens, t_big *datas);
+void		*print_errors(char *error);
 
-int		ft_is_quote(char *input, int i);
+//LEXER
+t_node		**ft_create_nodes(char *input, int nb);
+int			ft_count_tokens(char *input);
+int			ft_is_grammar(char *str, int i);
 
+//BUILTINS
 int			ft_echo(char **arg);
 int			ft_export(t_big *datas, t_node *builtin);
 int			ft_unset(t_big *datas, t_node *builtin);
