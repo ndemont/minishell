@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/07 18:30:19 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/09 12:34:09 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,35 @@ char	*get_quote(char *input, int *i, int *j)
 char	*get_arg(char *input, int *i)
 {
 	char	*arg;
+	char	*tmp1;
+	char	*tmp2;
 	int		j;
 
-	arg = 0;
+	arg = malloc(sizeof(char));
+	arg[0] = '\0';
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
 		*i = *i + 1;
-	j = *i;
-	while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"' && input[*i] != '\t')
-		*i = *i + 1;
-	if (ft_is_quote(input, *i))
+	while (input[*i] && input[*i] != ' ' && input[*i] != '\t')
 	{
-		arg = get_quote(input, i, &j);
-		if (!arg)
-			print_errors(strerror(errno));
-	}
-	else
-	{
-		arg = ft_substr(input, j, *i - j);
-		if (!arg)
-			print_errors(strerror(errno));
+		j = *i;
+		while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"' && input[*i] != '\t')
+			*i = *i + 1;
+		tmp1 = arg;
+		if (input[j] == '\'' || input[j] == '"')
+		{
+			tmp2 = get_quote(input, i, &j);
+			if (!tmp2)
+				print_errors(strerror(errno));
+		}
+		else
+		{
+			tmp2 = ft_substr(input, j, *i - j);
+			if (!tmp2)
+				print_errors(strerror(errno));
+		}
+		arg = ft_strjoin(tmp1, tmp2);
+		free(tmp1);
+		free(tmp2);
 	}
 	return (arg);
 }
@@ -69,17 +79,30 @@ char	*get_arg(char *input, int *i)
 int	count_arg(char *input)
 {
 	int count;
+	int	newword;
 	int i;
 
 	count = 0;
 	i = 0;
 	while (input[i])
 	{
-		while (input[i] && (input[i] == ' ' || input[i] == '\t'))
-			i++;
+		newword = 0;
+		if (!i)
+			while (input[i] && (input[i] == ' ' || input[i] == '\t'))
+				i++;
+		else
+		{
+			while (input[i] && (input[i] == ' ' || input[i] == '\t'))
+			{
+				if (!newword)
+					newword = 1;
+				i++;
+			}
+			if (input[i])
+				count += newword;
+		}
 		if (!input[i])
 			break ;
-		count++;
 		while (input[i] && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '\t')
 			i++;
 		if (input[i] == '\'')
@@ -87,17 +110,19 @@ int	count_arg(char *input)
 			i++;
 			while (input[i] != '\'')
 				i++;
+			i++;
 		}
 		else if (input[i] == '"')
 		{
 			i++;
 			while (input[i] != '"')
 				i++;
+			i++;
 		}
 		else if (!input[i])
 			break ;
-		i++;
 	}
+	count++;
 	return (count);
 }
 
@@ -145,6 +170,7 @@ void	get_builtin(t_node *token)
 		}
 		printf("\n");
 	}
+	printf("\n");
 }
 
 t_node	**ft_builtin_parser(t_node **token_tab)
@@ -152,6 +178,8 @@ t_node	**ft_builtin_parser(t_node **token_tab)
 	int i;
 
 	i = 0;
+	printf("\nLEXER");
+	printf("\n-----");
 	while (token_tab[i])
 	{
 		if (!token_tab[i]->type)
