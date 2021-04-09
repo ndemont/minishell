@@ -96,10 +96,12 @@ char **build_array(char *command)
 	return (cmd);
 }
 
-void	exec_built_in(char *command, char **argv)
+void	exec_built_in(char *command, char **argv, t_big *datas)
 {
 	if (!(ft_strcmp(command, "echo")))
 		ft_echo(argv);
+	if (!(ft_strcmp(command, "cd")))
+		ft_cd(argv, datas);
 	return;
 }
 
@@ -137,7 +139,7 @@ void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas)
 		close(fd[1]);
 		close(fd[0]);
 		if (is_built_in == 1)
-			exec_built_in(command, argv);
+			exec_built_in(command, argv, datas);
 		else
 			exec_binary(command, argv);
 		close(datas->fd);
@@ -160,7 +162,7 @@ void	execute_tree(t_node *root, int n, t_big *datas)
 	if (n == 1 && root->builtin)
 		exec_piped_cmd(root->builtin, root->arg, 1, datas);
 	if (n == 0 && root->builtin)
-		exec_built_in(root->builtin, root->arg);
+		exec_built_in(root->builtin, root->arg, datas);
 	if (n == 0 && root->command)
 		exec_piped_cmd(root->command, root->arg, 0, datas);
 }
