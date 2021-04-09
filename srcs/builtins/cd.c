@@ -14,10 +14,7 @@
 
 int	ft_cd(char **arg, t_big *datas)
 {
-	char *path;
-
-	if (!arg)
-	{
-		
-	}
+	(void)arg;
+	(void)datas;
+	return (0);	
 }

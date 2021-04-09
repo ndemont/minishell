@@ -12,28 +12,39 @@
 
 #include "minishell.h"
 
-char *get_env(t_big *data, char *var)
+t_var	*fill_tmp(char *str)
 {
-	int		i;
-	int		pos;
-	char	*ref;
-	char	*value;
+	int i;
+	t_var *tmp;
 
 	i = 0;
-	value = malloc(sizeof(char));
-	value[0] = '\0';
-	while (data->env[i])
-	{
-		pos = 0;
-		while (data->env[i][pos] != '=')
-			pos++;
-		ref = ft_substr(data->env[i], 0, pos);
-		if (!ft_strcmp(ref, var))
-		{
-			value = ft_substr(data->env[i], pos, ft_strlen(data->env[i]));
-			break ;
-		}
+	tmp = (t_var *)malloc(sizeof(t_var));
+	tmp->var = NULL;
+	tmp->value = NULL;
+	while(str[i] && str[i] != '=')
 		i++;
+	tmp->var = ft_substr(str, 0, i);
+	i++;
+	tmp->value = ft_substr(str, i, (ft_strlen(str) - i));
+	return (tmp);
+}
+
+void	store_env(char **env, t_big *datas)
+{
+	int k;
+	void *content;
+	t_list *tmp;
+	t_list **start;
+
+	k = 0;
+	start = (t_list **)malloc(sizeof(t_list));
+	content = fill_tmp(env[k]);
+	*start = ft_lstnew(content);
+	while (env[++k])
+	{
+		content = fill_tmp(env[k]);
+		tmp = ft_lstnew(content);
+		ft_lstadd_back(start, tmp);
 	}
-	return (value);
+	datas->env = *start;
 }

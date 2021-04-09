@@ -43,14 +43,24 @@ typedef struct		s_node
 	struct s_node	*right;
 }					t_node;
 
+typedef struct		s_var
+{
+	char *var;
+	char *value;
+}					t_var;
+
 typedef struct 		s_big
 {
 	int		fd;
 	int		flag_pipe;
-	char 	**env;
+	t_list	*env;
 	t_node	*root;
 }					t_big;
 
+//ENV
+void		store_env(char **env, t_big *datas);
+
+//AST
 int			read_input(t_big *datas);
 t_node		**ft_lexer(char *input);
 t_node		**ft_builtin_parser(t_node **token_tab);
@@ -66,7 +76,7 @@ int			ft_is_grammar(char *str, int i);
 
 //BUILTINS
 int			ft_echo(char **arg);
-int			ft_cd(char **arg, t_big *datas)
+int			ft_cd(char **arg, t_big *datas);
 int			ft_export(t_big *datas, t_node *builtin);
 int			ft_unset(t_big *datas, t_node *builtin);
 int			ft_exit(t_big *datas, t_node *builtin);
