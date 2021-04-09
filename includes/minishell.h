@@ -45,8 +45,8 @@ typedef struct		s_node
 
 typedef struct 		s_big
 {
-	int fd;
-	int flag_pipe;
+	int		fd;
+	int		flag_pipe;
 	char 	**env;
 	t_node	*root;
 }					t_big;
