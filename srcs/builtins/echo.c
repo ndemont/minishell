@@ -6,14 +6,39 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 16:26:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/09 19:55:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
 
-char		*ft_echo_cat(char **arg, int *i)
+char		*get_env_var(char *var, t_big *datas)
+{
+	int		i;
+	t_list	*env;
+	char	*tmp;
+	char	*value;
+
+	tmp = malloc(sizeof(char) * (ft_strlen(var) - 2));
+	tmp = ft_substr(var, 2, (ft_strlen(var) - 3));
+	i = 0;
+	env = datas->env;
+	value = malloc(sizeof(char));
+	value[0] = '\0';
+	while (env)
+	{
+		if (!ft_strcmp(((t_var *)env->content)->var, tmp))
+		{
+			value = ((t_var *)env->content)->value;
+			break ;
+		}
+		env = env->next;
+	}
+	return (value);
+}
+
+char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 {
 	int		len;
 	char	*tmp;
@@ -23,8 +48,8 @@ char		*ft_echo_cat(char **arg, int *i)
 	ret[0] = 0;
 	while (arg[*i] && arg[*i + 1])
 	{
-		//if (arg[*i] == "\"")
-		//	arg[*i] = ft_get_env();
+		if (arg[*i][0] == '\"')
+			arg[*i] = get_env_var(arg[*i], datas);
 		len = ft_strlen(arg[*i]);
 		tmp = ret;
 		ret = (char *)malloc(sizeof(char) * (len + 2 + ft_strlen(tmp)));
@@ -39,13 +64,13 @@ char		*ft_echo_cat(char **arg, int *i)
 	return (ret);
 }
 
-char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag)
+char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 {
 	int	len;
 	char *tmp;
 
-	//if (arg[*i] == "\"")
-	//	arg[*i] = ft_get_env();
+	if (arg[*i][0] == '\"')
+		arg[*i] = get_env_var(arg[*i], datas);
 	len = ft_strlen(arg[*i]);
 	tmp = ret;
 	ret = (char *)malloc(sizeof(char) * (len + ft_strlen(tmp) + 1 + flag));
@@ -59,7 +84,7 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag)
 	return (ret);
 }
 
-int			ft_echo(char **arg)
+int			ft_echo(char **arg, t_big *datas)
 {
 	int flag;
 	int i;
@@ -72,9 +97,8 @@ int			ft_echo(char **arg)
 		flag = 0;
 		i++;
 	}
-	ret = ft_echo_cat(arg, &i); //PENSER A FREE
-	ret = ft_echo_catlast(ret, arg, &i, flag); //NAS, PENSE A FREE STP
-	//printf("ret 2 = [%s]\n", ret);
+	ret = ft_echo_cat(arg, &i, datas); //PENSER A FREE
+	ret = ft_echo_catlast(ret, arg, &i, flag, datas); //NAS, PENSE A FREE STP
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	return (1);
 }

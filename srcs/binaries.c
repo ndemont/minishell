@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/06 11:52:04 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/09 19:33:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char **build_array(char *command)
 void	exec_built_in(char *command, char **argv, t_big *datas)
 {
 	if (!(ft_strcmp(command, "echo")))
-		ft_echo(argv);
+		ft_echo(argv, datas);
 	if (!(ft_strcmp(command, "cd")))
 		ft_cd(argv, datas);
 	return;
