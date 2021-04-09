@@ -69,5 +69,6 @@ int			ft_echo(char **arg);
 int			ft_export(t_big *datas, t_node *builtin);
 int			ft_unset(t_big *datas, t_node *builtin);
 int			ft_exit(t_big *datas, t_node *builtin);
+char		*get_env(t_big *data, char *var);
 
 #endif

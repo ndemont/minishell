@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/08 17:51:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/09 16:26:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char		*ft_echo_cat(char **arg, int *i)
 	ret[0] = 0;
 	while (arg[*i] && arg[*i + 1])
 	{
+		//if (arg[*i] == "\"")
+		//	arg[*i] = ft_get_env();
 		len = ft_strlen(arg[*i]);
 		tmp = ret;
 		ret = (char *)malloc(sizeof(char) * (len + 2 + ft_strlen(tmp)));
@@ -42,6 +44,8 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag)
 	int	len;
 	char *tmp;
 
+	//if (arg[*i] == "\"")
+	//	arg[*i] = ft_get_env();
 	len = ft_strlen(arg[*i]);
 	tmp = ret;
 	ret = (char *)malloc(sizeof(char) * (len + ft_strlen(tmp) + 1 + flag));
