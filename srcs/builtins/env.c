@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:41:48 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 16:22:16 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/09 17:07:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ char *get_env(t_big *data, char *var)
 		}
 		i++;
 	}
-	return (0);
+	return (value);
 }
