@@ -20,7 +20,7 @@ IFLAGS = -I${INC_DIR}
 
 LIBFT = -Llibft -lft
 
-SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c lexer/nodes.c lexer/tokens.c free/free.c binaries.c lexer/tree.c errors/errors.c builtins/echo.c builtins/env.c)
+SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c lexer/nodes.c lexer/tokens.c free/free.c binaries.c lexer/tree.c errors/errors.c builtins/echo.c builtins/cd.c builtins/env.c)
 
 INC_DIR = includes
 
