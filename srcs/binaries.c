@@ -17,8 +17,13 @@ void	print_std(int fd)
 	char *line;
 
 	while (get_next_line(fd, &line) > 0)
-		printf("%s\n", line);
-	printf("%s", line);
+	{
+		ft_putstr(line);
+		ft_putchar('\n');
+		free(line);
+	}
+	ft_putstr(line);
+	free(line);
 }
 
 char **path_array(char *command)
