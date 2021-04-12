@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-t_list	*ft_sort_list(t_list *lst, int (*f)())
+t_list	*ft_lst_sort(t_list *lst, int (*f)())
 {
 	t_list *start;
 	void *hold;
@@ -20,7 +20,7 @@ t_list	*ft_sort_list(t_list *lst, int (*f)())
 	start = lst;
 	while (lst->next)
 	{
-		if ((*f)(lst->content, lst->next->content))
+		if ((*f)(lst->content, lst->next->content) > 0)
 		{
 			hold = lst->content;
 			lst->content = lst->next->content;

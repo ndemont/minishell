@@ -106,6 +106,8 @@ void	exec_built_in(char *command, char **argv, t_big *datas)
 		ft_env(datas);
 	if (!(ft_strcmp(command, "pwd")))
 		ft_pwd(datas);
+	if (!(ft_strcmp(command, "export")))
+		ft_export(datas);
 	return;
 }
 

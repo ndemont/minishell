@@ -29,6 +29,32 @@ t_var	*fill_tmp(char *str)
 	return (tmp);
 }
 
+int		cmp_list(t_var *lst, t_var *lst2)
+{
+	return (ft_strcmp(lst->var, lst2->var));
+}
+
+void	store_export(char **env, t_big *datas)
+{
+	int k;
+	void *content;
+	t_list *tmp;
+	t_list **start;
+
+	k = 0;
+	start = (t_list **)malloc(sizeof(t_list));
+	content = fill_tmp(env[k]);
+	*start = ft_lstnew(content);
+	while (env[++k])
+	{
+		content = fill_tmp(env[k]);
+		tmp = ft_lstnew(content);
+		ft_lstadd_back(start, tmp);
+	}
+	*start = ft_lst_sort(*start, &cmp_list);
+	datas->export = start;
+}
+
 void	store_env(char **env, t_big *datas)
 {
 	int k;
@@ -47,6 +73,7 @@ void	store_env(char **env, t_big *datas)
 		ft_lstadd_back(start, tmp);
 	}
 	datas->env = start;
+	store_export(env, datas);
 }
 
 int		ft_env(t_big *datas)
