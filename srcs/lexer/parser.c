@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 15:40:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/12 10:10:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_quote(char *input, int *i, int *j)
+char		*get_quote(char *input, int *i, int *j)
 {
 	char *arg;
 
@@ -40,7 +40,7 @@ char	*get_quote(char *input, int *i, int *j)
 	return (arg);
 }
 
-char	*get_arg(char *input, int *i)
+char		*get_arg(char *input, int *i)
 {
 	char	*arg;
 	char	*tmp1;
@@ -98,7 +98,7 @@ char	*get_arg(char *input, int *i)
 	return (arg);
 }
 
-int	count_arg(char *input)
+int			count_arg(char *input)
 {
 	int count;
 	int	newword;
@@ -148,7 +148,7 @@ int	count_arg(char *input)
 	return (count);
 }
 
-void	get_builtin(t_node *token)
+void		get_builtin(t_node *token)
 {
 	static char	*list[8] = {"echo", "export", "env", "cd", "pwd", "unset", "exit", "$?"};
 	int		i;
@@ -195,7 +195,7 @@ void	get_builtin(t_node *token)
 	printf("\n");
 }
 
-t_node	**ft_builtin_parser(t_node **token_tab)
+t_node		**ft_builtin_parser(t_node **token_tab)
 {
 	int i;
 
