@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:50:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/01 16:18:48 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/12 16:23:56 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstlast(t_list *lst);
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 void (*del)(void *));
+t_list				*ft_lst_sort(t_list *lst, int (*f)());
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
