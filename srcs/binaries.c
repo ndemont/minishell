@@ -104,6 +104,8 @@ void	exec_built_in(char *command, char **argv, t_big *datas)
 		ft_cd(argv, datas);
 	if (!(ft_strcmp(command, "env")))
 		ft_env(datas);
+	if (!(ft_strcmp(command, "pwd")))
+		ft_pwd(datas);
 	return;
 }
 
