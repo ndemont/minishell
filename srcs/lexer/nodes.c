@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/12 10:04:15 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/12 12:36:34 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_node	**ft_create_nodes(char *input, int nb)
 			return (0);
 		j++;
 	}
-	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0])
+	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0] && nodes[j - 2]->type < 5)
 		return (print_errors("minishellrose: missing command at end of line"));
 	return (nodes);
 }
