@@ -23,7 +23,7 @@ char		*get_env_var(char *var, t_big *datas)
 	tmp = malloc(sizeof(char) * (ft_strlen(var) - 2));
 	tmp = ft_substr(var, 2, (ft_strlen(var) - 3));
 	i = 0;
-	env = datas->env;
+	env = *datas->env;
 	value = malloc(sizeof(char));
 	value[0] = '\0';
 	while (env)

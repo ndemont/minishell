@@ -53,11 +53,12 @@ typedef struct 		s_big
 {
 	int		fd;
 	int		flag_pipe;
-	t_list	*env;
+	t_list	**env;
 	t_node	*root;
 }					t_big;
 
 //ENV
+int			ft_env(t_big *datas);
 void		store_env(char **env, t_big *datas);
 
 //AST
