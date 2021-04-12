@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 12:28:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/12 11:35:26 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ int		ft_count_nodes(t_node **tokens, t_big *datas)
 			if (tokens[i + 1])
 				tokens[i]->right = tokens[i + 1];
 			count++;
+			//printf("type = %d\n", tokens[i]->type);
+			//printf("left = %s\n", tokens[i]->left->arg[0]);
+			//printf("right = %s\n\n", tokens[i]->right->arg[0]);
 		}
 		i++;
 	}
@@ -61,8 +64,9 @@ int		ft_count_nodes(t_node **tokens, t_big *datas)
 
 void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
+	t_node	*test;
 
 	i = 0;
 	j = 0;
@@ -75,13 +79,35 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 		}
 		i++;
 	}
-	i = 1;
+	i = 0;
 	while (tokens[i])
 	{
-		if (tokens[i]->type)
+		if (tokens[i]->type == 5)
 		{
-			tokens[i]->left = datas->root;
-			datas->root = tokens[i];
+			if (i == 0)
+			{
+				datas->root = tokens[i]->right;
+				tokens[i]->right = 0;
+				datas->root->left = tokens[i];
+			}
+			else
+			{
+				test = datas->root;
+				datas->root = tokens[i]->right;
+				tokens[i]->left = test;
+				tokens[i]->right = 0;
+				datas->root->left =  tokens[i];
+			}
+		}
+		else if (tokens[i]->type)
+		{
+			if (i == 0)
+				datas->root = tokens[i];
+			else
+			{
+				tokens[i]->left = datas->root;
+				datas->root = tokens[i];
+			}
 		}
 		i++;
 	}
