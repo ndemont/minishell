@@ -46,5 +46,22 @@ void	store_env(char **env, t_big *datas)
 		tmp = ft_lstnew(content);
 		ft_lstadd_back(start, tmp);
 	}
-	datas->env = *start;
+	datas->env = start;
+}
+
+int		ft_env(t_big *datas)
+{
+
+	t_list *tmp;
+
+	tmp = *(datas->env);
+	while (tmp)
+	{
+		ft_putstr(((t_var *)tmp->content)->var);
+		ft_putchar('=');
+		ft_putstr(((t_var *)tmp->content)->value);
+		ft_putchar('\n');
+		tmp = tmp->next;
+	}
+	return (0);
 }
