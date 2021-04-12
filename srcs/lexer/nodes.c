@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 14:34:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/12 10:04:15 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,16 @@ t_node	*ft_new_node(char *input, int *i)
 		j = *i;
 		while (input[*i] && ft_is_grammar(input, *i) <= 0)
 		{
-			if (input[*i] == '\'' || input[*i] == '"')
+			if (input[*i] == '\'')
 			{
 				*i = *i + 1;
-				while (input[*i] && input[*i] != '\'' && input[*i] != '"')
+				while (input[*i] && input[*i] != '\'')
+					*i = *i + 1;
+			}
+			else if (input[*i] == '"')
+			{
+				*i = *i + 1;
+				while (input[*i] && input[*i] != '"')
 					*i = *i + 1;
 			}
 			*i = *i + 1;
