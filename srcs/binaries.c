@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/09 19:33:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/12 22:41:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	exec_built_in(char *command, char **argv, t_big *datas)
 	if (!(ft_strcmp(command, "pwd")))
 		ft_pwd(datas);
 	if (!(ft_strcmp(command, "export")))
-		ft_export(datas);
+		ft_export(argv, datas);
 	return;
 }
 
