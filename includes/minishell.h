@@ -78,6 +78,7 @@ int			ft_is_grammar(char *str, int i);
 //BUILTINS
 int			ft_echo(char **arg, t_big *datas);
 int			ft_cd(char **arg, t_big *datas);
+int			ft_pwd(t_big *datas);
 int			ft_export(t_big *datas, t_node *builtin);
 int			ft_unset(t_big *datas, t_node *builtin);
 int			ft_exit(t_big *datas, t_node *builtin);

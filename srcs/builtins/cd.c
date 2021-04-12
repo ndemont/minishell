@@ -44,20 +44,15 @@ int		ft_cd(char **arg, t_big *datas)
 	char *oldpath;
 	char *newlocation;
 
-	oldpath = NULL;
 	newlocation = NULL;
-	oldpath = getcwd(oldpath, 0);
+	oldpath = getcwd(NULL, 0);
 	tmp = *datas->env;
 	if (!arg[1])
 	{
 		while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
 			tmp = tmp->next;
 		if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
-		{
 			chdir(((t_var *)tmp->content)->value);
-			ft_putstr(getcwd(newlocation, 0));
-			ft_putchar('\n');
-		}
 		else
 		{
 			ft_putstr("minishellrose: cd: HOME not set\n"); //ECRIRE SUR LE STDOUT, MAIS BREAK MEME SI PIPE 
@@ -73,18 +68,20 @@ int		ft_cd(char **arg, t_big *datas)
 			if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
 			{
 				chdir(((t_var *)tmp->content)->value);
-				ft_putstr(getcwd(newlocation, 0));
+				ft_putstr((newlocation = getcwd(NULL, 0)));
 				ft_putchar('\n');
+			}
+			else
+			{
+				ft_putstr("minishellrose: cd: OLDPWD not set\n"); //ECRIRE SUR LE STDOUT, MAIS BREAK MEME SI PIPE 
+				exit(0);
 			}
 		}
 		else
-		{
 			chdir(arg[1]);
-			ft_putstr(getcwd(newlocation, 0));
-			ft_putchar('\n');
-		}
 	}
 	actualize_env(&oldpath, datas);
-	free(newlocation);
+	if (newlocation)
+		free(newlocation);
 	return (0);	
 }
