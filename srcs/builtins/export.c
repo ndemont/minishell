@@ -12,7 +12,18 @@
 
 #include "minishell.h"
 
-int		ft_export(char *str)
+int		ft_export(t_big *datas)
 {
-	return (1);
+	t_list *tmp;
+
+	tmp = *(datas->export);
+	while (tmp)
+	{
+		ft_putstr(((t_var *)tmp->content)->var);
+		ft_putchar('=');
+		ft_putstr(((t_var *)tmp->content)->value);
+		ft_putchar('\n');
+		tmp = tmp->next;
+	}
+	return (0);
 }
