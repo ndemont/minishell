@@ -16,17 +16,68 @@ int		check_duplicate(t_list *list, char *ref)
 {
 	t_list	*tmp;
 	int		count;
+	char *str;
+	int i;
 
+ 	i = 0;
+	while (ref [i] && ref[i] != '=')
+		i++;
+	str = ft_substr(ref, 0, i);
 	tmp = list;
 	count = 0;
 	while (tmp)
 	{
-		if (!strcmp(((t_var *)tmp->content)->var, ref))
-			return (count);
+		if (!ft_strcmp(((t_var *)tmp->content)->var, str))
+		{
+			free(str);
+			return (1);
+		}
 		tmp = tmp->next;
 		count++;
 	}
-	return (-1);
+	free(str);
+	return (0);
+}
+
+void	actualize_env_export(char *line, t_big *datas)
+{
+	t_list *tmp;
+	char **str;
+	t_var *content;
+	int i;
+
+	i = 0;
+	tmp = *datas->export;
+	str = ft_split(line, '=');
+	ft_putstr(str[0]);
+	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
+		tmp = tmp->next;
+	((t_var *)tmp->content)->value = ft_strdup(str[1]);
+	content = fill_tmp(line);
+	tmp = ft_lstnew(content);
+	ft_lstadd_back(datas->env, tmp);
+	free_double(str);	
+}
+
+void	actualize_var(char *line, t_big *datas)
+{
+	t_list *tmp;
+	char **str;
+	int i;
+
+	i = 0;
+	tmp = *datas->env;
+	str = ft_split(line, '=');
+	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
+		tmp = tmp->next;
+	free(((t_var *)tmp->content)->value);
+	((t_var *)tmp->content)->value = ft_strdup(str[1]);
+	tmp = *datas->export;
+	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
+		tmp = tmp->next;
+	free(((t_var *)tmp->content)->value);
+	((t_var *)tmp->content)->value = ft_strdup(str[1]);
+	free_double(str);
 }
 
 int		ft_export(char **arg, t_big *datas)
@@ -58,7 +109,8 @@ int		ft_export(char **arg, t_big *datas)
 	{
 		while (arg[i])
 		{
-			if (ft_strrchr(arg[i], '=')) //&& (check_duplicate(*datas->env, arg[i]) < 0))
+			printf("retour Strchr = %d | retour check_duplicate = %d\n", ft_strchr(arg[i], '='), check_duplicate(*datas->export, arg[i]));
+			if ((ft_strchr(arg[i], '=')) && !check_duplicate(*datas->env, arg[i]) && !check_duplicate(*datas->export, arg[i]))
 			{
 				content = fill_tmp(arg[i]);
 				new = ft_lstnew(content);
@@ -66,12 +118,11 @@ int		ft_export(char **arg, t_big *datas)
 				new = ft_lstnew(content);
 				ft_lstadd_back(datas->export, new);
 			}
-			//else if (ft_strrchr(arg[i], '='))
-			//{
-			//	pos = check_duplicate(*datas->export, arg[i]);
-			//	while (pos)
-			//}
-			else if (check_duplicate(*datas->export, arg[i]) < 0)
+			else if ((ft_strchr(arg[i], '=')) && check_duplicate(*datas->env, arg[i]))
+				actualize_var(arg[i], datas);
+			else if ((ft_strchr(arg[i], '=')) && check_duplicate(*datas->export, arg[i]))
+				actualize_env_export(arg[i], datas);
+			else if ((!ft_strchr(arg[i], '=')) && !check_duplicate(*datas->export, arg[i]))
 			{
 				content = (t_var *)malloc(sizeof(t_var));
 				content->var = ft_strdup(arg[i]);
