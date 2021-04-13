@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 14:47:21 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/13 11:00:47 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		ft_count_tokens(char *input)
 		}
 		else if (ft_is_quote(input, i) > 0)
 			i = ft_is_quote(input, i);
-		else if (ft_is_quote(input, i) < 0 || ft_is_grammar(input, i) < 0)
+		else if (ft_is_quote(input, i) < 0 && ft_is_grammar(input, i) < 0)
 			return (-1);
 	}
 	if (!i)
