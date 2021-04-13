@@ -12,67 +12,21 @@
 
 #include "minishell.h"
 
-void	delete_list(t_list *list)
-{
-	printf("str = %s\n", ((t_var *)list->content)->var);
-	if (((t_var *)list->content)->var)
-		free(((t_var *)list->content)->var);
-	if (((t_var *)list->content)->value)
-		free(((t_var *)list->content)->value);
-	if (list)
-		free(list);
-}
-
-void	delete_variable(int count, t_list *list)
-{
-	t_list *tmp;
-	t_list *delete_me;
-	int i;
-
-	tmp = list;
-	i = 0;
-	while (i < count)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	delete_me = tmp->next;
-	printf("str = %s\n", ((t_var *)delete_me->content)->var);
-	tmp->next = tmp->next->next;
-	delete_list(delete_me);
-}
-
-void		check_duplicate(t_list *list, char *ref)
+int		check_duplicate(t_list *list, char *ref)
 {
 	t_list	*tmp;
 	int		count;
-	char *sub;
-	int i;
 
 	tmp = list;
-	if (ft_strchr(ref, '='))
-	{
-		i = 0;
-		while (ref[i] != '=')
-			i++;
-		sub = ft_substr(ref, 0, i);
-	}
-	else
-		sub = ft_strdup(ref);
 	count = 0;
 	while (tmp)
 	{
-		if (!ft_strcmp(((t_var *)tmp->content)->var, sub))
-		{
-			delete_variable(count - 1, list);
-			free(sub);
-			return ;
-		}
+		if (!strcmp(((t_var *)tmp->content)->var, ref))
+			return (count);
 		tmp = tmp->next;
 		count++;
 	}
-	free(sub);
-	return ;
+	return (-1);
 }
 
 int		ft_export(char **arg, t_big *datas)
@@ -104,10 +58,7 @@ int		ft_export(char **arg, t_big *datas)
 	{
 		while (arg[i])
 		{
-			printf("%s\n", arg[i]);
-			check_duplicate(*datas->env, arg[i]);
-			check_duplicate(*datas->export, arg[i]);
-			if (ft_strrchr(arg[i], '='))
+			if (ft_strrchr(arg[i], '=')) //&& (check_duplicate(*datas->env, arg[i]) < 0))
 			{
 				content = fill_tmp(arg[i]);
 				new = ft_lstnew(content);
@@ -115,7 +66,12 @@ int		ft_export(char **arg, t_big *datas)
 				new = ft_lstnew(content);
 				ft_lstadd_back(datas->export, new);
 			}
-			else
+			//else if (ft_strrchr(arg[i], '='))
+			//{
+			//	pos = check_duplicate(*datas->export, arg[i]);
+			//	while (pos)
+			//}
+			else if (check_duplicate(*datas->export, arg[i]) < 0)
 			{
 				content = (t_var *)malloc(sizeof(t_var));
 				content->var = ft_strdup(arg[i]);
