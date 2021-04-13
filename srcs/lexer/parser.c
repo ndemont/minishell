@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/12 11:58:00 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/13 17:34:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int			count_arg(char *input)
 
 	count = 0;
 	i = 0;
+	if (!input[0])
+		return (0);
 	while (input[i])
 	{
 		newword = 0;
@@ -171,6 +173,8 @@ void		get_builtin(t_node *token)
 	i = 0;
 	while (i < 8)
 	{
+		if (!token->arg[0])
+			break ;
 		if (!ft_strcmp(list[i], token->arg[0]))
 		{
 			token->builtin = token->arg[0];
