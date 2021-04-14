@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/13 11:00:47 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/14 16:00:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ int		ft_count_tokens(char *input)
 	j = 0;
 	while (input[i])
 	{
-		while (input[i] && !ft_is_grammar(input, i) && !ft_is_quote(input, i))
+		while (input[i] && !ft_is_grammar(input, i) && !ft_is_quote(input, i) && input[i] != '\\')
 			i++;
-		if (ft_is_grammar(input, i) > 0)
+		if (input[i] == '\\' && input[i + 1])
+			i += 2;
+		else if (input[i] == '\\' && !input[i + 1])
+			return (-1);
+		else if (ft_is_grammar(input, i) > 0)
 		{
 			if (ft_is_grammar(input, i) == 2)
 				i++;

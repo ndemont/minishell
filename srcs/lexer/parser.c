@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/13 17:34:17 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/14 15:56:32 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,18 @@ char		*get_arg(char *input, int *i)
 	while (input[*i] && input[*i] != ' ' && input[*i] != '\t')
 	{
 		j = *i;
-		while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"' && input[*i] != '\t')
+		while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"' && input[*i] != '\t' && input[*i] != '\\')
 			*i = *i + 1;
 		tmp1 = arg;
-		if (input[j] == '\'')
+		if (input[*i] == '\\' && input[*i + 1])
+		{
+			*i = *i + 1;
+			tmp2 = ft_substr(input, *i, 1);
+			*i = *i + 1;
+		}
+		else if (input[*i] == '\\' && !input[*i + 1])
+			print_errors("minishellrose: missing char at end of line");
+		else if (input[j] == '\'')
 		{
 			tmp2 = get_quote(input, i, &j);
 			if (!tmp2)
@@ -127,9 +135,11 @@ int			count_arg(char *input)
 		}
 		if (!input[i])
 			break ;
-		while (input[i] && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '\t')
+		while (input[i] && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '\t' && input[i] != '\\')
 			i++;
-		if (input[i] == '\'')
+		if (input[i] == '\\' && input[i + 1])
+			i += 2;
+		else if (input[i] == '\'')
 		{
 			i++;
 			while (input[i] != '\'')

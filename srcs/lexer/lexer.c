@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/12 10:02:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/14 16:00:31 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_node		**ft_lexer(char *input)
 
 	token_nb = ft_count_tokens(input);
 	if (token_nb < 0)
-		return (print_errors("minishellrose: missing quote at end of line"));
+		return (print_errors("minishellrose: missing char at end of line"));
 	if (!token_nb)
 		return (0);
 	if (!check_isspace(input))
