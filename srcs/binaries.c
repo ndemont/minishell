@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/13 11:01:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/14 11:55:59 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,9 @@ void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *data
 	int fd[2];
 	pid_t pid1;
 
+	(void)argv;
+	(void)is_built_in;
+	(void)command;
 	datas->flag_pipe = 0;
 	pipe(fd);
 	pid1 = fork();
@@ -173,8 +176,13 @@ void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *data
 		close(fd[0]);
 		if (is_built_in == 1)
 			exec_built_in(command, argv, datas);
-		else
+		else if (is_built_in == 0)
 			exec_binary(command, argv);
+		else
+		{
+			print_std(datas->fd);
+			datas->fd = dup(STDIN_FILENO);
+		}
 		close(datas->fd);
 		exit(0);  //permet de fermer execve dans le fork après l'avoir RUN
 	}
@@ -188,22 +196,62 @@ void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *data
 
 void	execute_tree(t_node *root, int n, t_big *datas)
 {
+	static int i = 0;
+
 	if (root->left)
+	{
+		//printf("%i : left\n", i);
+		i++;
 		execute_tree(root->left, root->type, datas);
+	}
 	if (root->right)
+	{
+		//printf("%i : right\n", i);
+		i++;
 		execute_tree(root->right, root->type, datas);
+	}
 	if (n == 1 && root->command)
+	{
+		//printf("%i : pipe -> command\n", i);
+		i++;
 		exec_piped_cmd(root->command, root->arg, 0, datas); //RAjOUTER FD_OUT
+	}
 	if (n == 1 && root->builtin)
+	{
+		//printf("%i : pipe -> builtin\n", i);
+		i++;
 		exec_piped_cmd(root->builtin, root->arg, 1, datas);
+	}
 	if (n == 5 && root->command)
+	{
+		//printf("%i : semicolon -> command\n", i);
+		i++;
 		exec_semicolon_cmd(root->command, root->arg, 0, datas);
+	}
 	if (n == 5 && root->builtin)
+	{
+		//printf("%i : semincolon -> builtin\n", i);
+		i++;
 		exec_semicolon_cmd(root->builtin, root->arg, 1, datas);
+	}
+	else if (n == 5)
+	{		
+		//printf("%i : semincolon -> empty\n", i);
+		i++;
+		exec_semicolon_cmd(root->builtin, root->arg, 2, datas);
+	}
 	if (n == 0 && root->builtin)
+	{
+		//printf("%i : empty -> builtin\n", i);
+		i++;
 		exec_built_in(root->builtin, root->arg, datas);
+	}
 	if (n == 0 && root->command)
+	{
+		//printf("%i : empty -> command\n", i);
+		i++;
 		exec_piped_cmd(root->command, root->arg, 0, datas);
+	}
 }
 
 void	executions(t_big *datas)
