@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/14 14:22:49 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/14 17:56:15 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	exec_built_in(char *command, char **argv, t_big *datas)
 		ft_pwd(datas);
 	if (!(ft_strcmp(command, "export")))
 		ft_export(argv, datas);
+	if (!(ft_strcmp(command, "unset")))
+		ft_unset(argv, datas);
 	return;
 }
 
@@ -263,9 +265,6 @@ void	executions(t_big *datas)
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas);
 	if (datas->flag_pipe)
-	{
-		write(1, "3\n", 2);
 		print_std(datas->fd);
-	}
 	close(datas->fd);
 }
