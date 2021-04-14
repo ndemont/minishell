@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/14 11:58:28 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/14 12:51:04 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	print_std(int fd)
 {
-	char *line;
+	char	*line;
+	int 	ret;
 
-	while (get_next_line(fd, &line) > 0)
+	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		ft_putstr(line);
 		ft_putchar('\n');
@@ -188,7 +189,7 @@ void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *data
 	close(fd[1]);
 	close(fd[0]);
 	print_std(datas->fd);
-	datas->fd = dup(STDIN_FILENO);
+	//datas->fd = dup(STDIN_FILENO);
 }
 
 void	execute_tree(t_node *root, int n, t_big *datas)
@@ -260,6 +261,9 @@ void	executions(t_big *datas)
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas);
 	if (datas->flag_pipe)
+	{
+		write(1, "3\n", 2);
 		print_std(datas->fd);
+	}
 	close(datas->fd);
 }
