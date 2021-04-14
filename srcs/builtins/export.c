@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 19:15:06 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/12 23:23:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/14 14:11:17 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,13 @@ void	actualize_env_export(char *line, t_big *datas)
 	i = 0;
 	tmp = *datas->export;
 	str = ft_split(line, '=');
-	ft_putstr(str[0]);
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
 	content = fill_tmp(line);
 	tmp = ft_lstnew(content);
 	ft_lstadd_back(datas->env, tmp);
-	free_double(str);	
+	free_double(str);
 }
 
 void	actualize_var(char *line, t_big *datas)
@@ -70,12 +69,12 @@ void	actualize_var(char *line, t_big *datas)
 	str = ft_split(line, '=');
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
-	free(((t_var *)tmp->content)->value);
+	free(((t_var *)tmp->content)->value); //PEUT CAUSER DES LEAKS
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
 	tmp = *datas->export;
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
-	free(((t_var *)tmp->content)->value);
+	free(((t_var *)tmp->content)->value); //PEUT CAUSER DES LEAKS
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
 	free_double(str);
 }

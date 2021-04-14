@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
 
 char		*get_env_var(char *var, t_big *datas)
 {
@@ -30,7 +29,7 @@ char		*get_env_var(char *var, t_big *datas)
 	{
 		if (!ft_strcmp(((t_var *)env->content)->var, tmp))
 		{
-			value = ((t_var *)env->content)->value;
+			value = ft_strdup(((t_var *)env->content)->value);
 			break ;
 		}
 		env = env->next;
