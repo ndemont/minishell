@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/14 11:55:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/14 11:58:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,10 +179,7 @@ void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *data
 		else if (is_built_in == 0)
 			exec_binary(command, argv);
 		else
-		{
 			print_std(datas->fd);
-			datas->fd = dup(STDIN_FILENO);
-		}
 		close(datas->fd);
 		exit(0);  //permet de fermer execve dans le fork après l'avoir RUN
 	}
