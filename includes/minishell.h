@@ -55,6 +55,7 @@ typedef struct 		s_big
 	int		flag_pipe;
 	t_list	**env;
 	t_list	**export;
+	t_list	**hidden;
 	t_node	*root;
 }					t_big;
 
