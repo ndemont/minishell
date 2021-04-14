@@ -98,7 +98,9 @@ int		ft_export(char **arg, t_big *datas)
 			if (((t_var *)tmp->content)->value)
 			{
 				ft_putchar_fd('=', STDOUT_FILENO);
+				ft_putchar_fd('\"', STDOUT_FILENO);
 				ft_putstr_fd(((t_var *)tmp->content)->value, STDOUT_FILENO);
+				ft_putchar_fd('\"', STDOUT_FILENO);
 			}
 			ft_putchar_fd('\n', STDOUT_FILENO);
 			tmp = tmp->next;
@@ -108,7 +110,6 @@ int		ft_export(char **arg, t_big *datas)
 	{
 		while (arg[i])
 		{
-			printf("retour Strchr = %d | retour check_duplicate = %d\n", ft_strchr(arg[i], '='), check_duplicate(*datas->export, arg[i]));
 			if ((ft_strchr(arg[i], '=')) && !check_duplicate(*datas->env, arg[i]) && !check_duplicate(*datas->export, arg[i]))
 			{
 				content = fill_tmp(arg[i]);
