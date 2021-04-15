@@ -26,13 +26,17 @@ int	read_input(t_big *datas)
 	char	*line;
 	t_node	**token_tab;
 
+<<<<<<< HEAD
 	datas = (t_big *)malloc(sizeof(t_big));
+=======
+>>>>>>> End Of Day
 	display_prompt();
 	token_tab = 0;
 	ret = get_next_line(0, &line);
 	if (!ret || !line)
 		return (ret);
 	token_tab = ft_lexer(line);
+	free(line);
 	if (!(token_tab ))
 		return (ret);
 	if (!ft_builtin_parser(token_tab))

@@ -174,7 +174,7 @@ int		ft_export(char **arg, t_big *datas)
 					add_hidden_add_export_add_env(arg[i], datas);
 				else 																									//VARIABLE EXISTE DANS ENV
 				{
-					actualize_hidden(arg[i], datas); 																	//ACTUALIZE LIST HIDDEN
+					actualize_list(arg[i], *datas->hidden);																//ACTUALIZE LIST HIDDEN
 					if (check_duplicate(*datas->export, arg[i]) && !check_duplicate(*datas->env, arg[i])) 				//VARIABLE ACTUALISEE
 						actualize_export_add_env(arg[i], datas);
 					else if (check_duplicate(*datas->export, arg[i]) && check_duplicate(*datas->env, arg[i]))

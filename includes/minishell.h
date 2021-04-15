@@ -64,7 +64,7 @@ int			ft_env(t_big *datas);
 void		store_env(char **env, t_big *datas);
 void		ft_hidden(char **argv, t_big *datas);
 int			check_duplicate(t_list *list, char *ref);
-void		actualize_hidden(char *line, t_big *datas);
+void		actualize_list(char *line, t_list *lst);
 char 		**ft_split_on_equal(char *str);
 
 //FREE
