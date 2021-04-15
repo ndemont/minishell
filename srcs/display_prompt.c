@@ -28,6 +28,7 @@ int	read_input(t_big *datas)
 
 	(void)datas;
 	display_prompt();
+	token_tab = 0;
 	ret = get_next_line(0, &line);
 	if (!ret || !line)
 		return (ret);
@@ -36,10 +37,12 @@ int	read_input(t_big *datas)
 		return (ret);
 	if (!ft_builtin_parser(token_tab))
 		return (ret);
-	tree(token_tab, datas);
-	printf("EXECUTION");
-	printf("\n-----\n");
-	executions(datas);
+	//tree(token_tab, datas);
+	//printf("EXECUTION");
+	//printf("\n-----\n");
+	//executions(datas);
+	ret = 0;
 	free_tokens(token_tab);
+	free_datas(datas);
 	return (ret);
 }
