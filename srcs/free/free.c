@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/01 13:39:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/15 18:39:15 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,15 @@ void	free_list(t_list **list)
 	}
 }
 
-void	free_tab_arg(char **tab)
+void	free_arg(char **arg)
 {
 	int i;
-	int j;
 
 	i = 0;
-	while (tab[i])
+	while (arg[i])
 	{
-		free(tab[i])
-		tab[i] = 0;
+		free(arg[i]);
+		arg[i] = 0;
 		i++;
 	}
 }
@@ -113,7 +112,7 @@ void	free_tree(t_node *root)
 	}
 	if (root->arg)
 	{
-		free_tab_arg(root->arg);
+		free_arg(root->arg);
 		free(root->arg);
 		root->arg = 0;
 	}
