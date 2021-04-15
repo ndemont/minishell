@@ -20,7 +20,7 @@ int		check_duplicate(t_list *list, char *ref)
 	int i;
 
  	i = 0;
-	while (ref [i] && ref[i] != '=')
+	while (ref[i] && ref[i] != '=')
 		i++;
 	str = ft_substr(ref, 0, i);
 	tmp = list;
@@ -48,7 +48,7 @@ void	add_hidden_to_env_export(char *line, t_big *datas)
 	t_var *content2;
 
 	hidden = *datas->hidden;
-	while (ft_strcmp(line, ((t_var *)hidden->content)->var))
+	while (hidden && ft_strcmp(line, ((t_var *)hidden->content)->var))
 		hidden = hidden->next;
 	content = (t_var *)malloc(sizeof(t_var));
 	content->var = ft_strdup(((t_var *)hidden->content)->var);
@@ -95,20 +95,6 @@ void	actualize_export_actualize_env(char *line, t_big *datas)
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
 	free(((t_var *)tmp->content)->value); //PEUT CAUSER DES LEAKS
-	((t_var *)tmp->content)->value = ft_strdup(str[1]);
-	free_double(str);
-}
-
-void	actualize_hidden(char *line, t_big *datas)
-{
-	t_list *tmp;
-	char **str;
-
-	tmp = *datas->hidden;
-	str = ft_split(line, '=');
-	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
-		tmp = tmp->next;
-	free(((t_var *)tmp->content)->value);
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
 	free_double(str);
 }

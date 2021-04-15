@@ -62,6 +62,12 @@ typedef struct 		s_big
 //ENV
 int			ft_env(t_big *datas);
 void		store_env(char **env, t_big *datas);
+void		ft_hidden(char **argv, t_big *datas);
+int			check_duplicate(t_list *list, char *ref);
+void		actualize_hidden(char *line, t_big *datas);
+char 		**ft_split_on_equal(char *str);
+
+
 
 //AST
 int			read_input(t_big *datas);
