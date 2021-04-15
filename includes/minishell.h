@@ -77,6 +77,15 @@ t_node		**ft_create_nodes(char *input, int nb);
 int			ft_count_tokens(char *input);
 int			ft_is_grammar(char *str, int i);
 
+//TREE
+void	exec_built_in(char *command, char **argv, t_big *datas);
+void	exec_binary(char *command, char **argv);
+void	print_std(int fd);
+
+//GRAMMAR
+void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+
 //BUILTINS
 int			ft_echo(char **arg, t_big *datas);
 int			ft_cd(char **arg, t_big *datas);
