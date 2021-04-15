@@ -6,29 +6,33 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/15 14:36:16 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/15 14:54:44 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	overwrite_file(char *str, char *path)
+void	print_std_fd(int fd_in, int fd_out)
 {
-	int fd;
+	char	*line;
+	int 	ret;
 
-	fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	ft_putstr_fd(str, fd);
-	close(fd);
+	while ((ret = get_next_line(fd_in, &line)) > 0)
+	{
+		ft_putstr_fd(line, fd_out);
+		free(line);
+	}
+	ft_putstr_fd(line, fd_out);
+	free(line);
 }
 
 void	exec_anglebracket_right(char **argv, t_big *datas)
 {
 	int fd;
 
-	printf("arg[0] = %s", argv[0]);
+	datas->flag_pipe = 0;
 	fd = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	printf("datas->fd = %i", datas->fd);
-	dup2(datas->fd, fd);
+	print_std_fd(datas->fd, fd);
 	close(fd);
 }
 
