@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:57 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/15 14:11:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/15 14:30:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,4 @@ void	redirect_file(char *path)
 		free(line);
 	}
 	close(fd);
-}
-
-void	redirections(char *str, char c, char *path)
-{
-	if (c == '>')
-		overwrite_file(str, path);
-	else if (c == 'A') //'A' is for append and is quivalent to ">>"
-		append_file(str, path);
-	else if (c == '<')
-	{	
-		(void)str;
-		redirect_file(path);
-	}
 }

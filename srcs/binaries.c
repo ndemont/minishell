@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/15 14:09:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/15 14:38:09 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,53 +135,26 @@ void	exec_binary(char *command, char **argv)
 
 void	execute_tree(t_node *root, int n, t_big *datas)
 {
-	static int i = 0;
-
 	if (root->left)
-	{
-		i++;
 		execute_tree(root->left, root->type, datas);
-	}
 	if (root->right)
-	{
-		i++;
 		execute_tree(root->right, root->type, datas);
-	}
 	if (n == 1 && root->command)
-	{
-		i++;
 		exec_piped_cmd(root->command, root->arg, 0, datas); //RAjOUTER FD_OUT
-	}
 	if (n == 1 && root->builtin)
-	{
-		i++;
 		exec_piped_cmd(root->builtin, root->arg, 1, datas);
-	}
 	if (n == 5 && root->command)
-	{
-		i++;
 		exec_semicolon_cmd(root->command, root->arg, 0, datas);
-	}
 	if (n == 5 && root->builtin)
-	{
-		i++;
 		exec_semicolon_cmd(root->builtin, root->arg, 1, datas);
-	}
 	else if (n == 5)
-	{		
-		i++;
 		exec_semicolon_cmd(root->builtin, root->arg, 2, datas);
-	}
 	if (n == 0 && root->builtin)
-	{
-		i++;
 		exec_built_in(root->builtin, root->arg, datas);
-	}
 	if (n == 0 && root->command)
-	{
-		i++;
 		exec_piped_cmd(root->command, root->arg, 0, datas);
-	}
+	if (n == 3)
+		redirections(n, root->arg, datas);
 }
 
 void	executions(t_big *datas)
