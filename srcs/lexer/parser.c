@@ -193,6 +193,11 @@ void		get_builtin(t_node *token)
 		}
 		i++;
 	}
+	if (token->command && ft_strchr(token->command, '=')) //REQUALIFICATION EN BUILT-IN POUR HIDDEN LIST
+	{
+		token->builtin = token->command;
+		token->command = 0; 
+	}
 	printf("\nBuiltin = [%s]\n", token->builtin);
 	printf("Command = [%s]\n", token->command);
 	if (token->arg)

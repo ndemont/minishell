@@ -111,6 +111,8 @@ void	exec_built_in(char *command, char **argv, t_big *datas)
 		ft_export(argv, datas);
 	if (!(ft_strcmp(command, "unset")))
 		ft_unset(argv, datas);
+	if(ft_strchr(command, '='))
+		ft_hidden(argv, datas);
 	return;
 }
 
