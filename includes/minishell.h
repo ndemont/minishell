@@ -67,13 +67,14 @@ int			check_duplicate(t_list *list, char *ref);
 void		actualize_hidden(char *line, t_big *datas);
 char 		**ft_split_on_equal(char *str);
 
-
+//FREE
+void		free_datas(t_big *datas);
+void		free_tokens(t_node **token_tab);
 
 //AST
 int			read_input(t_big *datas);
 t_node		**ft_lexer(char *input);
 t_node		**ft_builtin_parser(t_node **token_tab);
-void		free_tokens(t_node **token_tab);
 void		executions(t_big *datas);
 void		tree(t_node **tokens, t_big *datas);
 void		*print_errors(char *error);
