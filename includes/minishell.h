@@ -53,7 +53,7 @@ typedef struct 		s_big
 {
 	int		fd;
 	int		flag_pipe;
-f 	t_list	**env;
+	t_list	**env;
 	t_list	**export;
 	t_list	**hidden;
 	t_node	*root;
