@@ -39,8 +39,8 @@ int		check_duplicate(t_list *list, char *ref)
 	return (0);
 }
 
-//Si EXPORT avec un argument sans egal et que doublon apparait dans liste cachée alors --> actualisation de export et Env
-void	add_hidden(char *line, t_big *datas) 
+//Si EXPORT sans égalité et que doublon apparait dans liste cachée alors --> actualisation de export et Env
+void	add_hidden_to_env_export(char *line, t_big *datas) 
 {
 	t_list *hidden;
 	t_list *tmp;
@@ -62,29 +62,25 @@ void	add_hidden(char *line, t_big *datas)
 	ft_lstadd_back(datas->env, tmp);
 }
 
-void	actualize_env_export(char *line, t_big *datas)
+void	actualize_export_add_env(char *line, t_big *datas)
 {
 	t_list *tmp;
 	char **str;
 	t_var *content;
-	t_var *content2; //pas necessaire mais pour bien differencier les 2 structures DIFFERENTES
-	
 
 	tmp = *datas->export;
 	str = ft_split(line, '=');
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
+	free(((t_var *)tmp->content)->value);
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
 	content = fill_tmp(line);
 	tmp = ft_lstnew(content);
 	ft_lstadd_back(datas->env, tmp);
-	content2 = fill_tmp(line);
-	tmp = ft_lstnew(content2);
-	ft_lstadd_back(datas->env, tmp);
 	free_double(str);
 }
 
-void	actualize_var(char *line, t_big *datas)
+void	actualize_export_actualize_env(char *line, t_big *datas)
 {
 	t_list *tmp;
 	char **str;
@@ -100,21 +96,59 @@ void	actualize_var(char *line, t_big *datas)
 		tmp = tmp->next;
 	free(((t_var *)tmp->content)->value); //PEUT CAUSER DES LEAKS
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
+	free_double(str);
+}
+
+void	actualize_hidden(char *line, t_big *datas)
+{
+	t_list *tmp;
+	char **str;
+
 	tmp = *datas->hidden;
+	str = ft_split(line, '=');
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
-	free(((t_var *)tmp->content)->value); //PEUT CAUSER DES LEAKS
+	free(((t_var *)tmp->content)->value);
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
 	free_double(str);
+}
+
+void	add_hidden_add_export_add_env(char *line, t_big *datas)
+{
+	t_list *new;
+	t_var *content;
+
+	content = fill_tmp(line);
+	new = ft_lstnew(content);
+	ft_lstadd_back(datas->env, new);
+	content = fill_tmp(line);
+	new = ft_lstnew(content);
+	ft_lstadd_back(datas->export, new);
+	content = fill_tmp(line);
+	new = ft_lstnew(content);
+	ft_lstadd_back(datas->hidden, new);
+}
+
+void	add_hidden_add_export(char *line, t_big *datas)
+{
+	t_var	*content;
+	t_list	*new;
+
+	content = (t_var *)malloc(sizeof(t_var));
+	content->var = ft_strdup(line);
+	content->value = 0;
+	new = ft_lstnew(content);
+	ft_lstadd_back(datas->export, new);
+	content = (t_var *)malloc(sizeof(t_var));
+	content->var = ft_strdup(line);
+	content->value = 0;
+	new = ft_lstnew(content);
+	ft_lstadd_back(datas->hidden, new);
 }
 
 int		ft_export(char **arg, t_big *datas)
 {
 	t_list	*tmp;
-	t_var	*content;
-	t_var	*content2;
-	t_var	*content3;
-	t_list	*new;
 	int		i;
 	//int		pos;
 
@@ -141,31 +175,27 @@ int		ft_export(char **arg, t_big *datas)
 	{
 		while (arg[i])
 		{
-			if (!ft_strchr(arg[i], '=') && check_duplicate(*datas->hidden, arg[i])) //TESTE LA LISTE HIDDEN
-				add_hidden(arg[i], datas);
-			else if ((ft_strchr(arg[i], '=')) && !check_duplicate(*datas->env, arg[i]) && !check_duplicate(*datas->export, arg[i]))
+			if (!ft_strchr(arg[i], '=')) 																				//PAS DE '='; nas
 			{
-				content = fill_tmp(arg[i]);
-				content2 = fill_tmp(arg[i]);
-				content3 = fill_tmp(arg[i]);
-				new = ft_lstnew(content);
-				ft_lstadd_back(datas->env, new);
-				new = ft_lstnew(content2);
-				ft_lstadd_back(datas->export, new);
-				new = ft_lstnew(content3);
-				ft_lstadd_back(datas->hidden, new);
+				if (check_duplicate(*datas->hidden, arg[i]) && !check_duplicate(*datas->export, arg[i])) 				//SI PRESENT DANS HIDDEN ALORS ENV ET EXPORT HERITENT DE HIDDEN
+					add_hidden_to_env_export(arg[i], datas);
+				else if (!check_duplicate(*datas->hidden, arg[i]) && !check_duplicate(*datas->export, arg[i])) 			//SI ABSENT DE HIDDEN ET DE EXPORT ALORS EXPORT ET HIDDEN S'ACTUALISENT
+					add_hidden_add_export(arg[i], datas);
 			}
-			else if ((ft_strchr(arg[i], '=')) && check_duplicate(*datas->env, arg[i])) //NE PAS CHANGER ORDRE AVEC CONDITION SUIVANTE
-				actualize_var(arg[i], datas);
-			else if ((ft_strchr(arg[i], '=')) && check_duplicate(*datas->export, arg[i]))
-				actualize_env_export(arg[i], datas);
-			else if ((!ft_strchr(arg[i], '=')) && !check_duplicate(*datas->export, arg[i]))
+			else if (ft_strchr(arg[i], '=')) 																			//AVEC '='; nas=gentille
 			{
-				content = (t_var *)malloc(sizeof(t_var));
-				content->var = ft_strdup(arg[i]);
-				content->value = 0;
-				new = ft_lstnew(content);
-				ft_lstadd_back(datas->export, new);
+				if (!check_duplicate(*datas->hidden, arg[i])) 															//VARIABLE N'EXISTE PAS ENCORE, LA CREER DANS LES 3 LISTES 
+					add_hidden_add_export_add_env(arg[i], datas);
+				else 																									//VARIABLE EXISTE DANS ENV
+				{
+					actualize_hidden(arg[i], datas); 																	//ACTUALIZE LIST HIDDEN
+					if (check_duplicate(*datas->export, arg[i]) && !check_duplicate(*datas->env, arg[i])) 				//VARIABLE ACTUALISEE
+						actualize_export_add_env(arg[i], datas);
+					else if (check_duplicate(*datas->export, arg[i]) && check_duplicate(*datas->env, arg[i]))
+						actualize_export_actualize_env(arg[i], datas);
+					else if (!check_duplicate(*datas->export, arg[i])) 													//VARIABLE ACTUALISEE ET IMPORTEE DANS EXPORT
+						add_hidden_to_env_export(arg[i], datas);
+				}
 			}
 			i++;
 		}
