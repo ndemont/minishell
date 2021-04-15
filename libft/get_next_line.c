@@ -42,7 +42,7 @@ static void	ft_isolator(char **stock, char **line)
 	}
 	else
 	{
-		tmp = ft_substr(*stock, i + 1, ft_strlen(*stock));
+		tmp = ft_substr(*stock, i + 1, ft_strlen(*stock) - i - 1);
 		free(*stock);
 		*stock = ft_strdup(tmp);
 		free(tmp);
