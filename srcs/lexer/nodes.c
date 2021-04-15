@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/14 16:47:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/15 14:56:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,8 @@ t_node	**ft_create_nodes(char *input, int nb)
 	nodes[nb] = 0;
 	i = 0;
 	j = 0;
-	printf("tokens = %d\n", nb);
 	while (j < nb)
 	{
-		printf("token nb = %d\n", j);
 		nodes[j] = ft_new_node(input, &i);
 		if (j == 0 && nodes[j]->type)
 			return (print_errors("minishellrose: syntax error"));
