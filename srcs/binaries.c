@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/15 14:09:16 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/15 14:09:59 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,55 +139,46 @@ void	execute_tree(t_node *root, int n, t_big *datas)
 
 	if (root->left)
 	{
-		//printf("%i : left\n", i);
 		i++;
 		execute_tree(root->left, root->type, datas);
 	}
 	if (root->right)
 	{
-		//printf("%i : right\n", i);
 		i++;
 		execute_tree(root->right, root->type, datas);
 	}
 	if (n == 1 && root->command)
 	{
-		//printf("%i : pipe -> command\n", i);
 		i++;
 		exec_piped_cmd(root->command, root->arg, 0, datas); //RAjOUTER FD_OUT
 	}
 	if (n == 1 && root->builtin)
 	{
-		//printf("%i : pipe -> builtin\n", i);
 		i++;
 		exec_piped_cmd(root->builtin, root->arg, 1, datas);
 	}
 	if (n == 5 && root->command)
 	{
-		//printf("%i : semicolon -> command\n", i);
 		i++;
 		exec_semicolon_cmd(root->command, root->arg, 0, datas);
 	}
 	if (n == 5 && root->builtin)
 	{
-		//printf("%i : semincolon -> builtin\n", i);
 		i++;
 		exec_semicolon_cmd(root->builtin, root->arg, 1, datas);
 	}
 	else if (n == 5)
 	{		
-		//printf("%i : semincolon -> empty\n", i);
 		i++;
 		exec_semicolon_cmd(root->builtin, root->arg, 2, datas);
 	}
 	if (n == 0 && root->builtin)
 	{
-		//printf("%i : empty -> builtin\n", i);
 		i++;
 		exec_built_in(root->builtin, root->arg, datas);
 	}
 	if (n == 0 && root->command)
 	{
-		//printf("%i : empty -> command\n", i);
 		i++;
 		exec_piped_cmd(root->command, root->arg, 0, datas);
 	}
