@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/15 14:38:09 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/15 14:47:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,12 @@ void	exec_binary(char *command, char **argv)
 	free_double(cmd);
 }
 
-void	execute_tree(t_node *root, int n, t_big *datas)
+void	execute_tree(t_node *root, int n, t_big *datas, int side)
 {
 	if (root->left)
-		execute_tree(root->left, root->type, datas);
+		execute_tree(root->left, root->type, datas, 1);
 	if (root->right)
-		execute_tree(root->right, root->type, datas);
+		execute_tree(root->right, root->type, datas, 2);
 	if (n == 1 && root->command)
 		exec_piped_cmd(root->command, root->arg, 0, datas); //RAjOUTER FD_OUT
 	if (n == 1 && root->builtin)
@@ -153,8 +153,12 @@ void	execute_tree(t_node *root, int n, t_big *datas)
 		exec_built_in(root->builtin, root->arg, datas);
 	if (n == 0 && root->command)
 		exec_piped_cmd(root->command, root->arg, 0, datas);
-	if (n == 3)
+	if (n == 3 && side == 2)
 		redirections(n, root->arg, datas);
+	else if (n == 3 && side == 1 && root->builtin)
+		exec_piped_cmd(root->builtin, root->arg, 1, datas);
+	else if (n == 3 && side == 1 && root->command)
+		exec_piped_cmd(root->command, root->arg, 0, datas);
 }
 
 void	executions(t_big *datas)
@@ -164,7 +168,7 @@ void	executions(t_big *datas)
 	i = 0;
 	datas->flag_pipe = 0;
 	datas->fd = dup(STDIN_FILENO);
-	execute_tree(datas->root, 0, datas);
+	execute_tree(datas->root, 0, datas, 0);
 	if (datas->flag_pipe)
 		print_std(datas->fd);
 	close(datas->fd);
