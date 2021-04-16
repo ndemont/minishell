@@ -66,6 +66,7 @@ void		ft_hidden(char **argv, t_big *datas);
 int			check_duplicate(t_list *list, char *ref);
 void		actualize_list(char *line, t_list *lst);
 char 		**ft_split_on_equal(char *str);
+void		add_to_list(char *line, t_list **lst);
 
 //FREE
 void		free_datas(t_big *datas);
