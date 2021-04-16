@@ -36,7 +36,6 @@ int	read_input(t_big *datas)
 	if (!ret || !line)
 		return (ret);
 	token_tab = ft_lexer(line);
-	free(line);
 	if (!(token_tab ))
 		return (ret);
 	if (!ft_builtin_parser(token_tab))
