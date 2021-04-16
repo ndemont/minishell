@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:59:15 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/09 20:13:13 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/16 17:46:15 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,25 @@ static void	actualize_env(char **oldpath, t_big *datas)
 	{
 		if (!ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
 		{
-			free(((t_var *)tmp->content)->value);
-			((t_var *)tmp->content)->value = ft_strdup(*oldpath);
+			if (((t_var *)tmp->content)->value)
+				free(((t_var *)tmp->content)->value);
+			if (*oldpath)
+				((t_var *)tmp->content)->value = ft_strdup(*oldpath);
 		}
 		if (!ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
 		{
 			pwd = getcwd(pwd, 0);
-			free(((t_var *)tmp->content)->value);
-			((t_var *)tmp->content)->value = ft_strdup(pwd);
+			if (((t_var *)tmp->content)->value)
+				free(((t_var *)tmp->content)->value);
+			if (pwd)
+				((t_var *)tmp->content)->value = ft_strdup(pwd);
 		}
 		tmp = tmp->next;
 	}
-	free(*oldpath);
-	free(pwd);
+	if (*oldpath)
+		free(*oldpath);
+	if (pwd)
+		free(pwd);
 }
 
 int		ft_cd(char **arg, t_big *datas)

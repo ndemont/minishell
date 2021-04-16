@@ -187,7 +187,7 @@ int		ft_export(char **arg, t_big *datas)
 	i = 1;
 	if (!arg[i])
 	{
-		tmp = *(datas->export);
+		tmp = *datas->export;
 		while (tmp)
 		{
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
