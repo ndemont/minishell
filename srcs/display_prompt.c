@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/15 18:39:47 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/15 18:48:12 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	read_input(t_big *datas)
 	char	*line;
 	t_node	**token_tab;
 
-	(void)datas;
+	datas = (t_big *)malloc(sizeof(t_big));
 	display_prompt();
 	token_tab = 0;
 	ret = get_next_line(0, &line);
@@ -37,11 +37,11 @@ int	read_input(t_big *datas)
 		return (ret);
 	if (!ft_builtin_parser(token_tab))
 		return (ret);
-	//tree(token_tab, datas);
-	//printf("EXECUTION");
-	//printf("\n-----\n");
-	//executions(datas);
-	ret = 0;
+	tree(token_tab, datas);
+	printf("EXECUTION");
+	printf("\n-----\n");
+	executions(datas);
+	//ret = 0;
 	free_tokens(token_tab);
 	//free_datas(datas);
 	return (ret);
