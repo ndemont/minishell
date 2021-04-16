@@ -42,7 +42,7 @@ int 	check_arg_conformity(char *line)
 		return (0);
 	while (tmp[i])
 	{
-		if (!ft_isalnum(tmp[i]) && tmp != '_' && tmp != '+' && tmp != '\\')
+		if (!ft_isalnum(tmp[i]) && tmp[i] != '_')
 			return (0);
 		i++;
 	}
@@ -220,7 +220,7 @@ int		ft_export(char **arg, t_big *datas)
 				else if (!check_duplicate(*datas->hidden, arg[i]) && !check_duplicate(*datas->export, arg[i])) 			//SI ABSENT DE HIDDEN ET DE EXPORT ALORS EXPORT ET HIDDEN S'ACTUALISENT
 					add_hidden_add_export(arg[i], datas);
 			}
-			else if (ft_strchr(arg[i], '=') && !is_plus_left(arg[i])) 																			//AVEC '='; nas=gentille
+			else if (ft_strchr(arg[i], '=')) 																			//AVEC '='; nas=gentille
 			{
 				if (!check_duplicate(*datas->hidden, arg[i])) 															//VARIABLE N'EXISTE PAS ENCORE, LA CREER DANS LES 3 LISTES 
 					add_hidden_add_export_add_env(arg[i], datas);
@@ -235,7 +235,7 @@ int		ft_export(char **arg, t_big *datas)
 						add_hidden_to_env_export(arg[i], datas);
 				}
 			}
-			else if (ft_strchr(arg[i], '=') && is_plus_left(arg[i]))
+			/* else if (ft_strchr(arg[i], '=') && is_plus_left(arg[i]))
 			{
 				if (!check_plus_conformity(arg[i]))
 				{
@@ -247,7 +247,7 @@ int		ft_export(char **arg, t_big *datas)
 				{
 					
 				}
-			}
+			} */
 			i++;
 		}
 	}
