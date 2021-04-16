@@ -12,6 +12,61 @@
 
 #include "minishell.h"
 
+int		is_plus_left(char *line)
+{
+	int i;
+	char **str;
+
+	i = 0;
+	str = ft_split_on_equal(line);
+	while (str[0] && str[0][i])
+	{
+		if (str[0][i] == '+')
+			return (1);
+		i++;
+	}
+	return (0);
+	free_double(str);
+}
+
+int 	check_arg_conformity(char *line)
+{
+	int i;
+	char **str;
+	char *tmp;
+
+	i = 0;
+	str = ft_split_on_equal(line);
+	tmp = str[0];
+	if (ft_isdigit(tmp[0]))
+		return (0);
+	while (tmp[i])
+	{
+		if (!ft_isalnum(tmp[i]) && tmp[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+	free_double(str);
+}
+
+int		check_plus_conformity(char *line)
+{
+	int i;
+	char **str;
+
+	i = 0;
+	str = ft_split_on_equal(line);
+	while (str[0] && str[0][i])
+	{
+		if (str[0][i] == '+' && i != (int)(ft_strlen(str[0]) - 1))
+			return (0);
+		i++;
+	}
+	return (1);
+	free_double(str);
+}
+
 int		check_duplicate(t_list *list, char *ref)
 {
 	t_list	*tmp;
@@ -101,18 +156,9 @@ void	actualize_export_actualize_env(char *line, t_big *datas)
 
 void	add_hidden_add_export_add_env(char *line, t_big *datas)
 {
-	t_list *new;
-	t_var *content;
-
-	content = fill_tmp(line);
-	new = ft_lstnew(content);
-	ft_lstadd_back(datas->env, new);
-	content = fill_tmp(line);
-	new = ft_lstnew(content);
-	ft_lstadd_back(datas->export, new);
-	content = fill_tmp(line);
-	new = ft_lstnew(content);
-	ft_lstadd_back(datas->hidden, new);
+	add_to_list(line, datas->env);
+	add_to_list(line, datas->export);
+	add_to_list(line, datas->hidden);
 }
 
 void	add_hidden_add_export(char *line, t_big *datas)
@@ -161,7 +207,13 @@ int		ft_export(char **arg, t_big *datas)
 	{
 		while (arg[i])
 		{
-			if (!ft_strchr(arg[i], '=')) 																				//PAS DE '='; nas
+			if (!check_arg_conformity(arg[i]))
+			{
+				ft_putstr_fd("minishellrose: export: `", STDOUT_FILENO);
+				ft_putstr_fd(arg[i], STDOUT_FILENO);
+				ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
+			} 
+			else if (!ft_strchr(arg[i], '=')) 																				//PAS DE '='; nas
 			{
 				if (check_duplicate(*datas->hidden, arg[i]) && !check_duplicate(*datas->export, arg[i])) 				//SI PRESENT DANS HIDDEN ALORS ENV ET EXPORT HERITENT DE HIDDEN
 					add_hidden_to_env_export(arg[i], datas);
@@ -174,7 +226,7 @@ int		ft_export(char **arg, t_big *datas)
 					add_hidden_add_export_add_env(arg[i], datas);
 				else 																									//VARIABLE EXISTE DANS ENV
 				{
-					actualize_hidden(arg[i], datas); 																	//ACTUALIZE LIST HIDDEN
+					actualize_list(arg[i], *datas->hidden);																//ACTUALIZE LIST HIDDEN
 					if (check_duplicate(*datas->export, arg[i]) && !check_duplicate(*datas->env, arg[i])) 				//VARIABLE ACTUALISEE
 						actualize_export_add_env(arg[i], datas);
 					else if (check_duplicate(*datas->export, arg[i]) && check_duplicate(*datas->env, arg[i]))
@@ -183,6 +235,19 @@ int		ft_export(char **arg, t_big *datas)
 						add_hidden_to_env_export(arg[i], datas);
 				}
 			}
+			/* else if (ft_strchr(arg[i], '=') && is_plus_left(arg[i]))
+			{
+				if (!check_plus_conformity(arg[i]))
+				{
+					ft_putstr_fd("minishellrose: export: `", STDOUT_FILENO);
+					ft_putstr_fd(arg[i], STDOUT_FILENO);
+					ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
+				}
+				else
+				{
+					
+				}
+			} */
 			i++;
 		}
 	}
