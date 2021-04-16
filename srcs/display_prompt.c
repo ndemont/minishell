@@ -42,7 +42,7 @@ int	read_input(t_big *datas)
 	printf("\n-----\n");
 	executions(datas);
 	//ret = 0;
-	free_tokens(token_tab);
+	//free_tokens(token_tab);
 	//free_datas(datas);
 	return (ret);
 }
