@@ -7,7 +7,7 @@ int		main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	(void)env;
-	//store_env(env, &datas);
+	store_env(env, &datas);
 	while (read_input(&datas));
 	return (0);
 }
