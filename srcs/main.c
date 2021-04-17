@@ -4,7 +4,6 @@ void	init_data(t_big *datas)
 {
 	datas->fd = -1;
 	datas->flag_pipe = 0;
-	datas->flag_redirection = 0;
 	datas->env = 0;
 	datas->export = 0;
 	datas->hidden = 0;
