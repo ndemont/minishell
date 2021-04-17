@@ -93,8 +93,8 @@ void	print_std(int fd);
 //GRAMMAR
 void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas);
 void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
-void	redirections(int type, char **argv, t_big *datas, t_node *last);
-void	exec_anglebracket_right(char **argv, t_big *datas, t_node *last);
+void	redirections(int type, char **argv, t_big *datas);
+void	exec_anglebracket_right(char **argv, t_big *datas);
 
 //BUILTINS
 int			ft_echo(char **arg, t_big *datas);
