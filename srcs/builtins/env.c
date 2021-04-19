@@ -24,7 +24,8 @@ t_var	*fill_tmp(char *str)
 	while(str[i] && str[i] != '=')
 		i++;
 	tmp->var = ft_substr(str, 0, i);
-	i++;
+	if (str[i] == '=')
+		i++;
 	tmp->value = ft_substr(str, i, (ft_strlen(str) - i));
 	return (tmp);
 }

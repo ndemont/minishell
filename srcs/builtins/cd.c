@@ -12,46 +12,54 @@
 
 #include "minishell.h"
 
-static void	actualize_env(char **oldpath, t_big *datas)
+static void	actualize_env(t_list **lst)
 {
 	t_list *tmp;
-	char *pwd;
+	char *current_pwd;
+	char *oldpwd;
 
-	tmp = *datas->env;
-	pwd = NULL;
-	while (tmp)
-	{
-		if (!ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
-		{
-			if (((t_var *)tmp->content)->value)
-				free(((t_var *)tmp->content)->value);
-			if (*oldpath)
-				((t_var *)tmp->content)->value = ft_strdup(*oldpath);
-		}
-		if (!ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
-		{
-			pwd = getcwd(pwd, 0);
-			if (((t_var *)tmp->content)->value)
-				free(((t_var *)tmp->content)->value);
-			if (pwd)
-				((t_var *)tmp->content)->value = ft_strdup(pwd);
-		}
+	tmp = *lst;
+	current_pwd = NULL;
+	oldpwd = NULL;
+	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
 		tmp = tmp->next;
+	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
+	{
+		current_pwd = getcwd(current_pwd, 0);
+		if (((t_var *)tmp->content)->value)
+			oldpwd = ft_strdup(((t_var *)tmp->content)->value);
+		if (current_pwd)
+		{
+			free(((t_var *)tmp->content)->value);
+			((t_var *)tmp->content)->value = NULL;
+			((t_var *)tmp->content)->value = ft_strdup(current_pwd);
+		}
+
 	}
-	if (*oldpath)
-		free(*oldpath);
-	if (pwd)
-		free(pwd);
+	tmp = *lst;
+	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
+		tmp = tmp->next;
+	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
+	{
+		if (((t_var *)tmp->content)->value)
+			free(((t_var *)tmp->content)->value);
+		if (oldpwd)
+			((t_var *)tmp->content)->value = oldpwd;
+	}
+	free(current_pwd);
+}
+
+void	actualize_variables(t_big *datas)
+{
+	actualize_env(datas->env);
+	actualize_env(datas->export);
+	actualize_env(datas->hidden);
 }
 
 int		ft_cd(char **arg, t_big *datas)
 {
 	t_list *tmp;
-	char *oldpath;
-	char *newlocation;
 
-	newlocation = NULL;
-	oldpath = getcwd(NULL, 0);
 	tmp = *datas->env;
 	if (!arg[1])
 	{
@@ -74,7 +82,7 @@ int		ft_cd(char **arg, t_big *datas)
 			if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
 			{
 				chdir(((t_var *)tmp->content)->value);
-				ft_putstr((newlocation = getcwd(NULL, 0)));
+				ft_putstr(((t_var *)tmp->content)->value);
 				ft_putchar('\n');
 			}
 			else
@@ -86,8 +94,6 @@ int		ft_cd(char **arg, t_big *datas)
 		else
 			chdir(arg[1]);
 	}
-	actualize_env(&oldpath, datas);
-	if (newlocation)
-		free(newlocation);
+	actualize_variables(datas);
 	return (0);	
 }

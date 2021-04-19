@@ -19,13 +19,14 @@ int	ft_pwd(t_big *datas)
 
 	(void)datas;
 	tmp = *datas->env;
-	pwd = getcwd(NULL, 0); //Should I control errno ??
+	pwd = NULL;
+	pwd = getcwd(pwd, 0); //Should I control errno ??
 	if (!pwd)
 	{
 		while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
 			tmp = tmp->next;
-		if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
-			pwd=ft_strdup(((t_var *)tmp->content)->value);
+		if (((t_var *)tmp->content)->var && !ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
+			pwd = ft_strdup(((t_var *)tmp->content)->value);
 		ft_putstr(pwd);
 		ft_putchar('\n');
 		return (-1);
