@@ -124,7 +124,7 @@ void	actualize_export_add_env(char *line, t_big *datas)
 	t_var *content;
 
 	tmp = *datas->export;
-	str = ft_split(line, '=');
+	str = ft_split_on_equal(line);
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
 	free(((t_var *)tmp->content)->value);
@@ -141,7 +141,7 @@ void	actualize_export_actualize_env(char *line, t_big *datas)
 	char **str;
 
 	tmp = *datas->env;
-	str = ft_split(line, '=');
+	str = ft_split_on_equal(line);
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
 	free(((t_var *)tmp->content)->value); //PEUT CAUSER DES LEAKS
