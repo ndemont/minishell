@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/17 23:01:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/19 12:16:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,16 @@ void	print_tree(t_node *root)
 	}
 	if (root->type)
 	{
-		write(1, "grammar type ", 14);
-		write(1, ft_itoa(root->type), 1);
+		if (root->type == 1)
+			write(1, "|", 1);
+		if (root->type == 2)
+			write(1, ">>", 2);
+		if (root->type == 3)
+			write(1, ">", 1);
+		if (root->type == 4)
+			write(1, "<", 1);
+		if (root->type == 5)
+			write(1, ";", 1);
 		write(1, "\n", 1);
 	}
 	else
