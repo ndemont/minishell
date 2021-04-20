@@ -42,7 +42,6 @@ void	exec_anglebracket_right(char **argv, t_big *datas)
 	else
 		fd = open(argv[0], O_CREAT | O_WRONLY, 0644);
 	close(fd);
-	i++;
 }
 
 void	exec_double_anglebracket_right(char **argv, t_big *datas)
