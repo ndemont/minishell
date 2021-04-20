@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/16 16:36:14 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/20 17:09:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,9 @@ int	display_prompt(void)
 	return (1);
 }
 
-int	check_char(char prev, char current)
-{
-	if (prev == '^' && (current == 'C' || current == 'D' || current == '\\'))
-		return (0);
-	else
-		return (1);
-}
-
 char *create_line(void)
 {
 	int ret;
-	char prev;
 	char buf[1];
 	char *line;
 	char *tmp;
@@ -39,19 +30,15 @@ char *create_line(void)
 	struct termios term;
 	struct termios original;
 
-
-
-	
 	line = ft_strdup(""); //CONTROLLER MALLOC
 	i = 0;
 	ret = 0;
-	prev = 0;
-	while (prev != '\n')
+	tcgetattr(STDIN_FILENO, &original);
+	term = original;
+	term.c_lflag &= ~(ECHO | ICANON);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
+	while (line[i] != '\n')
 	{
-		tcgetattr(STDIN_FILENO, &original);
-		term = original;
-		term.c_lflag &= ~(ECHO);
-		tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
 		if ((ret = read(STDIN_FILENO, buf, 1)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
 		if (ret == 0)
@@ -66,15 +53,14 @@ char *create_line(void)
 			line[i + 1] = '\0';
 		}
 		else
-			line[i] = 0;
-		tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
- 		if (check_char(prev, line[i]) && !prev)
 		{
-			write(STDIN_FILENO, &prev, 1);
+			line[i] = 0;
+			break ;
 		}
-		prev = buf[0];	
+		write(STDIN_FILENO, &line[i], 1);	
 		i++;
 	}
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
 	ft_putchar('\n');
 	return (line);
 }
@@ -89,7 +75,7 @@ int	read_input(t_big *datas)
 	display_prompt();
 	token_tab = 0;
 	line = create_line();
-	//ret = get_next_line(0, &line);
+	printf("line = [%s]\n", line);
 	if (!line)
 		return (0);
 	token_tab = ft_lexer(line);
