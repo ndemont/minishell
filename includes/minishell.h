@@ -53,6 +53,7 @@ typedef struct 		s_big
 {
 	int		fd;
 	int		flag_pipe;
+	int		flag_bracket;
 	t_list	**env;
 	t_list	**export;
 	t_list	**hidden;
