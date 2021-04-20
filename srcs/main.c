@@ -11,6 +11,11 @@ void	init_data(t_big *datas)
 	datas->root = 0;
 }
 
+void	sigint_handler(int sig)
+{
+	(void)sig;
+}
+
 int		main(int ac, char **av, char **env)
 {
 	t_big	datas;
@@ -19,6 +24,7 @@ int		main(int ac, char **av, char **env)
 	(void)av;
 	init_data(&datas);
 	store_env(env, &datas);
+	signal(SIGINT, &sigint_handler);
 	while (read_input(&datas));
 	return (0);
 }

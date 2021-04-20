@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 10:56:30 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/09 11:05:59 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/20 13:27:54 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	sigint_handler(int sig)
 {
-	pid_t pid;
-	
 	write(1, "Hello World\n", 12);
-	pid = getpid();
-	kill(pid, sig);
+	printf("SIGINT = %i\n", sig);
+	kill(pid_t, sig);
 }
 
 int	main(void)

@@ -20,22 +20,83 @@ int	display_prompt(void)
 	return (1);
 }
 
+int	check_char(char prev, char current)
+{
+	if (prev == '^' && (current == 'C' || current == 'D' || current == '\\'))
+		return (0);
+	else
+		return (1);
+}
+
+char *create_line(void)
+{
+	int ret;
+	char prev;
+	char buf[1];
+	char *line;
+	char *tmp;
+	int i;
+	struct termios term;
+	struct termios original;
+
+
+
+	
+	line = ft_strdup(""); //CONTROLLER MALLOC
+	i = 0;
+	ret = 0;
+	prev = 0;
+	while (prev != '\n')
+	{
+		tcgetattr(STDIN_FILENO, &original);
+		term = original;
+		term.c_lflag &= ~(ECHO);
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
+		if ((ret = read(STDIN_FILENO, buf, 1)) < 0)
+			exit(1); //SORTIR CLEAN PLUS TARD
+		if (ret == 0)
+			break ;
+		tmp = line;
+		line = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + 2));
+		strcpy(line, tmp); //ATTENTION, METTRE VRAIE FONCTION FT_STRCPY
+		free(tmp);
+		if (buf[0] != '\n')
+		{	
+			line[i] = buf[0];
+			line[i + 1] = '\0';
+		}
+		else
+			line[i] = 0;
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
+ 		if (check_char(prev, line[i]) && !prev)
+		{
+			write(STDIN_FILENO, &prev, 1);
+		}
+		prev = buf[0];	
+		i++;
+	}
+	ft_putchar('\n');
+	return (line);
+}
+
 int	read_input(t_big *datas)
 {
-	int		ret;
+	//int		ret;
 	char	*line;
 	t_node	**token_tab;
 
+	line = NULL;
 	display_prompt();
 	token_tab = 0;
-	ret = get_next_line(0, &line);
-	if (!ret || !line)
-		return (ret);
+	line = create_line();
+	//ret = get_next_line(0, &line);
+	if (!line)
+		return (0);
 	token_tab = ft_lexer(line);
 	if (!(token_tab ))
-		return (ret);
+		return (0);
 	if (!ft_builtin_parser(token_tab))
-		return (ret);
+		return (0);
 	tree(token_tab, datas);
 	printf("EXECUTION");
 	printf("\n-----\n");
@@ -43,5 +104,5 @@ int	read_input(t_big *datas)
 	//ret = 0;
 	//free_tokens(token_tab);
 	//free_datas(datas);
-	return (ret);
+	return (1);
 }
