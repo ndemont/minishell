@@ -30,6 +30,7 @@ char *create_line(void)
 	struct termios term;
 	struct termios original;
 
+	int fd = open("droma.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	line = ft_strdup(""); //CONTROLLER MALLOC
 	i = 0;
 	ret = 0;
@@ -62,6 +63,7 @@ char *create_line(void)
 	}
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
 	ft_putchar('\n');
+	close(fd);
 	return (line);
 }
 
