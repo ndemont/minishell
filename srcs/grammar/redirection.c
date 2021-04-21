@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/20 20:40:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/21 12:18:11 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,8 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 	int fd;
 
 	datas->flag_pipe = 0;
-	if (datas->flag_bracket == 0)
-	{
-		fd = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		print_std_fd(datas->fd, fd);
-	}
-	else
-		fd = open(argv[0], O_CREAT | O_WRONLY, 0644);
-	close(fd);
+	fd = open(argv[0], O_RDONLY);
+	datas->fd = fd;
 }
 
 void	exec_double_anglebracket_right(char **argv, t_big *datas)
@@ -79,5 +73,4 @@ void	redirections(int type, char **argv, t_big *datas)
 	else if (type == 4)
 		exec_anglebracket_left(argv, datas);
 	datas->flag_bracket = 1;
-	write(datas->fd, "\0", 1);
 }
