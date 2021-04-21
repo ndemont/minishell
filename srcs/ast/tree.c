@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/19 12:16:10 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/21 11:34:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,6 @@ int		ft_count_nodes(t_node **tokens, t_big *datas)
 			if (tokens[i + 1])
 				tokens[i]->right = tokens[i + 1];
 			count++;
-			//printf("type = %d\n", tokens[i]->type);
-			//printf("left = %s\n", tokens[i]->left->arg[0]);
-			//printf("right = %s\n\n", tokens[i]->right->arg[0]);
 		}
 		i++;
 	}
@@ -127,7 +124,17 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 				test->right = tokens[i];
 			}
 		}
-		else if (tokens[i]->type)
+		else if (tokens[i]->type == 4)
+		{
+			if (i == 0)
+			{
+				datas->root = tokens[i];
+				test = tokens[i]->right;
+				datas->root->right = datas->root->left;
+				datas->root->left = test;
+			}
+		}
+		else if (tokens[i]->type == 1)
 		{
 			if (i == 0)
 				datas->root = tokens[i];
