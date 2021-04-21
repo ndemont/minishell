@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/11 11:17:23 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 11:18:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,13 @@ void	exec_binary(char *command, char **argv)
 
 void	execute_tree(t_node *root, int n, t_big *datas, int side)
 {
+	write(1, "tree\n", 5);
 	if (!datas->quit)
 	{
+		printf("n = %d\n", n);
+		printf("r = %p\n", root->right);
+		printf("l = %p\n", root->left);
+		write(1, "kkk\n", 4);
 		if (root->left)
 			execute_tree(root->left, root->type, datas, 1);
 		if (root->right)
@@ -146,7 +151,10 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 		if (n == 0 && root->builtin)
 			exec_built_in(root->builtin, root->arg, datas);
 		if (n == 0 && root->command)
+		{
+			write(1, "cmd\n", 4);
 			exec_piped_cmd(root->command, root->arg, 0, datas);
+		}
 		if (n == 1 && root->command)
 			exec_piped_cmd(root->command, root->arg, 0, datas); //RAjOUTER FD_OUT
 		if (n == 1 && root->builtin)
@@ -179,8 +187,12 @@ void	executions(t_big *datas)
 	i = 0;
 	datas->flag_pipe = 0;
 	datas->fd = dup(STDIN_FILENO);
+	write(1, "avant\n", 6);
 	execute_tree(datas->root, 0, datas, 0);
+	write(1, "apres\n", 6);
 	if (datas->flag_pipe)
 		print_std(datas->fd);
+	//if (datas->flag_bracket)
+	//	ft_putstr_fd(datas->redirection_arg, datas->fd);
 	close(datas->fd);
 }
