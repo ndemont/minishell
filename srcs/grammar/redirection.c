@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 21:31:20 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 21:34:58 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 
 void	exec_anglebracket_left(char **argv, t_big *datas)
 {
-	int		fd;
+	int	fd;
 
 	datas->flag_pipe = 0;
 	fd = open(argv[0], O_RDONLY);
@@ -111,7 +111,11 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 		print_errors("minishellrose: No such file or directory");
 		datas->quit = 1;
 	}
-	datas->fd = fd;
+	if (datas->flag_left_bracket == 0)
+	{
+		datas->fd = fd;
+		datas->flag_left_bracket = 1;
+	}
 }
 
 void	exec_double_anglebracket_right(char **argv, t_big *datas)
