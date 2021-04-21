@@ -6,6 +6,7 @@ void	init_data(t_big *datas)
 	datas->flag_pipe = 0;
 	datas->flag_bracket = 0;
 	datas->env = 0;
+	datas->quit = 0;
 	datas->export = 0;
 	datas->hidden = 0;
 	datas->root = 0;

@@ -52,6 +52,7 @@ typedef struct		s_var
 typedef struct 		s_big
 {
 	int		fd;
+	int		quit;
 	int		flag_pipe;
 	int		flag_bracket;
 	t_list	**env;

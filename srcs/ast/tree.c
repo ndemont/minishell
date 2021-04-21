@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/21 11:34:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/21 13:54:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,15 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 				test = tokens[i]->right;
 				datas->root->right = datas->root->left;
 				datas->root->left = test;
+			}
+			else if (datas->root->type == 2 || datas->root->type == 3)
+			{
+				test = datas->root;
+				while (test->right)
+					test = test->right;
+				tokens[i]->left = tokens[i]->right;
+				tokens[i]->right = 0;
+				test->right = tokens[i];
 			}
 		}
 		else if (tokens[i]->type == 1)
