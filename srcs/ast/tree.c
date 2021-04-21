@@ -6,7 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
+<<<<<<< HEAD:srcs/ast/tree.c
 /*   Updated: 2021/04/21 14:58:36 by ndemont          ###   ########.fr       */
+=======
+/*   Updated: 2021/04/21 11:34:50 by ndemont          ###   ########.fr       */
+>>>>>>> ca7fabab4c2684cde82644e8896a8f81c71ee995:srcs/ast/tree.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +137,7 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 				datas->root->right = datas->root->left;
 				datas->root->left = test;
 			}
+<<<<<<< HEAD:srcs/ast/tree.c
 			else if (datas->root->type == 2 || datas->root->type == 3)
 			{
 				test = datas->root;
@@ -151,6 +156,8 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 				test->left->left = tokens[i]->right;
 				test->left->right = 0;
 			}
+=======
+>>>>>>> ca7fabab4c2684cde82644e8896a8f81c71ee995:srcs/ast/tree.c
 		}
 		else if (tokens[i]->type == 1)
 		{
