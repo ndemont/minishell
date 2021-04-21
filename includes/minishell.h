@@ -55,6 +55,7 @@ typedef struct 		s_big
 	int		quit;
 	int		flag_pipe;
 	int		flag_bracket;
+	int		flag_left_bracket;
 	t_list	**env;
 	t_list	**export;
 	t_list	**hidden;
@@ -109,5 +110,6 @@ char		*get_env(t_big *data, char *var);
 
 int			cmp_list(t_var *lst, t_var *lst2);
 t_var		*fill_tmp(char *str);
+void		init_data(t_big *datas);
 
 #endif

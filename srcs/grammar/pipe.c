@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/21 14:18:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/21 15:07:59 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas)
 
 	datas->flag_pipe = 1;
 	datas->flag_bracket = 0;
+	datas->flag_left_bracket = 0;
 	pipe(fd);
 	pid1 = fork();
 	if (pid1 == 0)
@@ -27,7 +28,7 @@ void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas)
 		close(datas->fd);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		close(fd[0]);
+		//close(fd[0]);
 		if (is_built_in == 1)
 			exec_built_in(command, argv, datas);
 		else
