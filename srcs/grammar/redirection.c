@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 12:54:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 12:55:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 		datas->fd = fd;
 		datas->flag_left_bracket = 1;
 	}
+	close (fd);
 }
 
 void	exec_double_anglebracket_right(char **argv, t_big *datas)
