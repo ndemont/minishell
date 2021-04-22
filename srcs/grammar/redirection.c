@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 11:03:35 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 11:04:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,25 @@ void	exec_anglebracket_right(char **argv, t_big *datas)
 	while (argv[i])
 	{
 		tmp = datas->redirection_arg;
-		datas->redirection_arg = malloc(sizeof(char) * (ft_strlen(tmp) + ft_strlen(argv[i]) + 2));
+		if (tmp)
+			datas->redirection_arg = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + ft_strlen(argv[i]) + 2));
+		else
+			datas->redirection_arg = (char *)malloc(sizeof(char) * (ft_strlen(argv[i]) + 2));
 		j = 0;
-		while (datas->redirection_arg[j] && argv[i][j])
+		while (argv[i][j])
 		{
 			datas->redirection_arg[j] = argv[i][j];
-			j++; 
+			j++;
 		}
-		datas->redirection_arg[j] = ' '; 
-		while (datas->redirection_arg[j] && tmp)
+		datas->redirection_arg[j] = ' ';
+		j++;
+		while (tmp && *tmp)
 		{
 			datas->redirection_arg[j] = *tmp;
 			tmp++;
 			j++; 
 		}
 		datas->redirection_arg[j] = 0;
-		free(tmp);
 		i++;
 	}
 }
@@ -116,13 +119,13 @@ void	exec_double_anglebracket_right(char **argv, t_big *datas)
 		tmp = datas->redirection_arg;
 		datas->redirection_arg = malloc(sizeof(char) * (ft_strlen(tmp) + ft_strlen(argv[i]) + 2));
 		j = 0;
-		while (datas->redirection_arg[j] && argv[i][j])
+		while (argv[i][j])
 		{
 			datas->redirection_arg[j] = argv[i][j];
 			j++; 
 		}
 		datas->redirection_arg[j] = ' '; 
-		while (datas->redirection_arg[j] && tmp)
+		while (*tmp)
 		{
 			datas->redirection_arg[j] = *tmp;
 			tmp++;
