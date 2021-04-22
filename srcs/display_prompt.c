@@ -23,14 +23,14 @@ int	display_prompt(void)
 char *create_line(void)
 {
 	int ret;
-	char buf[1];
+	char buf[4];
 	char *line;
-	char *tmp;
 	int i;
+	int j;
+	int	non_print_flag;
 	struct termios term;
 	struct termios original;
 
-//	int fd = open("droma.txt", O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0644); //CA DEGAGE
 	line = ft_strdup(""); //CONTROLLER MALLOC
 	i = 0;
 	ret = 0;
@@ -38,34 +38,63 @@ char *create_line(void)
 	term = original;
 	term.c_lflag &= ~(ECHO | ICANON);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
+	int fd = open("droma.txt", O_APPEND | O_TRUNC | O_WRONLY | O_CREAT, 0644);
 	while (line[i] != '\n')
 	{
-		if ((ret = read(STDIN_FILENO, buf, 1)) < 0)
+		non_print_flag = 0;
+		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
-	//	printf("buf = [%s]\n", buf);
+		ft_putnbr(ft_strlen(buf));
 		if (ret == 0)
 			break ;
-		tmp = line;
-		line = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + 2));
-		strcpy(line, tmp); //ATTENTION, METTRE VRAIE FONCTION FT_STRCPY
-		free(tmp);
-		if (buf[0] != '\n')
-		{	
-			line[i] = buf[0];
-			line[i + 1] = '\0';
+		j = 0;
+		while (buf[j])
+		{
+			if ((int)buf[j] == 10)
+				break;
+			else if (((int)buf[j] >= 0 && (int)buf[j] <= 31) || (int)buf[j] == 127)
+				non_print_flag = 1;
+			j++;
+		}
+		if (non_print_flag)
+		{
+			j = 0;
+			while (buf[j])
+			{
+				printf("[%d] ", (int)buf[j]);
+				j++;
+			}
+			printf(" | ");
+			//ft_putstr("here");
+			/* 		j = 0;
+			while (buf[j])
+			{
+				dprintf(fd, "[%d] ", (int)buf[j]);
+				j++;
+			}
+			dprintf(fd, " | "); */
 		}
 		else
 		{
-			line[i] = 0;
-			break ;
+			line = ft_realloc(line, ft_strlen(line) + 1 + 1);
+			ft_strlcat(line, buf, ft_strlen(line) + 2);
+			if (buf[0] != '\n')
+			{	
+				line[i] = buf[0];
+				line[i + 1] = 0;
+			}
+			else
+			{
+				line[i] = 0;
+				break ;
+			}
+			write(STDIN_FILENO, &line[i], 1);	
+			i++;
 		}
-	//	write(fd, buf, 4); // CA DEGAGE
-		write(STDIN_FILENO, &line[i], 1);	
-		i++;
 	}
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
-	ft_putchar('\n');
-	//close(fd);
+ 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
+ 	ft_putchar('\n');
+	 			close(fd);
 	return (line);
 }
 
