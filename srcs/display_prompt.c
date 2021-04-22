@@ -34,17 +34,16 @@ char *create_line(void)
 	line = ft_strdup(""); //CONTROLLER MALLOC
 	i = 0;
 	ret = 0;
+	buf[3] = 0;
 	tcgetattr(STDIN_FILENO, &original);
 	term = original;
 	term.c_lflag &= ~(ECHO | ICANON);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
-	int fd = open("droma.txt", O_APPEND | O_TRUNC | O_WRONLY | O_CREAT, 0644);
 	while (line[i] != '\n')
 	{
 		non_print_flag = 0;
 		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
-		ft_putnbr(ft_strlen(buf));
 		if (ret == 0)
 			break ;
 		j = 0;
@@ -57,23 +56,7 @@ char *create_line(void)
 			j++;
 		}
 		if (non_print_flag)
-		{
-			j = 0;
-			while (buf[j])
-			{
-				printf("[%d] ", (int)buf[j]);
-				j++;
-			}
-			printf(" | ");
-			//ft_putstr("here");
-			/* 		j = 0;
-			while (buf[j])
-			{
-				dprintf(fd, "[%d] ", (int)buf[j]);
-				j++;
-			}
-			dprintf(fd, " | "); */
-		}
+			non_print_flag = 1;
 		else
 		{
 			line = ft_realloc(line, ft_strlen(line) + 1 + 1);
@@ -94,7 +77,6 @@ char *create_line(void)
 	}
  	tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
  	ft_putchar('\n');
-	 			close(fd);
 	return (line);
 }
 
