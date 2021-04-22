@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/14 16:00:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/22 14:34:54 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,29 @@ int		ft_is_quote(char *input, int i)
 	return (0);
 }
 
+int		ft_check_char(int *i, int *j, char *input)
+{
+	while (input[*i] && !ft_is_grammar(input, *i) && \
+		!ft_is_quote(input, *i) && input[*i] != '\\')
+		*i = *i + 1;
+	if (input[*i] == '\\' && input[*i + 1])
+		*i = *i + 2;
+	else if (input[*i] == '\\' && !input[*i + 1])
+		return (-1);
+	else if (ft_is_grammar(input, *i) > 0)
+	{
+		if (ft_is_grammar(input, *i) == 2)
+			*i = *i + 1;
+		*i = *i + 1;
+		*j = *j + 1;
+	}
+	else if (ft_is_quote(input, *i) > 0)
+		*i = ft_is_quote(input, *i);
+	else if (ft_is_quote(input, *i) < 0 && ft_is_grammar(input, *i) < 0)
+		return (0);
+	return (1);
+}
+
 int		ft_count_tokens(char *input)
 {
 	int i;
@@ -68,22 +91,7 @@ int		ft_count_tokens(char *input)
 	j = 0;
 	while (input[i])
 	{
-		while (input[i] && !ft_is_grammar(input, i) && !ft_is_quote(input, i) && input[i] != '\\')
-			i++;
-		if (input[i] == '\\' && input[i + 1])
-			i += 2;
-		else if (input[i] == '\\' && !input[i + 1])
-			return (-1);
-		else if (ft_is_grammar(input, i) > 0)
-		{
-			if (ft_is_grammar(input, i) == 2)
-				i++;
-			i++;
-			j++;
-		}
-		else if (ft_is_quote(input, i) > 0)
-			i = ft_is_quote(input, i);
-		else if (ft_is_quote(input, i) < 0 && ft_is_grammar(input, i) < 0)
+		if (!ft_check_char(&i, &j, input))
 			return (-1);
 	}
 	if (!i)
