@@ -112,5 +112,6 @@ char		*get_env(t_big *data, char *var);
 int			cmp_list(t_var *lst, t_var *lst2);
 t_var		*fill_tmp(char *str);
 void		init_data(t_big *datas);
+void		actualize_data(t_big *datas);
 
 #endif
