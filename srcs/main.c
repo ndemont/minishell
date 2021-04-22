@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void	actualize_data(t_big *datas)
+{
+	datas->fd = -1;
+	datas->flag_pipe = 0;
+	datas->flag_bracket = 0;
+	datas->flag_left_bracket = 0;
+	datas->quit = 0;
+	datas->root = 0;
+}
+
 void	init_data(t_big *datas)
 {
 	datas->fd = -1;

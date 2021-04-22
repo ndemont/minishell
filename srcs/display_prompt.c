@@ -30,7 +30,7 @@ char *create_line(void)
 	struct termios term;
 	struct termios original;
 
-	int fd = open("droma.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+//	int fd = open("droma.txt", O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0644); //CA DEGAGE
 	line = ft_strdup(""); //CONTROLLER MALLOC
 	i = 0;
 	ret = 0;
@@ -42,6 +42,7 @@ char *create_line(void)
 	{
 		if ((ret = read(STDIN_FILENO, buf, 1)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
+	//	printf("buf = [%s]\n", buf);
 		if (ret == 0)
 			break ;
 		tmp = line;
@@ -58,12 +59,13 @@ char *create_line(void)
 			line[i] = 0;
 			break ;
 		}
+	//	write(fd, buf, 4); // CA DEGAGE
 		write(STDIN_FILENO, &line[i], 1);	
 		i++;
 	}
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
 	ft_putchar('\n');
-	close(fd);
+	//close(fd);
 	return (line);
 }
 
@@ -73,7 +75,7 @@ int	read_input(t_big *datas)
 	char	*line;
 	t_node	**token_tab;
 
-	init_data(datas);
+	actualize_data(datas);
 	line = NULL;
 	datas->quit = 0;
 	display_prompt();
