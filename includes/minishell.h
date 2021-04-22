@@ -56,6 +56,7 @@ typedef struct 		s_big
 	int		flag_pipe;
 	int		flag_bracket;
 	int		flag_left_bracket;
+	char	*redirection_arg;
 	t_list	**env;
 	t_list	**export;
 	t_list	**hidden;

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/15 14:56:40 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/22 11:38:08 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_node	*ft_new_node(char *input, int *i)
 	t_node	*new_node;
 
 	new_node = 0;
-	printf("input initial [%i] = [%c]\n", *i, input[*i]);
 	while (input[*i] && input[*i] == ' ' && input[*i] == '\t')
 		*i = *i + 1;
 	if ((type = ft_is_grammar(input, *i)))

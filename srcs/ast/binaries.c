@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/21 15:31:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/22 12:10:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,7 @@ void	executions(t_big *datas)
 	execute_tree(datas->root, 0, datas, 0);
 	if (datas->flag_pipe)
 		print_std(datas->fd);
+	if (datas->flag_bracket)
+		ft_putstr_fd(datas->redirection_arg, datas->fd);
 	close(datas->fd);
 }
