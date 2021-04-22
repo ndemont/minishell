@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 21:39:31 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 21:41:51 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	exec_piped_cmd(char *command, char **av, int is_built_in, t_big *datas)
 	int		fd[2];
 	pid_t	pid1;
 
-	write(1, "0\n", 2);
 	datas->flag_pipe = 1;
 	if (datas->flag_bracket)
 		ft_putstr_fd(datas->redirection_arg, datas->fd);
