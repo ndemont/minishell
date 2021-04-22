@@ -48,6 +48,7 @@ int		main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	termcaps_init();
 	init_data(&datas);
 	init_history(&datas);
 	store_env(env, &datas);
