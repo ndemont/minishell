@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 11:38:08 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/22 14:18:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	*ft_new_grammar_node(int type)
+t_node	*ft_init_grammar_node(int type)
 {
 	t_node *new;
 
@@ -30,7 +30,7 @@ t_node	*ft_new_grammar_node(int type)
 	return (new);
 }
 
-t_node	*ft_new_buildin_node(char *input, int type)
+t_node	*ft_init_buildin_node(char *input, int type)
 {
 	t_node *new;
 
@@ -49,18 +49,48 @@ t_node	*ft_new_buildin_node(char *input, int type)
 	return (new);
 }
 
-t_node	*ft_new_node(char *input, int *i)
+t_node	*ft_new_builtin_node(int *i, char *input)
 {
 	int		j;
-	int		type;
 	t_node	*new_node;
 
 	new_node = 0;
+	j = *i;
+	while (input[*i] && ft_is_grammar(input, *i) <= 0)
+	{
+		if (input[*i] == '\\' && input[*i + 1])
+			*i = *i + 1;
+		else if (input[*i] == '\'')
+		{
+			*i = *i + 1;
+			while (input[*i] && input[*i] != '\'')
+				*i = *i + 1;
+		}
+		else if (input[*i] == '"')
+		{
+			*i = *i + 1;
+			while (input[*i] && input[*i] != '"')
+				*i = *i + 1;
+		}
+		*i = *i + 1;
+	}
+	new_node = ft_init_buildin_node(ft_substr(input, j, (*i - j)), 0);
+	return (new_node);
+}
+
+t_node	*ft_new_node(char *input, int *i)
+{
+	int		type;
+	int		j;
+	t_node	*new_node;
+
+	new_node = 0;
+	(void)j;
 	while (input[*i] && input[*i] == ' ' && input[*i] == '\t')
 		*i = *i + 1;
 	if ((type = ft_is_grammar(input, *i)))
 	{
-		new_node = ft_new_grammar_node(type);
+		new_node = ft_init_grammar_node(type);
 		if (!new_node)
 			print_errors(strerror(errno));
 		*i = *i + 1;
@@ -69,26 +99,7 @@ t_node	*ft_new_node(char *input, int *i)
 	}
 	else
 	{
-		j = *i;
-		while (input[*i] && ft_is_grammar(input, *i) <= 0)
-		{
-			if (input[*i] == '\\' && input[*i + 1])
-				*i = *i + 1;
-			else if (input[*i] == '\'')
-			{
-				*i = *i + 1;
-				while (input[*i] && input[*i] != '\'')
-					*i = *i + 1;
-			}
-			else if (input[*i] == '"')
-			{
-				*i = *i + 1;
-				while (input[*i] && input[*i] != '"')
-					*i = *i + 1;
-			}
-			*i = *i + 1;
-		}
-		new_node = ft_new_buildin_node(ft_substr(input, j, (*i - j)), 0);
+		new_node = ft_new_builtin_node(i, input);
 		if (!new_node)
 			print_errors(strerror(errno));
 	}
@@ -118,7 +129,8 @@ t_node	**ft_create_nodes(char *input, int nb)
 			return (0);
 		j++;
 	}
-	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0] && nodes[j - 2]->type < 5)
+	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0] && \
+		nodes[j - 2]->type < 5)
 		return (print_errors("minishellrose: missing command at end of line"));
 	return (nodes);
 }

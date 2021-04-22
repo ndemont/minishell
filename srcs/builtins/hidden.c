@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   hidden.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpetit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:36:01 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/15 14:36:10 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/22 13:55:54 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **ft_split_on_equal(char *str)
+char	**ft_split_on_equal(char *str)
 {
-	int i;
-	char **arg;
+	int		i;
+	char	**arg;
 
 	i = 0;
 	arg = (char **)malloc(sizeof(char *) * 3);
@@ -31,8 +31,8 @@ char **ft_split_on_equal(char *str)
 
 void	add_to_list(char *line, t_list **list)
 {
-	t_list *new;
-	t_var *content;
+	t_list	*new;
+	t_var	*content;
 
 	content = fill_tmp(line);
 	new = ft_lstnew(content);
@@ -41,8 +41,8 @@ void	add_to_list(char *line, t_list **list)
 
 void	actualize_list(char *line, t_list *list)
 {
-	t_list *tmp;
-	char **str;
+	t_list	*tmp;
+	char	**str;
 
 	tmp = list;
 	str = ft_split_on_equal(line);
