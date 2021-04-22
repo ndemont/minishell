@@ -49,7 +49,7 @@ char *create_line(void)
 		j = 0;
 		while (buf[j])
 		{
-			if ((int)buf[j] == 10)
+			if ((int)buf[j] == 10) //VERIFIER QU'AUCUN AUTRE COMMANDE NE POSSEDE \n dans son pattern
 				break;
 			else if (((int)buf[j] >= 0 && (int)buf[j] <= 31) || (int)buf[j] == 127)
 				non_print_flag = 1;

@@ -31,6 +31,12 @@
 
 # define CLEAR "\e[H\e[2J"
 
+typedef struct		s_caps
+{
+	int	c_max;
+	int l_max;
+}					t_caps;
+
 typedef struct		s_node
 {
 	int				type;
@@ -72,6 +78,8 @@ typedef struct 		s_big
 	t_node		*root;
 }					t_big;
 
+t_caps				tcaps;
+
 //ENV
 int			ft_env(t_big *datas);
 void		store_env(char **env, t_big *datas);
@@ -104,15 +112,15 @@ int			ft_count_tokens(char *input);
 int			ft_is_grammar(char *str, int i);
 
 //TREE
-void	exec_built_in(char *command, char **argv, t_big *datas);
-void	exec_binary(char *command, char **argv);
-void	print_std(int fd);
+void		exec_built_in(char *command, char **argv, t_big *datas);
+void		exec_binary(char *command, char **argv);
+void		print_std(int fd);
 
 //GRAMMAR
-void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas);
-void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
-void	redirections(int type, char **argv, t_big *datas);
-void	exec_anglebracket_right(char **argv, t_big *datas);
+void		exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+void		exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+void		redirections(int type, char **argv, t_big *datas);
+void		exec_anglebracket_right(char **argv, t_big *datas);
 
 //BUILTINS
 int			ft_echo(char **arg, t_big *datas);
@@ -127,5 +135,8 @@ int			cmp_list(t_var *lst, t_var *lst2);
 t_var		*fill_tmp(char *str);
 void		init_data(t_big *datas);
 void		actualize_data(t_big *datas);
+
+//TERMCAPS
+void		termcaps_init(void);
 
 #endif
