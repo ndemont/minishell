@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:50:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/12 16:23:56 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/22 11:31:38 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void				ft_putnbr(long nb);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putstr(char *s);
 void				ft_putstr_fd(char *s, int fd);
+void				*ft_realloc(void *ptr, size_t size);
 char				**ft_split(char const *s, char c);
 char				**ft_splits(char *str, char *charset);
 int					ft_strchr(const char *s, int c);
