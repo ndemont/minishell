@@ -6,16 +6,16 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 12:10:22 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/22 14:59:20 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas)
+void	exec_piped_cmd(char *command, char **av, int is_built_in, t_big *datas)
 {
-	int fd[2];
-	pid_t pid1;
+	int		fd[2];
+	pid_t	pid1;
 
 	datas->flag_pipe = 1;
 	if (datas->flag_bracket)
@@ -30,12 +30,11 @@ void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas)
 		close(datas->fd);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		//close(fd[0]);
 		if (is_built_in == 1)
-			exec_built_in(command, argv, datas);
+			exec_built_in(command, av, datas);
 		else
-			exec_binary(command, argv);
-		exit(0);  //permet de fermer execve dans le fork après l'avoir RUN
+			exec_binary(command, av);
+		exit(0);
 	}
 	waitpid(pid1, NULL, 0);
 	dup2(fd[0], datas->fd);
