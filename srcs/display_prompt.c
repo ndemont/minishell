@@ -20,7 +20,7 @@ int	display_prompt(void)
 	return (1);
 }
 
-char *create_line(void)
+char *create_line(t_big *datas)
 {
 	int ret;
 	char buf[4];
@@ -55,9 +55,9 @@ char *create_line(void)
 		if (non_print_flag)
 		{
 			//UTILE POUR CONTROLER SANS POURRIR OUTPUT
-			//DEVELOPPMENT_MODE_print_sequence(buf);
+			DEVELOPPMENT_MODE_print_sequence(buf);
 			//
-			do_the_right_thing(&i, buf, &line);
+			do_the_right_thing(&i, buf, &line, datas);
 		}
 		else
 		{
@@ -93,7 +93,7 @@ int	read_input(t_big *datas)
 	datas->quit = 0;
 	display_prompt();
 	token_tab = 0;
-	line = create_line();
+	line = create_line(datas);
 	if (!line)
 		return (0);
 	token_tab = ft_lexer(line);

@@ -99,7 +99,7 @@ void		add_to_list(char *line, t_list **lst);
 //HISTORY
 void		init_history(t_big *datas);
 void		update_history_file(t_big *datas);
-void		browse_history(t_big *datas, char *line, int signal);
+void		browse_history(t_big *datas, char **line, int signal);
 
 //FREE
 void		free_datas(t_big *datas);
@@ -148,7 +148,7 @@ void		termcaps_init(void);
 void		raw_mode(void);
 void		normal_mode(void);
 void		cursor_position(void);
-void		do_the_right_thing(int *i, char *buf, char **line);
+void		do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
 
 
 //DEVELOPPEMENT MODE
