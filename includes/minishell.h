@@ -78,6 +78,8 @@ typedef struct 		s_big
 	t_node		*root;
 }					t_big;
 
+
+//DECLARE OF A GLOBAL STRUCT, MANDATORY FOR TERMCAPS MANAGMENT 
 t_caps				tcaps;
 
 //ENV
