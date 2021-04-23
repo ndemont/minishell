@@ -49,18 +49,27 @@ typedef struct		s_var
 	char *value;
 }					t_var;
 
+typedef struct			s_history
+{
+	int					status;
+	char				*command;
+	struct s_history	*prev;
+	struct s_history	*next;
+}						t_history;
+
 typedef struct 		s_big
 {
-	int		fd;
-	int		quit;
-	int		flag_pipe;
-	int		flag_bracket;
-	int		flag_left_bracket;
-	char	*redirection_arg;
-	t_list	**env;
-	t_list	**export;
-	t_list	**hidden;
-	t_node	*root;
+	int			fd;
+	int			quit;
+	int			flag_pipe;
+	int			flag_bracket;
+	int			flag_left_bracket;
+	char		*redirection_arg;
+	t_list		**env;
+	t_list		**export;
+	t_list		**hidden;
+	t_history	**history;
+	t_node		*root;
 }					t_big;
 
 //ENV
@@ -71,6 +80,9 @@ int			check_duplicate(t_list *list, char *ref);
 void		actualize_list(char *line, t_list *lst);
 char 		**ft_split_on_equal(char *str);
 void		add_to_list(char *line, t_list **lst);
+
+//HISTORY
+void		init_history(t_big *datas);
 
 //FREE
 void		free_datas(t_big *datas);
