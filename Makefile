@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 
 IFLAGS = -I${INC_DIR}
 
-LIBFT = -Llibft -lft
+LIBFT = -Llibft -lft -ltermcap
 
 SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c \
 	lexer/nodes.c lexer/tokens.c free/free.c ast/binaries.c ast/tree.c \
