@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:15:32 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 11:45:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 20:00:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		init_history(t_big *datas)
 	char		*line;
 
 	create_history(datas);
-	fd = open(".minishell_history", O_CREAT | O_WRONLY | O_APPEND, 0644);
+	fd = open(".minishell_history", O_CREAT | O_RDWR | O_APPEND, 0644);
 	ret = get_next_line(fd, &line);
 	while (ret > 0)
 	{
