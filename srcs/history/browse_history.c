@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:09:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 14:28:03 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 14:31:59 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,7 @@ void		browse_history(t_big *datas, char *line, int signal)
 			current = browse_up_history(current, line, browse);
 		if (signal == 0)
 			current = browse_down_history(current, line, browse);
+		//delete line
+		write(1, browse, ft_strlen(browse));
 	}
 }
