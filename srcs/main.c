@@ -35,6 +35,11 @@ void	init_data(t_big *datas)
 	datas->history = 0;
 	datas->quit = 0;
 	datas->root = 0;
+	tcaps.c_max = 0;
+	tcaps.l_max = 0;
+	tcaps.c_pos = 0;
+	tcaps.l_pos = 0;
+	tcaps.c_start = 18;
 }
 
 void	sigint_handler(int sig)
