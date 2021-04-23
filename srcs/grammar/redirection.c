@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 15:07:05 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 10:53:48 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,6 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 void	exec_double_anglebracket_right(char **argv, t_big *datas)
 {
 	int		fd;
-	char	*tmp;
-	int		i;
-	int		j;
 
 	datas->flag_pipe = 0;
 	fd = open(argv[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
