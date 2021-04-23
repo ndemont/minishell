@@ -57,7 +57,7 @@ char *create_line(void)
 			//UTILE POUR CONTROLER SANS POURRIR OUTPUT
 			//DEVELOPPMENT_MODE_print_sequence(buf);
 			//
-			non_print_flag = 1;
+			do_the_right_thing(&i, buf, &line);
 		}
 		else
 		{

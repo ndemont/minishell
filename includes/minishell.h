@@ -39,6 +39,7 @@ typedef struct		s_caps
 	int l_max;
 	int c_pos;
 	int l_pos;
+	int c_start;
 }					t_caps;
 
 typedef struct		s_node
@@ -147,6 +148,8 @@ void		termcaps_init(void);
 void		raw_mode(void);
 void		normal_mode(void);
 void		cursor_position(void);
+void		do_the_right_thing(int *i, char *buf, char **line);
+
 
 //DEVELOPPEMENT MODE
 void		DEVELOPPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH

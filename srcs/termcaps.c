@@ -75,3 +75,34 @@ void	cursor_position(void)
 	dprintf(fd, "\n");
 	close(fd); */
 }
+
+int		ft_putchar2(int c)
+{
+	return (write(STDOUT_FILENO, &c, 1));
+}
+
+void	backspace(int *i, char **line)
+{
+	char *oldline;
+	char *cm_cap;
+	char *dc_cap;
+
+	oldline = *line;
+	if (*i > 0)
+		*i -= 1;
+	*line = ft_substr(oldline, 0, *i);
+	free(oldline);
+	cm_cap = tgetstr("cm", NULL);
+	if (tcaps.c_pos - 1 >= tcaps.c_start)
+	{
+		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
+		dc_cap = tgetstr("dc", NULL);
+		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
+	}
+}
+
+void	do_the_right_thing(int *i, char *buf, char **line)
+{
+	if(buf[0] == 127)
+		backspace(i, line);
+}
