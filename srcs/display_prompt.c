@@ -54,7 +54,9 @@ char *create_line(void)
 		}
 		if (non_print_flag)
 		{
-			DEVELOPPMENT_MODE_print_sequence(buf);
+			//UTILE POUR CONTROLER SANS POURRIR OUTPUT
+			//DEVELOPPMENT_MODE_print_sequence(buf);
+			//
 			non_print_flag = 1;
 		}
 		else

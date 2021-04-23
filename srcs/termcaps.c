@@ -60,14 +60,16 @@ void	cursor_position(void)
 	i = 0;
 	while(i < 100 && !ft_isdigit(buf[i]))
 		i++;
-	tcaps.l_pos = ft_atoi(buf + i);
+	tcaps.l_pos = ft_atoi(buf + i) - 1;
 	while(i < 100 && ft_isdigit(buf[i]))
 		i++;
 	while(i < 100 && !ft_isdigit(buf[i]))
 		i++;
-	tcaps.c_pos = ft_atoi(buf + i);
-	//printf("%s", buf);
+	tcaps.c_pos = ft_atoi(buf + i) - 1;
+
+	//UtiLE POUR CONTROLER SANS POURRIR LE STDOUT
 	/* int fd = open("CURSOR_POS", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	dprintf(fd, "%s", buf);
 	dprintf(fd, "C_POS = [%i]\n", tcaps.c_pos);
 	dprintf(fd, "L_POS = [%i]\n", tcaps.l_pos);
 	dprintf(fd, "\n");
