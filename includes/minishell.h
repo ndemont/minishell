@@ -33,6 +33,8 @@
 
 typedef struct		s_caps
 {
+	struct termios term;
+	struct termios save;
 	int	c_max;
 	int l_max;
 }					t_caps;
@@ -140,5 +142,7 @@ void		actualize_data(t_big *datas);
 
 //TERMCAPS
 void		termcaps_init(void);
+void		raw_mode(void);
+void		normal_mode(void);
 
 #endif

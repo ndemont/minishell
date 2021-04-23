@@ -28,17 +28,12 @@ char *create_line(void)
 	int i;
 	int j;
 	int	non_print_flag;
-	struct termios term;
-	struct termios original;
 
 	line = ft_strdup(""); //CONTROLLER MALLOC
 	i = 0;
 	ret = 0;
 	buf[3] = 0;
-	tcgetattr(STDIN_FILENO, &original);
-	term = original;
-	term.c_lflag &= ~(ECHO | ICANON);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
+	raw_mode();
 	while (line[i] != '\n')
 	{
 		non_print_flag = 0;
@@ -75,7 +70,7 @@ char *create_line(void)
 			i++;
 		}
 	}
- 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
+	normal_mode();
  	ft_putchar('\n');
 	return (line);
 }
