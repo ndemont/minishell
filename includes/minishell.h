@@ -98,8 +98,10 @@ void		add_to_list(char *line, t_list **lst);
 
 //HISTORY
 void		init_history(t_big *datas);
-void		update_history_file(t_big *datas);
+void		save_history(char *line, t_big *datas);
 void		browse_history(t_big *datas, char **line, int signal);
+void		update_history_list(t_history **begin, char *line, int status);
+void		update_history_file(t_big *datas);
 
 //FREE
 void		free_datas(t_big *datas);

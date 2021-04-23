@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:09:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 16:31:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 20:17:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_history	*browse_up_history(t_history *current, char *line, char *browse)
 	if (!line)
 	{
 		browse = current->command;
+		write(1, browse, ft_strlen(browse));
 		current = current->next;
 		return (current);
 	}
@@ -73,12 +74,13 @@ void	browse_history(t_big *datas, char **line, int signal)
 	static t_history	*current;
 
 	browse = 0;
-	if (!begin)
-		current = *datas->history;
+	if (datas->history)
+		if (*datas->history)
+			current = *datas->history;
 	if (signal == 1)
 		current = browse_up_history(current, *line, browse);
 	if (signal == 0)
 		current = browse_down_history(current, *line, browse);
 	begin++;
-	*line = browse;
+	//*line = browse;
 }
