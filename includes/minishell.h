@@ -35,6 +35,7 @@ typedef struct		s_caps
 {
 	struct termios term;
 	struct termios save;
+	int	l_prompt;
 	int	c_max;
 	int l_max;
 	int c_pos;
@@ -151,7 +152,6 @@ void		raw_mode(void);
 void		normal_mode(void);
 void		cursor_position(void);
 void		do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
-
 
 //DEVELOPPEMENT MODE
 void		DEVELOPPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
