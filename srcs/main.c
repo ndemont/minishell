@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 10:21:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 11:30:09 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ int		main(int ac, char **av, char **env)
 	store_env(env, &datas);
 	signal(SIGINT, &sigint_handler);
 	while (read_input(&datas));
+	update_history_file(&datas);
 	return (0);
 }
