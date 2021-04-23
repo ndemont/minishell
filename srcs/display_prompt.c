@@ -17,6 +17,10 @@ int	display_prompt(void)
 	write(STDOUT_FILENO, PURPLE, 7);
 	write(STDOUT_FILENO, "minishellrose-v1$ ", 18);
    	write(STDOUT_FILENO, RESET, 6);
+	raw_mode();
+	cursor_position();
+	tcaps.l_prompt = tcaps.l_pos;
+	normal_mode();
 	return (1);
 }
 
@@ -55,7 +59,7 @@ char *create_line(t_big *datas)
 		if (non_print_flag)
 		{
 			//UTILE POUR CONTROLER SANS POURRIR OUTPUT
-			DEVELOPPMENT_MODE_print_sequence(buf);
+			//DEVELOPPMENT_MODE_print_sequence(buf);
 			//
 			do_the_right_thing(&i, buf, &line, datas);
 		}

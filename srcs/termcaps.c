@@ -53,8 +53,6 @@ void	cursor_position(void)
 
 	tcaps.c_max = tgetnum("co");
 	tcaps.l_max = tgetnum("li");
-	//printf("C_MAX = [%i]\n", tcaps.c_max);
-	//printf("L_MAX = [%i]\n", tcaps.l_max);
 	write(1, "\033[6n", 4);
 	read(1, buf, 100);
 	i = 0;
@@ -66,14 +64,6 @@ void	cursor_position(void)
 	while(i < 100 && !ft_isdigit(buf[i]))
 		i++;
 	tcaps.c_pos = ft_atoi(buf + i) - 1;
-
-	//UtiLE POUR CONTROLER SANS POURRIR LE STDOUT
-	/* int fd = open("CURSOR_POS", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	dprintf(fd, "%s", buf);
-	dprintf(fd, "C_POS = [%i]\n", tcaps.c_pos);
-	dprintf(fd, "L_POS = [%i]\n", tcaps.l_pos);
-	dprintf(fd, "\n");
-	close(fd); */
 }
 
 int		ft_putchar2(int c)
@@ -93,12 +83,23 @@ void	backspace(int *i, char **line)
 	*line = ft_substr(oldline, 0, *i);
 	free(oldline);
 	cm_cap = tgetstr("cm", NULL);
-	if (tcaps.c_pos - 1 >= tcaps.c_start)
+	/* int fd = open("backspace_output", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	dprintf(fd, "prompt line = [%i]\ncolumn max = [%i]\n, line max = [%i]\n, column position = [%i]\n, line position = [%i]\n", tcaps.l_prompt, tcaps.c_max, tcaps.l_max, tcaps.c_pos, tcaps.l_pos);
+	dprintf(fd, "<+++++++++++++++++++++++++++++++++++>\n");
+	close(fd); */
+	if ((tcaps.c_pos - 1 >= tcaps.c_start && tcaps.l_pos == tcaps.l_prompt) || ((tcaps.c_pos - 1 >= 0) && tcaps.l_pos > tcaps.l_prompt))
 	{
 		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
 		dc_cap = tgetstr("dc", NULL);
 		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
 	}
+	else if (tcaps.c_pos == 0 && tcaps.l_pos > tcaps.l_prompt)
+	{
+		tputs(tgoto(cm_cap, tcaps.c_max, tcaps.l_pos - 1), STDIN_FILENO, ft_putchar2);
+		dc_cap = tgetstr("dc", NULL);
+		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
+	}
+	
 }
 
 void	history_older(int *i, char **line, t_big *datas)
@@ -107,12 +108,13 @@ void	history_older(int *i, char **line, t_big *datas)
 	char *cm_cap;
 	(void)i;
 	(void)line;
+	(void)datas;
 
 	cm_cap = tgetstr("cm", NULL);
 	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
 	ce_cap = tgetstr("ce", NULL);
 	tputs(ce_cap, STDIN_FILENO, ft_putchar2);
-	browse_history(datas, line, 1);
+	//browse_history(datas, line, 1);
 }
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
