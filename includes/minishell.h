@@ -37,6 +37,8 @@ typedef struct		s_caps
 	struct termios save;
 	int	c_max;
 	int l_max;
+	int c_pos;
+	int l_pos;
 }					t_caps;
 
 typedef struct		s_node

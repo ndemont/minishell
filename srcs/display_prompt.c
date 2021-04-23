@@ -33,10 +33,11 @@ char *create_line(void)
 	i = 0;
 	ret = 0;
 	buf[3] = 0;
+	//cursor_position(); //UNDER RAW_MODE_FCT, IT CANNOT BE PRINTED
 	raw_mode();
-	cursor_position(); //UNDER RAW_MODE_FCT, IT CANNOT BE PRINTED
 	while (line[i] != '\n')
 	{
+		cursor_position(); //UNDER RAW_MODE_FCT, IT CANNOT BE PRINTED
 		non_print_flag = 0;
 		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
