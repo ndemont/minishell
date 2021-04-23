@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:09:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 14:34:32 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 16:31:26 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ t_history	*browse_up_history(t_history *current, char *line, char *browse)
 		{
 			current = list->next;
 			browse = list->command;
-			break ;
+			return (current);
 		}
 	}
-	return (current);
+	return (0);
 }
 
 t_history	*browse_down_history(t_history *current, char *line, char *browse)
@@ -60,26 +60,25 @@ t_history	*browse_down_history(t_history *current, char *line, char *browse)
 		{
 			current = list->prev;
 			browse = list->command;
-			break ;
+			return (current);
 		}
 	}
-	return (current);
+	return (0);
 }
 
-void		browse_history(t_big *datas, char *line, int signal)
+void	browse_history(t_big *datas, char **line, int signal)
 {
-	char		*browse;
-	t_history	*current;
+	char				*browse;
+	static int			begin = 0;
+	static t_history	*current;
 
 	browse = 0;
-	current = *datas->history;
-	while (signal >= 0)
-	{
-		if (signal == 1)
-			current = browse_up_history(current, line, browse);
-		if (signal == 0)
-			current = browse_down_history(current, line, browse);
-		//delete line
-		write(1, browse, ft_strlen(browse));
-	}
+	if (!begin)
+		current = *datas->history;
+	if (signal == 1)
+		current = browse_up_history(current, *line, browse);
+	if (signal == 0)
+		current = browse_down_history(current, *line, browse);
+	begin++;
+	*line = browse;
 }
