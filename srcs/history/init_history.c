@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:15:32 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 20:00:19 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 21:04:06 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_history	*new_history_elem(char *command, int status)
 	t_history *new;
 
 	new = (t_history *)malloc(sizeof(t_history));
-	new->command = command;
+	new->command = ft_strdup(command);
 	new->status = status;
 	new->prev = 0;
 	new->next = 0;
@@ -26,12 +26,15 @@ t_history	*new_history_elem(char *command, int status)
 
 void		history_add_front(t_history **begin, t_history *new)
 {
-	new->next = *begin;
-	(*begin)->prev = new;
+	t_history *tmp;
+
+	tmp = *begin;
+	tmp->prev = new;
+	new->next = tmp;
 	*begin = new;
 }
 
-void		update_history(t_history **begin, char *line, int status)
+void		update_history_list(t_history **begin, char *line, int status)
 {
 	t_history	*new;
 
@@ -60,7 +63,7 @@ void		init_history(t_big *datas)
 	ret = get_next_line(fd, &line);
 	while (ret > 0)
 	{
-		update_history(datas->history, line, 0);
+		update_history_list(datas->history, line, 0);
 		ret = get_next_line(fd, &line);
 	}
 	close(fd);
