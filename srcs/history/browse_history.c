@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:09:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 14:31:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 14:34:32 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_history	*browse_up_history(t_history *current, char *line, char *browse)
 			list = list->next;
 		else
 		{
-			current = list;
+			current = list->next;
 			browse = list->command;
 			break ;
 		}
@@ -58,7 +58,7 @@ t_history	*browse_down_history(t_history *current, char *line, char *browse)
 			list = list->prev;
 		else
 		{
-			current = list;
+			current = list->prev;
 			browse = list->command;
 			break ;
 		}
