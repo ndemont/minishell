@@ -49,11 +49,27 @@ void	termcaps_init(void)
 void	cursor_position(void)
 {
 	char buf[100];
+	int i;
+
 	tcaps.c_max = tgetnum("co");
 	tcaps.l_max = tgetnum("li");
 	//printf("C_MAX = [%i]\n", tcaps.c_max);
 	//printf("L_MAX = [%i]\n", tcaps.l_max);
 	write(1, "\033[6n", 4);
 	read(1, buf, 100);
-	printf("%s", buf);
+	i = 0;
+	while(i < 100 && !ft_isdigit(buf[i]))
+		i++;
+	tcaps.l_pos = ft_atoi(buf + i);
+	while(i < 100 && ft_isdigit(buf[i]))
+		i++;
+	while(i < 100 && !ft_isdigit(buf[i]))
+		i++;
+	tcaps.c_pos = ft_atoi(buf + i);
+	//printf("%s", buf);
+	/* int fd = open("CURSOR_POS", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	dprintf(fd, "C_POS = [%i]\n", tcaps.c_pos);
+	dprintf(fd, "L_POS = [%i]\n", tcaps.l_pos);
+	dprintf(fd, "\n");
+	close(fd); */
 }
