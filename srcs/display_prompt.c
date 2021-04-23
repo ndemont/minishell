@@ -14,9 +14,9 @@
 
 int	display_prompt(void)
 {
-	write(1, PURPLE, 7);
-	write(1, "minishellrose-v1$ ", 18);
-   	write(1, RESET, 6);
+	write(STDOUT_FILENO, PURPLE, 7);
+	write(STDOUT_FILENO, "minishellrose-v1$ ", 18);
+   	write(STDOUT_FILENO, RESET, 6);
 	return (1);
 }
 
@@ -34,6 +34,7 @@ char *create_line(void)
 	ret = 0;
 	buf[3] = 0;
 	raw_mode();
+	cursor_position(); //UNDER RAW_MODE_FCT, IT CANNOT BE PRINTED
 	while (line[i] != '\n')
 	{
 		non_print_flag = 0;
@@ -51,7 +52,10 @@ char *create_line(void)
 			j++;
 		}
 		if (non_print_flag)
+		{
+			DEVELOPPMENT_MODE_print_sequence(buf);
 			non_print_flag = 1;
+		}
 		else
 		{
 			line = ft_realloc(line, ft_strlen(line) + 1 + 1);

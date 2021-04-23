@@ -144,5 +144,10 @@ void		actualize_data(t_big *datas);
 void		termcaps_init(void);
 void		raw_mode(void);
 void		normal_mode(void);
+void		cursor_position(void);
+
+//DEVELOPPEMENT MODE
+void		DEVELOPPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
+
 
 #endif

@@ -25,6 +25,16 @@ void	normal_mode(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &tcaps.save);
 }
 
+void	DEVELOPPMENT_MODE_print_sequence(char *buf)
+{
+	int fd = open("input_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	int i = 0;
+	while(buf[i])
+		dprintf(fd, "[%d] ", (int)buf[i++]);
+	dprintf(fd, "||");
+	close(fd);
+}
+
 void	termcaps_init(void)
 {
 	int ret;
@@ -38,9 +48,12 @@ void	termcaps_init(void)
 
 void	cursor_position(void)
 {
+	char buf[100];
 	tcaps.c_max = tgetnum("co");
 	tcaps.l_max = tgetnum("li");
 	//printf("C_MAX = [%i]\n", tcaps.c_max);
 	//printf("L_MAX = [%i]\n", tcaps.l_max);
-	write(STDOUT_FILENO, "\033[6n", 4);
+	write(1, "\033[6n", 4);
+	read(1, buf, 100);
+	printf("%s", buf);
 }
