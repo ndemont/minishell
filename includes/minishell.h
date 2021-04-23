@@ -83,6 +83,7 @@ void		add_to_list(char *line, t_list **lst);
 
 //HISTORY
 void		init_history(t_big *datas);
+void		update_history_file(t_big *datas);
 
 //FREE
 void		free_datas(t_big *datas);
