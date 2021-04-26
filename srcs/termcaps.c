@@ -135,8 +135,6 @@ void	backspace(int *i, char **line)
 		//tputs(dc_cap, tcaps.c_max - tcaps.c_pos, ft_putchar2); //NOT WORKING
 		tcaps.line_lvl--;
 		cursor_position();
-		DEVELOPMENT_MODE_print_termcaps();
-		DEVELOPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));
 	}
 }
 
