@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 11:30:09 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/26 12:36:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	actualize_data(t_big *datas)
 	datas->flag_pipe = 0;
 	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;
+	datas->flag_history = 0;
 	datas->quit = 0;
 	datas->root = 0;
 }
@@ -28,6 +29,7 @@ void	init_data(t_big *datas)
 	datas->flag_pipe = 0;
 	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;
+	datas->flag_history = 0;
 	datas->redirection_arg = 0;
 	datas->env = 0;
 	datas->export = 0;

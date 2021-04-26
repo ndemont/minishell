@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:15:32 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/23 21:04:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/26 12:58:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void		init_history(t_big *datas)
 	ret = get_next_line(fd, &line);
 	while (ret > 0)
 	{
-		update_history_list(datas->history, line, 0);
+		if (line && *line)
+			update_history_list(datas->history, line, 0);
 		ret = get_next_line(fd, &line);
 	}
 	close(fd);
