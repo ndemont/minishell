@@ -19,7 +19,6 @@ int	display_prompt(void)
    	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
 	cursor_position();
-	tcaps.l_prompt = tcaps.l_pos;
 	normal_mode();
 	return (1);
 }
