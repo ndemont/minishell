@@ -82,7 +82,7 @@ void	browse_history(t_big *datas, char **line, int signal)
 	if (signal == 0)
 		current = browse_down_history(current, *line, &browse);
 	if (ft_strcmp(browse, prev_browse))
-		printf("%s\n", browse);
+		ft_putstr_fd(browse, STDIN_FILENO);
 	prev_browse = browse;
 	*line = browse;
 }

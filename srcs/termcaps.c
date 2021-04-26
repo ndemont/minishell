@@ -102,19 +102,17 @@ void	backspace(int *i, char **line)
 	
 }
 
-void	history_older(int *i, char **line, t_big *datas)
+void	history_older(int *i, char **line, t_big *datas, int flag)
 {
 	char *ce_cap;
 	char *cm_cap;
-	(void)i;
-	(void)line;
-	(void)datas;
 
 	cm_cap = tgetstr("cm", NULL);
 	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
 	ce_cap = tgetstr("ce", NULL);
 	tputs(ce_cap, STDIN_FILENO, ft_putchar2);
-	browse_history(datas, line, 1);
+	browse_history(datas, line, flag);
+	*i = ft_strlen(*line);
 }
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
@@ -122,5 +120,7 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 	if(buf[0] == 127)
 		backspace(i, line);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
-		history_older(i, line, datas);
+		history_older(i, line, datas, 1);
+	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
+		history_older(i, line, datas, 0);
 }
