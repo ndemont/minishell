@@ -154,11 +154,8 @@ void		raw_mode(void);
 void		normal_mode(void);
 void		cursor_position(void);
 void		do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
-<<<<<<< HEAD
-int			ft_putchar2(int);
-=======
+int		ft_putchar2(int);
 void		print_at_cursor(char c);
->>>>>>> Solved merge issues
 
 //DEVELOPPEMENT MODE
 void		DEVELOPPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
