@@ -28,11 +28,11 @@ void	normal_mode(void)
 void	DEVELOPPMENT_MODE_print_sequence(char *buf)
 {
 	int fd = open("input_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	/* int i = 0;
+	int i = 0;
 	while(buf[i])
 		dprintf(fd, "[%d] ", (int)buf[i++]);
-	dprintf(fd, "||"); */
-	dprintf(fd, "[%s]\n", buf);
+	dprintf(fd, "||");
+	//dprintf(fd, "[%s]\n", buf);
 	close(fd);
 }
 
@@ -109,7 +109,6 @@ void	backspace(int *i, char **line)
 	free(oldline);
 	cm_cap = tgetstr("cm", NULL);
 	dc_cap = tgetstr("dc", NULL);
-	char *up_cap = tgetstr("up", NULL);
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
 	{
 		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
@@ -117,8 +116,7 @@ void	backspace(int *i, char **line)
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
 	{
-		//tputs(up_cap, STDIN_FILENO, ft_putchar2);
-		tputs(tgoto(up_cap, tcaps.c_max - 1, tcaps.l_pos - 1), STDIN_FILENO, ft_putchar2);
+		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), STDIN_FILENO, ft_putchar2);
 		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
 		tcaps.line_lvl--;
 		DEVELOPPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));

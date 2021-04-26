@@ -41,7 +41,7 @@ void	init_data(t_big *datas)
 	tcaps.l_max = 0;
 	tcaps.c_pos = 0;
 	tcaps.l_pos = 0;
-	tcaps.c_start = 18;
+	tcaps.c_start = 0;
 	tcaps.line_lvl = 0;
 }
 
