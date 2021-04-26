@@ -77,7 +77,8 @@ char *create_line(t_big *datas)
 				line[i] = 0;
 				break ;
 			}
-			write(STDIN_FILENO, &line[i], 1);	
+			print_at_cursor(line[i]);
+			//write(STDIN_FILENO, &line[i], 1);	
 			i++;
 		}
 	}
