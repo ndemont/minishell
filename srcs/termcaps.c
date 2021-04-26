@@ -131,7 +131,8 @@ void	backspace(int *i, char **line)
 	{
 		//DEVELOPMENT_MODE_print_termcaps();
 		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 2, ft_putchar2);
-		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
+		tputs(tgetstr("cd", NULL), tcaps.l_max - tcaps.l_pos, ft_putchar2); //WORKING !!!!!
+		//tputs(dc_cap, tcaps.c_max - tcaps.c_pos, ft_putchar2); //NOT WORKING
 		tcaps.line_lvl--;
 		cursor_position();
 		DEVELOPMENT_MODE_print_termcaps();
