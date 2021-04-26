@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 19:15:06 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/14 14:11:17 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/22 14:02:43 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		is_plus_left(char *line)
 {
-	int i;
-	char **str;
+	int		i;
+	char	**str;
 
 	i = 0;
 	str = ft_split_on_equal(line);
@@ -29,11 +29,11 @@ int		is_plus_left(char *line)
 	free_double(str);
 }
 
-int 	check_arg_conformity(char *line)
+int		check_arg_conformity(char *line)
 {
-	int i;
-	char **str;
-	char *tmp;
+	int		i;
+	char	**str;
+	char	*tmp;
 
 	i = 0;
 	str = ft_split_on_equal(line);
@@ -52,8 +52,8 @@ int 	check_arg_conformity(char *line)
 
 int		check_plus_conformity(char *line)
 {
-	int i;
-	char **str;
+	int		i;
+	char	**str;
 
 	i = 0;
 	str = ft_split_on_equal(line);
@@ -71,10 +71,10 @@ int		check_duplicate(t_list *list, char *ref)
 {
 	t_list	*tmp;
 	int		count;
-	char *str;
-	int i;
+	char	*str;
+	int		i;
 
- 	i = 0;
+	i = 0;
 	while (ref[i] && ref[i] != '=')
 		i++;
 	str = ft_substr(ref, 0, i);
@@ -93,14 +93,14 @@ int		check_duplicate(t_list *list, char *ref)
 	free(str);
 	return (0);
 }
-
 //Si EXPORT sans égalité et que doublon apparait dans liste cachée alors --> actualisation de export et Env
-void	add_hidden_to_env_export(char *line, t_big *datas) 
+
+void	add_hidden_to_env_export(char *line, t_big *datas)
 {
-	t_list *hidden;
-	t_list *tmp;
-	t_var *content;
-	t_var *content2;
+	t_list	*hidden;
+	t_list	*tmp;
+	t_var	*content;
+	t_var	*content2;
 
 	hidden = *datas->hidden;
 	while (hidden && ft_strcmp(line, ((t_var *)hidden->content)->var))
@@ -119,9 +119,9 @@ void	add_hidden_to_env_export(char *line, t_big *datas)
 
 void	actualize_export_add_env(char *line, t_big *datas)
 {
-	t_list *tmp;
-	char **str;
-	t_var *content;
+	t_list	*tmp;
+	char	**str;
+	t_var	*content;
 
 	tmp = *datas->export;
 	str = ft_split_on_equal(line);
@@ -137,8 +137,8 @@ void	actualize_export_add_env(char *line, t_big *datas)
 
 void	actualize_export_actualize_env(char *line, t_big *datas)
 {
-	t_list *tmp;
-	char **str;
+	t_list	*tmp;
+	char	**str;
 
 	tmp = *datas->env;
 	str = ft_split_on_equal(line);
@@ -182,7 +182,6 @@ int		ft_export(char **arg, t_big *datas)
 {
 	t_list	*tmp;
 	int		i;
-	//int		pos;
 
 	i = 1;
 	if (!arg[i])
@@ -220,9 +219,9 @@ int		ft_export(char **arg, t_big *datas)
 				else if (!check_duplicate(*datas->hidden, arg[i]) && !check_duplicate(*datas->export, arg[i])) 			//SI ABSENT DE HIDDEN ET DE EXPORT ALORS EXPORT ET HIDDEN S'ACTUALISENT
 					add_hidden_add_export(arg[i], datas);
 			}
-			else if (ft_strchr(arg[i], '=')) 																			//AVEC '='; nas=gentille
+			else if (ft_strchr(arg[i], '='))//AVEC '='; nas=gentille
 			{
-				if (!check_duplicate(*datas->hidden, arg[i])) 															//VARIABLE N'EXISTE PAS ENCORE, LA CREER DANS LES 3 LISTES 
+				if (!check_duplicate(*datas->hidden, arg[i]))													//VARIABLE N'EXISTE PAS ENCORE, LA CREER DANS LES 3 LISTES 
 					add_hidden_add_export_add_env(arg[i], datas);
 				else 																									//VARIABLE EXISTE DANS ENV
 				{
@@ -245,7 +244,6 @@ int		ft_export(char **arg, t_big *datas)
 				}
 				else
 				{
-					
 				}
 			} */
 			i++;

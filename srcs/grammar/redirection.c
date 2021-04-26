@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 12:12:17 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/23 10:53:48 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_std_fd(int fd_in, int fd_out)
 {
 	char	*line;
-	int 	ret;
+	int		ret;
 
 	while ((ret = get_next_line(fd_in, &line)) > 0)
 	{
@@ -29,25 +29,12 @@ void	print_std_fd(int fd_in, int fd_out)
 	line = 0;
 }
 
-void	exec_anglebracket_right(char **argv, t_big *datas)
+void	ft_copy_arg(char **argv, t_big *datas)
 {
-	char *tmp;
-	int fd;
-	int i;
-	int j;
+	int		i;
+	int		j;
+	char	*tmp;
 
-	datas->flag_pipe = 0;
-	if (datas->flag_bracket == 0)
-	{
-		fd = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		print_std_fd(datas->fd, fd);
-		datas->fd = fd;
-	}
-	else
-	{
-		fd = open(argv[0], O_CREAT | O_WRONLY, 0644);
-		close(fd);
-	}
 	i = 1;
 	while (argv[i])
 	{
@@ -68,11 +55,30 @@ void	exec_anglebracket_right(char **argv, t_big *datas)
 		{
 			datas->redirection_arg[j] = *tmp;
 			tmp++;
-			j++; 
+			j++;
 		}
 		datas->redirection_arg[j] = 0;
 		i++;
 	}
+}
+
+void	exec_anglebracket_right(char **argv, t_big *datas)
+{
+	int		fd;
+
+	datas->flag_pipe = 0;
+	if (datas->flag_bracket == 0)
+	{
+		fd = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		print_std_fd(datas->fd, fd);
+		datas->fd = fd;
+	}
+	else
+	{
+		fd = open(argv[0], O_CREAT | O_WRONLY, 0644);
+		close(fd);
+	}
+	ft_copy_arg(argv, datas);
 }
 
 void	exec_anglebracket_left(char **argv, t_big *datas)
@@ -91,15 +97,12 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 		datas->fd = fd;
 		datas->flag_left_bracket = 1;
 	}
-	close (fd);
+	close(fd);
 }
 
 void	exec_double_anglebracket_right(char **argv, t_big *datas)
 {
 	int		fd;
-	char	*tmp;
-	int		i;
-	int		j;
 
 	datas->flag_pipe = 0;
 	fd = open(argv[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
@@ -113,28 +116,7 @@ void	exec_double_anglebracket_right(char **argv, t_big *datas)
 		fd = open(argv[0], O_CREAT | O_WRONLY, 0644);
 		close(fd);
 	}
-	i = 1;
-	while (argv[i])
-	{
-		tmp = datas->redirection_arg;
-		datas->redirection_arg = malloc(sizeof(char) * (ft_strlen(tmp) + ft_strlen(argv[i]) + 2));
-		j = 0;
-		while (argv[i][j])
-		{
-			datas->redirection_arg[j] = argv[i][j];
-			j++; 
-		}
-		datas->redirection_arg[j] = ' '; 
-		while (*tmp)
-		{
-			datas->redirection_arg[j] = *tmp;
-			tmp++;
-			j++; 
-		}
-		datas->redirection_arg[j] = 0;
-		free(tmp);
-		i++;
-	}
+	ft_copy_arg(argv, datas);
 }
 
 void	redirections(int type, char **argv, t_big *datas)

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/14 15:56:32 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/22 14:53:06 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void		get_builtin(t_node *token)
 	if (token->command && ft_strchr(token->command, '=')) //REQUALIFICATION EN BUILT-IN POUR HIDDEN LIST
 	{
 		token->builtin = token->command;
-		token->command = 0; 
+		token->command = 0;
 	}
 	printf("\nBuiltin = [%s]\n", token->builtin);
 	printf("Command = [%s]\n", token->command);

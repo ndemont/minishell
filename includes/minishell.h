@@ -31,6 +31,18 @@
 
 # define CLEAR "\e[H\e[2J"
 
+typedef struct		s_caps
+{
+	struct termios term;
+	struct termios save;
+	int	l_prompt;
+	int	c_max;
+	int l_max;
+	int c_pos;
+	int l_pos;
+	int c_start;
+}					t_caps;
+
 typedef struct		s_node
 {
 	int				type;
@@ -49,19 +61,32 @@ typedef struct		s_var
 	char *value;
 }					t_var;
 
+typedef struct			s_history
+{
+	int					status;
+	char				*command;
+	struct s_history	*prev;
+	struct s_history	*next;
+}						t_history;
+
 typedef struct 		s_big
 {
-	int		fd;
-	int		quit;
-	int		flag_pipe;
-	int		flag_bracket;
-	int		flag_left_bracket;
-	char	*redirection_arg;
-	t_list	**env;
-	t_list	**export;
-	t_list	**hidden;
-	t_node	*root;
+	int			fd;
+	int			quit;
+	int			flag_pipe;
+	int			flag_bracket;
+	int			flag_left_bracket;
+	char		*redirection_arg;
+	t_list		**env;
+	t_list		**export;
+	t_list		**hidden;
+	t_history	**history;
+	t_node		*root;
 }					t_big;
+
+
+//DECLARE OF A GLOBAL STRUCT, MANDATORY FOR TERMCAPS MANAGMENT 
+t_caps				tcaps;
 
 //ENV
 int			ft_env(t_big *datas);
@@ -71,6 +96,13 @@ int			check_duplicate(t_list *list, char *ref);
 void		actualize_list(char *line, t_list *lst);
 char 		**ft_split_on_equal(char *str);
 void		add_to_list(char *line, t_list **lst);
+
+//HISTORY
+void		init_history(t_big *datas);
+void		save_history(char *line, t_big *datas);
+void		browse_history(t_big *datas, char **line, int signal);
+void		update_history_list(t_history **begin, char *line, int status);
+void		update_history_file(t_big *datas);
 
 //FREE
 void		free_datas(t_big *datas);
@@ -90,15 +122,15 @@ int			ft_count_tokens(char *input);
 int			ft_is_grammar(char *str, int i);
 
 //TREE
-void	exec_built_in(char *command, char **argv, t_big *datas);
-void	exec_binary(char *command, char **argv);
-void	print_std(int fd);
+void		exec_built_in(char *command, char **argv, t_big *datas);
+void		exec_binary(char *command, char **argv);
+void		print_std(int fd);
 
 //GRAMMAR
-void	exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas);
-void	exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
-void	redirections(int type, char **argv, t_big *datas);
-void	exec_anglebracket_right(char **argv, t_big *datas);
+void		exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+void		exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+void		redirections(int type, char **argv, t_big *datas);
+void		exec_anglebracket_right(char **argv, t_big *datas);
 
 //BUILTINS
 int			ft_echo(char **arg, t_big *datas);
@@ -112,5 +144,17 @@ char		*get_env(t_big *data, char *var);
 int			cmp_list(t_var *lst, t_var *lst2);
 t_var		*fill_tmp(char *str);
 void		init_data(t_big *datas);
+void		actualize_data(t_big *datas);
+
+//TERMCAPS
+void		termcaps_init(void);
+void		raw_mode(void);
+void		normal_mode(void);
+void		cursor_position(void);
+void		do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
+
+//DEVELOPPEMENT MODE
+void		DEVELOPPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
+
 
 #endif
