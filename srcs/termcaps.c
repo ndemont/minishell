@@ -131,8 +131,14 @@ void	history_older(int *i, char **line, t_big *datas, int flag)
 	char *cm_cap;
 
 	cm_cap = tgetstr("cm", NULL);
-	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
 	ce_cap = tgetstr("ce", NULL);
+	while (tcaps.line_lvl)
+	{	
+		tputs(tgoto(cm_cap, 0, tcaps.l_pos--), STDIN_FILENO, ft_putchar2);
+		tputs(ce_cap, STDIN_FILENO, ft_putchar2);
+		tcaps.line_lvl--;
+	}
+	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
 	tputs(ce_cap, STDIN_FILENO, ft_putchar2);
 	browse_history(datas, line, flag);
 	*i = ft_strlen(*line);
