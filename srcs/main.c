@@ -42,11 +42,7 @@ void	init_data(t_big *datas)
 	tcaps.c_pos = 0;
 	tcaps.l_pos = 0;
 	tcaps.c_start = 18;
-<<<<<<< HEAD
-	tcaps.l_prompt = 0;
-=======
 	tcaps.line_lvl = 0;
->>>>>>> Save de midi
 }
 
 void	sigint_handler(int sig)
