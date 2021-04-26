@@ -108,30 +108,13 @@ void	backspace(int *i, char **line)
 	*line = ft_substr(oldline, 0, *i);
 	free(oldline);
 	cm_cap = tgetstr("cm", NULL);
-<<<<<<< HEAD
-	/* int fd = open("backspace_output", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	dprintf(fd, "prompt line = [%i]\ncolumn max = [%i]\n, line max = [%i]\n, column position = [%i]\n, line position = [%i]\n", tcaps.l_prompt, tcaps.c_max, tcaps.l_max, tcaps.c_pos, tcaps.l_pos);
-	dprintf(fd, "<+++++++++++++++++++++++++++++++++++>\n");
-	close(fd); */
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && tcaps.l_pos == tcaps.l_prompt) || ((tcaps.c_pos - 1 >= 0) && tcaps.l_pos > tcaps.l_prompt))
-=======
 	dc_cap = tgetstr("dc", NULL);
 	char *up_cap = tgetstr("up", NULL);
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
->>>>>>> Save de midi
 	{
 		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
 		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
 	}
-<<<<<<< HEAD
-	else if (tcaps.c_pos == 0 && tcaps.l_pos > tcaps.l_prompt)
-	{
-		tputs(tgoto(cm_cap, tcaps.c_max, tcaps.l_pos - 1), STDIN_FILENO, ft_putchar2);
-		dc_cap = tgetstr("dc", NULL);
-		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
-	}
-	
-=======
 	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
 	{
 		//tputs(up_cap, STDIN_FILENO, ft_putchar2);
@@ -140,7 +123,6 @@ void	backspace(int *i, char **line)
 		tcaps.line_lvl--;
 		DEVELOPPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));
 	}
->>>>>>> Save de midi
 }
 
 void	history_older(int *i, char **line, t_big *datas, int flag)
