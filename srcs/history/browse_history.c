@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:09:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/26 12:48:23 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/26 14:28:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,10 @@ t_history	*browse_down_history(t_history *current, char *line, char **browse)
 	list = current;
 	(void)address;
 	(void)line;
-	//if (!line)
-	//{
-		*browse = current->command;
-		if (current->prev && current->prev->command)
-			current = current->prev;
-		return (current);
-	//}
+	*browse = current->command;
+	if (current->prev && current->prev->command)
+		current = current->prev;
+	return (current);
 	// while (list->prev)
 	// {
 	// 	address = ft_strnstr(list->command, line, ft_strlen(list->command));
@@ -87,5 +84,5 @@ void	browse_history(t_big *datas, char **line, int signal)
 	if (ft_strcmp(browse, prev_browse))
 		printf("%s\n", browse);
 	prev_browse = browse;
-	//*line = browse;
+	*line = browse;
 }
