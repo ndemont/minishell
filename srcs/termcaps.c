@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   termcaps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpetit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:51:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/22 18:06:22 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/26 12:17:46 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	history_older(int *i, char **line, t_big *datas)
 	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
 	ce_cap = tgetstr("ce", NULL);
 	tputs(ce_cap, STDIN_FILENO, ft_putchar2);
-	//browse_history(datas, line, 1);
+	browse_history(datas, line, 1);
 }
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
