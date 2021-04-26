@@ -28,10 +28,11 @@ void	normal_mode(void)
 void	DEVELOPPMENT_MODE_print_sequence(char *buf)
 {
 	int fd = open("input_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	int i = 0;
+	/* int i = 0;
 	while(buf[i])
 		dprintf(fd, "[%d] ", (int)buf[i++]);
-	dprintf(fd, "||");
+	dprintf(fd, "||"); */
+	dprintf(fd, "[%s]\n", buf);
 	close(fd);
 }
 
@@ -71,6 +72,30 @@ int		ft_putchar2(int c)
 	return (write(STDOUT_FILENO, &c, 1));
 }
 
+void	print_at_cursor(char c)
+{
+/* 	char *im_cap;
+	char *ic_cap; */
+	char *cm_cap;
+
+	/* im_cap = tgetstr("im", NULL);
+	tputs(im_cap, STDIN_FILENO, ft_putchar2);
+	ic_cap = tgetstr("ic", NULL);
+	tputs(ic_cap, STDIN_FILENO, ft_putchar2); */
+	
+	write(STDIN_FILENO, &c, 1);
+	cm_cap = tgetstr("cm", NULL);
+	if (tcaps.c_pos + 1 < tcaps.c_max)
+		tputs(tgoto(cm_cap, tcaps.c_pos + 1, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
+	else
+	{
+		tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), STDIN_FILENO, ft_putchar2);
+		tcaps.line_lvl++;
+		DEVELOPPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));
+
+	}
+}
+
 void	backspace(int *i, char **line)
 {
 	char *oldline;
@@ -79,27 +104,25 @@ void	backspace(int *i, char **line)
 
 	oldline = *line;
 	if (*i > 0)
-		*i -= 1;
+		(*i)--;
 	*line = ft_substr(oldline, 0, *i);
 	free(oldline);
 	cm_cap = tgetstr("cm", NULL);
-	/* int fd = open("backspace_output", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	dprintf(fd, "prompt line = [%i]\ncolumn max = [%i]\n, line max = [%i]\n, column position = [%i]\n, line position = [%i]\n", tcaps.l_prompt, tcaps.c_max, tcaps.l_max, tcaps.c_pos, tcaps.l_pos);
-	dprintf(fd, "<+++++++++++++++++++++++++++++++++++>\n");
-	close(fd); */
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && tcaps.l_pos == tcaps.l_prompt) || ((tcaps.c_pos - 1 >= 0) && tcaps.l_pos > tcaps.l_prompt))
+	dc_cap = tgetstr("dc", NULL);
+	char *up_cap = tgetstr("up", NULL);
+	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
 	{
 		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
-		dc_cap = tgetstr("dc", NULL);
 		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
 	}
-	else if (tcaps.c_pos == 0 && tcaps.l_pos > tcaps.l_prompt)
+	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
 	{
-		tputs(tgoto(cm_cap, tcaps.c_max, tcaps.l_pos - 1), STDIN_FILENO, ft_putchar2);
-		dc_cap = tgetstr("dc", NULL);
+		//tputs(up_cap, STDIN_FILENO, ft_putchar2);
+		tputs(tgoto(up_cap, tcaps.c_max - 1, tcaps.l_pos - 1), STDIN_FILENO, ft_putchar2);
 		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
+		tcaps.line_lvl--;
+		DEVELOPPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));
 	}
-	
 }
 
 void	history_older(int *i, char **line, t_big *datas, int flag)

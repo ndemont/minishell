@@ -19,7 +19,6 @@ int	display_prompt(void)
    	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
 	cursor_position();
-	tcaps.l_prompt = tcaps.l_pos;
 	normal_mode();
 	return (1);
 }
@@ -77,7 +76,8 @@ char *create_line(t_big *datas)
 				line[i] = 0;
 				break ;
 			}
-			write(STDIN_FILENO, &line[i], 1);	
+			print_at_cursor(line[i]);
+			//write(STDIN_FILENO, &line[i], 1);	
 			i++;
 		}
 	}
