@@ -153,6 +153,7 @@ void		raw_mode(void);
 void		normal_mode(void);
 void		cursor_position(void);
 void		do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
+int			ft_putchar2(int);
 
 //DEVELOPPEMENT MODE
 void		DEVELOPPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
