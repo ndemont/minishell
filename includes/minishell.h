@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 20:46:22 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 22:18:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,10 +170,10 @@ void					cursor_position(void);
 void					do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
 int						ft_putchar2(int);
 void					print_at_cursor(char c);
+void					end_of_transmission(t_big *datas, char *line);
 
 //FLAGS
-void					end_of_transmission(t_big *datas, char *line);
-void    				end_of_text(int sig);
+void					ft_signals(int sig);
 
 //DEVELOPPEMENT MODE
 void					DEVELOPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH

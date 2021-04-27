@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   etx.c                                              :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 13:47:33 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 20:48:39 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 22:21:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	end_of_text(int sig)
+void	ft_signals(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -20,4 +20,10 @@ void	end_of_text(int sig)
 		if (!tcaps.child)
 			display_prompt();
 	}
+	if (sig == SIGQUIT)
+	{
+		if (tcaps.child)
+			write(0, "Quit: 3\n", 8);
+	}
+
 }
