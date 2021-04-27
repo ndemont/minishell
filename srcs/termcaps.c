@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:51:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/27 12:18:32 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 14:29:47 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,13 +136,9 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
 		history_older(i, line, datas, 0);
 	else if (buf[0] == 3)
-	{
-		write(1, "ETX\n", 4);
 		write(0, "ETX\n", 4);
-	}
 	else if (buf[0] == 4)
-	{
-		write(1, "EOT\n", 4);
-		write(0, "EOT\n", 4);
-	}
+		end_of_transmission(datas, line);
+	else if (buf[0] == 28)
+		write(0, "FS\n", 3);
 }
