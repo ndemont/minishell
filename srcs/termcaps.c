@@ -25,14 +25,28 @@ void	normal_mode(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &tcaps.save);
 }
 
-void	DEVELOPPMENT_MODE_print_sequence(char *buf)
+void	DEVELOPMENT_MODE_print_sequence(char *buf)
 {
 	int fd = open("input_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	/* int i = 0;
+	int i = 0;
 	while(buf[i])
 		dprintf(fd, "[%d] ", (int)buf[i++]);
-	dprintf(fd, "||"); */
-	dprintf(fd, "[%s]\n", buf);
+	dprintf(fd, "||");
+	//dprintf(fd, "[%s]\n", buf);
+	close(fd);
+}
+
+void	DEVELOPMENT_MODE_print_termcaps(void)
+{
+	int fd = open("termcaps", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	dprintf(fd, "Prompt Line = %i\n", tcaps.l_prompt);
+	dprintf(fd, "Max Column = %i\n", tcaps.c_max);
+	dprintf(fd, "Max Line = %i\n", tcaps.l_max);
+	dprintf(fd, "Current_Column_position = %i\n", tcaps.c_pos);
+	dprintf(fd, "Current_Line_position = %i\n", tcaps.l_pos);
+	dprintf(fd, "Start = %i\n", tcaps.c_start);
+	dprintf(fd, "line_depth = %i\n", tcaps.line_lvl);
+	dprintf(fd, "<===============================>\n");
 	close(fd);
 }
 
@@ -91,8 +105,7 @@ void	print_at_cursor(char c)
 	{
 		tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), STDIN_FILENO, ft_putchar2);
 		tcaps.line_lvl++;
-		DEVELOPPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));
-
+		//DEVELOPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));
 	}
 }
 
@@ -109,19 +122,19 @@ void	backspace(int *i, char **line)
 	free(oldline);
 	cm_cap = tgetstr("cm", NULL);
 	dc_cap = tgetstr("dc", NULL);
-	char *up_cap = tgetstr("up", NULL);
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
 	{
-		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
-		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
+		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), 1, ft_putchar2);
+		tputs(dc_cap, 1, ft_putchar2);
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
 	{
-		//tputs(up_cap, STDIN_FILENO, ft_putchar2);
-		tputs(tgoto(up_cap, tcaps.c_max - 1, tcaps.l_pos - 1), STDIN_FILENO, ft_putchar2);
-		tputs(dc_cap, STDIN_FILENO, ft_putchar2);
+		//DEVELOPMENT_MODE_print_termcaps();
+		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 2, ft_putchar2);
+		tputs(tgetstr("cd", NULL), tcaps.l_max - tcaps.l_pos, ft_putchar2); //WORKING !!!!!
+		//tputs(dc_cap, tcaps.c_max - tcaps.c_pos, ft_putchar2); //NOT WORKING
 		tcaps.line_lvl--;
-		DEVELOPPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));
+		cursor_position();
 	}
 }
 
@@ -131,9 +144,15 @@ void	history_older(int *i, char **line, t_big *datas, int flag)
 	char *cm_cap;
 
 	cm_cap = tgetstr("cm", NULL);
-	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
 	ce_cap = tgetstr("ce", NULL);
-	tputs(ce_cap, STDIN_FILENO, ft_putchar2);
+	while (tcaps.line_lvl)
+	{	
+		tputs(tgoto(cm_cap, 0, tcaps.l_pos--), 1, ft_putchar2);
+		tputs(ce_cap, 1, ft_putchar2);
+		tcaps.line_lvl--;
+	}
+	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), 1, ft_putchar2);
+	tputs(ce_cap, 1, ft_putchar2);
 	browse_history(datas, line, flag);
 	*i = ft_strlen(*line);
 }

@@ -158,7 +158,8 @@ int		ft_putchar2(int);
 void		print_at_cursor(char c);
 
 //DEVELOPPEMENT MODE
-void		DEVELOPPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
+void		DEVELOPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
+void		DEVELOPMENT_MODE_print_termcaps(void); //DELETE BEFORE PUSH
 
 
 #endif
