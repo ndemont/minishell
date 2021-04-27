@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 17:25:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 20:46:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct			s_caps
 	int					l_pos;
 	int 				c_start;
 	int					line_lvl;
+	int					child;
 }						t_caps;
 
 typedef struct			s_node
