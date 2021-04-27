@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 21:42:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 22:14:33 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,24 +81,24 @@ void	exec_anglebracket_right(char **argv, t_big *datas)
 	ft_copy_arg(argv, datas);
 }
 
-void	exec_anglebracket_left(char **argv, t_big *datas)
-{
-	int	fd;
+//void	exec_anglebracket_left(char **argv, t_big *datas)
+//{
+//	int	fd;
 
-	datas->flag_pipe = 0;
-	fd = open(argv[0], O_RDONLY);
-	if (fd < 0)
-	{
-		print_errors("minishellrose: No such file or directory");
-		datas->quit = 1;
-	}
-	if (datas->flag_left_bracket == 0)
-	{
-		datas->fd = fd;
-		datas->flag_left_bracket = 1;
-	}
-	close(fd);
-}
+//	datas->flag_pipe = 0;
+//	fd = open(argv[0], O_RDONLY);
+//	if (fd < 0)
+//	{
+//		print_errors("minishellrose: No such file or directory");
+//		datas->quit = 1;
+//	}
+//	if (datas->flag_left_bracket == 0)
+//	{
+//		datas->fd = fd;
+//		datas->flag_left_bracket = 1;
+//	}
+//	close(fd);
+//}
 
 void	exec_anglebracket_left(char **argv, t_big *datas)
 {
