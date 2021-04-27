@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:51:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/27 14:32:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 17:11:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,14 +129,15 @@ void	history_older(int *i, char **line, t_big *datas, int flag)
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 {
+	int sig;
+	
+	sig = 0;
 	if(buf[0] == 127)
 		backspace(i, line);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
 		history_older(i, line, datas, 1);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
 		history_older(i, line, datas, 0);
-	else if (buf[0] == 3)
-		write(0, "ETX\n", 4);
 	else if (buf[0] == 4)
 		end_of_transmission(datas, *line);
 	else if (buf[0] == 28)

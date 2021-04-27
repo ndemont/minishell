@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 15:31:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 17:25:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,8 @@ int						cmp_list(t_var *lst, t_var *lst2);
 t_var					*fill_tmp(char *str);
 void					init_data(t_big *datas);
 void					actualize_data(t_big *datas);
+int						display_prompt(void);
+
 
 //TERMCAPS
 void					termcaps_init(void);
@@ -170,6 +172,7 @@ void					print_at_cursor(char c);
 
 //FLAGS
 void					end_of_transmission(t_big *datas, char *line);
+void    				end_of_text(int sig);
 
 //DEVELOPPEMENT MODE
 void					DEVELOPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
