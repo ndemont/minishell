@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 13:47:33 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 17:21:31 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 20:00:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,5 @@ void    end_of_text(int sig)
     {
         write(0, "\n", 1);
         display_prompt();
-        tcaps.sig_check = 1;
 	}
 }
