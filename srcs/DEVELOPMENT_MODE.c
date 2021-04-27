@@ -12,9 +12,16 @@
 
 #include "minishell.h"
 
+void	DEVELOPMENT_MODE_print_str(char *buf)
+{
+	int fd = open("DEBUG_str", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	dprintf(fd, "str = [%s] || line_level = [%i]\n", buf, tcaps.line_lvl);
+	close(fd);
+}
+
 void	DEVELOPMENT_MODE_print_sequence(char *buf)
 {
-	int fd = open("input_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	int fd = open("DEBUG_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
 	int i = 0;
 	while(buf[i])
 		dprintf(fd, "[%d] ", (int)buf[i++]);
@@ -25,7 +32,7 @@ void	DEVELOPMENT_MODE_print_sequence(char *buf)
 
 void	DEVELOPMENT_MODE_print_termcaps(void)
 {
-	int fd = open("termcaps", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	int fd = open("DEBUG_termcaps", O_CREAT | O_APPEND | O_WRONLY, 0644);
 	dprintf(fd, "Prompt Line = %i\n", tcaps.l_prompt);
 	dprintf(fd, "Max Column = %i\n", tcaps.c_max);
 	dprintf(fd, "Max Line = %i\n", tcaps.l_max);

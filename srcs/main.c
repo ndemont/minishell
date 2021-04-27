@@ -21,6 +21,7 @@ void	actualize_data(t_big *datas)
 	datas->flag_history = 0;
 	datas->quit = 0;
 	datas->root = 0;
+	tcaps.line_lvl = 0;
 }
 
 void	init_data(t_big *datas)

@@ -49,4 +49,7 @@ fclean: clean
 	make fclean -C libft/
 	rm -f $(NAME)
 
+cleandb:
+	rm -f DEBUG_str DEBUG_sequence DEBUG_termcaps
+
 re: fclean $(NAME)
