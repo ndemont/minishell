@@ -58,9 +58,7 @@ char *create_line(t_big *datas)
 		}
 		if (non_print_flag)
 		{
-			//UTILE POUR CONTROLER SANS POURRIR OUTPUT
 			//DEVELOPMENT_MODE_print_sequence(buf);
-			//
 			do_the_right_thing(&i, buf, &line, datas);
 		}
 		else

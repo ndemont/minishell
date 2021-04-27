@@ -36,13 +36,23 @@ void	termcaps_init(void)
 		exit(0); // changer methode d'exit
 }
 
+void	term_size(void)
+{
+	struct winsize w;
+
+	ioctl(0, TIOCGWINSZ, &w);
+    tcaps.l_max = w.ws_row;
+    tcaps.c_max = w.ws_col;
+	//tcaps.c_max = tgetnum("co");
+	//tcaps.l_max = tgetnum("li");
+}
+
 void	cursor_position(void)
 {
 	char buf[100];
 	int i;
 
-	tcaps.c_max = tgetnum("co");
-	tcaps.l_max = tgetnum("li");
+	term_size();
 	write(1, "\033[6n", 4);
 	read(1, buf, 100);
 	i = 0;
@@ -65,6 +75,7 @@ void	print_at_cursor(char c)
 {
 	char *cm_cap;
 
+	term_size();
 	write(STDIN_FILENO, &c, 1);
 	cm_cap = tgetstr("cm", NULL);
 	if (tcaps.c_pos + 1 < tcaps.c_max)

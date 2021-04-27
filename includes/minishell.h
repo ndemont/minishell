@@ -149,12 +149,13 @@ void		init_data(t_big *datas);
 void		actualize_data(t_big *datas);
 
 //TERMCAPS
+void		term_size(void);
 void		termcaps_init(void);
 void		raw_mode(void);
 void		normal_mode(void);
 void		cursor_position(void);
 void		do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
-int		ft_putchar2(int);
+int			ft_putchar2(int);
 void		print_at_cursor(char c);
 
 //DEVELOPPEMENT MODE
