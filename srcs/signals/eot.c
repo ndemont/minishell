@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 13:46:13 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 15:17:17 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 15:21:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void    end_of_transmission(t_big *datas, char *line)
 {
- 	(void)datas;
     //free_tokens(token_tab);
 	//free_datas(datas);
     if (!line[0])
