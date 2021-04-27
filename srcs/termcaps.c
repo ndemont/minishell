@@ -111,19 +111,18 @@ void	backspace(int *i, char **line)
 
 void	history_older(int *i, char **line, t_big *datas, int flag)
 {
-	char *ce_cap;
 	char *cm_cap;
+	char *cd_cap;
 
 	cm_cap = tgetstr("cm", NULL);
-	ce_cap = tgetstr("ce", NULL);
+	cd_cap = tgetstr("cd", NULL);
 	while (tcaps.line_lvl)
 	{	
 		tputs(tgoto(cm_cap, 0, tcaps.l_pos--), 1, ft_putchar2);
-		tputs(ce_cap, 1, ft_putchar2);
 		tcaps.line_lvl--;
 	}
 	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), 1, ft_putchar2);
-	tputs(ce_cap, 1, ft_putchar2);
+	tputs(cd_cap, tcaps.l_max - tcaps.l_pos, ft_putchar2);
 	browse_history(datas, line, flag);
 	*i = ft_strlen(*line);
 }
