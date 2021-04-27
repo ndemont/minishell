@@ -1,0 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   DEVELOPMENT_MODE.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpetit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/27 10:33:05 by gpetit            #+#    #+#             */
+/*   Updated: 2021/04/27 10:33:08 by gpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	DEVELOPMENT_MODE_print_sequence(char *buf)
+{
+	int fd = open("input_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	int i = 0;
+	while(buf[i])
+		dprintf(fd, "[%d] ", (int)buf[i++]);
+	dprintf(fd, "||");
+	//dprintf(fd, "[%s]\n", buf);
+	close(fd);
+}
+
+void	DEVELOPMENT_MODE_print_termcaps(void)
+{
+	int fd = open("termcaps", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	dprintf(fd, "Prompt Line = %i\n", tcaps.l_prompt);
+	dprintf(fd, "Max Column = %i\n", tcaps.c_max);
+	dprintf(fd, "Max Line = %i\n", tcaps.l_max);
+	dprintf(fd, "Current_Column_position = %i\n", tcaps.c_pos);
+	dprintf(fd, "Current_Line_position = %i\n", tcaps.l_pos);
+	dprintf(fd, "Start = %i\n", tcaps.c_start);
+	dprintf(fd, "line_depth = %i\n", tcaps.line_lvl);
+	dprintf(fd, "<===============================>\n");
+	close(fd);
+}
