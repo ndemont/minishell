@@ -25,7 +25,8 @@ SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c \
 	errors/errors.c builtins/echo.c builtins/cd.c builtins/env.c builtins/pwd.c \
 	builtins/export.c builtins/unset.c builtins/hidden.c grammar/pipe.c \
 	grammar/semicolon.c grammar/redirection.c history/init_history.c \
-	history/update_history.c history/browse_history.c history/save_history.c termcaps.c)
+	history/update_history.c history/browse_history.c history/save_history.c termcaps.c \
+	DEVELOPMENT_MODE.c)
 
 INC_DIR = includes
 
