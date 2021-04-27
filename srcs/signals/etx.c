@@ -6,14 +6,15 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 13:47:33 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 13:48:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 15:24:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    end_of_text(t_big *datas)
+void    end_of_text(t_big *line)
 {
- 	//free_tokens(token_tab);
+ 	line = 0;
+    //free_tokens(token_tab);
 	//free_datas(datas);
 }
