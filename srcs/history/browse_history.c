@@ -46,6 +46,22 @@ t_history	*browse_down_history(t_history *current, char **browse, int begin, cha
 	return (current);
 }
 
+void	lines_added(char *str)
+{
+	int size;
+	int line_len;
+
+	size = tcaps.c_max - tcaps.c_start;
+	line_len = ft_strlen(str);
+	if (line_len > size)
+	{
+		tcaps.line_lvl++;
+		line_len -= size;
+		size = tcaps.c_max;
+		tcaps.line_lvl += ((line_len / size) + (line_len % size));
+	}
+}
+
 void	browse_history(t_big *datas, char **line, int signal)
 {
 	static char			*browse;
@@ -63,6 +79,7 @@ void	browse_history(t_big *datas, char **line, int signal)
 		current = browse_down_history(current, &browse, datas->flag_history, input);
 	if (browse)
 	{
+		lines_added(browse);
 		ft_putstr_fd(browse, STDIN_FILENO);
 		*line = browse;
 	}
