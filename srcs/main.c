@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 21:43:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 21:44:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	actualize_data(t_big *datas)
 	datas->quit = 0;
 	datas->root = 0;
 	tcaps.line_lvl = 0;
+	tcaps.child = 0;
 }
 
 void	init_data(t_big *datas)
