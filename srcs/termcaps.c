@@ -25,31 +25,6 @@ void	normal_mode(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &tcaps.save);
 }
 
-void	DEVELOPMENT_MODE_print_sequence(char *buf)
-{
-	int fd = open("input_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	int i = 0;
-	while(buf[i])
-		dprintf(fd, "[%d] ", (int)buf[i++]);
-	dprintf(fd, "||");
-	//dprintf(fd, "[%s]\n", buf);
-	close(fd);
-}
-
-void	DEVELOPMENT_MODE_print_termcaps(void)
-{
-	int fd = open("termcaps", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	dprintf(fd, "Prompt Line = %i\n", tcaps.l_prompt);
-	dprintf(fd, "Max Column = %i\n", tcaps.c_max);
-	dprintf(fd, "Max Line = %i\n", tcaps.l_max);
-	dprintf(fd, "Current_Column_position = %i\n", tcaps.c_pos);
-	dprintf(fd, "Current_Line_position = %i\n", tcaps.l_pos);
-	dprintf(fd, "Start = %i\n", tcaps.c_start);
-	dprintf(fd, "line_depth = %i\n", tcaps.line_lvl);
-	dprintf(fd, "<===============================>\n");
-	close(fd);
-}
-
 void	termcaps_init(void)
 {
 	int ret;
@@ -88,24 +63,23 @@ int		ft_putchar2(int c)
 
 void	print_at_cursor(char c)
 {
-/* 	char *im_cap;
-	char *ic_cap; */
 	char *cm_cap;
 
-	/* im_cap = tgetstr("im", NULL);
-	tputs(im_cap, STDIN_FILENO, ft_putchar2);
-	ic_cap = tgetstr("ic", NULL);
-	tputs(ic_cap, STDIN_FILENO, ft_putchar2); */
-	
 	write(STDIN_FILENO, &c, 1);
 	cm_cap = tgetstr("cm", NULL);
 	if (tcaps.c_pos + 1 < tcaps.c_max)
-		tputs(tgoto(cm_cap, tcaps.c_pos + 1, tcaps.l_pos), STDIN_FILENO, ft_putchar2);
-	else
+		tputs(tgoto(cm_cap, tcaps.c_pos + 1, tcaps.l_pos), 1, ft_putchar2);
+	else if (tcaps.c_pos + 1 == tcaps.c_max && tcaps.l_pos + 1 != tcaps.l_max)
 	{
-		tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), STDIN_FILENO, ft_putchar2);
+		tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), 1, ft_putchar2);
 		tcaps.line_lvl++;
 		//DEVELOPMENT_MODE_print_sequence(ft_itoa(tcaps.line_lvl));
+	}
+	else if (tcaps.c_pos + 1 == tcaps.c_max && tcaps.l_pos + 1 == tcaps.l_max)
+	{
+		tputs(tgetstr("sf", NULL), 1, ft_putchar2);
+		tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), 1, ft_putchar2);
+		tcaps.line_lvl++;
 	}
 }
 
@@ -129,12 +103,9 @@ void	backspace(int *i, char **line)
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
 	{
-		//DEVELOPMENT_MODE_print_termcaps();
 		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 2, ft_putchar2);
-		tputs(tgetstr("cd", NULL), tcaps.l_max - tcaps.l_pos, ft_putchar2); //WORKING !!!!!
-		//tputs(dc_cap, tcaps.c_max - tcaps.c_pos, ft_putchar2); //NOT WORKING
+		tputs(tgetstr("ce", NULL), 1, ft_putchar2);
 		tcaps.line_lvl--;
-		cursor_position();
 	}
 }
 
