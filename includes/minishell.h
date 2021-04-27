@@ -160,6 +160,7 @@ void		print_at_cursor(char c);
 //DEVELOPPEMENT MODE
 void		DEVELOPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
 void		DEVELOPMENT_MODE_print_termcaps(void); //DELETE BEFORE PUSH
+void		DEVELOPMENT_MODE_print_str(char *buf);
 
 
 #endif
