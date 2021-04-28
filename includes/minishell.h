@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 22:18:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 14:07:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 # define RESET "\033[0;0m"
+# define RET_ERROR 127
 
 # define CLEAR "\e[H\e[2J"
 
@@ -56,6 +57,7 @@ typedef struct			s_caps
 	int					line_lvl;
 	int					child;
 	int 				signal;
+	int					ret;
 }						t_caps;
 
 typedef struct			s_node
@@ -104,7 +106,7 @@ typedef struct			s_big
 t_caps					tcaps;
 
 //ENV
-int						ft_env(t_big *datas);
+int						ft_env(char **av, t_big *datas);
 void					store_env(char **env, t_big *datas);
 void					ft_hidden(char **argv, t_big *datas);
 int						check_duplicate(t_list *list, char *ref);
@@ -170,7 +172,7 @@ void					raw_mode(void);
 void					normal_mode(void);
 void					cursor_position(void);
 void					do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
-int					ft_putchar2(int);
+int						ft_putchar2(int);
 void					print_at_cursor(char c);
 void					end_of_transmission(t_big *datas, char *line);
 
