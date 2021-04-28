@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 12:49:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 12:51:21 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 # define RESET "\033[0;0m"
+# define RET_ERROR 127
 
 # define CLEAR "\e[H\e[2J"
 
@@ -55,6 +56,7 @@ typedef struct			s_caps
 	int 				c_start;
 	int					line_lvl;
 	int					child;
+	int					ret;
 }						t_caps;
 
 typedef struct			s_node
