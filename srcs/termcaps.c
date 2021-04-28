@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:51:10 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/26 12:17:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 21:46:42 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,35 @@ void	history_older(int *i, char **line, t_big *datas, int flag)
 	*i = ft_strlen(*line);
 }
 
+void	clear_term(void)
+{
+	char *sf_cap;
+	char *cm_move;
+
+	sf_cap = tgetstr("sf", NULL);
+	ft_putstr_fd(sf_cap, 0);
+	cm_move = tgetstr("cm", NULL);
+	while (tcaps.l_pos)
+	{
+		tputs(sf_cap, 1, ft_putchar2);
+		tcaps.l_pos--;
+	}
+	tputs(tgoto(cm_move, tcaps.c_start, 0), 1, ft_putchar2);
+}
+
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 {
+	int sig;
+	
+	sig = 0;
 	if(buf[0] == 127)
 		backspace(i, line);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
 		history_older(i, line, datas, 1);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
 		history_older(i, line, datas, 0);
+	else if (buf[0] == 12)
+		clear_term();
+	else if (buf[0] == 4)
+		end_of_transmission(datas, *line);
 }
