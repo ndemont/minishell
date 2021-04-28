@@ -18,7 +18,10 @@ void	ft_signals(int sig)
 	{
 		write(0, "\n", 1);
 		if (!tcaps.child)
+		{
+			tcaps.signal = 1;
 			display_prompt();
+		}
 	}
 	if (sig == SIGQUIT)
 	{

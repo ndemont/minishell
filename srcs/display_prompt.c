@@ -45,6 +45,14 @@ char *create_line(t_big *datas)
 		non_print_flag = 0;
 		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
+		if (tcaps.signal)
+		{
+			if (line)
+				free(line);
+			line = ft_strdup("");
+			tcaps.signal = 0;
+			i = 0;
+		}
 		if (ret == 0)
 			break ;
 		j = 0;
@@ -100,6 +108,8 @@ int	read_input(t_big *datas)
 		return (0);
 	if (!line[0])
 		return (1);
+/* 	if (tcaps.signal)
+		return (1); */
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
 	if (!(token_tab ))

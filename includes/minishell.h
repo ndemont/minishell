@@ -55,6 +55,7 @@ typedef struct			s_caps
 	int 				c_start;
 	int					line_lvl;
 	int					child;
+	int 				signal;
 }						t_caps;
 
 typedef struct			s_node

@@ -14,14 +14,5 @@
 
 void	save_history(char *line, t_big *datas)
 {
-	t_history *test;
-
 	update_history_list(datas->history, line, 1);
-	test = *datas->history;
-	while(test)
-	{
-		if (test->command)
-			printf("[%s]\n", test->command);
-		test = test->next;
-	}
 }
