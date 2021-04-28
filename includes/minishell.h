@@ -163,6 +163,8 @@ int						display_prompt(void);
 
 
 //TERMCAPS
+
+void		      term_size(void);
 void					termcaps_init(void);
 void					raw_mode(void);
 void					normal_mode(void);
@@ -174,6 +176,7 @@ void					end_of_transmission(t_big *datas, char *line);
 
 //FLAGS
 void					ft_signals(int sig);
+
 
 //DEVELOPPEMENT MODE
 void					DEVELOPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
