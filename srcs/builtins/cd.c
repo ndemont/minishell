@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:59:15 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/16 17:46:15 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/04/28 14:39:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,14 @@ int		ft_cd(char **arg, t_big *datas)
 			}
 		}
 		else
-			chdir(arg[1]);
+		{
+			if (chdir(arg[1]) < 0)
+			{
+				tcaps.ret = RET_ERROR;
+				printf("minishellrose: cd: %s: No such file or directory\n", arg[1]);
+				return (0);
+			}
+		}
 	}
 	actualize_variables(datas);
 	return (0);	
