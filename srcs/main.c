@@ -23,6 +23,7 @@ void	actualize_data(t_big *datas)
 	datas->root = 0;
 	tcaps.line_lvl = 0;
 	tcaps.child = 0;
+	tcaps.signal = 0;
 }
 
 void	init_data(t_big *datas)
@@ -46,6 +47,7 @@ void	init_data(t_big *datas)
 	tcaps.l_pos = 0;
 	tcaps.c_start = 0;
 	tcaps.line_lvl = 0;
+	tcaps.signal = 0;
 }
 
 void	sigint_handler(int sig)
