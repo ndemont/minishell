@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/26 12:36:35 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 22:20:06 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	actualize_data(t_big *datas)
 	datas->quit = 0;
 	datas->root = 0;
 	tcaps.line_lvl = 0;
+	tcaps.child = 0;
 }
 
 void	init_data(t_big *datas)
@@ -33,6 +34,7 @@ void	init_data(t_big *datas)
 	datas->flag_history = 0;
 	datas->redirection_arg = 0;
 	datas->env = 0;
+	datas->quit = 0;
 	datas->export = 0;
 	datas->hidden = 0;
 	datas->history = 0;
@@ -61,7 +63,8 @@ int		main(int ac, char **av, char **env)
 	init_data(&datas);
 	init_history(&datas);
 	store_env(env, &datas);
-	signal(SIGINT, &sigint_handler);
+	signal(SIGINT, ft_signals);
+	signal(SIGQUIT, ft_signals);
 	while (read_input(&datas));
 	update_history_file(&datas);
 	return (0);

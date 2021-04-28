@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_history.c                                   :+:      :+:    :+:   */
+/*   eot.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/23 10:58:06 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 15:19:51 by ndemont          ###   ########.fr       */
+/*   Created: 2021/04/27 13:46:13 by ndemont           #+#    #+#             */
+/*   Updated: 2021/04/27 17:04:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_history_file(t_big *datas)
+void    end_of_transmission(t_big *datas, char *line)
 {
-	int			fd;
-	t_history	*history;
-	
-	fd = open(".minishell_history", O_CREAT | O_WRONLY | O_APPEND, 0644);
-	history = 0;
-	if (datas->history)
-		history = *datas->history;
-	while (history && history->next->status != 0)
-		history = history->next;
-	while (history)
-	{
-		write(fd, history->command, ft_strlen(history->command));
-		write(fd, "\n", 1);
-		history = history->prev;
-	}
-	close(fd);
+    //free_tokens(token_tab);
+	//free_datas(datas);
+    if (line && !line[0])
+    {
+        write(0, "exit\n", 5);
+	    update_history_file(datas);
+        exit(1);
+    }
 }
