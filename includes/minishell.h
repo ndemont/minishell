@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 14:07:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 23:37:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,10 @@ t_node					**ft_builtin_parser(t_node **token_tab);
 void					executions(t_big *datas);
 void					tree(t_node **tokens, t_big *datas);
 void					*print_errors(char *error);
+void					semicolon_node(t_node **tokens, t_big *datas, int i);
+void					right_redirection_node(t_node **tokens, t_big *datas, int i);
+void					left_redirection_node(t_node **tokens, t_big *datas, int i);
+void					pipe_node(t_node **tokens, t_big *datas, int i);
 
 //LEXER
 t_node					**ft_create_nodes(char *input, int nb);
@@ -154,7 +158,7 @@ int						ft_cd(char **arg, t_big *datas);
 int						ft_unset(char **arg, t_big *datas);
 int						ft_pwd(t_big *datas);
 int						ft_export(char **arg, t_big *datas);
-int						ft_exit(t_big *datas, t_node *builtin);
+int						ft_exit(char **arg, t_big *datas);
 char					*get_env(t_big *data, char *var);
 
 int						cmp_list(t_var *lst, t_var *lst2);
@@ -165,7 +169,7 @@ int						display_prompt(void);
 
 
 //TERMCAPS
-void		      			term_size(void);
+void					term_size(void);
 void					termcaps_init(void);
 void					raw_mode(void);
 void					normal_mode(void);
