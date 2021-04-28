@@ -163,25 +163,13 @@ int						display_prompt(void);
 
 
 //TERMCAPS
-<<<<<<< HEAD
-void		term_size(void);
-void		termcaps_init(void);
-void		raw_mode(void);
-void		normal_mode(void);
-void		cursor_position(void);
-void		do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
-int			ft_putchar2(int);
-void		print_at_cursor(char c);
-=======
->>>>>>> 9b2ccfa988cdd18e9904d43dbcb8dc7adad8e7d7
-
-void		      term_size(void);
+void		      			term_size(void);
 void					termcaps_init(void);
 void					raw_mode(void);
 void					normal_mode(void);
 void					cursor_position(void);
 void					do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
-int						ft_putchar2(int);
+int					ft_putchar2(int);
 void					print_at_cursor(char c);
 void					end_of_transmission(t_big *datas, char *line);
 
