@@ -18,6 +18,7 @@ int	display_prompt(void)
 	write(STDOUT_FILENO, "minishellrose-v1$ ", 18);
 	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
+	tcaps.line_lvl = 0;
 	cursor_position();
 	tcaps.c_start = tcaps.c_pos;
 	normal_mode();

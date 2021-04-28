@@ -140,18 +140,28 @@ void	history_older(int *i, char **line, t_big *datas, int flag)
 
 void	clear_term(void)
 {
-	char *sf_cap;
-	char *cm_move;
+	//char *pc;
+	char	*sf_cap;
+	char	*cm_move;
+	int		save;
+	int		cursor_flag;
 
+	//pc = tgetstr("pc", NULL);
+	//tputs(pc, 1, ft_putchar);
+	cursor_flag = 0;
+	cursor_position();
 	sf_cap = tgetstr("sf", NULL);
-	ft_putstr_fd(sf_cap, 0);
 	cm_move = tgetstr("cm", NULL);
+	save = tcaps.c_pos;
+	tcaps.l_pos = tcaps.l_pos - tcaps.line_lvl;
 	while (tcaps.l_pos)
 	{
+		cursor_flag = 1;
 		tputs(sf_cap, 1, ft_putchar2);
 		tcaps.l_pos--;
 	}
-	tputs(tgoto(cm_move, tcaps.c_start, 0), 1, ft_putchar2);
+	if (cursor_flag)
+		tputs(tgoto(cm_move, save, 0), 1, ft_putchar2);
 }
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
