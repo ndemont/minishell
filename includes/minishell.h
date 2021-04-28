@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 12:56:28 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 14:07:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct			s_big
 t_caps					tcaps;
 
 //ENV
-int						ft_env(t_big *datas);
+int						ft_env(char **av, t_big *datas);
 void					store_env(char **env, t_big *datas);
 void					ft_hidden(char **argv, t_big *datas);
 int						check_duplicate(t_list *list, char *ref);
