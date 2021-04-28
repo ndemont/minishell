@@ -30,10 +30,22 @@ void	DEVELOPMENT_MODE_print_sequence(char *buf)
 	close(fd);
 }
 
-void	DEVELOPMENT_MODE_print_termcaps(void)
+void	DEVELOPMENT_MODE_print_nbr(long n)
+{
+	int fd = open("DEBUG_NBR", O_CREAT | O_APPEND | O_WRONLY, 0644);
+
+	ft_putnbr_fd(n, fd);
+	ft_putchar_fd('\n', fd);
+	close(fd);
+}
+
+
+void	DEVELOPMENT_MODE_print_termcaps(char *str)
 {
 	int fd = open("DEBUG_termcaps", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	dprintf(fd, "Prompt Line = %i\n", tcaps.l_prompt);
+
+	cursor_position();
+	dprintf(fd, "%s\n\n", str);
 	dprintf(fd, "Max Column = %i\n", tcaps.c_max);
 	dprintf(fd, "Max Line = %i\n", tcaps.l_max);
 	dprintf(fd, "Current_Column_position = %i\n", tcaps.c_pos);
