@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 14:59:20 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 21:44:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	exec_piped_cmd(char *command, char **av, int is_built_in, t_big *datas)
 	datas->flag_left_bracket = 0;
 	pipe(fd);
 	pid1 = fork();
+	tcaps.child = 1;
 	if (pid1 == 0)
 	{
 		dup2(datas->fd, STDIN_FILENO);
@@ -37,6 +38,7 @@ void	exec_piped_cmd(char *command, char **av, int is_built_in, t_big *datas)
 		exit(0);
 	}
 	waitpid(pid1, NULL, 0);
+	tcaps.child = 0;
 	dup2(fd[0], datas->fd);
 	close(fd[1]);
 	close(fd[0]);

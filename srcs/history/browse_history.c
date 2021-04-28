@@ -53,14 +53,16 @@ void	lines_added(char *str)
 	int size;
 	int line_len;
 
+	tcaps.line_lvl = 0;
 	size = tcaps.c_max - tcaps.c_start;
 	line_len = ft_strlen(str);
 	if (line_len > size)
 	{
-		tcaps.line_lvl++;
 		line_len -= size;
 		size = tcaps.c_max;
-		tcaps.line_lvl += ((line_len / size) + (line_len % size));
+		tcaps.line_lvl += line_len / size;
+		if (line_len % size)
+			tcaps.line_lvl++;
 	}
 }
 

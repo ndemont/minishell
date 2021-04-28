@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/26 13:01:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/27 21:43:54 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	display_prompt(void)
 {
 	write(STDOUT_FILENO, PURPLE, 7);
 	write(STDOUT_FILENO, "minishellrose-v1$ ", 18);
-   	write(STDOUT_FILENO, RESET, 6);
+	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
 	cursor_position();
 	tcaps.c_start = tcaps.c_pos;
@@ -58,9 +58,7 @@ char *create_line(t_big *datas)
 		}
 		if (non_print_flag)
 		{
-			//UTILE POUR CONTROLER SANS POURRIR OUTPUT
 			//DEVELOPMENT_MODE_print_sequence(buf);
-			//
 			do_the_right_thing(&i, buf, &line, datas);
 		}
 		else
@@ -89,7 +87,6 @@ char *create_line(t_big *datas)
 
 int	read_input(t_big *datas)
 {
-	//int		ret;
 	char	*line;
 	t_node	**token_tab;
 
@@ -101,6 +98,8 @@ int	read_input(t_big *datas)
 	line = create_line(datas);
 	if (!line)
 		return (0);
+	if (!line[0])
+		return (1);
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
 	if (!(token_tab ))
