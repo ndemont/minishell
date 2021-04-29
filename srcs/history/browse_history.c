@@ -63,6 +63,7 @@ void		lines_added(char *str)
 		if (line_len % size)
 			tcaps.line_lvl++;
 	}
+	tcaps.cursor_lvl = tcaps.line_lvl;
 }
 
 void		browse_history(t_big *datas, char **line, int signal)
