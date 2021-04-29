@@ -77,7 +77,7 @@ int		ft_check_char(int *i, int *j, char *input)
 	}
 	else if (ft_is_quote(input, *i) > 0)
 		*i = ft_is_quote(input, *i);
-	else
+	else if (ft_is_quote(input, *i) < 0 && ft_is_grammar(input, *i) < 0)
 		return (0);
 	return (1);
 }
