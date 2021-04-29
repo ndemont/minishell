@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 14:34:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/29 18:39:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		ft_check_char(int *i, int *j, char *input)
 	}
 	else if (ft_is_quote(input, *i) > 0)
 		*i = ft_is_quote(input, *i);
-	else if (ft_is_quote(input, *i) < 0 && ft_is_grammar(input, *i) < 0)
+	else
 		return (0);
 	return (1);
 }
