@@ -57,6 +57,8 @@ typedef struct			s_caps
 	int					child;
 	int 				signal;
 	int					ret;
+	int					cursor_max;
+	int					cursor_lvl;
 }						t_caps;
 
 typedef struct			s_node

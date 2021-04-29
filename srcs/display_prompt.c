@@ -21,6 +21,7 @@ int	display_prompt(void)
 	tcaps.line_lvl = 0;
 	cursor_position();
 	tcaps.c_start = tcaps.c_pos;
+	tcaps.cursor_max += tcaps.c_start;
 	normal_mode();
 	return (1);
 }
