@@ -142,7 +142,8 @@ void	history_older(int *i, char **line, t_big *datas, int flag)
 	browse_history(datas, line, flag);
 	*i = ft_strlen(*line);
 	tcaps.cursor_pos = *i;
-	tcaps.cursor_max = *i;
+	cursor_position();
+	tcaps.cursor_max = tcaps.c_pos;
 }
 
 void	clear_term(void)
@@ -177,13 +178,14 @@ void	move_cursor_left(void)
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
 	{
 		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), 1, ft_putchar2);
+		tcaps.cursor_pos--;
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.cursor_lvl)
 	{
 		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 1, ft_putchar2);
 		tcaps.cursor_lvl--;
+		tcaps.cursor_pos--;
 	}
-	tcaps.cursor_pos--;
 }
 
 void	move_cursor_right(void)
@@ -194,7 +196,10 @@ void	move_cursor_right(void)
 	if (tcaps.cursor_lvl == tcaps.line_lvl)
 	{
 		if (tcaps.c_pos + 1 <= tcaps.cursor_max)
+		{
 			tputs(tgoto(cm_cap, tcaps.c_pos + 1, tcaps.l_pos), 1, ft_putchar2);
+			tcaps.cursor_pos++;
+		}
 	}
 	else if (tcaps.cursor_lvl < tcaps.line_lvl)
 	{
@@ -205,8 +210,8 @@ void	move_cursor_right(void)
 			tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), 1, ft_putchar2);
 			tcaps.cursor_lvl++;
 		}
+		tcaps.cursor_pos++;
 	}
-	tcaps.cursor_pos++;
 }
 
 void	backspace_at_cursor(int *i, char **line)
