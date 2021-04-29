@@ -26,6 +26,7 @@ void	actualize_data(t_big *datas)
 	tcaps.signal = 0;
 	tcaps.cursor_max = 0;
 	tcaps.cursor_lvl = 0;
+	tcaps.cursor_pos = 0;
 }
 
 void	init_data(t_big *datas)
@@ -52,6 +53,7 @@ void	init_data(t_big *datas)
 	tcaps.signal = 0;
 	tcaps.cursor_max = 0;
 	tcaps.cursor_lvl = 0;
+	tcaps.cursor_pos = 0;
 }
 
 void	sigint_handler(int sig)

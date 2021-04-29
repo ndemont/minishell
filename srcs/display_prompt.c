@@ -39,11 +39,10 @@ char *create_line(t_big *datas)
 	i = 0;
 	ret = 0;
 	buf[3] = 0;
-	//cursor_position(); //UNDER RAW_MODE_FCT, IT CANNOT BE PRINTED
 	raw_mode();
 	while (line[i] != '\n')
 	{
-		cursor_position(); //UNDER RAW_MODE_FCT, IT CANNOT BE PRINTED
+		cursor_position();
 		non_print_flag = 0;
 		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
@@ -66,7 +65,7 @@ char *create_line(t_big *datas)
 				non_print_flag = 1;
 			j++;
 		}
-		if (non_print_flag)
+		if (non_print_flag || tcaps.cursor_pos < i)
 		{
 			//DEVELOPMENT_MODE_print_sequence(buf);
 			do_the_right_thing(&i, buf, &line, datas);
@@ -88,6 +87,7 @@ char *create_line(t_big *datas)
 			print_at_cursor(line[i]);
 			//write(STDIN_FILENO, &line[i], 1);	
 			i++;
+			tcaps.cursor_pos = i;
 		}
 	}
 	normal_mode();

@@ -59,6 +59,7 @@ typedef struct			s_caps
 	int					ret;
 	int					cursor_max;
 	int					cursor_lvl;
+	int					cursor_pos;
 }						t_caps;
 
 typedef struct			s_node
