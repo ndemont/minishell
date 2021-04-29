@@ -247,6 +247,29 @@ void	backspace_at_cursor(int *i, char **line)
 	tcaps.cursor_pos--;
 }
 
+void 	add_at_cursor(char c, int *i, char **line)
+{
+	char *oldline;
+	char *tmp;
+	char *im_cap;
+
+	oldline = *line;
+	*line = ft_substr(oldline, 0, tcaps.cursor_pos);
+	tmp = ft_substr(oldline, tcaps.cursor_pos, *i);
+	free(oldline);
+	*line = ft_realloc(*line, ft_strlen(*line) + 1 + ft_strlen(tmp) + 1);
+	(*line)[tcaps.cursor_pos] = c;
+	(*line)[tcaps.cursor_pos + 1] = 0;
+	ft_strlcat(*line, tmp, ft_strlen(*line) + ft_strlen(tmp) + 1);
+	(*i)++;
+	im_cap = tgetstr("im", NULL); //INSERT MODE
+	tputs(im_cap, 1, ft_putchar2);
+	tputs(tgetstr("ic", NULL), 1, ft_putchar2);
+	write(0, &c, 1); //à changer par PRINT_C
+	tputs(tgetstr("ip", NULL), 1, ft_putchar2);
+	tputs(tgetstr("ei", NULL), 1, ft_putchar2);
+}
+
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 {
 	int sig;
@@ -268,4 +291,6 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 		clear_term();
 	else if (buf[0] == 4)
 		end_of_transmission(datas, *line);
+	else if (buf[0] > 31 && buf[0] < 127)
+		add_at_cursor(buf[0], i, line);
 }
