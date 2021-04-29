@@ -272,6 +272,13 @@ void 	add_at_cursor(char c, int *i, char **line)
 	tcaps.cursor_pos++;
 }
 
+void	execute_line(int *i, char **line, char *buf)
+{
+	*line = ft_realloc(*line, ft_strlen(*line) + 2);
+	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
+	(*line)[*i] = 0;
+}
+
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 {
 	int sig;
@@ -295,4 +302,6 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 		end_of_transmission(datas, *line);
 	else if (buf[0] > 31 && buf[0] < 127)
 		add_at_cursor(buf[0], i, line);
+	else if (buf[0] == 10)
+		execute_line(i, line, buf);
 }
