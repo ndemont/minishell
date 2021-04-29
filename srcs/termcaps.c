@@ -122,6 +122,7 @@ void	backspace(int *i, char **line)
 		tcaps.cursor_lvl--;
 	}
 	tcaps.cursor_max--;
+	tcaps.cursor_pos = *i;
 }
 
 void	history_older(int *i, char **line, t_big *datas, int flag)
@@ -140,6 +141,8 @@ void	history_older(int *i, char **line, t_big *datas, int flag)
 	tputs(cd_cap, tcaps.l_max - tcaps.l_pos, ft_putchar2);
 	browse_history(datas, line, flag);
 	*i = ft_strlen(*line);
+	tcaps.cursor_pos = *i;
+	tcaps.cursor_max = *i;
 }
 
 void	clear_term(void)
@@ -170,7 +173,6 @@ void	move_cursor_left(void)
 {
 	char *cm_cap;
 
-	DEVELOPMENT_MODE_print_termcaps("LEFT");
 	cm_cap = tgetstr("cm", NULL);
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
 	{
@@ -181,6 +183,7 @@ void	move_cursor_left(void)
 		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 1, ft_putchar2);
 		tcaps.cursor_lvl--;
 	}
+	tcaps.cursor_pos--;
 }
 
 void	move_cursor_right(void)
@@ -188,7 +191,6 @@ void	move_cursor_right(void)
 	char *cm_cap;
 
 	cm_cap = tgetstr("cm", NULL);
-	DEVELOPMENT_MODE_print_termcaps("LEFT");
 	if (tcaps.cursor_lvl == tcaps.line_lvl)
 	{
 		if (tcaps.c_pos + 1 <= tcaps.cursor_max)
@@ -204,6 +206,40 @@ void	move_cursor_right(void)
 			tcaps.cursor_lvl++;
 		}
 	}
+	tcaps.cursor_pos++;
+}
+
+void	backspace_at_cursor(int *i, char **line)
+{
+	char *oldline;
+	char *tmp;
+	char *cm_cap;
+	char *dc_cap;
+
+	oldline = *line;
+	*line = ft_substr(oldline, 0, tcaps.cursor_pos - 1);
+	tmp = ft_substr(oldline, tcaps.cursor_pos, *i);
+	free(oldline);
+	*line = ft_realloc(*line, ft_strlen(*line) + ft_strlen(tmp) + 1);
+	ft_strlcat(*line, tmp, ft_strlen(*line) + ft_strlen(tmp) + 1);
+	if (*i > 0)
+		(*i)--;
+	cm_cap = tgetstr("cm", NULL);
+	dc_cap = tgetstr("dc", NULL);
+	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
+	{
+		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), 1, ft_putchar2);
+		tputs(dc_cap, 1, ft_putchar2);
+	}
+	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
+	{
+		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 1, ft_putchar2);
+		tputs(tgetstr("ce", NULL), 1, ft_putchar2);
+		tcaps.line_lvl--;
+		tcaps.cursor_lvl--;
+	}
+	tcaps.cursor_max--;
+	tcaps.cursor_pos--;
 }
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
@@ -211,8 +247,10 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 	int sig;
 	
 	sig = 0;
-	if(buf[0] == 127)
+	if(buf[0] == 127 && tcaps.cursor_pos == *i)
 		backspace(i, line);
+	else if(buf[0] == 127 && tcaps.cursor_pos < *i && tcaps.cursor_pos > 0)
+		backspace_at_cursor(i, line);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
 		history_older(i, line, datas, 1);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
