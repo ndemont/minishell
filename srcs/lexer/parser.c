@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 14:53:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/29 18:28:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char		*get_arg(char *input, int *i)
 	char	*tmp1;
 	char	*tmp2;
 	char	*tmp3;
+	char	*tmp4;
 	int		j;
 
 	arg = malloc(sizeof(char));
@@ -61,7 +62,9 @@ char		*get_arg(char *input, int *i)
 		if (input[*i] == '\\' && input[*i + 1])
 		{
 			*i = *i + 1;
-			tmp2 = ft_substr(input, *i, 1);
+			tmp2 = ft_substr(input, j, *i - j - 1);
+			tmp4 = ft_substr(input, *i, 1);
+			tmp2 = ft_strjoin(tmp2, tmp4);
 			*i = *i + 1;
 		}
 		else if (input[*i] == '\\' && !input[*i + 1])

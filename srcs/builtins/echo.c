@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 12:18:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/29 18:34:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 	ret[0] = 0;
 	while (arg[*i] && arg[*i + 1])
 	{
-		if (arg[*i][0] == '\"')
+		if (arg[*i][0] == '\"' && arg[*i][1] == '$')
 			arg[*i] = get_env_var(arg[*i], datas);
 		len = ft_strlen(arg[*i]);
 		tmp = ret;
@@ -81,7 +81,7 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 	int	len;
 	char *tmp;
 
-	if (arg[*i][0] == '\"')
+	if (arg[*i][0] == '\"' && arg[*i][1] == '$')
 		arg[*i] = get_env_var(arg[*i], datas);
 	len = ft_strlen(arg[*i]);
 	tmp = ret;
