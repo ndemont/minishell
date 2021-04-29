@@ -26,6 +26,13 @@ int	display_prompt(void)
 	return (1);
 }
 
+void	execute_line(int i, char **line, char *buf)
+{
+	*line = ft_realloc(*line, ft_strlen(*line) + 2);
+	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
+	(*line)[i] = 0;
+}
+
 char *create_line(t_big *datas)
 {
 	int ret;
@@ -68,6 +75,11 @@ char *create_line(t_big *datas)
 		if (non_print_flag || tcaps.cursor_pos < i)
 		{
 			//DEVELOPMENT_MODE_print_sequence(buf);
+			if (buf[0] == 10)
+			{
+				execute_line(i, &line, buf);
+				break ;
+			}
 			do_the_right_thing(&i, buf, &line, datas);
 		}
 		else
