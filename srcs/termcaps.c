@@ -268,6 +268,8 @@ void 	add_at_cursor(char c, int *i, char **line)
 	write(0, &c, 1); //à changer par PRINT_C
 	tputs(tgetstr("ip", NULL), 1, ft_putchar2);
 	tputs(tgetstr("ei", NULL), 1, ft_putchar2);
+	tcaps.cursor_max++;
+	tcaps.cursor_pos++;
 }
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
