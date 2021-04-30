@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/30 11:30:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/30 12:24:57 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void					pipe_node(t_node **tokens, t_big *datas, int i);
 //LEXER
 t_node					**ft_create_nodes(char *input, int nb);
 int						count_arg(char *input);
-char					*get_quote(char *input, int *i, int *j);
+char					*get_single_quote(char *input, int *i, int *j);
 char					*get_arg(char *input, int *i);
 int						ft_count_tokens(char *input);
 int						ft_is_grammar(char *str, int i);
