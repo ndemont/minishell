@@ -6,7 +6,7 @@
 #    By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 14:42:49 by gpetit            #+#    #+#              #
-#    Updated: 2021/04/28 23:38:53 by ndemont          ###   ########.fr        #
+#    Updated: 2021/04/30 11:29:39 by ndemont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LIBFT = -Llibft -lft -ltermcap
 
 SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c \
 	lexer/nodes.c lexer/tokens.c free/free.c ast/binaries.c ast/tree.c ast/branches.c\
-	errors/errors.c builtins/echo.c builtins/cd.c builtins/env.c builtins/pwd.c \
+	lexer/arguments.c errors/errors.c builtins/echo.c builtins/cd.c builtins/env.c builtins/pwd.c \
 	builtins/exit.c builtins/export.c builtins/unset.c builtins/hidden.c grammar/pipe.c \
 	grammar/semicolon.c grammar/redirection.c history/init_history.c \
 	history/update_history.c history/browse_history.c history/save_history.c termcaps.c \
