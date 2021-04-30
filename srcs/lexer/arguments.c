@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/30 12:56:19 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/30 15:50:59 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,20 @@ char		*get_variable(char *input, int *k)
 	int		start;
 
 	start = *k;
-	while (input[*k] && input[*k] != ' ')
+	while (input[*k] && input[*k] != ' ' && input[*k] != '\"')
 		*k = *k + 1;
-	new = substr(input, start, *k - start);
+	new = ft_substr(input, start, *k - start);
 	if (!new)
 		return (0);
 	tmp = new;
-	new = substr("\"", tmp, ft_strlen(tmp) + 1);
+	new = ft_strjoin("\"", tmp);
 	if (!new)
 	{
 		free(tmp);
 		return (0);
 	}
 	tmp = new;
-	new = substr(new, "\"", tmp, ft_strlen(tmp) + 1);
+	new = ft_strjoin(tmp, "\"");
 	free(tmp);
 	return (new);
 }
@@ -93,26 +93,31 @@ char		*get_backslash(char *input, int *i, int j)
 
 char		*get_double_quote(char *input, int *i, int j)
 {
-	char	*tmp;
 	char	*new;
-	char	*var;
-	int		k;
+	char	*first_part;
+	char	*second_part;
 	int 	start;
 
-	new = get_single_quote(input, i, &j);
-	if (!new)
-		return (print_errors(strerror(errno)));
-	k = 0;
-	while (new[k])
+	new = ft_substr(input, j, *i - j);
+	*i = *i + 1;
+	start = *i;
+	while (input[*i] && input[*i] != '\"')
 	{
-		if (new[k] == '$')
+		if (input[*i] == '$')
 		{
-			if (!(var = get_variable(input, &k)))
+			first_part = ft_substr(input, start, *i - start);
+			new = ft_strjoin(new, first_part);
+			if (!(second_part = get_variable(input, i)))
 				return (0);
-			
+			new = ft_strjoin(new, second_part);
+			start = *i;
 		}
-		k++;
+		else
+			*i = *i + 1;
 	}
+	first_part = ft_substr(input, start, *i - start);
+	new = ft_strjoin(new, first_part);
+	*i = *i + 1;
 	return (new);
 }
 
@@ -156,6 +161,7 @@ char		*get_arg(char *input, int *i)
 	while (input[*i] && input[*i] != ' ' && input[*i] != '\t')
 	{
 		j = *i;
+		printf("\ninput[i] = [%c]\n", input[*i]);
 		first_part = arg;
 		while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"' && input[*i] != '\t' && input[*i] != '\\')
 			*i = *i + 1;
