@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 22:18:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 23:37:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 # define RESET "\033[0;0m"
+# define RET_ERROR 127
 
 # define CLEAR "\e[H\e[2J"
 
@@ -47,7 +48,6 @@ typedef struct			s_caps
 {
 	struct termios		term;
 	struct termios		save;
-	int					l_prompt;
 	int					c_max;
 	int					l_max;
 	int					c_pos;
@@ -55,6 +55,11 @@ typedef struct			s_caps
 	int 				c_start;
 	int					line_lvl;
 	int					child;
+	int 				signal;
+	int					ret;
+	int					cursor_max;
+	int					cursor_lvl;
+	int					cursor_pos;
 }						t_caps;
 
 typedef struct			s_node
@@ -103,7 +108,7 @@ typedef struct			s_big
 t_caps					tcaps;
 
 //ENV
-int						ft_env(t_big *datas);
+int						ft_env(char **av, t_big *datas);
 void					store_env(char **env, t_big *datas);
 void					ft_hidden(char **argv, t_big *datas);
 int						check_duplicate(t_list *list, char *ref);
@@ -129,6 +134,10 @@ t_node					**ft_builtin_parser(t_node **token_tab);
 void					executions(t_big *datas);
 void					tree(t_node **tokens, t_big *datas);
 void					*print_errors(char *error);
+void					semicolon_node(t_node **tokens, t_big *datas, int i);
+void					right_redirection_node(t_node **tokens, t_big *datas, int i);
+void					left_redirection_node(t_node **tokens, t_big *datas, int i);
+void					pipe_node(t_node **tokens, t_big *datas, int i);
 
 //LEXER
 t_node					**ft_create_nodes(char *input, int nb);
@@ -152,7 +161,7 @@ int						ft_cd(char **arg, t_big *datas);
 int						ft_unset(char **arg, t_big *datas);
 int						ft_pwd(t_big *datas);
 int						ft_export(char **arg, t_big *datas);
-int						ft_exit(t_big *datas, t_node *builtin);
+int						ft_exit(char **arg, t_big *datas);
 char					*get_env(t_big *data, char *var);
 
 int						cmp_list(t_var *lst, t_var *lst2);
@@ -163,13 +172,13 @@ int						display_prompt(void);
 
 
 //TERMCAPS
-void		      			term_size(void);
+void					term_size(void);
 void					termcaps_init(void);
 void					raw_mode(void);
 void					normal_mode(void);
 void					cursor_position(void);
 void					do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
-int					ft_putchar2(int);
+int						ft_putchar2(int);
 void					print_at_cursor(char c);
 void					end_of_transmission(t_big *datas, char *line);
 
@@ -179,7 +188,9 @@ void					ft_signals(int sig);
 
 //DEVELOPPEMENT MODE
 void					DEVELOPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
-void					DEVELOPMENT_MODE_print_termcaps(void); //DELETE BEFORE PUSH
+void					DEVELOPMENT_MODE_print_termcaps(char *str); //DELETE BEFORE PUSH
 void					DEVELOPMENT_MODE_print_str(char *buf);
+void					DEVELOPMENT_MODE_print_nbr(long n);
+
 
 #endif

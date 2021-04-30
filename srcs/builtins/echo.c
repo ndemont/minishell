@@ -6,11 +6,19 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 19:55:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/29 18:34:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char		*get_return_value(void)
+{
+	char *value;
+
+	value = ft_itoa(tcaps.ret);
+	return (value);
+}
 
 char		*get_env_var(char *var, t_big *datas)
 {
@@ -21,6 +29,11 @@ char		*get_env_var(char *var, t_big *datas)
 
 	tmp = malloc(sizeof(char) * (ft_strlen(var) - 2));
 	tmp = ft_substr(var, 2, (ft_strlen(var) - 3));
+	if (!ft_strcmp(tmp, "?"))
+	{
+		value = get_return_value();
+		return (value);
+	}
 	i = 0;
 	env = *datas->env;
 	value = malloc(sizeof(char));
@@ -47,7 +60,7 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 	ret[0] = 0;
 	while (arg[*i] && arg[*i + 1])
 	{
-		if (arg[*i][0] == '\"')
+		if (arg[*i][0] == '\"' && arg[*i][1] == '$')
 			arg[*i] = get_env_var(arg[*i], datas);
 		len = ft_strlen(arg[*i]);
 		tmp = ret;
@@ -68,7 +81,7 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 	int	len;
 	char *tmp;
 
-	if (arg[*i][0] == '\"')
+	if (arg[*i][0] == '\"' && arg[*i][1] == '$')
 		arg[*i] = get_env_var(arg[*i], datas);
 	len = ft_strlen(arg[*i]);
 	tmp = ret;
@@ -99,5 +112,6 @@ int			ft_echo(char **arg, t_big *datas)
 	ret = ft_echo_cat(arg, &i, datas); //PENSER A FREE
 	ret = ft_echo_catlast(ret, arg, &i, flag, datas); //NAS, PENSE A FREE STP
 	ft_putstr_fd(ret, STDOUT_FILENO);
+	tcaps.ret = 0;
 	return (1);
 }

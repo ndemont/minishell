@@ -6,22 +6,17 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 21:44:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/29 11:52:20 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_piped_cmd(char *command, char **av, int is_built_in, t_big *datas)
+static void	exec_child(char *command, char **av, int is_built_in, t_big *datas)
 {
 	int		fd[2];
 	pid_t	pid1;
 
-	datas->flag_pipe = 1;
-	if (datas->flag_bracket)
-		ft_putstr_fd(datas->redirection_arg, datas->fd);
-	datas->flag_bracket = 0;
-	datas->flag_left_bracket = 0;
 	pipe(fd);
 	pid1 = fork();
 	tcaps.child = 1;
@@ -42,4 +37,14 @@ void	exec_piped_cmd(char *command, char **av, int is_built_in, t_big *datas)
 	dup2(fd[0], datas->fd);
 	close(fd[1]);
 	close(fd[0]);
+}
+
+void		exec_piped_cmd(char *cmd, char **av, int is_built_in, t_big *datas)
+{
+	datas->flag_pipe = 1;
+	if (datas->flag_bracket)
+		ft_putstr_fd(datas->redirection_arg, datas->fd);
+	datas->flag_bracket = 0;
+	datas->flag_left_bracket = 0;
+	exec_child(cmd, av, is_built_in, datas);
 }

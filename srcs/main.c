@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 22:20:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 12:55:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ void	actualize_data(t_big *datas)
 	datas->root = 0;
 	tcaps.line_lvl = 0;
 	tcaps.child = 0;
+	tcaps.signal = 0;
+	tcaps.cursor_max = 0;
+	tcaps.cursor_lvl = 0;
+	tcaps.cursor_pos = 0;
 }
 
 void	init_data(t_big *datas)
@@ -46,6 +50,10 @@ void	init_data(t_big *datas)
 	tcaps.l_pos = 0;
 	tcaps.c_start = 0;
 	tcaps.line_lvl = 0;
+	tcaps.signal = 0;
+	tcaps.cursor_max = 0;
+	tcaps.cursor_lvl = 0;
+	tcaps.cursor_pos = 0;
 }
 
 void	sigint_handler(int sig)

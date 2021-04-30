@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/27 21:43:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 14:20:57 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,19 @@ int	display_prompt(void)
 	write(STDOUT_FILENO, "minishellrose-v1$ ", 18);
 	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
+	tcaps.line_lvl = 0;
 	cursor_position();
 	tcaps.c_start = tcaps.c_pos;
+	tcaps.cursor_max += tcaps.c_start;
 	normal_mode();
 	return (1);
+}
+
+void	execute_line(int i, char **line, char *buf)
+{
+	*line = ft_realloc(*line, ft_strlen(*line) + 2);
+	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
+	(*line)[i] = 0;
 }
 
 char *create_line(t_big *datas)
@@ -37,14 +46,21 @@ char *create_line(t_big *datas)
 	i = 0;
 	ret = 0;
 	buf[3] = 0;
-	//cursor_position(); //UNDER RAW_MODE_FCT, IT CANNOT BE PRINTED
 	raw_mode();
 	while (line[i] != '\n')
 	{
-		cursor_position(); //UNDER RAW_MODE_FCT, IT CANNOT BE PRINTED
+		cursor_position();
 		non_print_flag = 0;
 		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
+		if (tcaps.signal)
+		{
+			if (line)
+				free(line);
+			line = ft_strdup("");
+			tcaps.signal = 0;
+			i = 0;
+		}
 		if (ret == 0)
 			break ;
 		j = 0;
@@ -56,9 +72,14 @@ char *create_line(t_big *datas)
 				non_print_flag = 1;
 			j++;
 		}
-		if (non_print_flag)
+		if (non_print_flag || tcaps.cursor_pos < i)
 		{
 			//DEVELOPMENT_MODE_print_sequence(buf);
+			if (buf[0] == 10)
+			{
+				execute_line(i, &line, buf);
+				break ;
+			}
 			do_the_right_thing(&i, buf, &line, datas);
 		}
 		else
@@ -78,6 +99,7 @@ char *create_line(t_big *datas)
 			print_at_cursor(line[i]);
 			//write(STDIN_FILENO, &line[i], 1);	
 			i++;
+			tcaps.cursor_pos = i;
 		}
 	}
 	normal_mode();
@@ -100,6 +122,8 @@ int	read_input(t_big *datas)
 		return (0);
 	if (!line[0])
 		return (1);
+/* 	if (tcaps.signal)
+		return (1); */
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
 	if (!(token_tab ))

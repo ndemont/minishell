@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/27 21:41:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 23:30:11 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,15 @@ void	exec_built_in(char *command, char **argv, t_big *datas)
 	if (!(ft_strcmp(command, "cd")))
 		ft_cd(argv, datas);
 	if (!(ft_strcmp(command, "env")))
-		ft_env(datas);
+		ft_env(argv, datas);
 	if (!(ft_strcmp(command, "pwd")))
 		ft_pwd(datas);
 	if (!(ft_strcmp(command, "export")))
 		ft_export(argv, datas);
 	if (!(ft_strcmp(command, "unset")))
 		ft_unset(argv, datas);
+	if (!(ft_strcmp(command, "exit")))
+		ft_exit(argv, datas);
 	if(ft_strchr(command, '='))
 		ft_hidden(argv, datas);
 	return;
@@ -183,6 +185,9 @@ void	executions(t_big *datas)
 	if (datas->flag_pipe)
 		print_std(datas->fd);
 	if (datas->flag_bracket)
+	{
 		ft_putstr_fd(datas->redirection_arg, datas->fd);
+		ft_putstr_fd("\n", datas->fd);
+	}
 	close(datas->fd);
 }

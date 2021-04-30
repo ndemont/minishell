@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:41:48 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/09 17:07:27 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/28 14:26:37 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,17 @@ void	store_env(char **env, t_big *datas)
 	store_hidden(env, datas);
 }
 
-int		ft_env(t_big *datas)
+int		ft_env(char **av, t_big *datas)
 {
 
 	t_list *tmp;
 
+	if (av && *av && av[1])
+	{
+		tcaps.ret = RET_ERROR;
+		printf("env: %s: No such file or directory\n", av[1]);
+		return (0);
+	}
 	tmp = *(datas->env);
 	while (tmp)
 	{
