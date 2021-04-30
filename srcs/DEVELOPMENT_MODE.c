@@ -52,7 +52,9 @@ void	DEVELOPMENT_MODE_print_termcaps(char *str)
 	dprintf(fd, "Current_Line_position = %i\n", tcaps.l_pos);
 	dprintf(fd, "Start = %i\n", tcaps.c_start);
 	dprintf(fd, "Cursor_max = %i\n", tcaps.cursor_max);
+	dprintf(fd, "Cursor_onString = %i\n", tcaps.cursor_pos);
 	dprintf(fd, "line_depth = %i\n", tcaps.line_lvl);
+	dprintf(fd, "cursor_depth = %i\n", tcaps.cursor_lvl);
 	dprintf(fd, "<===============================>\n");
 	close(fd);
 }

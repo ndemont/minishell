@@ -71,35 +71,59 @@ int		ft_putchar2(int c)
 	return (write(STDOUT_FILENO, &c, 1));
 }
 
-void	print_at_cursor(char c)
+void	move_cursor(int c, int l)
 {
 	char *cm_cap;
 
-	term_size();
-	write(STDIN_FILENO, &c, 1);
 	cm_cap = tgetstr("cm", NULL);
+	tputs(tgoto(cm_cap, c, l), 1, ft_putchar2);
+}
+
+void	scroll_n_times(int n)
+{
+	char *sf_cap;
+
+	sf_cap = tgetstr("sf", NULL);
+	while (n)
+	{
+		tputs(sf_cap, 1, ft_putchar2);
+		n--;
+	}
+}
+
+void	clear_after_cursor(void)
+{
+	char *cd_cap;
+
+	cd_cap = tgetstr("cd", NULL);
+	tputs(cd_cap, 1, ft_putchar2);
+}
+
+void	print_at_cursor(char c)
+{
+	ft_putchar_fd(c, STDIN_FILENO);
 	if (tcaps.c_pos + 1 < tcaps.c_max)
-		tputs(tgoto(cm_cap, tcaps.c_pos + 1, tcaps.l_pos), 1, ft_putchar2);
+		move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
 	else if (tcaps.c_pos + 1 == tcaps.c_max && tcaps.l_pos + 1 != tcaps.l_max)
 	{
-		tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), 1, ft_putchar2);
+		move_cursor(0, tcaps.l_pos + 1);
 		tcaps.line_lvl++;
 		tcaps.cursor_lvl++;
 	}
 	else if (tcaps.c_pos + 1 == tcaps.c_max && tcaps.l_pos + 1 == tcaps.l_max)
 	{
-		tputs(tgetstr("sf", NULL), 1, ft_putchar2);
-		tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), 1, ft_putchar2);
+		scroll_n_times(1);
+		move_cursor(0, tcaps.l_pos + 1);
 		tcaps.line_lvl++;
 		tcaps.cursor_lvl++;
 	}
-	tcaps.cursor_max = tcaps.c_pos + 1;
+	cursor_position();
+	tcaps.cursor_max = tcaps.c_pos;
 }
 
 void	backspace(int *i, char **line)
 {
 	char *oldline;
-	char *cm_cap;
 	char *dc_cap;
 
 	oldline = *line;
@@ -107,37 +131,35 @@ void	backspace(int *i, char **line)
 		(*i)--;
 	*line = ft_substr(oldline, 0, *i);
 	free(oldline);
-	cm_cap = tgetstr("cm", NULL);
 	dc_cap = tgetstr("dc", NULL);
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
 	{
-		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), 1, ft_putchar2);
+		move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
 		tputs(dc_cap, 1, ft_putchar2);
+		tcaps.cursor_max--;
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
 	{
-		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 1, ft_putchar2);
+		move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
 		tputs(tgetstr("ce", NULL), 1, ft_putchar2);
 		tcaps.line_lvl--;
 		tcaps.cursor_lvl--;
+		tcaps.cursor_max = tcaps.c_max - 1;
 	}
-	tcaps.cursor_max--;
 	tcaps.cursor_pos = *i;
 }
 
 void	history_older(int *i, char **line, t_big *datas, int flag)
 {
-	char *cm_cap;
 	char *cd_cap;
 
-	cm_cap = tgetstr("cm", NULL);
 	cd_cap = tgetstr("cd", NULL);
-	while (tcaps.line_lvl)
-	{	
-		tputs(tgoto(cm_cap, 0, tcaps.l_pos--), 1, ft_putchar2);
-		tcaps.line_lvl--;
+	while (tcaps.cursor_lvl)
+	{
+		move_cursor(0, tcaps.l_pos--);
+		tcaps.cursor_lvl--;
 	}
-	tputs(tgoto(cm_cap, tcaps.c_start, tcaps.l_pos), 1, ft_putchar2);
+	move_cursor(tcaps.c_start, tcaps.l_pos);
 	tputs(cd_cap, tcaps.l_max - tcaps.l_pos, ft_putchar2);
 	browse_history(datas, line, flag);
 	*i = ft_strlen(*line);
@@ -148,41 +170,33 @@ void	history_older(int *i, char **line, t_big *datas, int flag)
 
 void	clear_term(void)
 {
-	char	*sf_cap;
-	char	*cm_move;
 	int		cursor_flag;
 	int		decrement;
 
 	cursor_flag = 0;
 	cursor_position();
-	sf_cap = tgetstr("sf", NULL);
-	cm_move = tgetstr("cm", NULL);
-	if (tcaps.l_max - 1 <= tcaps.line_lvl)
+	if (tcaps.l_max - 1 <= tcaps.cursor_lvl)
 		return ;
-	decrement = tcaps.l_max - 1 - tcaps.line_lvl;
-	while (decrement)
+	decrement = tcaps.l_max - 1 - tcaps.cursor_lvl;
+	if (decrement)
 	{
 		cursor_flag = 1;
-		tputs(sf_cap, 1, ft_putchar2);
-		decrement--;
+		scroll_n_times(decrement);
 	}
 	if (cursor_flag)
-		tputs(tgoto(cm_move, tcaps.c_pos, tcaps.line_lvl), 1, ft_putchar2);
+		move_cursor(tcaps.c_pos, tcaps.cursor_lvl);
 }
 
 void	move_cursor_left(void)
 {
-	char *cm_cap;
-
-	cm_cap = tgetstr("cm", NULL);
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
 	{
-		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), 1, ft_putchar2);
+		move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
 		tcaps.cursor_pos--;
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.cursor_lvl)
 	{
-		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 1, ft_putchar2);
+		move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
 		tcaps.cursor_lvl--;
 		tcaps.cursor_pos--;
 	}
@@ -190,24 +204,21 @@ void	move_cursor_left(void)
 
 void	move_cursor_right(void)
 {
-	char *cm_cap;
-
-	cm_cap = tgetstr("cm", NULL);
 	if (tcaps.cursor_lvl == tcaps.line_lvl)
 	{
 		if (tcaps.c_pos + 1 <= tcaps.cursor_max)
 		{
-			tputs(tgoto(cm_cap, tcaps.c_pos + 1, tcaps.l_pos), 1, ft_putchar2);
+			move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
 			tcaps.cursor_pos++;
 		}
 	}
 	else if (tcaps.cursor_lvl < tcaps.line_lvl)
 	{
 		if (tcaps.c_pos + 1 < tcaps.c_max)
-			tputs(tgoto(cm_cap, tcaps.c_pos + 1, tcaps.l_pos), 1, ft_putchar2);
+			move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
 		else
 		{
-			tputs(tgoto(cm_cap, 0, tcaps.l_pos + 1), 1, ft_putchar2);
+			move_cursor(0, tcaps.l_pos + 1);
 			tcaps.cursor_lvl++;
 		}
 		tcaps.cursor_pos++;
@@ -216,10 +227,10 @@ void	move_cursor_right(void)
 
 void	backspace_at_cursor(int *i, char **line)
 {
-	char *oldline;
-	char *tmp;
-	char *cm_cap;
-	char *dc_cap;
+	char	*oldline;
+	char	*tmp;
+	int		c_next = 0;
+	int		l_next = 0;
 
 	oldline = *line;
 	*line = ft_substr(oldline, 0, tcaps.cursor_pos - 1);
@@ -229,29 +240,35 @@ void	backspace_at_cursor(int *i, char **line)
 	ft_strlcat(*line, tmp, ft_strlen(*line) + ft_strlen(tmp) + 1);
 	if (*i > 0)
 		(*i)--;
-	cm_cap = tgetstr("cm", NULL);
-	dc_cap = tgetstr("dc", NULL);
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
+	lines_added(*line);
+	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
 	{
-		tputs(tgoto(cm_cap, tcaps.c_pos - 1, tcaps.l_pos), 1, ft_putchar2);
-		tputs(dc_cap, 1, ft_putchar2);
+		c_next = tcaps.c_pos - 1;
+		l_next = tcaps.l_pos;
+		tcaps.cursor_pos--;
+		move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
 	}
-	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
+	else if (tcaps.c_pos - 1 < 0 && tcaps.cursor_lvl)
 	{
-		tputs(tgoto(cm_cap, tcaps.c_max - 1, tcaps.l_pos - 1), 1, ft_putchar2);
-		tputs(tgetstr("ce", NULL), 1, ft_putchar2);
-		tcaps.line_lvl--;
+		c_next = tcaps.c_max - 1;
+		l_next = tcaps.l_pos - 1;
+		tcaps.cursor_pos--;
+		move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
 		tcaps.cursor_lvl--;
 	}
-	tcaps.cursor_max--;
-	tcaps.cursor_pos--;
+	clear_after_cursor();
+	ft_putstr_fd(*line, STDIN_FILENO);
+	cursor_position();
+	tcaps.cursor_max = tcaps.c_pos;
+	move_cursor(c_next, l_next);
 }
 
 void 	add_at_cursor(char c, int *i, char **line)
 {
 	char *oldline;
 	char *tmp;
-	char *im_cap;
+	int c_next = 0;
+	int l_next = 0;
 
 	oldline = *line;
 	*line = ft_substr(oldline, 0, tcaps.cursor_pos);
@@ -262,14 +279,40 @@ void 	add_at_cursor(char c, int *i, char **line)
 	(*line)[tcaps.cursor_pos + 1] = 0;
 	ft_strlcat(*line, tmp, ft_strlen(*line) + ft_strlen(tmp) + 1);
 	(*i)++;
-	im_cap = tgetstr("im", NULL); //INSERT MODE
-	tputs(im_cap, 1, ft_putchar2);
-	tputs(tgetstr("ic", NULL), 1, ft_putchar2);
-	write(0, &c, 1); //à changer par PRINT_C
-	tputs(tgetstr("ip", NULL), 1, ft_putchar2);
-	tputs(tgetstr("ei", NULL), 1, ft_putchar2);
-	tcaps.cursor_max++;
-	tcaps.cursor_pos++;
+	lines_added(*line);
+	clear_after_cursor();
+	if (tcaps.c_pos + 1 < tcaps.c_max)
+	{
+		c_next = tcaps.c_pos + 1;
+		l_next = tcaps.l_pos;
+		tcaps.cursor_pos++;
+	}
+	else if (tcaps.c_pos + 1 == tcaps.c_max && tcaps.l_pos + 1 < tcaps.l_max)
+	{
+		c_next = 0;
+		l_next = tcaps.l_pos + 1;
+		tcaps.cursor_lvl++;
+		tcaps.cursor_pos++;
+	}
+	ft_putchar_fd(c, STDIN_FILENO);
+	ft_putstr_fd(tmp, STDIN_FILENO);
+	cursor_position();
+	tcaps.cursor_max = tcaps.c_pos;
+	move_cursor(c_next, l_next);
+}
+
+void	go_home(void)
+{
+	move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
+	tcaps.cursor_lvl = 0;
+	tcaps.cursor_pos = 0;
+}
+
+void	go_end(int *i)
+{
+	move_cursor(tcaps.cursor_max, tcaps.l_pos + (tcaps.line_lvl - tcaps.cursor_lvl));
+	tcaps.cursor_lvl = tcaps.line_lvl;
+	tcaps.cursor_pos = *i;
 }
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
@@ -277,6 +320,7 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 	int sig;
 	
 	sig = 0;
+	term_size();
 	if(buf[0] == 127 && tcaps.cursor_pos == *i)
 		backspace(i, line);
 	else if(buf[0] == 127 && tcaps.cursor_pos < *i && tcaps.cursor_pos > 0)
@@ -295,4 +339,8 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 		end_of_transmission(datas, *line);
 	else if (buf[0] > 31 && buf[0] < 127)
 		add_at_cursor(buf[0], i, line);
+	else if	(buf[0] == 27 && buf[1] == 91 && buf[2] == 72)
+		go_home();
+	else if(buf[0] == 27 && buf[1]== 91 && buf[2] == 70)
+		go_end(i);
 }

@@ -63,7 +63,6 @@ void		lines_added(char *str)
 		if (line_len % size)
 			tcaps.line_lvl++;
 	}
-	tcaps.cursor_lvl = tcaps.line_lvl;
 }
 
 void		browse_history(t_big *datas, char **line, int signal)
@@ -84,6 +83,7 @@ void		browse_history(t_big *datas, char **line, int signal)
 	if (browse)
 	{
 		lines_added(browse);
+		tcaps.cursor_lvl = tcaps.line_lvl;
 		ft_putstr_fd(browse, STDIN_FILENO);
 		*line = browse;
 	}
