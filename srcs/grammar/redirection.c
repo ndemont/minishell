@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 12:58:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/02 19:03:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,53 +31,35 @@ void	print_std_fd(int fd_in, int fd_out)
 
 void	ft_copy_arg(char **argv, t_big *datas)
 {
-	int		i;
-	int		j;
-	char	*tmp;
-
-	i = 1;
-	while (argv[i])
+	int		len_new;
+	int		len_old;
+	int		len_total;
+	
+	len_new = 1;
+	while (argv && argv[len_new])
+		len_new++;
+	len_new--;
+	if (!len_new)
+		return ;
+	len_old = 0;
+	while (datas->redirection_arg && datas->redirection_arg[len_old])
+		len_old++;
+	len_total  = len_old + len_new;
+	datas->redirection_arg = (char **)malloc(sizeof(char *) * (len_total + 1));
+	datas->redirection_arg[len_total + 1] = 0;
+	len_new = 1;
+	while (len_old < len_total)
 	{
-		tmp = datas->redirection_arg;
-		if (tmp)
-			datas->redirection_arg = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + ft_strlen(argv[i]) + 2));
-		else
-			datas->redirection_arg = (char *)malloc(sizeof(char) * (ft_strlen(argv[i]) + 2));
-		j = 0;
-		while (argv[i][j])
-		{
-			datas->redirection_arg[j] = argv[i][j];
-			j++;
-		}
-		datas->redirection_arg[j] = ' ';
-		j++;
-		while (tmp && *tmp)
-		{
-			datas->redirection_arg[j] = *tmp;
-			tmp++;
-			j++;
-		}
-		datas->redirection_arg[j] = 0;
-		i++;
+		datas->redirection_arg[len_old] = argv[len_new];
+		len_new++;
+		len_old++;
 	}
 }
 
 void	exec_anglebracket_right(char **argv, t_big *datas)
 {
-	int		fd;
-
-	datas->flag_pipe = 0;
-	if (datas->flag_bracket == 0)
-	{
-		fd = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		print_std_fd(datas->fd, fd);
-		datas->fd = fd;
-	}
-	else
-	{
-		fd = open(argv[0], O_CREAT | O_WRONLY, 0644);
-		close(fd);
-	}
+	close(datas->fd_out);
+	datas->fd_out = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	ft_copy_arg(argv, datas);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:04:11 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/29 11:52:43 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/04/30 20:58:34 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		exec_semicolon_cmd(char *cmd, char **av, int is_builtin, t_big *datas)
 {
 	datas->flag_pipe = 0;
 	if (datas->flag_bracket)
-		ft_putstr_fd(datas->redirection_arg, datas->fd);
+		ft_putstr_fd(*datas->redirection_arg, datas->fd);
 	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;
 	if (is_builtin == 1)

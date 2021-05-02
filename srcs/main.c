@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 12:55:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/02 18:21:18 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	actualize_data(t_big *datas)
 {
 	datas->fd = -1;
+	datas->fd_out = STDOUT_FILENO;
 	datas->flag_pipe = 0;
 	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;
@@ -32,6 +33,7 @@ void	actualize_data(t_big *datas)
 void	init_data(t_big *datas)
 {
 	datas->fd = -1;
+	datas->fd_out = STDOUT_FILENO;
 	datas->flag_pipe = 0;
 	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;

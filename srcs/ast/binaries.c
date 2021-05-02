@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/28 23:30:11 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/02 19:26:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,7 @@ void	exec_binary(char *command, char **argv)
 	while (cmd[k] && ((ret = execve(cmd[k], argv, NULL)) == -1))
 		k++;
 	if (ret == -1)
-	{
-		write(1, "minishellrose: ", 15);
-		ft_putstr(command);
-		write(1, ": command not found\n", 20);
-	}
+		printf("minishellrose: %s: command not found\n", command);
 	free_double(cmd);
 }
 
@@ -148,29 +144,23 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 		if (n == 0 && root->builtin)
 			exec_built_in(root->builtin, root->arg, datas);
 		if (n == 0 && root->command)
-			exec_piped_cmd(root->command, root->arg, 0, datas);
-		if (n == 1 && root->command)
-			exec_piped_cmd(root->command, root->arg, 0, datas); //RAjOUTER FD_OUT
-		if (n == 1 && root->builtin)
-			exec_piped_cmd(root->builtin, root->arg, 1, datas);
+			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
+		if (n == 1)
+			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		if (n == 5 && root->command)
 			exec_semicolon_cmd(root->command, root->arg, 0, datas);
 		if (n == 5 && root->builtin)
 			exec_semicolon_cmd(root->builtin, root->arg, 1, datas);
 		else if (n == 5)
 			exec_semicolon_cmd(root->builtin, root->arg, 2, datas);
-		if ((n == 2 || n == 3) && side == 2)
+		if ((n == 2 || n == 3) && side == 1)
 			redirections(n, root->arg, datas);
-		else if ((n == 2 || n == 3) && side == 1 && root->builtin)
-			exec_piped_cmd(root->builtin, root->arg, 1, datas);
-		else if ((n == 2 || n == 3) && side == 1 && root->command)
-			exec_piped_cmd(root->command, root->arg, 0, datas);
+		else if ((n == 2 || n == 3) && side == 2)
+			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		else if (n == 4 && side == 1)
 			redirections(n, root->arg, datas);
 		else if (n == 4 && side == 2 && root->builtin)
-			exec_piped_cmd(root->builtin, root->arg, 1, datas);
-		else if (n == 4 && side == 2 && root->command)
-			exec_piped_cmd(root->command, root->arg, 0, datas);
+			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 	}
 }
 
@@ -183,11 +173,12 @@ void	executions(t_big *datas)
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas, 0);
 	if (datas->flag_pipe)
-		print_std(datas->fd);
-	if (datas->flag_bracket)
 	{
-		ft_putstr_fd(datas->redirection_arg, datas->fd);
-		ft_putstr_fd("\n", datas->fd);
+		print_std_fd(datas->fd, datas->fd_out);
+		if (datas->fd_out != STDOUT_FILENO)
+			close(datas->fd_out);
+		datas->fd_out = STDOUT_FILENO;
 	}
-	close(datas->fd);
+	if (datas->fd_out != STDOUT_FILENO)
+		close(datas->fd_out);
 }
