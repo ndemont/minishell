@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/30 12:24:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/02 18:04:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,13 @@ typedef struct			s_history
 typedef struct			s_big
 {
 	int					fd;
+	int					fd_out;
 	int					quit;
 	int					flag_pipe;
 	int					flag_bracket;
 	int					flag_left_bracket;
 	int					flag_history;
-	char				*redirection_arg;
+	char				**redirection_arg;
 	t_list				**env;
 	t_list				**export;
 	t_list				**hidden;
@@ -135,7 +136,7 @@ void					executions(t_big *datas);
 void					tree(t_node **tokens, t_big *datas);
 void					*print_errors(char *error);
 void					semicolon_node(t_node **tokens, t_big *datas, int i);
-void					right_redirection_node(t_node **tokens, t_big *datas, int i);
+void					right_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev);
 void					left_redirection_node(t_node **tokens, t_big *datas, int i);
 void					pipe_node(t_node **tokens, t_big *datas, int i);
 
@@ -153,10 +154,11 @@ void					exec_binary(char *command, char **argv);
 void					print_std(int fd);
 
 //GRAMMAR
-void					exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+void					exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas);
 void					exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
 void					redirections(int type, char **argv, t_big *datas);
 void					exec_anglebracket_right(char **argv, t_big *datas);
+void					print_std_fd(int fd_in, int fd_out);
 
 //BUILTINS
 int						ft_echo(char **arg, t_big *datas);
