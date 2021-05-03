@@ -36,7 +36,7 @@ void	execute_line(int i, char **line, char *buf)
 char *create_line(t_big *datas)
 {
 	int ret;
-	char buf[4];
+	char buf[7];
 	char *line;
 	int i;
 	int j;
@@ -45,15 +45,15 @@ char *create_line(t_big *datas)
 	line = ft_strdup(""); //CONTROLLER MALLOC
 	i = 0;
 	ret = 0;
-	ft_bzero(buf, 4);
+	ft_bzero(buf, 7);
 	raw_mode();
 	while (line[i] != '\n')
 	{
 		cursor_position();
 		non_print_flag = 0;
-		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
+		ft_bzero(buf, 7);
+		if ((ret = read(STDIN_FILENO, buf, 7)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
-		buf[3] = 0;
 		if (tcaps.signal)
 		{
 			if (line)

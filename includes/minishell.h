@@ -196,6 +196,9 @@ void 					add_at_cursor(char c, int *i, char **line);
 void					backspace(int *i, char **line);
 void					backspace_at_cursor(int *i, char **line);
 void					get_cursor_max(void);
+void					move_cursor_up(void);
+void					move_cursor_down(void);
+
 
 //FLAGS
 void					ft_signals(int sig);
