@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/03 11:54:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/03 15:39:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 	while (arg[*i] && arg[*i + 1])
 	{
 		j = 0;
-		printf("arg[*i] = [%s]\n", arg[*i]);
 		while (arg[*i][j])
 		{
 			tmp1 = ret;
@@ -118,7 +117,6 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 		ret = ft_strjoin(tmp1, tmp2);
 		j++;
 	}
-	printf("arg[*i] = [%s]\n", arg[*i]);
 	len = ft_strlen(ret) + ft_strlen(tmp3);
 	tmp = ret;
 	ret = ft_strjoin(tmp3, tmp);
@@ -128,34 +126,37 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 	return (ret);
 }
 
-void		ft_add_arg(char **arg, t_big *datas)
+char		**ft_add_arg(char **arg, t_big *datas)
 {
 	int		j;
 	int		i;
 	int		count;
+	char	**tmp;
 
 	count = 0;
-	printf("datas->redirection_arg = [%p]\n", datas->redirection_arg);
-	printf("datas->redirection_arg = [%p]\n", datas->redirection_arg[0]);
 	while (datas->redirection_arg[count])
-	{
-		printf("copy = [%s]\n", datas->redirection_arg[count]);
 		count++;
-	}
 	i = 0;
 	while (arg[i])
 		i++;
 	count += i;
+	tmp = arg;
 	arg = (char **)malloc(sizeof(char *) * (count + 1));
+	arg[count] = 0;
+	j = 0;
+	while (tmp[j])
+	{
+		arg[j] = tmp[j];
+		j++;
+	}
 	j = 0;
 	while (i < count)
 	{
-		printf("copy = [%s]\n", datas->redirection_arg[j]);
 		arg[i] = ft_strdup(datas->redirection_arg[j]);
 		i++;
 		j++;
 	}
-	arg[i] = 0;
+	return (arg);
 }
 
 int			ft_echo(char **arg, t_big *datas)
@@ -171,10 +172,15 @@ int			ft_echo(char **arg, t_big *datas)
 		flag = 0;
 		i++;
 	}
-	ft_add_arg(arg, datas);
+	if (datas->redirection_arg)
+		arg = ft_add_arg(arg, datas);
 	ret = ft_echo_cat(arg, &i, datas);
 	ret = ft_echo_catlast(ret, arg, &i, flag, datas);
 	ft_putstr_fd(ret, datas->fd_out);
+	ft_putstr_fd(ret, STDOUT_FILENO);
+	if (datas->fd_out != STDOUT_FILENO)
+		close(datas->fd_out);
+	datas->fd_out = STDOUT_FILENO;
 	tcaps.ret = 0;
 	return (1);
 }
