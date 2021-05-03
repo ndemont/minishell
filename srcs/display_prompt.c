@@ -53,6 +53,7 @@ char *create_line(t_big *datas)
 		non_print_flag = 0;
 		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
 			exit(1); //SORTIR CLEAN PLUS TARD
+		buf[3] = 0;
 		if (tcaps.signal)
 		{
 			if (line)
