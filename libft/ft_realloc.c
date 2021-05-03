@@ -28,6 +28,7 @@ void	*ft_realloc(void *ptr, size_t size)
 		new[i] = ((char *)ptr)[i];
 		i++;
 	}
+	new[i] = 0;
 	free(ptr);
 	ptr = new;	
 	return (ptr);
