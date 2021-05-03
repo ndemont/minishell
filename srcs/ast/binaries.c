@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/02 19:26:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/02 19:29:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ void	executions(t_big *datas)
 	execute_tree(datas->root, 0, datas, 0);
 	if (datas->flag_pipe)
 	{
+		printf("fd out = %d\n", datas->fd_out);
 		print_std_fd(datas->fd, datas->fd_out);
 		if (datas->fd_out != STDOUT_FILENO)
 			close(datas->fd_out);
