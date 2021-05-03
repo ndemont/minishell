@@ -185,7 +185,17 @@ int						ft_putchar2(int);
 void					print_at_cursor(char c);
 void					end_of_transmission(t_big *datas, char *line);
 void					lines_added(char *str);
-
+void					move_cursor(int c, int l);
+void					scroll_n_times(int n);
+void					clear_term(void);
+void					clear_after_cursor(void);
+void					print_at_cursor(char c);
+void					move_cursor_left(void);
+void					move_cursor_right(void);
+void 					add_at_cursor(char c, int *i, char **line);
+void					backspace(int *i, char **line);
+void					backspace_at_cursor(int *i, char **line);
+void					get_cursor_max(void);
 
 //FLAGS
 void					ft_signals(int sig);
