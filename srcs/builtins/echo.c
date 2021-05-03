@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/03 10:19:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/03 11:34:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 	while (arg[*i] && arg[*i + 1])
 	{
 		j = 0;
+		printf("arg[*i] = [%s]\n", arg[*i]);
 		while (arg[*i][j])
 		{
 			tmp1 = ret;
@@ -117,6 +118,7 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 		ret = ft_strjoin(tmp1, tmp2);
 		j++;
 	}
+	printf("arg[*i] = [%s]\n", arg[*i]);
 	len = ft_strlen(ret) + ft_strlen(tmp3);
 	tmp = ret;
 	ret = ft_strjoin(tmp3, tmp);
@@ -124,6 +126,34 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 		ret = ft_strjoin(ret, "\n");
 	free(tmp);
 	return (ret);
+}
+
+void		ft_add_arg(char **arg, t_big *datas)
+{
+	int		j;
+	int		i;
+	int		count;
+
+	count = 0;
+	while (datas->redirection_arg[count])
+	{
+		printf("copy = [%s]\n", datas->redirection_arg[count]);
+		count++;
+	}
+	i = 0;
+	while (arg[i])
+		i++;
+	count += i;
+	arg = (char **)malloc(sizeof(char *) * (count + 1));
+	j = 0;
+	while (i < count)
+	{
+		printf("copy = [%s]\n", datas->redirection_arg[j]);
+		arg[i] = ft_strdup(datas->redirection_arg[j]);
+		i++;
+		j++;
+	}
+	arg[i] = 0;
 }
 
 int			ft_echo(char **arg, t_big *datas)
@@ -139,6 +169,7 @@ int			ft_echo(char **arg, t_big *datas)
 		flag = 0;
 		i++;
 	}
+	ft_add_arg(arg, datas);
 	ret = ft_echo_cat(arg, &i, datas);
 	ret = ft_echo_catlast(ret, arg, &i, flag, datas);
 	ft_putstr_fd(ret, datas->fd_out);

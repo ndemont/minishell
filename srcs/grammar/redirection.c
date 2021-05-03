@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/03 10:27:04 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/03 11:29:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_copy_arg(char **argv, t_big *datas)
 	int		len_new;
 	int		len_old;
 	int		len_total;
+	char	**tmp;
 	
 	len_new = 1;
 	while (argv && argv[len_new])
@@ -45,15 +46,19 @@ void	ft_copy_arg(char **argv, t_big *datas)
 	while (datas->redirection_arg && datas->redirection_arg[len_old])
 		len_old++;
 	len_total  = len_old + len_new;
+	tmp = datas->redirection_arg;
 	datas->redirection_arg = (char **)malloc(sizeof(char *) * (len_total + 1));
-	datas->redirection_arg[len_total + 1] = 0;
+	datas->redirection_arg[len_total] = 0;
 	len_new = 1;
 	while (len_old < len_total)
 	{
-		datas->redirection_arg[len_old] = argv[len_new];
+		datas->redirection_arg[len_old] = ft_strdup(argv[len_new]);
+		printf("[%s]\n", datas->redirection_arg[len_old]);
 		len_new++;
 		len_old++;
 	}
+	if (tmp)
+		free(tmp);
 }
 
 void	exec_anglebracket_right(char **argv, t_big *datas)
