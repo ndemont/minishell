@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/30 17:00:32 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/03 10:50:42 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ char		*get_arg(char *input, int *i)
 	while (input[*i] && input[*i] != ' ' && input[*i] != '\t')
 	{
 		j = *i;
-		printf("\ninput[i] = [%c]\n", input[*i]);
 		first_part = arg;
 		while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && input[*i] != '"' && input[*i] != '\t' && input[*i] != '\\')
 			*i = *i + 1;
