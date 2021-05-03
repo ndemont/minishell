@@ -28,15 +28,16 @@ void	cursor_position(void)
 	int i;
 
 	term_size();
-	write(1, "\033[6n", 4);
-	read(1, buf, 100);
+	ft_bzero(buf, 100);
+	write(STDOUT_FILENO, "\033[6n", 4);
+	read(STDOUT_FILENO, buf, 100);
 	i = 0;
-	while(i < 100 && !ft_isdigit(buf[i]))
+	while(buf[i] && i < 100 && !ft_isdigit(buf[i]))
 		i++;
 	tcaps.l_pos = ft_atoi(buf + i) - 1;
-	while(i < 100 && ft_isdigit(buf[i]))
+	while(buf[i] && i < 100 && ft_isdigit(buf[i]))
 		i++;
-	while(i < 100 && !ft_isdigit(buf[i]))
+	while(buf[i] && i < 100 && !ft_isdigit(buf[i]))
 		i++;
 	tcaps.c_pos = ft_atoi(buf + i) - 1;
 }
