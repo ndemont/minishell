@@ -34,9 +34,13 @@ char	*add_line_edition(char c, int *i, char **line)
 void 	add_at_cursor(char c, int *i, char **line)
 {
 	char *tmp;
-	int c_next = 0;
-	int l_next = 0;
+	int c_next;
+	int l_next;
+	int	old_line_lvl;
 
+	c_next = 0;
+	l_next = 0;
+	old_line_lvl = tcaps.line_lvl;
 	tmp = add_line_edition(c, i, line);
 	clear_after_cursor();
 	if (tcaps.c_pos + 1 < tcaps.c_max)
@@ -57,6 +61,8 @@ void 	add_at_cursor(char c, int *i, char **line)
 	if (tmp)
 		free(tmp);
 	get_cursor_max();
+	if (tcaps.line_lvl > old_line_lvl && tcaps.l_pos + 1 == tcaps.l_max)
+		l_next--;
 	move_cursor(c_next, l_next);
 }
 
