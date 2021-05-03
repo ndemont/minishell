@@ -23,9 +23,9 @@ void	DEVELOPMENT_MODE_print_sequence(char *buf)
 {
 	int fd = open("DEBUG_sequence", O_CREAT | O_APPEND | O_WRONLY, 0644);
 	int i = 0;
-	while(buf[i])
+	while (buf[i])
 		dprintf(fd, "[%d] ", (int)buf[i++]);
-	dprintf(fd, "||");
+	dprintf(fd, "\n");
 	//dprintf(fd, "[%s]\n", buf);
 	close(fd);
 }

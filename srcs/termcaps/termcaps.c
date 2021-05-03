@@ -70,4 +70,10 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 		go_home();
 	else if(buf[0] == 27 && buf[1]== 91 && buf[2] == 70)
 		go_end(i);
+	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 49 && buf[3] == 59 &&
+	buf[4] == 53 && buf[5] == 65)
+		move_cursor_up();
+	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 49 && buf[3] == 59 &&
+	buf[4] == 53 && buf[5] == 66)
+		move_cursor_down();
 }
