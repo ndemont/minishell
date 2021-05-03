@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/30 20:12:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/03 10:04:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int		ft_count_nodes(t_node **tokens, t_big *datas)
 
 	i = 0;
 	count = 0;
-	printf("count = %d\n", count);
 	while (tokens[i])
 	{
 		if (tokens[i]->type)
@@ -67,9 +66,9 @@ int		ft_count_nodes(t_node **tokens, t_big *datas)
 
 void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 {
-	int		i;
-	int		j;
-	t_node	*prev;
+	int				i;
+	int				j;
+	static t_node	*prev = 0;
 
 	i = 0;
 	j = 0;
@@ -80,7 +79,6 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 		i++;
 	}
 	i = 0;
-	prev = 0;
 	while (tokens[i])
 	{
 		if (tokens[i]->type == 5)
