@@ -23,7 +23,7 @@ void	*ft_realloc(void *ptr, size_t size)
 	if (!size)
 		return (NULL);
 	new = malloc(size);
-	while(new && i < size)
+	while (new && ((char *)ptr)[i] && i < size)
 	{
 		new[i] = ((char *)ptr)[i];
 		i++;
