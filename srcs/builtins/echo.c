@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/03 11:34:27 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/03 11:54:34 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void		ft_add_arg(char **arg, t_big *datas)
 	int		count;
 
 	count = 0;
+	printf("datas->redirection_arg = [%p]\n", datas->redirection_arg);
+	printf("datas->redirection_arg = [%p]\n", datas->redirection_arg[0]);
 	while (datas->redirection_arg[count])
 	{
 		printf("copy = [%s]\n", datas->redirection_arg[count]);
