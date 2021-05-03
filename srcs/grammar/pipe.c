@@ -12,8 +12,14 @@
 
 #include "minishell.h"
 
+void	actualize_return_status(int ret_status)
+{
+	tcaps.ret = WEXITSTATUS(ret_status);
+}
+
 static void	exec_child(char *command, char **av, int is_built_in, t_big *datas)
 {
+	int		ret_status;
 	int		fd[2];
 	pid_t	pid1;
 
@@ -32,7 +38,8 @@ static void	exec_child(char *command, char **av, int is_built_in, t_big *datas)
 			exec_binary(command, av);
 		exit(0);
 	}
-	waitpid(pid1, NULL, 0);
+	waitpid(pid1, &ret_status, 0);
+	actualize_return_status(ret_status);
 	tcaps.child = 0;
 	dup2(fd[0], datas->fd);
 	close(fd[1]);
