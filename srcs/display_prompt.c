@@ -45,7 +45,7 @@ char *create_line(t_big *datas)
 	line = ft_strdup(""); //CONTROLLER MALLOC
 	i = 0;
 	ret = 0;
-	buf[3] = 0;
+	ft_bzero(buf, 4);
 	raw_mode();
 	while (line[i] != '\n')
 	{
