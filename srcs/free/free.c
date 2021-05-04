@@ -151,10 +151,18 @@ void	free_tree(t_node *root)
 	}
 }
 
+void	clean_datas(t_big *datas)
+{
+	free_double(datas->redirection_arg);
+	if (datas && datas->file_name)
+		free(datas->file_name);
+}
+
 void	free_datas(t_big *datas)
 {
 	if (datas)
 	{
+		clean_datas(datas);
 		if (datas->env)
 			free_list(datas->env);
 		if (datas->export)

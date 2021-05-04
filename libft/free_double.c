@@ -17,7 +17,7 @@ void	free_double(char **arr)
 	int k;
 
 	k = 0;
-	while (arr[k])
+	while (arr && arr[k])
 	{
 		free(arr[k]);
 		k++;
