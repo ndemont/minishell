@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/04 18:04:15 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 18:29:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 	int	fd;
 
 	datas->flag_pipe = 0;
+	printf("file name = %s\n", argv[0]);
 	fd = open(argv[0], O_RDONLY);
+	printf("fd = %d\n", fd);
 	if (fd < 0)
 	{
 		printf("minishellrose: %s: No such file or directory\n", argv[0]);
