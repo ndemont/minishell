@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/04 11:34:00 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 11:38:37 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,15 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 void		exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas)
 {
 	datas->flag_pipe = 1;
-	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;
 	exec_child(cmd, builtin, av, datas);
+	if (datas->flag_bracket)
+	{
+		printf("last");
+		print_std_fd(datas->fd, datas->fd_out);
+		ft_putstr_fd("\n", datas->fd);
+		close(datas->fd_out);
+		datas->fd_out = STDOUT_FILENO;
+	}
+	datas->flag_bracket = 0;
 }
