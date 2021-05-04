@@ -108,12 +108,6 @@ char *create_line(t_big *datas)
 	return (line);
 }
 
-void	clean_datas(t_big *datas)
-{
-	if (datas->redirection_arg)
-		free(datas->redirection_arg);
-}
-
 int	read_input(t_big *datas)
 {
 	char	*line;
@@ -141,7 +135,6 @@ int	read_input(t_big *datas)
 	printf("EXECUTION");
 	printf("\n-----\n");
 	executions(datas);
-	//ret = 0;
 	//free_tokens(token_tab);
 	clean_datas(datas); //NECESSAIRE ?? DEMANDER A NAS
 	return (1);

@@ -128,6 +128,7 @@ void					update_history_file(t_big *datas);
 //FREE
 void					free_datas(t_big *datas);
 void					free_tokens(t_node **token_tab);
+void					clean_datas(t_big *datas);
 
 //AST
 int						read_input(t_big *datas);

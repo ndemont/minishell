@@ -29,6 +29,7 @@ void	actualize_data(t_big *datas)
 	tcaps.cursor_lvl = 0;
 	tcaps.cursor_pos = 0;
 	datas->redirection_arg = 0;
+	datas->file_name = 0;
 }
 
 void	init_data(t_big *datas)
@@ -40,6 +41,7 @@ void	init_data(t_big *datas)
 	datas->flag_left_bracket = 0;
 	datas->flag_history = 0;
 	datas->redirection_arg = 0;
+	datas->file_name = 0;
 	datas->env = 0;
 	datas->quit = 0;
 	datas->export = 0;
