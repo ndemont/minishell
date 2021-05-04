@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/04 12:07:05 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 15:10:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		else if (n == 4 && side == 1)
 			redirections(n, root->arg, datas);
-		else if (n == 4 && side == 2 && root->builtin)
+		else if (n == 4 && side == 2 && (root->builtin || root->command))
 			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 	}
 }

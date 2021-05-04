@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/04 13:14:14 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 15:10:16 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	exec_anglebracket_right(char **argv, t_big *datas)
 	datas->fd_out = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	ft_copy_arg(argv, datas);
 	datas->file_name = ft_strdup(argv[0]);
+	datas->flag_bracket = 1;
 }
 
 void	exec_anglebracket_left(char **argv, t_big *datas)
@@ -93,7 +94,6 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 		datas->fd = fd;
 		datas->flag_left_bracket = 1;
 	}
-	close (fd);
 }
 
 void	exec_double_anglebracket_right(char **argv, t_big *datas)
@@ -104,6 +104,7 @@ void	exec_double_anglebracket_right(char **argv, t_big *datas)
 	datas->fd_out = open(argv[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
 	ft_copy_arg(argv, datas);
 	datas->file_name = ft_strdup(argv[0]);
+	datas->flag_bracket = 1;
 }
 
 void	redirections(int type, char **argv, t_big *datas)
@@ -114,5 +115,4 @@ void	redirections(int type, char **argv, t_big *datas)
 		exec_anglebracket_right(argv, datas);
 	else if (type == 4)
 		exec_anglebracket_left(argv, datas);
-	datas->flag_bracket = 1;
 }
