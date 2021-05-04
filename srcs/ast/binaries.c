@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/04 11:44:09 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 12:07:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 			exec_semicolon_cmd(root->builtin, root->arg, 1, datas);
 		else if (n == 5)
 			exec_semicolon_cmd(root->builtin, root->arg, 2, datas);
-		if ((n == 2 || n == 3) && side == 1)
+		if ((n == 2 || n == 3) && side == 1 && (root->command || root->builtin))
 			redirections(n, root->arg, datas);
-		else if ((n == 2 || n == 3) && side == 2)
+		else if ((n == 2 || n == 3) && side == 2 && (root->command || root->builtin))
 			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		else if (n == 4 && side == 1)
 			redirections(n, root->arg, datas);
@@ -173,13 +173,10 @@ void	executions(t_big *datas)
 	datas->flag_pipe = 0;
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas, 0);
-	printf("datas->flag_pipe = %d\n", datas->flag_pipe);
-	printf("datas->flag_bracket = %d\n", datas->flag_bracket);
 	if (datas->flag_pipe)
 		print_std(datas->fd);
 	if (datas->flag_bracket)
 	{
-		write(0, "last\n", 5);
 		print_std_fd(datas->fd, datas->fd_out);
 		ft_putstr_fd("\n", datas->fd);
 		close(datas->fd_out);
