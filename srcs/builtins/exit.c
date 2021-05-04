@@ -14,8 +14,7 @@
 
 int		ft_exit(char **av, t_big *datas)
 {
-	(void)datas;
-	//free_datas(datas);
+	free_datas(datas);
 	write(0, "exit\n", 5);
 	if (av && av[1])
 		printf("minishellrose: exit: %s: numeric argument required\n", av[1]);
