@@ -63,7 +63,7 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 	else if (buf[0] == 12)
 		clear_term();
 	else if (buf[0] == 4)
-		ctrl_d(datas, *line);
+		ctrl_d(datas, line, i);
 	else if (buf[0] > 31 && buf[0] < 127)
 		add_at_cursor(buf[0], i, line);
 	else if	(buf[0] == 27 && buf[1] == 91 && buf[2] == 72)
