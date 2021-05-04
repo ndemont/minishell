@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/04 11:21:33 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 11:44:09 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 		if (root->right)
 			execute_tree(root->right, root->type, datas, 2);
 		if (n == 0 && root->builtin)
-			exec_built_in(root->builtin, root->arg, datas);
+			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		if (n == 0 && root->command)
 			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		if (n == 1 && (root->command || root->builtin))
@@ -175,14 +175,14 @@ void	executions(t_big *datas)
 	execute_tree(datas->root, 0, datas, 0);
 	printf("datas->flag_pipe = %d\n", datas->flag_pipe);
 	printf("datas->flag_bracket = %d\n", datas->flag_bracket);
-	printf("datas->fd = %d\n", datas->fd);
 	if (datas->flag_pipe)
 		print_std(datas->fd);
-	//if (datas->flag_bracket)
-	//{
-	//	print_std_fd(datas->fd, datas->fd_out);
-	//	ft_putstr_fd("\n", datas->fd);
-	//	close(datas->fd_out);
-	//	datas->fd_out = STDOUT_FILENO;
-	//}
+	if (datas->flag_bracket)
+	{
+		write(0, "last\n", 5);
+		print_std_fd(datas->fd, datas->fd_out);
+		ft_putstr_fd("\n", datas->fd);
+		close(datas->fd_out);
+		datas->fd_out = STDOUT_FILENO;
+	}
 }
