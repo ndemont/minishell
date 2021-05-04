@@ -78,6 +78,24 @@ void	free_list(t_list **list)
 	}
 }
 
+void	free_history(t_history **list)
+{
+	t_history *tmp;
+	t_history *del;
+
+	tmp = *list;
+	while (tmp)
+	{
+		del = tmp;
+		if (del->command)
+			free(del->command);
+		tmp = tmp->next;
+		free(del);
+	}
+	if (*list)
+		free(list);
+}
+
 void	free_arg(char **arg)
 {
 	int i;
@@ -143,7 +161,9 @@ void	free_datas(t_big *datas)
 			free_list(datas->export);
 		if (datas->hidden)
 			free_list(datas->hidden);
-		if (datas->root)
-			free_tree(datas->root);
+		if (datas->history)
+			free_history(datas->history);
+		//if (datas->root)
+		//	free_tree(datas->root);
 	}
 }
