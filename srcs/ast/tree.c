@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/03 10:04:23 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 17:28:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 		else if (tokens[i]->type == 3 || tokens[i]->type == 2)
 			right_redirection_node(tokens, datas, i, prev);
 		else if (tokens[i]->type == 4)
-			left_redirection_node(tokens, datas, i);
+			left_redirection_node(tokens, datas, i, prev);
 		else if (tokens[i]->type == 1)
 			pipe_node(tokens, datas, i);
 		prev = tokens[i];
