@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/03 15:43:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 11:21:33 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	print_std(int fd)
 {
 	char	*line;
 	int 	ret;
-
+	
+	line = NULL;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		ft_putstr(line);
@@ -145,7 +146,7 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 			exec_built_in(root->builtin, root->arg, datas);
 		if (n == 0 && root->command)
 			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
-		if (n == 1)
+		if (n == 1 && (root->command || root->builtin))
 			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		if (n == 5 && root->command)
 			exec_semicolon_cmd(root->command, root->arg, 0, datas);
@@ -172,8 +173,16 @@ void	executions(t_big *datas)
 	datas->flag_pipe = 0;
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas, 0);
+	printf("datas->flag_pipe = %d\n", datas->flag_pipe);
+	printf("datas->flag_bracket = %d\n", datas->flag_bracket);
+	printf("datas->fd = %d\n", datas->fd);
 	if (datas->flag_pipe)
-		print_std_fd(datas->fd, datas->fd_out);
-	if (datas->fd_out != STDOUT_FILENO)
-		close(datas->fd_out);
+		print_std(datas->fd);
+	//if (datas->flag_bracket)
+	//{
+	//	print_std_fd(datas->fd, datas->fd_out);
+	//	ft_putstr_fd("\n", datas->fd);
+	//	close(datas->fd_out);
+	//	datas->fd_out = STDOUT_FILENO;
+	//}
 }
