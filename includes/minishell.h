@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/02 18:04:10 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 13:13:20 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct			s_big
 	int					flag_bracket;
 	int					flag_left_bracket;
 	int					flag_history;
+	char				*file_name;
 	char				**redirection_arg;
 	t_list				**env;
 	t_list				**export;

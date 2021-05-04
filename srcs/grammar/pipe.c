@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/04 12:06:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 13:15:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,12 @@ void		exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas)
 	{
 		print_std_fd(datas->fd, datas->fd_out);
 		ft_putstr_fd("\n", datas->fd);
-		close(datas->fd_out);
+		if (datas->fd_out != STDOUT_FILENO)
+			close(datas->fd_out);
 		datas->fd_out = STDOUT_FILENO;
 		datas->flag_pipe = 0;
+		close(datas->fd);
+		datas->fd = open(datas->file_name, O_RDONLY, 0644);
 	}
 	datas->flag_bracket = 0;
 }

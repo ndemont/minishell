@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/04 12:06:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 13:14:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	exec_anglebracket_right(char **argv, t_big *datas)
 		close(datas->fd_out);
 	datas->fd_out = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	ft_copy_arg(argv, datas);
+	datas->file_name = ft_strdup(argv[0]);
 }
 
 void	exec_anglebracket_left(char **argv, t_big *datas)
@@ -102,6 +103,7 @@ void	exec_double_anglebracket_right(char **argv, t_big *datas)
 		close(datas->fd_out);
 	datas->fd_out = open(argv[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
 	ft_copy_arg(argv, datas);
+	datas->file_name = ft_strdup(argv[0]);
 }
 
 void	redirections(int type, char **argv, t_big *datas)
