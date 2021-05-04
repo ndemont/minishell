@@ -186,7 +186,7 @@ void					cursor_position(void);
 void					do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
 int						ft_putchar2(int);
 void					print_at_cursor(char c);
-void					end_of_transmission(t_big *datas, char *line);
+void					ctrl_d(t_big *datas, char *line);
 void					lines_added(char *str);
 void					move_cursor(int c, int l);
 void					scroll_n_times(int n);
