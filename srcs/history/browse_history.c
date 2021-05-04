@@ -6,25 +6,50 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:09:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/29 11:19:18 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 23:15:16 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_history	*browse_up(t_history *current, char **browse, t_big *datas)
+t_history	*browse_up(t_history *current, char **browse, t_big *datas, char *input)
 {
+	int			len;
+	t_history	*tmp;
+	char		*address;
+
 	if (!datas->flag_history)
 	{
-		if (current && current->command)
-			*browse = ft_strdup(current->command);
+		tmp = current;
+		while (tmp && tmp->command)
+		{
+			len = ft_strlen(tmp->command);
+			address = ft_strnstr(tmp->command, input, len);
+			if (address == tmp->command)
+			{
+				datas->flag_history = 1;
+				*browse = ft_strdup(tmp->command);
+				current = tmp;
+				return (current);
+			}
+			tmp = tmp->next;
+		}
 	}
 	else
 	{
-		if (current->next && current->next->command && *current->next->command)
+		tmp = current;
+		while (tmp->next && tmp->next->command && *tmp->next->command)
 		{
-			current = current->next;
-			*browse = ft_strdup(current->command);
+			len = ft_strlen(tmp->next->command);
+			address = ft_strnstr(tmp->next->command, input, len);
+			tmp = tmp->next;
+			if (address == tmp->command)
+			{
+				datas->flag_history = 1;
+				*browse = ft_strdup(tmp->command);
+				current = tmp;
+				return (current);
+			}
 		}
 	}
 	datas->flag_history = 1;
@@ -33,11 +58,26 @@ t_history	*browse_up(t_history *current, char **browse, t_big *datas)
 
 t_history	*browse_down(t_history *current, char **browse, t_big *datas, char *input)
 {
+	int			len;
+	t_history	*tmp;
+	char		*address;
+
 	if (datas->flag_history && current->prev && current->prev->command && *current->prev->command)
 	{
-		current = current->prev;
-		*browse = ft_strdup(current->command);
-		datas->flag_history = 1;
+		tmp = current;
+		while (tmp->prev && tmp->prev->command && *tmp->prev->command)
+		{
+			len = ft_strlen(tmp->prev->command);
+			address = ft_strnstr(tmp->prev->command, input, len);
+			tmp = tmp->prev;
+			if (address == tmp->command)
+			{
+				*browse = ft_strdup(tmp->command);
+				current = tmp;
+				datas->flag_history = 1;
+				return (current);
+			}
+		}
 	}
 	else
 	{
@@ -77,7 +117,7 @@ void		browse_history(t_big *datas, char **line, int signal)
 		input = ft_strdup(*line);
 	}
 	if (signal == 1)
-		current = browse_up(current, &browse, datas);
+		current = browse_up(current, &browse, datas, input);
 	if (signal == 0)
 		current = browse_down(current, &browse, datas, input);
 	if (browse)
