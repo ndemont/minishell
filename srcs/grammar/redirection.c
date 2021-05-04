@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/04 15:10:16 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/04 18:04:15 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_copy_arg(char **argv, t_big *datas)
 void	exec_anglebracket_right(char **argv, t_big *datas)
 {
 	datas->flag_pipe = 0;
+	datas->flag_left_bracket = 1;
 	if (datas->fd_out != STDOUT_FILENO)
 		close(datas->fd_out);
 	datas->fd_out = open(argv[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -86,19 +87,17 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 	fd = open(argv[0], O_RDONLY);
 	if (fd < 0)
 	{
-		print_errors("minishellrose: No such file or directory");
+		printf("minishellrose: %s: No such file or directory\n", argv[0]);
 		datas->quit = 1;
 	}
 	if (datas->flag_left_bracket == 0)
-	{
 		datas->fd = fd;
-		datas->flag_left_bracket = 1;
-	}
 }
 
 void	exec_double_anglebracket_right(char **argv, t_big *datas)
 {
 	datas->flag_pipe = 0;
+	datas->flag_left_bracket = 1;
 	if (datas->fd_out != STDOUT_FILENO)
 		close(datas->fd_out);
 	datas->fd_out = open(argv[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
