@@ -65,7 +65,11 @@ void		init_history(t_big *datas)
 	{
 		if (line && *line)
 			update_history_list(datas->history, line, 0);
+		if (line)
+			free(line);
 		ret = get_next_line(fd, &line);
 	}
+	if (line)
+		free(line);
 	close(fd);
 }
