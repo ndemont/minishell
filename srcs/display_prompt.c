@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 14:20:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/05 10:58:48 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ char *create_line(t_big *datas)
 				non_print_flag = 1;
 			j++;
 		}
+		if 	(buf[0] != 27 || buf[1] != 91 || (buf[2] != 65 && buf[2] != 66))
+			datas->flag_history = 0;
 		if (non_print_flag || tcaps.cursor_pos < i)
 		{
 			//DEVELOPMENT_MODE_print_sequence(buf);
