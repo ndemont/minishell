@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/29 18:30:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/05 16:18:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_node	*ft_init_buildin_node(char *input, int type)
 	new->type = type;
 	if (!input)
 		return (0);
-	new->input = input;
+	if (!(new->input = input))
+		return (0);
 	new->arg = 0;
 	new->ret = 0;
 	new->builtin = 0;
@@ -81,18 +82,19 @@ t_node	*ft_new_builtin_node(int *i, char *input)
 t_node	*ft_new_node(char *input, int *i)
 {
 	int		type;
-	int		j;
 	t_node	*new_node;
 
 	new_node = 0;
-	(void)j;
 	while (input[*i] && input[*i] == ' ' && input[*i] == '\t')
 		*i = *i + 1;
 	if ((type = ft_is_grammar(input, *i)))
 	{
 		new_node = ft_init_grammar_node(type);
 		if (!new_node)
+		{
 			print_errors(strerror(errno));
+			return (0);
+		}
 		*i = *i + 1;
 		if (type == 2)
 			*i = *i + 1;
@@ -101,7 +103,10 @@ t_node	*ft_new_node(char *input, int *i)
 	{
 		new_node = ft_new_builtin_node(i, input);
 		if (!new_node)
+		{
 			print_errors(strerror(errno));
+			return (0);
+		}
 	}
 	return (new_node);
 }
@@ -121,12 +126,12 @@ t_node	**ft_create_nodes(char *input, int nb)
 	while (j < nb)
 	{
 		nodes[j] = ft_new_node(input, &i);
+		if (!nodes[j])
+			return (0);
 		if (j == 0 && nodes[j]->type)
 			return (print_errors("minishellrose: syntax error"));
 		else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
 			return (print_errors("minishellrose: syntax error"));
-		if (!nodes[j])
-			return (0);
 		j++;
 	}
 	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0] && \
