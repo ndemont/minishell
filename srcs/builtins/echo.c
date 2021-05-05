@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/05 16:48:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/05 17:06:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,8 @@ int			ft_echo(char **arg, t_big *datas)
 	if (!(ret = ft_echo_catlast(ret, arg, &i, flag, datas)))
 		return (0);
 	ft_putstr_fd(ret, STDOUT_FILENO);
+	if (ret)
+		free(ret);
 	tcaps.ret = 0;
 	return (1);
 }
