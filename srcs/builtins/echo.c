@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/05 16:03:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/05 16:42:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,18 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 			if (arg[*i][j] == '\"' && arg[*i][j + 1] == '$')
 			{
 				if (!(tmp2 = get_env_var(arg[*i], &j, datas)))
+				{
+					free(tmp1);
 					return (0);
+				}
 			}
 			else
 			{
 				if (!(tmp2 = malloc(sizeof(char) * 2)))
+				{
+					free(tmp1);
 					return (0);
+				}
 				tmp2[0] = arg[*i][j];
 				tmp2[1] = 0;
 			}
