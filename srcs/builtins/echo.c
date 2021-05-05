@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/05 16:42:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/05 16:48:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,28 +123,63 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 
 	tmp3 = ret;
 	j = 0;
-	ret = (char *)malloc(sizeof(char));
+	if (!(ret = (char *)malloc(sizeof(char))))
+		return (0);
 	ret[0] = 0;
 	while (arg[*i][j])
 	{
 		tmp1 = ret;
 		if (arg[*i][j] == '\"' && arg[*i][j + 1] == '$')
-			tmp2 = get_env_var(arg[*i], &j, datas);
+		{
+			if (!(tmp2 = get_env_var(arg[*i], &j, datas)))
+			{
+				free(tmp3);
+				free(tmp1);
+				return (0);
+			}
+		}
 		else
 		{
-			tmp2 = malloc(sizeof(char) * 2);
+			if (!(tmp2 = malloc(sizeof(char) * 2)))
+			{
+				free(tmp3);
+				free(tmp1);
+				return (0);
+			}
 			tmp2[0] = arg[*i][j];
 			tmp2[1] = 0;
 		}
-		ret = ft_strjoin(tmp1, tmp2);
+		if (!(ret = ft_strjoin(tmp1, tmp2)))
+		{
+			free(tmp1);
+			free(tmp2);
+			free(tmp3);
+			return (0);
+		}
+		free(tmp1);
+		free(tmp2);
 		j++;
 	}
 	len = ft_strlen(ret) + ft_strlen(tmp3);
 	tmp = ret;
-	ret = ft_strjoin(tmp3, tmp);
-	if (flag)
-		ret = ft_strjoin(ret, "\n");
+	if (!(ret = ft_strjoin(tmp3, tmp)))
+	{
+		free(tmp);
+		free(tmp3);
+		return (0);
+	}
 	free(tmp);
+	free(tmp3);
+	if (flag)
+	{
+		tmp = ret;
+		if (!(ret = ft_strjoin(ret, "\n")))
+		{
+			free(tmp);
+			return(0);
+		}
+		free(tmp);
+	}
 	return (ret);
 }
 
