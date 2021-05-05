@@ -202,6 +202,8 @@ void					backspace_at_cursor(int *i, char **line);
 void					get_cursor_max(void);
 void					move_cursor_up(void);
 void					move_cursor_down(void);
+void					word_left(char **line);
+void					word_right(int *i, char **line);
 
 
 //FLAGS

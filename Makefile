@@ -6,7 +6,7 @@
 #    By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 14:42:49 by gpetit            #+#    #+#              #
-#    Updated: 2021/05/03 21:35:51 by gpetit           ###   ########.fr        #
+#    Updated: 2021/05/05 11:06:32 by gpetit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c \
 	history/update_history.c history/browse_history.c history/save_history.c \
 	DEVELOPMENT_MODE.c signals/signals.c termcaps/ctrl_d.c termcaps/termcaps.c \
 	termcaps/termcaps_utils.c termcaps/termcaps_scroll.c termcaps/termcaps_cursor.c \
-	termcaps/termcaps_backspace.c termcaps/termcaps_add_char.c termcaps/termcaps_cursor_moves.c)
+	termcaps/termcaps_backspace.c termcaps/termcaps_add_char.c termcaps/termcaps_cursor_moves.c termcaps/termcaps_words_move.c)
 
 INC_DIR = includes
 
