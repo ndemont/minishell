@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 15:05:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:58:16 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		main(int ac, char **av, char **env)
 	if (!(init_history(&datas)))
 		return (free_datas(&datas));
 	if (!(store_env(env, &datas)))
-		return (free_datas(&datas));
+		return (free_datas(&datas)); 
 	signal(SIGINT, ft_signals);
 	signal(SIGQUIT, ft_signals);
 	while (read_input(&datas));
