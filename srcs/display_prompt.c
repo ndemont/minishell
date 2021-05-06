@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 11:47:39 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 15:21:44 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ int	display_prompt(void)
 	return (1);
 }
 
-void	execute_line(int i, char **line, char *buf)
+int		execute_line(int i, char **line, char *buf)
 {
-	*line = ft_realloc(*line, ft_strlen(*line) + 2);
+	if (!(*line = ft_realloc(*line, ft_strlen(*line) + 2)))
+		return (0);
 	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
 	(*line)[i] = 0;
+	return (1);
 }
 
 char *create_line(t_big *datas)
