@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 15:39:12 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:40:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,19 +136,22 @@ int	read_input(t_big *datas)
 		return (0);
 	if (!line[0])
 		return (1);
-/* 	if (tcaps.signal)
-		return (1); */
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
 	if (!(token_tab ))
 		return (0);
 	if (!ft_builtin_parser(token_tab))
+	{
+		free_tokens(token_tab);
 		return (0);
+	}
 	tree(token_tab, datas);
 	printf("EXECUTION");
 	printf("\n-----\n");
 	executions(datas);
 	free_tokens(token_tab);
+	if (datas->root)
+		free(datas->root);
 	clean_datas(datas); //NECESSAIRE ?? DEMANDER A NAS
 	return (1);
 }
