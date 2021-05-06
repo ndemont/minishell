@@ -14,25 +14,17 @@
 
 static void	exec_child(char *command, char **argv, t_big *datas)
 {
-	int		fd[2];
 	pid_t	pid1;
 
-	pipe(fd);
 	pid1 = fork();
 	if (pid1 == 0)
 	{
-		dup2(datas->fd, STDIN_FILENO);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		close(fd[0]);
 		exec_binary(command, argv);
 		close(datas->fd);
 		exit(0);
 	}
 	waitpid(pid1, NULL, 0);
-	dup2(fd[0], datas->fd);
-	close(fd[1]);
-	close(fd[0]);
+	close(datas->fd);
 }
 
 void		exec_semicolon_cmd(char *cmd, char **av, int is_builtin, t_big *datas)
