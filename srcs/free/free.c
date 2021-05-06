@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 12:32:56 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:57:18 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	free_tokens(t_node **tokens)
 			i++;
 		}
 		free(tokens);
+		tokens = 0;
 	}
 }
 

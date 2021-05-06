@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 16:40:35 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:58:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,6 @@ int	read_input(t_big *datas)
 	printf("\n-----\n");
 	executions(datas);
 	free_tokens(token_tab);
-	if (datas->root)
-		free(datas->root);
 	clean_datas(datas); //NECESSAIRE ?? DEMANDER A NAS
 	return (1);
 }
