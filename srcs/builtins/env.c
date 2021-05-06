@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:41:48 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 11:20:33 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 12:48:55 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,25 @@ t_var	*fill_tmp(char *str)
 	t_var *tmp;
 
 	i = 0;
-	tmp = (t_var *)malloc(sizeof(t_var));
+	if (!(tmp = (t_var *)malloc(sizeof(t_var))))
+		return (0);
 	tmp->var = NULL;
 	tmp->value = NULL;
 	while(str[i] && str[i] != '=')
 		i++;
-	tmp->var = ft_substr(str, 0, i);
+	if (!(tmp->var = ft_substr(str, 0, i)))
+	{
+		free(tmp);
+		return (0);
+	}
 	if (str[i] == '=')
 		i++;
-	tmp->value = ft_substr(str, i, (ft_strlen(str) - i));
+	if (!(tmp->value = ft_substr(str, i, (ft_strlen(str) - i))))
+	{
+		free(tmp->var);
+		free(tmp);
+		return (0);
+	}
 	return (tmp);
 }
 
@@ -56,7 +66,7 @@ void	store_export(char **env, t_big *datas)
 	datas->export = start;
 }
 
-void	store_hidden(char **env, t_big *datas)
+int		store_hidden(char **env, t_big *datas)
 {
 	int k;
 	void *content;
@@ -65,18 +75,25 @@ void	store_hidden(char **env, t_big *datas)
 
 	k = 0;
 	start = (t_list **)malloc(sizeof(t_list));
-	content = fill_tmp(env[k]);
-	*start = ft_lstnew(content);
+	if (!(content = fill_tmp(env[k])))
+		return (0);
+	if (!(*start = ft_lstnew(content)))
+	{
+		free(content);
+		return (0);
+	}
 	while (env[++k])
 	{
 		content = fill_tmp(env[k]);
-		tmp = ft_lstnew(content);
+		if (!(tmp = ft_lstnew(content)))
+			return (0);
 		ft_lstadd_back(start, tmp);
 	}
 	datas->hidden = start;
+	return (1);
 }
 
-void	store_env(char **env, t_big *datas)
+int		store_env(char **env, t_big *datas)
 {
 	int k;
 	void *content;
@@ -84,8 +101,10 @@ void	store_env(char **env, t_big *datas)
 	t_list **start;
 
 	k = 0;
-	start = (t_list **)malloc(sizeof(t_list));
-	content = fill_tmp(env[k]);
+	if (!(start = (t_list **)malloc(sizeof(t_list))))
+		return (0);
+	if (!(content = fill_tmp(env[k])))
+		return (0);
 	*start = ft_lstnew(content);
 	while (env[++k])
 	{
