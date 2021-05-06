@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/05 17:06:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 10:32:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char		*get_return_value(void)
 	char *value;
 
 	value = ft_itoa(tcaps.ret);
+	tcaps.ret = 0;
 	return (value);
 }
 
@@ -35,7 +36,10 @@ char		*get_env_var(char *var, int *j, t_big *datas)
 	if (!(tmp = ft_substr(var, *j, len)))
 		return (0);
 	if (!ft_strcmp(tmp, "?"))
+	{
+		*j = *j + 1;
 		return (get_return_value());
+	}
 	i = 0;
 	env = *datas->env;
 	if (!(value = malloc(sizeof(char))))
@@ -246,6 +250,5 @@ int			ft_echo(char **arg, t_big *datas)
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	if (ret)
 		free(ret);
-	tcaps.ret = 0;
 	return (1);
 }
