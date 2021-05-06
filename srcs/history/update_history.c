@@ -6,18 +6,19 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:58:06 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/29 11:17:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 14:47:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_history_file(t_big *datas)
+int		update_history_file(t_big *datas)
 {
 	int			fd;
 	t_history	*history;
 
-	fd = open(".minishell_history", O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if ((fd = open(".minishell_history", O_CREAT | O_WRONLY | O_APPEND, 0644)) < 0)
+		return (0);
 	history = 0;
 	if (datas->history)
 		history = *datas->history;
@@ -30,4 +31,5 @@ void	update_history_file(t_big *datas)
 		history = history->prev;
 	}
 	close(fd);
+	return (1);
 }
