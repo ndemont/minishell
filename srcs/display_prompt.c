@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 15:21:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 15:39:12 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,15 @@ int	display_prompt(void)
 
 int		execute_line(int i, char **line, char *buf)
 {
+	char *tmp;
+
+	tmp = *line;
 	if (!(*line = ft_realloc(*line, ft_strlen(*line) + 2)))
+	{
+		free(tmp);
 		return (0);
+	}
+	free(tmp);
 	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
 	(*line)[i] = 0;
 	return (1);
@@ -37,14 +44,15 @@ int		execute_line(int i, char **line, char *buf)
 
 char *create_line(t_big *datas)
 {
-	int ret;
-	char buf[7];
-	char *line;
-	int i;
-	int j;
-	int	non_print_flag;
+	int		ret;
+	char	buf[7];
+	char	*line;
+	int		i;
+	int		j;
+	int		non_print_flag;
 
-	line = ft_strdup(""); //CONTROLLER MALLOC
+	if (!(line = ft_strdup("")))
+		return (0);
 	i = 0;
 	ret = 0;
 	ft_bzero(buf, 7);
@@ -55,12 +63,13 @@ char *create_line(t_big *datas)
 		non_print_flag = 0;
 		ft_bzero(buf, 7);
 		if ((ret = read(STDIN_FILENO, buf, 7)) < 0)
-			exit(1); //SORTIR CLEAN PLUS TARD
+			return (0);
 		if (tcaps.signal)
 		{
 			if (line)
 				free(line);
-			line = ft_strdup("");
+			if (!(line = ft_strdup("")))
+				return (0);
 			tcaps.signal = 0;
 			i = 0;
 		}
