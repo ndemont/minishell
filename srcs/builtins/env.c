@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:41:48 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 12:48:55 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 14:43:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		cmp_list(t_var *lst, t_var *lst2)
 	return (ft_strcmp(lst->var, lst2->var));
 }
 
-void	store_export(char **env, t_big *datas)
+int		store_export(char **env, t_big *datas)
 {
 	int k;
 	void *content;
@@ -53,17 +53,33 @@ void	store_export(char **env, t_big *datas)
 	t_list **start;
 
 	k = 0;
-	start = (t_list **)malloc(sizeof(t_list));
-	content = fill_tmp(env[k]);
-	*start = ft_lstnew(content);
+	if (!(start = (t_list **)malloc(sizeof(t_list))))
+		return (0);
+	if (!(content = fill_tmp(env[k])))
+	{
+		free(start);
+		return (0);
+	}
+	if (!(*start = ft_lstnew(content)))
+	{
+		free(content);
+		free(start);
+		return (0);
+	}
+	datas->export = start;
 	while (env[++k])
 	{
-		content = fill_tmp(env[k]);
-		tmp = ft_lstnew(content);
+		if (!(content = fill_tmp(env[k])))
+			return (0);
+		if (!(tmp = ft_lstnew(content)))
+		{
+			free(content);
+			return (0);
+		}
 		ft_lstadd_back(start, tmp);
 	}
 	*start = ft_lst_sort(*start, &cmp_list);
-	datas->export = start;
+	return (1);
 }
 
 int		store_hidden(char **env, t_big *datas)
@@ -74,22 +90,28 @@ int		store_hidden(char **env, t_big *datas)
 	t_list **start;
 
 	k = 0;
-	start = (t_list **)malloc(sizeof(t_list));
-	if (!(content = fill_tmp(env[k])))
+	if (!(start = (t_list **)malloc(sizeof(t_list))))
 		return (0);
+	if (!(content = fill_tmp(env[k])))
+	{
+		free(start);
+		return (0);
+	}
 	if (!(*start = ft_lstnew(content)))
 	{
+		free(start);
 		free(content);
 		return (0);
 	}
+	datas->hidden = start;
 	while (env[++k])
 	{
-		content = fill_tmp(env[k]);
+		if (!(content = fill_tmp(env[k])))
+			return (0);
 		if (!(tmp = ft_lstnew(content)))
 			return (0);
 		ft_lstadd_back(start, tmp);
 	}
-	datas->hidden = start;
 	return (1);
 }
 
@@ -104,17 +126,26 @@ int		store_env(char **env, t_big *datas)
 	if (!(start = (t_list **)malloc(sizeof(t_list))))
 		return (0);
 	if (!(content = fill_tmp(env[k])))
+	{
+		free(start);
 		return (0);
-	*start = ft_lstnew(content);
+	}
+	if (!(*start = ft_lstnew(content)))
+	{
+		free(content);
+		free(start);
+		return (0);
+	}
+	datas->env = start;
 	while (env[++k])
 	{
 		content = fill_tmp(env[k]);
 		tmp = ft_lstnew(content);
 		ft_lstadd_back(start, tmp);
 	}
-	datas->env = start;
 	store_export(env, datas);
 	store_hidden(env, datas);
+	return (1);
 }
 
 int		ft_env(char **av, t_big *datas)
