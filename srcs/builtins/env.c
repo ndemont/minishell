@@ -12,6 +12,62 @@
 
 #include "minishell.h"
 
+int		change_shell_lvl(t_list *tmp)
+{
+	int lvl;
+	char *level;
+	t_var *tmp2;
+	t_list *new;
+
+	lvl = 0;
+	level = NULL;
+	tmp2 = NULL;
+	while (tmp && ft_strcmp(((t_var *)(tmp->content))->var, "SHLVL"))
+		tmp = tmp->next;
+	if (!ft_strcmp(((t_var *)(tmp->content))->var, "SHLVL"))
+	{
+		lvl = ft_atoi(((t_var *)(tmp->content))->value);
+		lvl++;
+		if (((t_var *)(tmp->content))->value)
+			free(((t_var *)(tmp->content))->value);
+		if (!(level = ft_itoa(lvl)))
+			return (0);
+		if (!(((t_var *)(tmp->content))->value = ft_strdup(level)))
+			return (0);
+	}
+	else
+	{
+		if (!(tmp2 = (t_var *)malloc(sizeof(t_var))))
+			return (0);
+		tmp2->var = NULL;
+		tmp2->value = NULL;
+		lvl++;
+		if (!(level = ft_itoa(lvl)))
+			return (0);
+		if (!(tmp2->var = ft_strdup("SHLVL")))
+			return (0);
+		if (!(tmp2->value = ft_strdup(level)))
+			return (0);
+		if (!(new = ft_lstnew(tmp2)))	
+			return(0);
+		ft_lstadd_back(&tmp, new);
+	}
+	if (level)
+		free(level);
+	return (1);
+}
+
+int		shell_lvl(t_big *datas)
+{
+	if (!change_shell_lvl(*datas->env))
+		return (0);
+	if (!change_shell_lvl(*datas->export))
+		return (0);
+	if (!change_shell_lvl(*datas->hidden))
+		return (0);
+	return (1);
+}
+
 t_var	*fill_tmp(char *str)
 {
 	int i;
@@ -143,8 +199,8 @@ int		store_env(char **env, t_big *datas)
 		tmp = ft_lstnew(content);
 		ft_lstadd_back(start, tmp);
 	}
-	store_export(env, datas);
-	store_hidden(env, datas);
+	if (!store_export(env, datas) || !store_hidden(env, datas) || !shell_lvl(datas))
+		return (0);
 	return (1);
 }
 
