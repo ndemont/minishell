@@ -6,15 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2021/05/06 11:36:59 by ndemont          ###   ########.fr       */
-=======
-/*   Updated: 2021/05/06 12:32:55 by ndemont          ###   ########.fr       */
->>>>>>> 61257a8 (Get error back to main until history init)
-=======
-/*   Updated: 2021/05/06 12:35:58 by ndemont          ###   ########.fr       */
->>>>>>> d78ff92 (Env free)
+/*   Updated: 2021/05/06 12:53:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +111,8 @@ t_caps					tcaps;
 
 //ENV
 int						ft_env(char **av, t_big *datas);
-<<<<<<< HEAD
-void					store_env(char **env, t_big *datas);
-int						ft_hidden(char **argv, t_big *datas);
-=======
 int						store_env(char **env, t_big *datas);
-void					ft_hidden(char **argv, t_big *datas);
->>>>>>> d78ff92 (Env free)
+int						ft_hidden(char **argv, t_big *datas);
 int						check_duplicate(t_list *list, char *ref);
 void					actualize_list(char *line, t_list *lst);
 char 					**ft_split_on_equal(char *str);
