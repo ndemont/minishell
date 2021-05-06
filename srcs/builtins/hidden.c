@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:36:01 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/22 13:55:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 11:33:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	actualize_list(char *line, t_list *list)
 	free_double(str);
 }
 
-void	ft_hidden(char **arg, t_big *datas)
+int		ft_hidden(char **arg, t_big *datas)
 {
 	int k;
 
@@ -72,4 +72,5 @@ void	ft_hidden(char **arg, t_big *datas)
 		}
 		k++;
 	}
+	return (0);
 }

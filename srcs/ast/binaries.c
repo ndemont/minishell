@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/04 18:05:47 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 11:34:16 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,25 +98,27 @@ char **build_array(char *command)
 	return (cmd);
 }
 
-void	exec_built_in(char *command, char **argv, t_big *datas)
+int		exec_built_in(char *command, char **argv, t_big *datas)
 {
+	int ret;
+
 	if (!(ft_strcmp(command, "echo")))
-		ft_echo(argv, datas);
+		ret = ft_echo(argv, datas);
 	if (!(ft_strcmp(command, "cd")))
-		ft_cd(argv, datas);
+		ret = ft_cd(argv, datas);
 	if (!(ft_strcmp(command, "env")))
-		ft_env(argv, datas);
+		ret = ft_env(argv, datas);
 	if (!(ft_strcmp(command, "pwd")))
-		ft_pwd(datas);
+		ret = ft_pwd(datas);
 	if (!(ft_strcmp(command, "export")))
-		ft_export(argv, datas);
+		ret = ft_export(argv, datas);
 	if (!(ft_strcmp(command, "unset")))
-		ft_unset(argv, datas);
+		ret = ft_unset(argv, datas);
 	if (!(ft_strcmp(command, "exit")))
-		ft_exit(argv, datas);
+		ret = ft_exit(argv, datas);
 	if(ft_strchr(command, '='))
-		ft_hidden(argv, datas);
-	return;
+		ret = ft_hidden(argv, datas);
+	return (ret);
 }
 
 void	exec_binary(char *command, char **argv)
@@ -130,7 +132,10 @@ void	exec_binary(char *command, char **argv)
 	while (cmd[k] && ((ret = execve(cmd[k], argv, NULL)) == -1))
 		k++;
 	if (ret == -1)
+	{
+		tcaps.ret = RET_ERROR;
 		printf("minishellrose: %s: command not found\n", command);
+	}
 	free_double(cmd);
 }
 

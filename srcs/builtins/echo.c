@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 10:32:39 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 11:17:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char		*get_return_value(void)
 	char *value;
 
 	value = ft_itoa(tcaps.ret);
-	tcaps.ret = 0;
 	return (value);
 }
 
@@ -250,5 +249,6 @@ int			ft_echo(char **arg, t_big *datas)
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	if (ret)
 		free(ret);
-	return (1);
+	tcaps.ret = 0;
+	return (tcaps.ret);
 }

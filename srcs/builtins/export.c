@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 19:15:06 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 14:02:43 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 11:28:55 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ int		ft_export(char **arg, t_big *datas)
 				ft_putstr_fd("minishellrose: export: `", STDOUT_FILENO);
 				ft_putstr_fd(arg[i], STDOUT_FILENO);
 				ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
+				tcaps.ret = 1;
 			} 
 			else if (!ft_strchr(arg[i], '=')) 																				//PAS DE '='; nas
 			{
@@ -234,21 +235,9 @@ int		ft_export(char **arg, t_big *datas)
 						add_hidden_to_env_export(arg[i], datas);
 				}
 			}
-			/* else if (ft_strchr(arg[i], '=') && is_plus_left(arg[i]))
-			{
-				if (!check_plus_conformity(arg[i]))
-				{
-					ft_putstr_fd("minishellrose: export: `", STDOUT_FILENO);
-					ft_putstr_fd(arg[i], STDOUT_FILENO);
-					ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
-				}
-				else
-				{
-				}
-			} */
 			i++;
 		}
 	}
 	*datas->export = ft_lst_sort(*datas->export, &cmp_list);
-	return (0);
+	return (tcaps.ret);
 }

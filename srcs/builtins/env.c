@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:41:48 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 14:26:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 11:20:33 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		ft_env(char **av, t_big *datas)
 	{
 		tcaps.ret = RET_ERROR;
 		printf("env: %s: No such file or directory\n", av[1]);
-		return (0);
+		return (127);
 	}
 	tmp = *(datas->env);
 	while (tmp)
