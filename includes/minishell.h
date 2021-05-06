@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/04 17:29:08 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 11:36:59 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_caps					tcaps;
 //ENV
 int						ft_env(char **av, t_big *datas);
 void					store_env(char **env, t_big *datas);
-void					ft_hidden(char **argv, t_big *datas);
+int						ft_hidden(char **argv, t_big *datas);
 int						check_duplicate(t_list *list, char *ref);
 void					actualize_list(char *line, t_list *lst);
 char 					**ft_split_on_equal(char *str);
@@ -151,7 +151,7 @@ int						ft_count_tokens(char *input);
 int						ft_is_grammar(char *str, int i);
 
 //TREE
-void					exec_built_in(char *command, char **argv, t_big *datas);
+int						exec_built_in(char *command, char **argv, t_big *datas);
 void					exec_binary(char *command, char **argv);
 void					print_std(int fd);
 

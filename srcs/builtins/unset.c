@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 15:00:09 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/22 13:53:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 11:30:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ int		ft_unset(char **arg, t_big *datas)
 		ft_lst_remove(datas->hidden, arg[i]);
 		i++;
 	}
-	return (1);
+	return (0);
 }
