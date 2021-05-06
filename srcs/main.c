@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/03 12:18:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 12:33:21 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ int		main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	termcaps_init();
+	if (!(termcaps_init()))
+		return (1);
 	init_data(&datas);
-	init_history(&datas);
+	if (!(init_history(&datas)))
+		return (free_datas(&datas));
 	store_env(env, &datas);
 	signal(SIGINT, ft_signals);
 	signal(SIGQUIT, ft_signals);

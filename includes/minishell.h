@@ -6,7 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/05/06 11:36:59 by ndemont          ###   ########.fr       */
+=======
+/*   Updated: 2021/05/06 12:32:55 by ndemont          ###   ########.fr       */
+>>>>>>> 61257a8 (Get error back to main until history init)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +123,14 @@ char 					**ft_split_on_equal(char *str);
 void					add_to_list(char *line, t_list **lst);
 
 //HISTORY
-void					init_history(t_big *datas);
+int						init_history(t_big *datas);
 void					save_history(char *line, t_big *datas);
 void					browse_history(t_big *datas, char **line, int signal);
-void					update_history_list(t_history **begin, char *line, int status);
+int						update_history_list(t_history **begin, char *line, int status);
 void					update_history_file(t_big *datas);
 
 //FREE
-void					free_datas(t_big *datas);
+int						free_datas(t_big *datas);
 void					free_tokens(t_node **token_tab);
 void					clean_datas(t_big *datas);
 
@@ -180,7 +184,7 @@ int						display_prompt(void);
 
 //TERMCAPS
 void					term_size(void);
-void					termcaps_init(void);
+int						termcaps_init(void);
 void					raw_mode(void);
 void					normal_mode(void);
 void					cursor_position(void);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   termcaps_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 10:13:41 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/03 10:13:43 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:17:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,15 @@ void	normal_mode(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &tcaps.save);
 }
 
-void	termcaps_init(void)
+int	termcaps_init(void)
 {
 	int ret;
 	char *term;
 
 	term = getenv("TERM");
 	if (!term || (ret = tgetent(NULL, term)) <= 0)
-		exit(0); // changer methode d'exit
+		return (0);
+	return (1);
 }
 
 void	term_size(void)
@@ -40,8 +41,8 @@ void	term_size(void)
 	struct winsize w;
 
 	ioctl(0, TIOCGWINSZ, &w);
-    tcaps.l_max = w.ws_row;
-    tcaps.c_max = w.ws_col;
+	tcaps.l_max = w.ws_row;
+	tcaps.c_max = w.ws_col;
 }
 
 int		ft_putchar2(int c)
