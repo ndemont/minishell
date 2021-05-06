@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 14:45:40 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:38:57 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int						update_history_file(t_big *datas);
 //FREE
 int						free_datas(t_big *datas);
 void					free_tokens(t_node **token_tab);
+void					free_tree(t_node *root);
 void					clean_datas(t_big *datas);
 
 //AST
@@ -135,7 +136,7 @@ int						read_input(t_big *datas);
 t_node					**ft_lexer(char *input);
 t_node					**ft_builtin_parser(t_node **token_tab);
 void					executions(t_big *datas);
-void					tree(t_node **tokens, t_big *datas);
+int						tree(t_node **tokens, t_big *datas);
 void					*print_errors(char *error);
 void					semicolon_node(t_node **tokens, t_big *datas, int i);
 void					right_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 11:47:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:14:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 			ret_status = exec_built_in(builtin, av, datas);
 		else
 			exec_binary(command, av);
+		free_datas(datas);
 		exit(ret_status);
 	}
 	waitpid(pid1, &ret_status, 0);
