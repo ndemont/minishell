@@ -148,7 +148,7 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 		if (root->right)
 			execute_tree(root->right, root->type, datas, 2);
 		if (!datas->quit && n == 0 && root->command)
-			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
+			exec_semicolon_cmd(root->command, root->arg, 0, datas);
 		if (!datas->quit && n == 0 && root->builtin)
 			exec_built_in(root->builtin, root->arg, datas);
 		if (n == 1 && (root->command || root->builtin))
@@ -187,4 +187,5 @@ void	executions(t_big *datas)
 		close(datas->fd_out);
 		datas->fd_out = STDOUT_FILENO;
 	}
+	close(datas->fd); //CAUTIOUS
 }

@@ -32,7 +32,7 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 		dup2(datas->fd, STDIN_FILENO);
 		close(datas->fd);
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
+		close(fd[0]); //initialement close(fd[1]);
 		if (builtin)
 			ret_status = exec_built_in(builtin, av, datas);
 		else
@@ -45,7 +45,7 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	tcaps.child = 0;
 	dup2(fd[0], datas->fd);
 	close(fd[1]);
-	close(fd[0]);
+	//close(fd[0]); //initialement UNMUTE
 }
 
 void		exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas)
