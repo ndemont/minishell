@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:15:32 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/29 11:17:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 12:32:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,13 @@ t_history	*new_history_elem(char *command, int status)
 {
 	t_history *new;
 
-	new = (t_history *)malloc(sizeof(t_history));
-	new->command = ft_strdup(command);
+	if (!(new = (t_history *)malloc(sizeof(t_history))))
+		return (0);
+	if (!(new->command = ft_strdup(command)))
+	{
+		free(new);
+		return (0);
+	}
 	new->status = status;
 	new->prev = 0;
 	new->next = 0;
@@ -34,42 +39,62 @@ void		history_add_front(t_history **begin, t_history *new)
 	*begin = new;
 }
 
-void		update_history_list(t_history **begin, char *line, int status)
+int			update_history_list(t_history **begin, char *line, int status)
 {
 	t_history	*new;
 
-	new = new_history_elem(line, status);
+	if (!(new = new_history_elem(line, status)))
+		return (0);
 	history_add_front(begin, new);
+	return (1);
 }
 
-void		create_history(t_big *datas)
+int		create_history(t_big *datas)
 {
-	datas->history = (t_history **)malloc(sizeof(t_history));
-	*datas->history = (t_history *)malloc(sizeof(t_history));
+	if (!(datas->history = (t_history **)malloc(sizeof(t_history))))
+		return (0);
+	if (!(*datas->history = (t_history *)malloc(sizeof(t_history))))
+	{
+		free(datas->history);
+		return (0);
+	}
 	(*datas->history)->prev = 0;
 	(*datas->history)->next = 0;
 	(*datas->history)->command = 0;
 	(*datas->history)->status = 0;
+	return (1);
 }
 
-void		init_history(t_big *datas)
+int		init_history(t_big *datas)
 {
 	int			fd;
 	int			ret;
 	char		*line;
 
-	create_history(datas);
-	fd = open(".minishell_history", O_CREAT | O_RDWR | O_APPEND, 0644);
-	ret = get_next_line(fd, &line);
+	if (!(create_history(datas)))
+		return (0);
+	if ((fd = open(".minishell_history", O_CREAT | O_RDWR | O_APPEND, 0644)) < 0)
+		return (0);
+	ret = 1;
 	while (ret > 0)
 	{
+		if ((ret = get_next_line(fd, &line)) < 0)
+		{
+			if (line)
+				free(line);
+			return (0);
+		}
 		if (line && *line)
-			update_history_list(datas->history, line, 0);
+		{
+			if (!(update_history_list(datas->history, line, 0)))
+			{
+				free(line);
+				return (0);
+			}
+		}
 		if (line)
 			free(line);
-		ret = get_next_line(fd, &line);
 	}
-	if (line)
-		free(line);
 	close(fd);
+	return (1);
 }
