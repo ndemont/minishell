@@ -153,7 +153,7 @@ int						ft_is_grammar(char *str, int i);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);
-void					exec_binary(char *command, char **argv);
+void					exec_binary(char *command, char **argv, t_big *datas);
 void					print_std(int fd);
 
 //GRAMMAR
