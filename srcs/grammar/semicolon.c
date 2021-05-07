@@ -21,6 +21,7 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	{
 		exec_binary(command, argv, datas);
 		close(datas->fd);
+		free_datas(datas);
 		exit(0);
 	}
 	waitpid(pid1, NULL, 0);
