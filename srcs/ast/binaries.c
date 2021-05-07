@@ -121,15 +121,39 @@ int		exec_built_in(char *command, char **argv, t_big *datas)
 	return (ret);
 }
 
-void	exec_binary(char *command, char **argv)
+char	**build_array_env(t_list *lst)
+{
+	int size;
+	int i;
+	char line;
+	char **env;
+
+	i = 0;
+	size = ft_lstsize(lst);
+	env = (char **)malloc(sizeof(char *) * (size + 1));
+	while (lst)
+	{
+		line = ft_strjoin(((t_var *)(lst->content))->var, "=");
+		line = ft_realloc(line, ft_strlen(line) + ft_strlen(((t_var *)(lst->content))->value) + 1);
+		ft_strlcat(line, ((t_var *)(lst->content))->value, (ft_strlen(line) + ft_strlen(((t_var *)(lst->content))->value) + 1));
+		env[i] = line;
+		i++;
+		lst = lst->next;
+	}
+	env[i] = 0;
+}
+
+void	exec_binary(char *command, char **argv, t_big *datas)
 {
 	char **cmd;
+	char **env;
 	int k;
 	int ret;
 
 	cmd = build_array(command);
+	env = build_array_env(datas->env);
  	k = 0;
-	while (cmd[k] && ((ret = execve(cmd[k], argv, NULL)) == -1))
+	while (cmd[k] && ((ret = execve(cmd[k], argv, env)) == -1))
 		k++;
 	if (ret == -1)
 	{
@@ -137,6 +161,7 @@ void	exec_binary(char *command, char **argv)
 		printf("minishellrose: %s: command not found\n", command);
 	}
 	free_double(cmd);
+	free_double(env);
 }
 
 void	execute_tree(t_node *root, int n, t_big *datas, int side)

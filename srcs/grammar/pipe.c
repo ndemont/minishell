@@ -36,7 +36,7 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 		if (builtin)
 			ret_status = exec_built_in(builtin, av, datas);
 		else
-			exec_binary(command, av);
+			exec_binary(command, av, datas);
 		free_datas(datas);
 		exit(ret_status);
 	}

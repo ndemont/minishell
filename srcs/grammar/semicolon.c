@@ -19,7 +19,7 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	pid1 = fork();
 	if (pid1 == 0)
 	{
-		exec_binary(command, argv);
+		exec_binary(command, argv, datas);
 		close(datas->fd);
 		exit(0);
 	}
