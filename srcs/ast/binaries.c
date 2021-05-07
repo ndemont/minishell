@@ -125,7 +125,7 @@ char	**build_array_env(t_list *lst)
 {
 	int size;
 	int i;
-	char line;
+	char *line;
 	char **env;
 
 	i = 0;
@@ -141,6 +141,7 @@ char	**build_array_env(t_list *lst)
 		lst = lst->next;
 	}
 	env[i] = 0;
+	return (env);
 }
 
 void	exec_binary(char *command, char **argv, t_big *datas)
@@ -151,7 +152,7 @@ void	exec_binary(char *command, char **argv, t_big *datas)
 	int ret;
 
 	cmd = build_array(command);
-	env = build_array_env(datas->env);
+	env = build_array_env(*datas->env);
  	k = 0;
 	while (cmd[k] && ((ret = execve(cmd[k], argv, env)) == -1))
 		k++;
