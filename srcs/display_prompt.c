@@ -15,7 +15,7 @@
 int	display_prompt(void)
 {
 	write(STDOUT_FILENO, PURPLE, 7);
-	write(STDOUT_FILENO, "minishellrose-v1$ ", 18);
+	write(STDOUT_FILENO, "minishellrose$ ", 15);
 	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
 	tcaps.line_lvl = 0;
