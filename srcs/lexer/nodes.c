@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 11:10:55 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 11:29:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ t_node	**ft_create_nodes(char *input, int nb)
 	int		j;
 
 	nodes = (t_node **)malloc(sizeof(t_node) * (nb + 1));
+	printf("size = [%lu]\n", sizeof(t_node) * (nb + 1));
+	printf("address = [%p]\n", nodes);
 	if (!nodes)
 		return (0);
 	nodes[nb] = 0;

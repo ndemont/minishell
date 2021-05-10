@@ -6,39 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 16:59:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 11:39:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_tree(t_node *root)
-{
-	if (root->left)
-		print_tree(root->left);
-	if (root->right)
-		print_tree(root->right);
-	if (root->type)
-	{
-		if (root->type == 1)
-			write(1, "|", 1);
-		if (root->type == 2)
-			write(1, ">>", 2);
-		if (root->type == 3)
-			write(1, ">", 1);
-		if (root->type == 4)
-			write(1, "<", 1);
-		if (root->type == 5)
-			write(1, ";", 1);
-		write(1, "\n", 1);
-	}
-	else
-	{
-		if (root->arg[0])
-			write(1, root->arg[0], ft_strlen(root->arg[0]));
-		write(1, "\n", 1);
-	}
-}
 
 int		ft_count_nodes(t_node **tokens, t_big *datas)
 {
@@ -99,6 +71,7 @@ int		tree(t_node **tokens, t_big *datas)
 	int		count;
 	t_node	**tmp;
 
+	printf("address = [%p]\n", tokens);
 	datas->root = tokens[0];
 	count = 0;
 	count = ft_count_nodes(tokens, datas);
@@ -111,10 +84,12 @@ int		tree(t_node **tokens, t_big *datas)
 	tokens[count] = 0;
 	if (count)
 		create_tree(tokens, datas, tmp);
-	printf("TREE");
-	printf("\n-----\n");
-	print_tree(datas->root);
-	printf("\n");
+	printf("address token = [%p]\n", tokens);
+	if (tmp)
+	{
+		printf("address tmp = [%p]\n", tmp);
+		free(tmp);
+	}
 	free(tokens);
 	return (1);
 }
