@@ -14,18 +14,14 @@
 
 void	history_older(int *i, char **line, t_big *datas, int flag)
 {
-	while (tcaps.cursor_lvl)
-	{
-		move_cursor(0, tcaps.l_pos--);
-		tcaps.cursor_lvl--;
-	}
-	move_cursor(tcaps.c_start, tcaps.l_pos);
+	move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
+	tcaps.cursor_lvl = 0;
 	clear_after_cursor();
 	browse_history(datas, line, flag);
 	*i = ft_strlen(*line);
 	tcaps.cursor_pos = *i;
-	cursor_position();
-	tcaps.cursor_max = tcaps.c_pos;
+	get_cursor_max();
+	tcaps.cursor_lvl = tcaps.line_lvl;
 }
 
 void	go_home(void)
