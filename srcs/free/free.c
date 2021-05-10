@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 11:18:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 12:56:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,17 @@ void	free_arg(char **arg)
 	}
 }
 
+
 void	free_tree(t_node *root)
 {
 	if (root->left)
+	{
 		free_tree(root->left);
+	}
 	if (root->right)
+	{
 		free_tree(root->right);
+	}
 	if (root->input)
 	{
 		free(root->input);
@@ -147,13 +152,17 @@ void	clean_datas(t_big *datas)
 	free_double(datas->redirection_arg);
 	if (datas && datas->file_name)
 		free(datas->file_name);
+	free_tree(datas->root);
 }
 
 int		free_datas(t_big *datas)
 {
 	if (datas)
 	{
-		clean_datas(datas);
+		if (datas->redirection_arg)
+			free_double(datas->redirection_arg);
+		if (datas && datas->file_name)
+			free(datas->file_name);
 		if (datas->env)
 			free_list(datas->env);
 		if (datas->export)
