@@ -35,10 +35,12 @@ int		execute_line(int i, char **line, char *buf)
 	tmp = *line;
 	if (!(*line = ft_realloc(*line, ft_strlen(*line) + 2)))
 	{
-		free(tmp);
+		if (tmp)
+			free(tmp);
 		return (0);
 	}
-	free(tmp);
+	if (tmp)
+		free(tmp);
 	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
 	(*line)[i] = 0;
 	return (1);
