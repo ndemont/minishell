@@ -28,7 +28,7 @@ void	print_std(int fd)
 	free(line);
 }
 
-char **path_array(char *command)
+char **path_array(char *command, t_list *env)
 {
 	char *tmp;
 	char **paths;
@@ -36,12 +36,16 @@ char **path_array(char *command)
 	int k;
 
 	k = 0;
-	if ((tmp = getenv("PATH")) == NULL)
+	paths = NULL;
+	while (env && ft_strcmp(((t_var *)(env->content))->var, "PATH"))
+		env = env->next;
+	if (!env)
 	{
 		perror("PATH is invalid ");
 		exit(0); //replace by custom exit fct that deallocate everything 
 	}
-	paths = ft_split(tmp, ':');
+	if (!ft_strcmp(((t_var *)(env->content))->var, "PATH"))
+		paths = ft_split(((t_var *)(env->content))->value, ':');
 	if (!paths)
 	{
 		perror("ft_split failed ");
@@ -87,14 +91,14 @@ char **mono_array(char *str)
 }
 
 
-char **build_array(char *command)
+char **build_array(char *command, t_list *env)
 {
 	char **cmd; 
 
 	if (ft_strchr(command, '/'))
 		cmd = mono_array(command);
 	else
-		cmd = path_array(command);
+		cmd = path_array(command, env);
 	return (cmd);
 }
 
@@ -151,7 +155,7 @@ void	exec_binary(char *command, char **argv, t_big *datas)
 	int k;
 	int ret;
 
-	cmd = build_array(command);
+	cmd = build_array(command, *datas->env);
 	env = build_array_env(*datas->env);
  	k = 0;
 	while (cmd[k] && ((ret = execve(cmd[k], argv, env)) == -1))
