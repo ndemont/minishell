@@ -44,7 +44,7 @@ void	DEVELOPMENT_MODE_print_termcaps(char *str)
 {
 	int fd = open("DEBUG_termcaps", O_CREAT | O_APPEND | O_WRONLY, 0644);
 
-	cursor_position();
+	//cursor_position();
 	dprintf(fd, "%s\n\n", str);
 	dprintf(fd, "Max Column = %i\n", tcaps.c_max);
 	dprintf(fd, "Max Line = %i\n", tcaps.l_max);
