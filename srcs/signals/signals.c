@@ -16,6 +16,7 @@ void	ft_signals(int sig)
 {
 	if (sig == SIGINT)
 	{
+		move_cursor(tcaps.cursor_max, tcaps.l_pos + (tcaps.line_lvl - tcaps.cursor_lvl));
 		write(0, "\n", 1);
 		if (!tcaps.child)
 		{
