@@ -36,11 +36,12 @@ int		execute_line(int i, char **line, char *buf)
 	if (!(*line = ft_realloc(*line, ft_strlen(*line) + 2)))
 	{
 		if (tmp)
+		{
 			free(tmp);
+			tmp = NULL;
+		}
 		return (0);
 	}
-	if (tmp)
-		free(tmp);
 	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
 	(*line)[i] = 0;
 	return (1);
@@ -140,7 +141,7 @@ int	read_input(t_big *datas)
 		return (1);
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
-	if (!(token_tab ))
+	if (!(token_tab))
 		return (0);
 	if (!ft_builtin_parser(token_tab))
 	{
