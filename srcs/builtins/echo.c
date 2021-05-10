@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 15:08:21 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 15:09:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,10 +244,8 @@ int			ft_echo(char **arg, t_big *datas)
 	}
 	if (!(ret = ft_echo_cat(arg, &i, datas)))
 		return (0);
-	printf("before redirection arg = %p\n", datas->redirection_arg);
 	if (!(ret = ft_echo_catlast(ret, arg, &i, flag, datas)))
 		return (0);
-	printf("after redirection arg = %p\n", datas->redirection_arg);
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	if (ret)
 		free(ret);
