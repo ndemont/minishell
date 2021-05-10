@@ -32,7 +32,6 @@ void	clear_term(void)
 	int		decrement;
 
 	cursor_flag = 0;
-	cursor_position();
 	if (tcaps.l_max - 1 <= tcaps.cursor_lvl)
 		return ;
 	decrement = tcaps.l_max - 1 - tcaps.cursor_lvl;

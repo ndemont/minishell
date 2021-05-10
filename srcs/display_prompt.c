@@ -55,11 +55,10 @@ char *create_line(t_big *datas)
 		return (0);
 	i = 0;
 	ret = 0;
-	ft_bzero(buf, 7);
 	raw_mode();
+	cursor_position();
 	while (line[i] != '\n')
 	{
-		cursor_position();
 		non_print_flag = 0;
 		ft_bzero(buf, 7);
 		if ((ret = read(STDIN_FILENO, buf, 7)) < 0)
@@ -111,7 +110,6 @@ char *create_line(t_big *datas)
 				break ;
 			}
 			print_at_cursor(line[i]);
-			//write(STDIN_FILENO, &line[i], 1);	
 			i++;
 			tcaps.cursor_pos = i;
 		}

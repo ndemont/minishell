@@ -20,6 +20,7 @@ void	move_cursor(int c, int l)
 	if (!cm_cap)
 		exit(0);
 	tputs(tgoto(cm_cap, c, l), 1, ft_putchar2);
+	actualize_cursor(c, l);
 }
 
 void	cursor_position(void)
@@ -40,6 +41,11 @@ void	cursor_position(void)
 	while(buf[i] && i < 100 && !ft_isdigit(buf[i]))
 		i++;
 	tcaps.c_pos = ft_atoi(buf + i) - 1;
+	if (tcaps.l_pos < 0 || tcaps.c_pos < 0) //PROTECTION contre BUG de Write ci dessus, NECESSAIRE ? 
+	{
+		tcaps.l_pos = 0;
+		tcaps.c_pos = 0;
+	}
 }
 
 void	move_cursor_left(void)

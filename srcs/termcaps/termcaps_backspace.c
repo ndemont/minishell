@@ -18,6 +18,12 @@ void	get_cursor_max(void)
 	tcaps.cursor_max = tcaps.c_pos;
 }
 
+void	actualize_cursor(int new_c_pos, int new_l_pos)
+{
+	tcaps.c_pos = new_c_pos;
+	tcaps.l_pos = new_l_pos;
+}
+
 void	backspace_line_edition(int *i, char **line)
 {
 	char *oldline;

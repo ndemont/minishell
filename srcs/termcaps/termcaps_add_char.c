@@ -84,5 +84,5 @@ void	print_at_cursor(char c)
 		tcaps.line_lvl++;
 		tcaps.cursor_lvl++;
 	}
-	get_cursor_max();
+	tcaps.cursor_max = tcaps.c_pos;
 }
