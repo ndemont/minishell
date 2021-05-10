@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 12:06:18 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 14:21:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,18 @@ int		tree(t_node **tokens, t_big *datas)
 	int		count;
 	t_node	**tmp;
 
-	printf("address = [%p]\n", tokens);
 	datas->root = tokens[0];
 	count = 0;
 	count = ft_count_nodes(tokens, datas);
 	tmp = tokens;
 	tokens = malloc(sizeof(t_node *) * (count + 1));
 	if (!tokens)
-	{
 		return (0);
-	}
 	tokens[count] = 0;
 	if (count)
 		create_tree(tokens, datas, tmp);
-	printf("address token = [%p]\n", tokens);
 	if (tmp)
-	{
-		printf("address tmp = [%p]\n", tmp);
 		free(tmp);
-	}
 	free(tokens);
 	return (1);
 }
