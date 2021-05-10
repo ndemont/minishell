@@ -18,10 +18,12 @@ int	display_prompt(void)
 	write(STDOUT_FILENO, "minishellrose$ ", 15);
 	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
-	tcaps.line_lvl = 0;
 	cursor_position();
+	tcaps.line_lvl = 0;
+	tcaps.cursor_lvl = 0;
 	tcaps.c_start = tcaps.c_pos;
-	tcaps.cursor_max += tcaps.c_start;
+	tcaps.cursor_max = tcaps.c_start;
+	tcaps.cursor_pos = 0;
 	normal_mode();
 	return (1);
 }
