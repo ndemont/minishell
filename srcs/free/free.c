@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 11:15:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 11:18:06 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,17 +111,9 @@ void	free_arg(char **arg)
 void	free_tree(t_node *root)
 {
 	if (root->left)
-	{
 		free_tree(root->left);
-		//free(root->left);
-		//root->left = 0;
-	}
 	if (root->right)
-	{
 		free_tree(root->right);
-		//free(root->right);
-		//root->right = 0;
-	}
 	if (root->input)
 	{
 		free(root->input);
