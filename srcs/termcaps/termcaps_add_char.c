@@ -80,7 +80,7 @@ void	print_at_cursor(char c)
 	else if (tcaps.c_pos + 1 == tcaps.c_max && tcaps.l_pos + 1 == tcaps.l_max)
 	{
 		scroll_n_times(1);
-		move_cursor(0, tcaps.l_pos + 1);
+		move_cursor(0, tcaps.l_pos);
 		tcaps.line_lvl++;
 		tcaps.cursor_lvl++;
 	}
