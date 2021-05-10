@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 11:17:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 15:08:21 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 	if (!(ret = (char *)malloc(sizeof(char))))
 		return (0);
 	ret[0] = 0;
-	while (arg[*i][j])
+	while (arg[*i] && arg[*i][j])
 	{
 		tmp1 = ret;
 		if (arg[*i][j] == '\"' && arg[*i][j + 1] == '$')
@@ -231,7 +231,7 @@ int			ft_echo(char **arg, t_big *datas)
 
 	flag = 1;
 	i = 1;
-	if (!(ft_strcmp(arg[i], "-n")))
+	if (arg[i] && !(ft_strcmp(arg[i], "-n")))
 	{
 		flag = 0;
 		i++;
@@ -244,8 +244,10 @@ int			ft_echo(char **arg, t_big *datas)
 	}
 	if (!(ret = ft_echo_cat(arg, &i, datas)))
 		return (0);
+	printf("before redirection arg = %p\n", datas->redirection_arg);
 	if (!(ret = ft_echo_catlast(ret, arg, &i, flag, datas)))
 		return (0);
+	printf("after redirection arg = %p\n", datas->redirection_arg);
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	if (ret)
 		free(ret);
