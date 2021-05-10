@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 11:07:20 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 11:15:58 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void	free_tree(t_node *root)
 	}
 	if (root->command)
 	{
-		//free(root->command);
+		free(root->command);
 		root->command = 0;
 	}
 	if (root)

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 11:12:31 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 11:14:55 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		get_builtin(t_node *token)
 		j++;
 	}
 	token->arg[count] = 0;
-	token->command = token->arg[0];
+	token->command = ft_strdup(token->arg[0]);
 	i = 0;
 	while (i < 7)
 	{
@@ -95,7 +95,7 @@ void		get_builtin(t_node *token)
 			break ;
 		if (!ft_strcmp(list[i], token->arg[0]))
 		{
-			token->builtin = token->arg[0];
+			token->builtin = token->command;
 			token->command = 0;
 			break ;
 		}
