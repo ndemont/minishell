@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 12:47:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 18:36:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,8 @@ int	display_prompt(void)
 
 int		execute_line(int i, char **line, char *buf)
 {
-	char *tmp;
-
-	tmp = *line;
 	if (!(*line = ft_realloc(*line, ft_strlen(*line) + 2)))
-	{
-		free(tmp);
 		return (0);
-	}
-	free(tmp);
 	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
 	(*line)[i] = 0;
 	return (1);
