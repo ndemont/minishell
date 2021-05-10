@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/06 16:38:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 10:41:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct			s_node
 	int					type;
 	char				*input;
 	char				**arg;
-	char				*ret;
+	//char				*ret;
 	char				*builtin;
 	char				*command;
 	struct s_node		*left;

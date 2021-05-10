@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/05 16:18:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 10:41:46 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_node	*ft_init_grammar_node(int type)
 	new->type = type;
 	new->input = 0;
 	new->arg = 0;
-	new->ret = 0;
 	new->builtin = 0;
 	new->command = 0;
 	new->left = 0;
@@ -43,7 +42,7 @@ t_node	*ft_init_buildin_node(char *input, int type)
 	if (!(new->input = input))
 		return (0);
 	new->arg = 0;
-	new->ret = 0;
+	//new->ret = 0;
 	new->builtin = 0;
 	new->left = 0;
 	new->right = 0;
