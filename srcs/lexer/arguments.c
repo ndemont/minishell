@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 12:10:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 14:14:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,29 +95,66 @@ char		*get_backslash(char *input, int *i, int j)
 char		*get_double_quote(char *input, int *i, int j)
 {
 	char	*new;
+	char	*tmp;
 	char	*first_part;
 	char	*second_part;
 	int 	start;
 
-	new = ft_substr(input, j, *i - j);
+	if (!(new = ft_substr(input, j, *i - j)))
+		return (print_errors(strerror(errno), 1));
 	*i = *i + 1;
 	start = *i;
 	while (input[*i] && input[*i] != '\"')
 	{
 		if (input[*i] == '$')
 		{
-			first_part = ft_substr(input, start, *i - start);
-			new = ft_strjoin(new, first_part);
+			tmp = new;
+			if (!(first_part = ft_substr(input, start, *i - start)))
+			{
+				free(tmp);
+				return (print_errors(strerror(errno), 1));
+			}
+			if (!(new = ft_strjoin(new, first_part)))
+			{
+				free(tmp);
+				free(first_part);
+				return (print_errors(strerror(errno), 1));
+			}
+			free(tmp);
+			free(first_part);
 			if (!(second_part = get_variable(input, i)))
-				return (0);
-			new = ft_strjoin(new, second_part);
+			{
+				free(first_part);
+				free(new);
+				return (print_errors(strerror(errno), 1));
+			}
+			tmp = new;
+			if (!(new = ft_strjoin(new, second_part)))
+			{
+				free(first_part);
+				free(tmp);
+			}
+			free(tmp);
+			free(second_part);
 			start = *i;
 		}
 		else
 			*i = *i + 1;
 	}
-	first_part = ft_substr(input, start, *i - start);
-	new = ft_strjoin(new, first_part);
+	tmp = new;
+	if (!(first_part = ft_substr(input, start, *i - start)))
+	{
+		free(new);
+		return (print_errors(strerror(errno), 1));
+	}
+	if (!(new = ft_strjoin(new, first_part)))
+	{
+		free(tmp);
+		free(first_part);
+		return (print_errors(strerror(errno), 1));
+	}
+	free(tmp);
+	free(first_part);
 	*i = *i + 1;
 	return (new);
 }
