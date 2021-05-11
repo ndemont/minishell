@@ -90,6 +90,7 @@ void	exec_anglebracket_left(char **argv, t_big *datas)
 	if (fd < 0)
 	{
 		printf("minishellrose: %s: No such file or directory\n", argv[0]);
+		tcaps.ret = 1;
 		datas->quit = 1;
 	}
 	if (datas->flag_left_bracket == 0)

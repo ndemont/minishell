@@ -148,7 +148,7 @@ char	**build_array_env(t_list *lst)
 	return (env);
 }
 
-void	exec_binary(char *command, char **argv, t_big *datas)
+int		exec_binary(char *command, char **argv, t_big *datas)
 {
 	char **cmd;
 	char **env;
@@ -167,6 +167,7 @@ void	exec_binary(char *command, char **argv, t_big *datas)
 	}
 	free_double(cmd);
 	free_double(env);
+	return(tcaps.ret);
 }
 
 void	execute_tree(t_node *root, int n, t_big *datas, int side)

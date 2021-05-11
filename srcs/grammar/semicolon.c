@@ -20,10 +20,10 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	pid1 = fork();
 	if (pid1 == 0)
 	{
-		exec_binary(command, argv, datas);
+		ret_status = exec_binary(command, argv, datas);
 		close(datas->fd);
 		free_datas(datas);
-		exit(0);
+		exit(ret_status);
 	}
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);

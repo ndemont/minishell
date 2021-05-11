@@ -52,6 +52,7 @@ void	init_data(t_big *datas)
 	datas->history = 0;
 	datas->quit = 0;
 	datas->root = 0;
+	tcaps.ret = 0;
 	tcaps.c_max = 0;
 	tcaps.l_max = 0;
 	tcaps.c_pos = 0;
