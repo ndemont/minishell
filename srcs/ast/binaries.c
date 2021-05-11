@@ -181,7 +181,7 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 		if (!datas->quit && n == 0 && root->command)
 			exec_semicolon_cmd(root->command, root->arg, 0, datas);
 		if (!datas->quit && n == 0 && root->builtin)
-			exec_built_in(root->builtin, root->arg, datas);
+			tcaps.ret = exec_built_in(root->builtin, root->arg, datas);
 		if (n == 1 && (root->command || root->builtin))
 			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		if (n == 5 && root->command)
