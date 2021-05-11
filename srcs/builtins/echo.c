@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 15:51:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 15:54:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,22 @@ char		*get_env_var(char *var, int *j, t_big *datas)
 	i = 0;
 	env = *datas->env;
 	if (!(value = malloc(sizeof(char))))
+	{
+		free(tmp);
 		return (0);
+	}
 	value[0] = '\0';
 	while (env)
 	{
 		if (!ft_strcmp(((t_var *)env->content)->var, tmp))
 		{
-			if (value)
-				free(value);
+			free(value);
 			value = ft_strdup(((t_var *)env->content)->value);
 			break ;
 		}
 		env = env->next;
 	}
+	free(tmp);
 	*j = *j + len;
 	return (value);
 }
