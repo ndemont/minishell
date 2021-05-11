@@ -38,7 +38,7 @@ void		exec_semicolon_cmd(char *cmd, char **av, int is_builtin, t_big *datas)
 	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;
 	if (is_builtin == 1)
-		exec_built_in(cmd, av, datas);
+		tcaps.ret = exec_built_in(cmd, av, datas);
 	else if (is_builtin == 2)
 		print_std(datas->fd);
 	else if (is_builtin == 0)
