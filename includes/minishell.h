@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 11:18:15 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 11:57:43 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct			s_caps
 	int					child;
 	int 				signal;
 	int					ret;
+	int					exit;
 	int					cursor_max;
 	int					cursor_lvl;
 	int					cursor_pos;
@@ -137,7 +138,8 @@ t_node					**ft_lexer(char *input);
 t_node					**ft_builtin_parser(t_node **token_tab);
 void					executions(t_big *datas);
 int						tree(t_node **tokens, t_big *datas);
-void					*print_errors(char *error);
+void					*print_errors(char *error, int exit);
+int 					print_errors_int(char *error, int exit);
 void					semicolon_node(t_node **tokens, t_big *datas, int i);
 void					right_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev);
 void					left_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 11:12:01 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 12:10:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,16 @@ char		*get_backslash(char *input, int *i, int j)
 		first_part = ft_substr(input, j, *i - j - 1);
 		second_part = ft_substr(input, *i, 1);
 		if (!first_part || !second_part)
-			return (print_errors(strerror(errno)));
+			return (print_errors(strerror(errno), 1));
 		new = ft_strjoin(first_part, second_part);
 		if (!new)
-			return (print_errors(strerror(errno)));
+			return (print_errors(strerror(errno), 1));
 		free(first_part);
 		free(second_part);
 		*i = *i + 1;
 	}
 	else if (input[*i] == '\\' && !input[*i + 1])
-		print_errors("minishellrose: missing char at end of line");
+		return (print_errors("minishellrose: missing char at end of line", 0));
 	return (new);
 }
 
@@ -129,18 +129,18 @@ char		*get_str(char *input, int *i, int j)
 
 	new = ft_substr(input, j, *i - j);
 	if (!new)
-		return (print_errors(strerror(errno)));
+		return (print_errors(strerror(errno), 1));
 	if (new[0] == '$')
 	{
 		tmp = new;
 		new = ft_strjoin("\"", tmp);
 		if (!new)
-			return (print_errors(strerror(errno)));
+			return (print_errors(strerror(errno), 1));
 		free(tmp);
 		tmp = new;
 		new = ft_strjoin(new, "\"");
 		if (!new)
-			return (print_errors(strerror(errno)));
+			return (print_errors(strerror(errno), 1));
 		free(tmp);
 	}
 	return (new);
@@ -155,7 +155,7 @@ char		*get_arg(char *input, int *i)
 
 	arg = malloc(sizeof(char));
 	if (!arg)
-		return (print_errors(strerror(errno)));
+		return (print_errors(strerror(errno), 1));
 	arg[0] = '\0';
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
 		*i = *i + 1;
@@ -171,7 +171,7 @@ char		*get_arg(char *input, int *i)
 		{
 			second_part = get_single_quote(input, i, &j);
 			if (!second_part)
-				print_errors(strerror(errno));
+				return (print_errors(strerror(errno), 1));
 		}
 		else if (input[j] == '\"')
 			second_part = get_double_quote(input, i, j);

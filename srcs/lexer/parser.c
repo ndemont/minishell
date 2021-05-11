@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 15:44:05 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 12:11:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int			count_arg(char *input)
 	return (count);
 }
 
-void		get_builtin(t_node *token)
+int		get_builtin(t_node *token)
 {
 	static char	*list[7] = {"echo", "export", "env", "cd", "pwd", "unset", "exit"};
 	int			i;
@@ -77,9 +77,7 @@ void		get_builtin(t_node *token)
 	count = count_arg(token->input);
 	token->arg = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!token->arg)
-	{
-		print_errors(strerror(errno));
-	}
+		return (print_errors_int(strerror(errno), 1));
 	j = 0;
 	while (token->input[i] && j < count)
 	{
@@ -106,20 +104,7 @@ void		get_builtin(t_node *token)
 		token->builtin = token->command;
 		token->command = 0;
 	}
-	printf("\nBuiltin = [%s]\n", token->builtin);
-	printf("Command = [%s]\n", token->command);
-	if (token->arg)
-	{
-		i = 0;
-		printf("Args = ");
-		while (token->arg[i])
-		{
-			printf("[%s] ", (char *)token->arg[i]);
-			i++;
-		}
-		printf("\n");
-	}
-	printf("\n");
+	return (1);
 }
 
 t_node		**ft_builtin_parser(t_node **token_tab)
@@ -127,8 +112,6 @@ t_node		**ft_builtin_parser(t_node **token_tab)
 	int i;
 
 	i = 0;
-	printf("\nLEXER");
-	printf("\n-----");
 	while (token_tab[i])
 	{
 		if (!token_tab[i]->type)
@@ -136,6 +119,6 @@ t_node		**ft_builtin_parser(t_node **token_tab)
 		i++;
 	}
 	if (token_tab[i - 1]->type > 0 && token_tab[i - 1]->type < 5)
-		print_errors("Missing command at end of line");
+		return (print_errors("Missing command at end of line", 0));
 	return (token_tab);
 }

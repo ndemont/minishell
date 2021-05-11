@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 11:17:15 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 12:13:12 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,16 @@ int	read_input(t_big *datas)
 	display_prompt();
 	token_tab = 0;
 	line = create_line(datas);
-	if (!line)
+	if (!line && tcaps.exit)
 		return (0);
-	if (!line[0])
+	else if ((!line && !tcaps.exit) || !line[0])
 		return (1);
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
-	if (!(token_tab ))
+	if (!token_tab && tcaps.exit)
 		return (0);
+	else if (!token_tab && !tcaps.exit)
+		return (1);
 	if (!ft_builtin_parser(token_tab))
 	{
 		free_tokens(token_tab);
