@@ -74,7 +74,7 @@ char **mono_array(char *str)
 {
 	char **cmd;
 
-	cmd = (char **)malloc(sizeof(char*) * 1);
+	cmd = (char **)malloc(sizeof(char*) * 2);
 	if (!cmd)
 	{
 		perror("Malloc failed in mono_array ");
@@ -162,8 +162,13 @@ int		exec_binary(char *command, char **argv, t_big *datas)
 		k++;
 	if (ret == -1)
 	{
-		tcaps.ret = RET_ERROR;
-		printf("minishellrose: %s: command not found\n", command);
+		if (errno == 2)	
+			tcaps.ret = RET_ERROR;
+		else if (errno == 13)
+			tcaps.ret = 126;
+		ft_putstr_fd("minishellrose: ", STDERR_FILENO);
+		ft_putstr_fd(argv[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	}
 	free_double(cmd);
 	free_double(env);
