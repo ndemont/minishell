@@ -227,6 +227,26 @@ char		**ft_add_arg(char **arg, t_big *datas)
 	return (arg);
 }
 
+int			check_echo_flag(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!ft_strcmp(str, "-n"))
+		return(1);
+	if (str[i] == '-')
+		i++;
+	else
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int			ft_echo(char **arg, t_big *datas)
 {
 	int flag;
@@ -235,7 +255,7 @@ int			ft_echo(char **arg, t_big *datas)
 
 	flag = 1;
 	i = 1;
-	if (arg[i] && !(ft_strcmp(arg[i], "-n")))
+	while (arg[i] && check_echo_flag(arg[i]))
 	{
 		flag = 0;
 		i++;
