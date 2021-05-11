@@ -70,7 +70,7 @@ int		ft_cd(char **arg, t_big *datas)
 		else
 		{
 			ft_putstr("minishellrose: cd: HOME not set\n"); //ECRIRE SUR LE STDOUT, MAIS BREAK MEME SI PIPE 
-			return (tcaps.ret = 1);
+			return (1);
 		}
 	}
 	else
@@ -88,7 +88,7 @@ int		ft_cd(char **arg, t_big *datas)
 			else
 			{
 				ft_putstr("minishellrose: cd: OLDPWD not set\n"); //ECRIRE SUR LE STDOUT, MAIS BREAK MEME SI PIPE 
-				return (tcaps.ret = 1);
+				return (1);
 			}
 		}
 		else
@@ -96,7 +96,7 @@ int		ft_cd(char **arg, t_big *datas)
 			if (chdir(arg[1]) < 0)
 			{
 				printf("minishellrose: cd: %s: No such file or directory\n", arg[1]);
-				return (tcaps.ret = 1);
+				return (1);
 			}
 		}
 	}
