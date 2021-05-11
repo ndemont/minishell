@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 11:20:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 11:59:51 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ t_node	*ft_new_node(char *input, int *i)
 	{
 		new_node = ft_init_grammar_node(type);
 		if (!new_node)
-		{
-			print_errors(strerror(errno));
-			return (0);
-		}
+			return (print_errors(strerror(errno), 1));
 		*i = *i + 1;
 		if (type == 2)
 			*i = *i + 1;
@@ -101,10 +98,7 @@ t_node	*ft_new_node(char *input, int *i)
 	{
 		new_node = ft_new_builtin_node(i, input);
 		if (!new_node)
-		{
-			print_errors(strerror(errno));
-			return (0);
-		}
+			return (print_errors(strerror(errno), 1));
 	}
 	return (new_node);
 }
@@ -116,8 +110,6 @@ t_node	**ft_create_nodes(char *input, int nb)
 	int		j;
 
 	nodes = (t_node **)malloc(sizeof(t_node) * (nb + 1));
-	printf("size = [%lu]\n", sizeof(t_node) * (nb + 1));
-	printf("address = [%p]\n", nodes);
 	if (!nodes)
 		return (0);
 	nodes[nb] = 0;
@@ -129,13 +121,13 @@ t_node	**ft_create_nodes(char *input, int nb)
 		if (!nodes[j])
 			return (0);
 		if (j == 0 && nodes[j]->type)
-			return (print_errors("minishellrose: syntax error"));
+			return (print_errors("minishellrose: syntax error", 0));
 		else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
-			return (print_errors("minishellrose: syntax error"));
+			return (print_errors("minishellrose: syntax error", 0));
 		j++;
 	}
 	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0] && \
 		nodes[j - 2]->type < 5)
-		return (print_errors("minishellrose: missing command at end of line"));
+		return (print_errors("minishellrose: missing command at end of line", 0));
 	return (nodes);
 }
