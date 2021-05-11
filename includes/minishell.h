@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 11:57:43 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 16:26:09 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct			s_node
 	int					type;
 	char				*input;
 	char				**arg;
-	//char				*ret;
 	char				*builtin;
 	char				*command;
 	struct s_node		*left;
@@ -105,6 +104,8 @@ typedef struct			s_big
 	t_list				**hidden;
 	t_history			**history;
 	t_node				*root;
+	char				*browse;
+	char				*input;
 }						t_big;
 
 //DECLARE OF A GLOBAL STRUCT, MANDATORY FOR TERMCAPS MANAGMENT 
