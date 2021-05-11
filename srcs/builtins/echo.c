@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/30 17:04:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 15:09:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,30 @@ char		*get_env_var(char *var, int *j, t_big *datas)
 	len = 0;
 	while (var[*j + len] && var[*j + len] != '\"')
 		len++;
-	tmp = malloc(sizeof(char) * len);
-	tmp = ft_substr(var, *j, len);
-	printf("temp = %s\n", tmp);
+	if (!(tmp = ft_substr(var, *j, len)))
+		return (0);
 	if (!ft_strcmp(tmp, "?"))
 	{
-		value = get_return_value();
-		return (value);
+		*j = *j + 1;
+		return (get_return_value());
 	}
 	i = 0;
 	env = *datas->env;
-	value = malloc(sizeof(char));
+	if (!(value = malloc(sizeof(char))))
+		return (0);
 	value[0] = '\0';
 	while (env)
 	{
 		if (!ft_strcmp(((t_var *)env->content)->var, tmp))
 		{
+			if (value)
+				free(value);
 			value = ft_strdup(((t_var *)env->content)->value);
 			break ;
 		}
 		env = env->next;
 	}
 	*j = *j + len;
-	printf("value = %s\n", value);
 	return (value);
 }
 
@@ -65,7 +66,8 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 	char	*ret;
 	int		j;
 
-	ret = (char *)malloc(sizeof(char));
+	if (!(ret = (char *)malloc(sizeof(char))))
+		return (0);
 	ret[0] = 0;
 	while (arg[*i] && arg[*i + 1])
 	{
@@ -74,17 +76,40 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 		{
 			tmp1 = ret;
 			if (arg[*i][j] == '\"' && arg[*i][j + 1] == '$')
-				tmp2 = get_env_var(arg[*i], &j, datas);
+			{
+				if (!(tmp2 = get_env_var(arg[*i], &j, datas)))
+				{
+					free(tmp1);
+					return (0);
+				}
+			}
 			else
 			{
-				tmp2 = malloc(sizeof(char) * 2);
+				if (!(tmp2 = malloc(sizeof(char) * 2)))
+				{
+					free(tmp1);
+					return (0);
+				}
 				tmp2[0] = arg[*i][j];
 				tmp2[1] = 0;
 			}
-			ret = ft_strjoin(tmp1, tmp2);
+			if (!(ret = ft_strjoin(tmp1, tmp2)))
+			{
+				free(tmp1);
+				free(tmp2);
+				return (0);
+			}
+			free(tmp1);
+			free(tmp2);
 			j++;
 		}
-		ret = ft_strjoin(ret, " ");
+		tmp1 = ret;
+		if (!(ret = ft_strjoin(ret, " ")))
+		{
+			free(tmp1);
+			return (0);
+		}
+		free(tmp1);
 		*i = *i + 1;
 	}
 	return (ret);
@@ -101,29 +126,101 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 
 	tmp3 = ret;
 	j = 0;
-	ret = (char *)malloc(sizeof(char));
+	if (!(ret = (char *)malloc(sizeof(char))))
+		return (0);
 	ret[0] = 0;
-	while (arg[*i][j])
+	while (arg[*i] && arg[*i][j])
 	{
 		tmp1 = ret;
 		if (arg[*i][j] == '\"' && arg[*i][j + 1] == '$')
-			tmp2 = get_env_var(arg[*i], &j, datas);
+		{
+			if (!(tmp2 = get_env_var(arg[*i], &j, datas)))
+			{
+				free(tmp3);
+				free(tmp1);
+				return (0);
+			}
+		}
 		else
 		{
-			tmp2 = malloc(sizeof(char) * 2);
+			if (!(tmp2 = malloc(sizeof(char) * 2)))
+			{
+				free(tmp3);
+				free(tmp1);
+				return (0);
+			}
 			tmp2[0] = arg[*i][j];
 			tmp2[1] = 0;
 		}
-		ret = ft_strjoin(tmp1, tmp2);
+		if (!(ret = ft_strjoin(tmp1, tmp2)))
+		{
+			free(tmp1);
+			free(tmp2);
+			free(tmp3);
+			return (0);
+		}
+		free(tmp1);
+		free(tmp2);
 		j++;
 	}
 	len = ft_strlen(ret) + ft_strlen(tmp3);
 	tmp = ret;
-	ret = ft_strjoin(tmp3, tmp);
-	if (flag)
-		ret = ft_strjoin(ret, "\n");
+	if (!(ret = ft_strjoin(tmp3, tmp)))
+	{
+		free(tmp);
+		free(tmp3);
+		return (0);
+	}
 	free(tmp);
+	free(tmp3);
+	if (flag)
+	{
+		tmp = ret;
+		if (!(ret = ft_strjoin(ret, "\n")))
+		{
+			free(tmp);
+			return(0);
+		}
+		free(tmp);
+	}
 	return (ret);
+}
+
+char		**ft_add_arg(char **arg, t_big *datas)
+{
+	int		j;
+	int		i;
+	int		count;
+	char	**tmp;
+
+	count = 0;
+	while (datas->redirection_arg[count])
+		count++;
+	i = 0;
+	while (arg[i])
+		i++;
+	count += i;
+	tmp = arg;
+	if (!(arg = (char **)malloc(sizeof(char *) * (count + 1))))
+		return (0);
+	arg[count] = 0;
+	j = 0;
+	while (tmp[j])
+	{
+		arg[j] = tmp[j];
+		j++;
+	}
+	if (tmp)
+		free(tmp);
+	j = 0;
+	while (i < count)
+	{
+		if (!(arg[i] = ft_strdup(datas->redirection_arg[j])))
+			return (0);
+		i++;
+		j++;
+	}
+	return (arg);
 }
 
 int			ft_echo(char **arg, t_big *datas)
@@ -134,16 +231,24 @@ int			ft_echo(char **arg, t_big *datas)
 
 	flag = 1;
 	i = 1;
-	if (!(ft_strcmp(arg[i], "-n")))
+	if (arg[i] && !(ft_strcmp(arg[i], "-n")))
 	{
 		flag = 0;
 		i++;
 	}
-	ret = ft_echo_cat(arg, &i, datas);
-	printf("ret = %s\n", ret);
-	ret = ft_echo_catlast(ret, arg, &i, flag, datas);
-	printf("ret = %s\n", ret);
+	if (datas->redirection_arg)
+	{
+		if (!(arg = ft_add_arg(arg, datas)))
+			return (0);
+		datas->redirection_arg = 0;
+	}
+	if (!(ret = ft_echo_cat(arg, &i, datas)))
+		return (0);
+	if (!(ret = ft_echo_catlast(ret, arg, &i, flag, datas)))
+		return (0);
 	ft_putstr_fd(ret, STDOUT_FILENO);
+	if (ret)
+		free(ret);
 	tcaps.ret = 0;
-	return (1);
+	return (tcaps.ret);
 }

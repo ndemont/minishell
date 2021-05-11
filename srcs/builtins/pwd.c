@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 13:58:06 by gpetit            #+#    #+#             */
-/*   Updated: 2021/04/22 13:54:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 11:25:20 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_pwd(t_big *datas)
 			pwd = ft_strdup(((t_var *)tmp->content)->value);
 		ft_putstr(pwd);
 		ft_putchar('\n');
-		return (-1);
+		return (0);
 	}
 	ft_putstr(pwd);
 	ft_putchar('\n');

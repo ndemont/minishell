@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/29 18:41:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:03:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ t_node		**ft_lexer(char *input)
 	if (!nodes_tab)
 		return (0);
 	if (input)
+	{
 		free(input);
+		input = 0;
+	}
 	return (nodes_tab);
 }

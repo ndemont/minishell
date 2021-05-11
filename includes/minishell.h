@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/30 12:24:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 10:41:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct			s_node
 	int					type;
 	char				*input;
 	char				**arg;
-	char				*ret;
+	//char				*ret;
 	char				*builtin;
 	char				*command;
 	struct s_node		*left;
@@ -91,12 +91,14 @@ typedef struct			s_history
 typedef struct			s_big
 {
 	int					fd;
+	int					fd_out;
 	int					quit;
 	int					flag_pipe;
 	int					flag_bracket;
 	int					flag_left_bracket;
 	int					flag_history;
-	char				*redirection_arg;
+	char				*file_name;
+	char				**redirection_arg;
 	t_list				**env;
 	t_list				**export;
 	t_list				**hidden;
@@ -109,34 +111,36 @@ t_caps					tcaps;
 
 //ENV
 int						ft_env(char **av, t_big *datas);
-void					store_env(char **env, t_big *datas);
-void					ft_hidden(char **argv, t_big *datas);
+int						store_env(char **env, t_big *datas);
+int						ft_hidden(char **argv, t_big *datas);
 int						check_duplicate(t_list *list, char *ref);
 void					actualize_list(char *line, t_list *lst);
 char 					**ft_split_on_equal(char *str);
 void					add_to_list(char *line, t_list **lst);
 
 //HISTORY
-void					init_history(t_big *datas);
+int						init_history(t_big *datas);
 void					save_history(char *line, t_big *datas);
 void					browse_history(t_big *datas, char **line, int signal);
-void					update_history_list(t_history **begin, char *line, int status);
-void					update_history_file(t_big *datas);
+int						update_history_list(t_history **begin, char *line, int status);
+int						update_history_file(t_big *datas);
 
 //FREE
-void					free_datas(t_big *datas);
+int						free_datas(t_big *datas);
 void					free_tokens(t_node **token_tab);
+void					free_tree(t_node *root);
+void					clean_datas(t_big *datas);
 
 //AST
 int						read_input(t_big *datas);
 t_node					**ft_lexer(char *input);
 t_node					**ft_builtin_parser(t_node **token_tab);
 void					executions(t_big *datas);
-void					tree(t_node **tokens, t_big *datas);
+int						tree(t_node **tokens, t_big *datas);
 void					*print_errors(char *error);
 void					semicolon_node(t_node **tokens, t_big *datas, int i);
-void					right_redirection_node(t_node **tokens, t_big *datas, int i);
-void					left_redirection_node(t_node **tokens, t_big *datas, int i);
+void					right_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev);
+void					left_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev);
 void					pipe_node(t_node **tokens, t_big *datas, int i);
 
 //LEXER
@@ -148,15 +152,16 @@ int						ft_count_tokens(char *input);
 int						ft_is_grammar(char *str, int i);
 
 //TREE
-void					exec_built_in(char *command, char **argv, t_big *datas);
-void					exec_binary(char *command, char **argv);
+int						exec_built_in(char *command, char **argv, t_big *datas);
+void					exec_binary(char *command, char **argv, t_big *datas);
 void					print_std(int fd);
 
 //GRAMMAR
-void					exec_piped_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+void					exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas);
 void					exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
 void					redirections(int type, char **argv, t_big *datas);
 void					exec_anglebracket_right(char **argv, t_big *datas);
+void					print_std_fd(int fd_in, int fd_out);
 
 //BUILTINS
 int						ft_echo(char **arg, t_big *datas);
@@ -176,15 +181,31 @@ int						display_prompt(void);
 
 //TERMCAPS
 void					term_size(void);
-void					termcaps_init(void);
+int						termcaps_init(void);
 void					raw_mode(void);
 void					normal_mode(void);
 void					cursor_position(void);
 void					do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
 int						ft_putchar2(int);
 void					print_at_cursor(char c);
-void					end_of_transmission(t_big *datas, char *line);
+void					ctrl_d(t_big *datas, char **line, int *i);
 void					lines_added(char *str);
+void					move_cursor(int c, int l);
+void					scroll_n_times(int n);
+void					clear_term(void);
+void					clear_after_cursor(void);
+void					print_at_cursor(char c);
+void					move_cursor_left(void);
+void					move_cursor_right(void);
+void 					add_at_cursor(char c, int *i, char **line);
+void					backspace(int *i, char **line);
+void					backspace_at_cursor(int *i, char **line);
+void					get_cursor_max(void);
+void					move_cursor_up(void);
+void					move_cursor_down(void);
+void					word_left(char **line);
+void					word_right(int *i, char **line);
+void					actualize_cursor(int new_c_pos, int new_l_pos);
 
 
 //FLAGS

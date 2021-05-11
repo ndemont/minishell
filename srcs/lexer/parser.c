@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/30 12:36:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 15:44:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,17 @@ void		get_builtin(t_node *token)
 	count = count_arg(token->input);
 	token->arg = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!token->arg)
+	{
 		print_errors(strerror(errno));
+	}
 	j = 0;
 	while (token->input[i] && j < count)
 	{
 		token->arg[j] = get_arg(token->input, &i);
 		j++;
 	}
-	token->arg[count] = 0;
-	token->command = token->arg[0];
+	token->arg[j] = 0;
+	token->command = ft_strdup(token->arg[0]);
 	i = 0;
 	while (i < 7)
 	{
@@ -93,7 +95,7 @@ void		get_builtin(t_node *token)
 			break ;
 		if (!ft_strcmp(list[i], token->arg[0]))
 		{
-			token->builtin = token->arg[0];
+			token->builtin = token->command;
 			token->command = 0;
 			break ;
 		}

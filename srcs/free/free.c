@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/16 16:36:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 12:56:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	free_tokens(t_node **tokens)
 		{
 			if (tokens[i]->input)
 				free(tokens[i]->input);
-			if (tokens[i]->ret)
-				free(tokens[i]->ret);
 			if (tokens[i]->arg)
 			{
 				j = 0;
@@ -40,6 +38,7 @@ void	free_tokens(t_node **tokens)
 			i++;
 		}
 		free(tokens);
+		tokens = 0;
 	}
 }
 
@@ -78,6 +77,24 @@ void	free_list(t_list **list)
 	}
 }
 
+void	free_history(t_history **list)
+{
+	t_history *tmp;
+	t_history *del;
+
+	tmp = *list;
+	while (tmp)
+	{
+		del = tmp;
+		if (del->command)
+			free(del->command);
+		tmp = tmp->next;
+		free(del);
+	}
+	if (*list)
+		free(list);
+}
+
 void	free_arg(char **arg)
 {
 	int i;
@@ -91,19 +108,16 @@ void	free_arg(char **arg)
 	}
 }
 
+
 void	free_tree(t_node *root)
 {
 	if (root->left)
 	{
 		free_tree(root->left);
-		free(root->left);
-		root->left = 0;
 	}
 	if (root->right)
 	{
 		free_tree(root->right);
-		free(root->right);
-		root->right = 0;
 	}
 	if (root->input)
 	{
@@ -116,11 +130,6 @@ void	free_tree(t_node *root)
 		free(root->arg);
 		root->arg = 0;
 	}
-	if (root->ret)
-	{
-		free(root->ret);
-		root->ret = 0;
-	}
 	if (root->builtin)
 	{
 		free(root->builtin);
@@ -131,19 +140,39 @@ void	free_tree(t_node *root)
 		free(root->command);
 		root->command = 0;
 	}
+	if (root)
+	{
+		free(root);
+		root = 0;
+	}
 }
 
-void	free_datas(t_big *datas)
+void	clean_datas(t_big *datas)
+{
+	free_double(datas->redirection_arg);
+	if (datas && datas->file_name)
+		free(datas->file_name);
+	free_tree(datas->root);
+}
+
+int		free_datas(t_big *datas)
 {
 	if (datas)
 	{
+		if (datas->redirection_arg)
+			free_double(datas->redirection_arg);
+		if (datas && datas->file_name)
+			free(datas->file_name);
 		if (datas->env)
 			free_list(datas->env);
 		if (datas->export)
 			free_list(datas->export);
 		if (datas->hidden)
 			free_list(datas->hidden);
+		if (datas->history)
+			free_history(datas->history);
 		if (datas->root)
 			free_tree(datas->root);
 	}
+	return (1);
 }

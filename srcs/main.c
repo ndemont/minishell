@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 12:55:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:58:16 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	actualize_data(t_big *datas)
 {
 	datas->fd = -1;
+	datas->fd_out = STDOUT_FILENO;
 	datas->flag_pipe = 0;
 	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;
@@ -27,16 +28,20 @@ void	actualize_data(t_big *datas)
 	tcaps.cursor_max = 0;
 	tcaps.cursor_lvl = 0;
 	tcaps.cursor_pos = 0;
+	datas->redirection_arg = 0;
+	datas->file_name = 0;
 }
 
 void	init_data(t_big *datas)
 {
 	datas->fd = -1;
+	datas->fd_out = STDOUT_FILENO;
 	datas->flag_pipe = 0;
 	datas->flag_bracket = 0;
 	datas->flag_left_bracket = 0;
 	datas->flag_history = 0;
 	datas->redirection_arg = 0;
+	datas->file_name = 0;
 	datas->env = 0;
 	datas->quit = 0;
 	datas->export = 0;
@@ -67,13 +72,18 @@ int		main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	termcaps_init();
+	if (!(termcaps_init()))
+		return (1);
 	init_data(&datas);
-	init_history(&datas);
-	store_env(env, &datas);
+	if (!(init_history(&datas)))
+		return (free_datas(&datas));
+	if (!(store_env(env, &datas)))
+		return (free_datas(&datas)); 
 	signal(SIGINT, ft_signals);
 	signal(SIGQUIT, ft_signals);
 	while (read_input(&datas));
-	update_history_file(&datas);
+	if (!(update_history_file(&datas)))
+		return (free_datas(&datas));
+	free_datas(&datas);
 	return (0);
 }

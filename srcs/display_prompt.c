@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/04/28 14:20:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/10 18:36:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,49 +15,55 @@
 int	display_prompt(void)
 {
 	write(STDOUT_FILENO, PURPLE, 7);
-	write(STDOUT_FILENO, "minishellrose-v1$ ", 18);
+	write(STDOUT_FILENO, "minishellrose$ ", 15);
 	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
-	tcaps.line_lvl = 0;
 	cursor_position();
+	tcaps.line_lvl = 0;
+	tcaps.cursor_lvl = 0;
 	tcaps.c_start = tcaps.c_pos;
-	tcaps.cursor_max += tcaps.c_start;
+	tcaps.cursor_max = tcaps.c_start;
+	tcaps.cursor_pos = 0;
 	normal_mode();
 	return (1);
 }
 
-void	execute_line(int i, char **line, char *buf)
+int		execute_line(int i, char **line, char *buf)
 {
-	*line = ft_realloc(*line, ft_strlen(*line) + 2);
+	if (!(*line = ft_realloc(*line, ft_strlen(*line) + 2)))
+		return (0);
 	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
 	(*line)[i] = 0;
+	return (1);
 }
 
 char *create_line(t_big *datas)
 {
-	int ret;
-	char buf[4];
-	char *line;
-	int i;
-	int j;
-	int	non_print_flag;
+	int		ret;
+	char	buf[7];
+	char	*line;
+	int		i;
+	int		j;
+	int		non_print_flag;
 
-	line = ft_strdup(""); //CONTROLLER MALLOC
+	if (!(line = ft_strdup("")))
+		return (0);
 	i = 0;
 	ret = 0;
-	buf[3] = 0;
 	raw_mode();
+	cursor_position();
 	while (line[i] != '\n')
 	{
-		cursor_position();
 		non_print_flag = 0;
-		if ((ret = read(STDIN_FILENO, buf, 4)) < 0)
-			exit(1); //SORTIR CLEAN PLUS TARD
+		ft_bzero(buf, 7);
+		if ((ret = read(STDIN_FILENO, buf, 7)) < 0)
+			return (0);
 		if (tcaps.signal)
 		{
 			if (line)
 				free(line);
-			line = ft_strdup("");
+			if (!(line = ft_strdup("")))
+				return (0);
 			tcaps.signal = 0;
 			i = 0;
 		}
@@ -72,6 +78,8 @@ char *create_line(t_big *datas)
 				non_print_flag = 1;
 			j++;
 		}
+		if 	(buf[0] != 27 || buf[1] != 91 || (buf[2] != 65 && buf[2] != 66))
+			datas->flag_history = 0;
 		if (non_print_flag || tcaps.cursor_pos < i)
 		{
 			//DEVELOPMENT_MODE_print_sequence(buf);
@@ -97,7 +105,6 @@ char *create_line(t_big *datas)
 				break ;
 			}
 			print_at_cursor(line[i]);
-			//write(STDIN_FILENO, &line[i], 1);	
 			i++;
 			tcaps.cursor_pos = i;
 		}
@@ -122,20 +129,17 @@ int	read_input(t_big *datas)
 		return (0);
 	if (!line[0])
 		return (1);
-/* 	if (tcaps.signal)
-		return (1); */
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
 	if (!(token_tab ))
 		return (0);
 	if (!ft_builtin_parser(token_tab))
+	{
+		free_tokens(token_tab);
 		return (0);
+	}
 	tree(token_tab, datas);
-	printf("EXECUTION");
-	printf("\n-----\n");
 	executions(datas);
-	//ret = 0;
-	//free_tokens(token_tab);
-	//free_datas(datas);
+	clean_datas(datas);
 	return (1);
 }
