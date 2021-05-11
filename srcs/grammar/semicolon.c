@@ -15,6 +15,7 @@
 static void	exec_child(char *command, char **argv, t_big *datas)
 {
 	pid_t	pid1;
+	int		ret_status;
 
 	pid1 = fork();
 	if (pid1 == 0)
@@ -24,7 +25,8 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 		free_datas(datas);
 		exit(0);
 	}
-	waitpid(pid1, NULL, 0);
+	waitpid(pid1, &ret_status, 0);
+	actualize_return_status(ret_status);
 	close(datas->fd);
 }
 
