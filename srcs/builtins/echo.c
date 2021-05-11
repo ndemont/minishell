@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 15:09:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 15:51:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char		*get_env_var(char *var, int *j, t_big *datas)
 	if (!ft_strcmp(tmp, "?"))
 	{
 		*j = *j + 1;
+		free(tmp);
 		return (get_return_value());
 	}
 	i = 0;
