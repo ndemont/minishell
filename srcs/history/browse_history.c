@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:09:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/05 15:29:03 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 16:27:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,27 +118,25 @@ void		lines_added(char *str)
 void		browse_history(t_big *datas, char **line, int signal)
 {
 	static t_history	*current = 0;
-	static char			*browse = 0;
-	static char			*input = 0;
 
 	if (!datas->flag_history)
 	{
 		current = *datas->history;
-		if (input)
-			free(input);
-		input = ft_strdup(*line);
+		if (datas->input)
+			free(datas->input);
+		datas->input = ft_strdup(*line);
 	}
 	if (signal == 1)
-		current = browse_up(current, &browse, datas, input);
+		current = browse_up(current, &datas->browse, datas, datas->input);
 	if (signal == 0)
-		current = browse_down(current, &browse, datas, input);
-	if (browse)
+		current = browse_down(current, &datas->browse, datas, datas->input);
+	if (datas->browse)
 	{
-		lines_added(browse);
+		lines_added(datas->browse);
 		tcaps.cursor_lvl = tcaps.line_lvl;
-		ft_putstr_fd(browse, STDIN_FILENO);
+		ft_putstr_fd(datas->browse, STDIN_FILENO);
 		if (*line)
 			free(*line);
-		*line = ft_strdup(browse);
+		*line = ft_strdup(datas->browse);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/10 12:56:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/11 16:29:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,10 @@ void	clean_datas(t_big *datas)
 	if (datas && datas->file_name)
 		free(datas->file_name);
 	free_tree(datas->root);
+	if (datas->input)
+		free(datas->input);
+	if (datas->browse)
+		free(datas->browse);
 }
 
 int		free_datas(t_big *datas)
