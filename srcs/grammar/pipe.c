@@ -29,6 +29,7 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	tcaps.child = 1;
 	if (pid1 == 0)
 	{
+		tcaps.ret = 0;
 		dup2(datas->fd, STDIN_FILENO);
 		close(datas->fd);
 		dup2(fd[1], STDOUT_FILENO);
@@ -42,6 +43,7 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	}
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);
+	printf("tcaps.ret = %i\n", tcaps.ret);
 	tcaps.child = 0;
 	dup2(fd[0], datas->fd);
 	close(fd[1]);

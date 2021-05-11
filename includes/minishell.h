@@ -119,6 +119,7 @@ int						check_duplicate(t_list *list, char *ref);
 void					actualize_list(char *line, t_list *lst);
 char 					**ft_split_on_equal(char *str);
 void					add_to_list(char *line, t_list **lst);
+void					actualize_return_status(int ret_status);
 
 //HISTORY
 int						init_history(t_big *datas);
@@ -156,7 +157,7 @@ int						ft_is_grammar(char *str, int i);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);
-void					exec_binary(char *command, char **argv, t_big *datas);
+int						exec_binary(char *command, char **argv, t_big *datas);
 void					print_std(int fd);
 
 //GRAMMAR
