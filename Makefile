@@ -6,7 +6,7 @@
 #    By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 14:42:49 by gpetit            #+#    #+#              #
-#    Updated: 2021/05/11 11:13:40 by ndemont          ###   ########.fr        #
+#    Updated: 2021/05/11 22:52:20 by ndemont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c \
 	lexer/nodes.c lexer/tokens.c free/free.c ast/binaries.c ast/tree.c ast/branches.c\
 	lexer/arguments.c errors/errors.c builtins/echo.c builtins/cd.c builtins/env.c builtins/pwd.c \
 	builtins/exit.c builtins/export.c builtins/unset.c builtins/hidden.c grammar/pipe.c \
-	grammar/semicolon.c grammar/redirection.c history/init_history.c \
+	grammar/semicolon.c grammar/redirection.c history/init_history.c variables/variable.c \
 	history/update_history.c history/browse_history.c history/save_history.c \
 	DEVELOPMENT_MODE.c signals/signals.c termcaps/ctrl_d.c termcaps/termcaps.c \
 	termcaps/termcaps_utils.c termcaps/termcaps_scroll.c termcaps/termcaps_cursor.c \
