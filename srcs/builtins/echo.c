@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 15:54:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/12 13:48:15 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,50 +20,7 @@ char		*get_return_value(void)
 	return (value);
 }
 
-char		*get_env_var(char *var, int *j, t_big *datas)
-{
-	int		i;
-	int		len;
-	t_list	*env;
-	char	*tmp;
-	char	*value;
-
-	*j = *j + 2;
-	len = 0;
-	while (var[*j + len] && var[*j + len] != '\"')
-		len++;
-	if (!(tmp = ft_substr(var, *j, len)))
-		return (0);
-	if (!ft_strcmp(tmp, "?"))
-	{
-		*j = *j + 1;
-		free(tmp);
-		return (get_return_value());
-	}
-	i = 0;
-	env = *datas->env;
-	if (!(value = malloc(sizeof(char))))
-	{
-		free(tmp);
-		return (0);
-	}
-	value[0] = '\0';
-	while (env)
-	{
-		if (!ft_strcmp(((t_var *)env->content)->var, tmp))
-		{
-			free(value);
-			value = ft_strdup(((t_var *)env->content)->value);
-			break ;
-		}
-		env = env->next;
-	}
-	free(tmp);
-	*j = *j + len;
-	return (value);
-}
-
-char		*ft_echo_cat(char **arg, int *i, t_big *datas)
+char		*ft_echo_cat(char **arg, int *i)
 {
 	char	*tmp1;
 	char	*tmp2;
@@ -79,24 +36,13 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 		while (arg[*i][j])
 		{
 			tmp1 = ret;
-			if (arg[*i][j] == '\"' && arg[*i][j + 1] == '$')
+			if (!(tmp2 = malloc(sizeof(char) * 2)))
 			{
-				if (!(tmp2 = get_env_var(arg[*i], &j, datas)))
-				{
-					free(tmp1);
-					return (0);
-				}
+				free(tmp1);
+				return (0);
 			}
-			else
-			{
-				if (!(tmp2 = malloc(sizeof(char) * 2)))
-				{
-					free(tmp1);
-					return (0);
-				}
-				tmp2[0] = arg[*i][j];
-				tmp2[1] = 0;
-			}
+			tmp2[0] = arg[*i][j];
+			tmp2[1] = 0;
 			if (!(ret = ft_strjoin(tmp1, tmp2)))
 			{
 				free(tmp1);
@@ -119,7 +65,7 @@ char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 	return (ret);
 }
 
-char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
+char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag)
 {
 	int		j;
 	int		len;
@@ -136,26 +82,14 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 	while (arg[*i] && arg[*i][j])
 	{
 		tmp1 = ret;
-		if (arg[*i][j] == '\"' && arg[*i][j + 1] == '$')
+		if (!(tmp2 = malloc(sizeof(char) * 2)))
 		{
-			if (!(tmp2 = get_env_var(arg[*i], &j, datas)))
-			{
-				free(tmp3);
-				free(tmp1);
-				return (0);
-			}
+			free(tmp3);
+			free(tmp1);
+			return (0);
 		}
-		else
-		{
-			if (!(tmp2 = malloc(sizeof(char) * 2)))
-			{
-				free(tmp3);
-				free(tmp1);
-				return (0);
-			}
-			tmp2[0] = arg[*i][j];
-			tmp2[1] = 0;
-		}
+		tmp2[0] = arg[*i][j];
+		tmp2[1] = 0;
 		if (!(ret = ft_strjoin(tmp1, tmp2)))
 		{
 			free(tmp1);
@@ -188,43 +122,6 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 		free(tmp);
 	}
 	return (ret);
-}
-
-char		**ft_add_arg(char **arg, t_big *datas)
-{
-	int		j;
-	int		i;
-	int		count;
-	char	**tmp;
-
-	count = 0;
-	while (datas->redirection_arg[count])
-		count++;
-	i = 0;
-	while (arg[i])
-		i++;
-	count += i;
-	tmp = arg;
-	if (!(arg = (char **)malloc(sizeof(char *) * (count + 1))))
-		return (0);
-	arg[count] = 0;
-	j = 0;
-	while (tmp[j])
-	{
-		arg[j] = tmp[j];
-		j++;
-	}
-	if (tmp)
-		free(tmp);
-	j = 0;
-	while (i < count)
-	{
-		if (!(arg[i] = ft_strdup(datas->redirection_arg[j])))
-			return (0);
-		i++;
-		j++;
-	}
-	return (arg);
 }
 
 int			check_echo_flag(char *str)
@@ -260,15 +157,11 @@ int			ft_echo(char **arg, t_big *datas)
 		flag = 0;
 		i++;
 	}
-	if (datas->redirection_arg)
-	{
-		if (!(arg = ft_add_arg(arg, datas)))
-			return (0);
-		datas->redirection_arg = 0;
-	}
-	if (!(ret = ft_echo_cat(arg, &i, datas)))
+	arg = get_arguments(arg, arg[0], datas);
+	replace_variable(arg, arg[0], datas);
+	if (!(ret = ft_echo_cat(arg, &i)))
 		return (0);
-	if (!(ret = ft_echo_catlast(ret, arg, &i, flag, datas)))
+	if (!(ret = ft_echo_catlast(ret, arg, &i, flag)))
 		return (0);
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	if (ret)

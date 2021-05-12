@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:31:47 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/11 11:22:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/12 11:21:42 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 		if (!datas->quit && n == 0 && root->command)
 			exec_semicolon_cmd(root->command, root->arg, 0, datas);
 		if (!datas->quit && n == 0 && root->builtin)
-			tcaps.ret = exec_built_in(root->builtin, root->arg, datas);
+			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		if (n == 1 && (root->command || root->builtin))
 			exec_piped_cmd(root->command, root->builtin, root->arg, datas);
 		if (n == 5 && root->command)

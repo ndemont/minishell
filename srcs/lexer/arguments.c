@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 14:14:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/12 15:13:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,14 +161,25 @@ char		*get_double_quote(char *input, int *i, int j)
 
 char		*get_str(char *input, int *i, int j)
 {
-	char *new;
-	char *tmp;
+	char	*new;
+	char	*tmp;
+	int 	end;
 
-	new = ft_substr(input, j, *i - j);
-	if (!new)
-		return (print_errors(strerror(errno), 1));
-	if (new[0] == '$')
+	new = 0;
+	if (input[j] != '$')
 	{
+		new = ft_substr(input, j, *i - j);
+		if (!new)
+			return (print_errors(strerror(errno), 1));
+	}
+	else if (input[j] == '$')
+	{
+		end = j + 1;
+		while (input[end] && input[end] != ' ' && input[end] != '\'' && input[end] != '"' && input[end] != '\t' && input[end] != '\\' && input[end] != '$')
+			end++;
+		new = ft_substr(input, j, end - j);
+		if (!new)
+			return (print_errors(strerror(errno), 1));
 		tmp = new;
 		new = ft_strjoin("\"", tmp);
 		if (!new)
@@ -179,6 +190,7 @@ char		*get_str(char *input, int *i, int j)
 		if (!new)
 			return (print_errors(strerror(errno), 1));
 		free(tmp);
+		*i = end;
 	}
 	return (new);
 }
