@@ -30,6 +30,7 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	if (pid1 == 0)
 	{
 		tcaps.ret = 0;
+		datas->flag_bracket = 0;
 		dup2(datas->fd, STDIN_FILENO);
 		close(datas->fd);
 		dup2(fd[1], STDOUT_FILENO);
@@ -46,7 +47,6 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	tcaps.child = 0;
 	dup2(fd[0], datas->fd);
 	close(fd[1]);
-	//close(fd[0]); //initialement UNMUTE
 }
 
 void		exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas)

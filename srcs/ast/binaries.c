@@ -106,6 +106,11 @@ int		exec_built_in(char *command, char **argv, t_big *datas)
 {
 	int ret;
 
+	if (datas->flag_bracket)
+	{
+		exec_piped_cmd(NULL, command, argv, datas);
+		return (1);
+	}
 	if (!(ft_strcmp(command, "echo")))
 		ret = ft_echo(argv, datas);
 	if (!(ft_strcmp(command, "cd")))
