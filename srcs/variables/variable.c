@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 15:25:23 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/12 16:06:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,35 +82,41 @@ char	*check_variable(char *str, t_big *datas)
 	new = 0;
 	while (str[i])
 	{
+		tmp = new;
 		if (str[i] == '\"' && str[i + 1] == '$')
 		{
-			tmp = new;
-			if (!(new = ft_substr(str, start, i)))
-				return (printc_stderr(0, strerror(errno), 0, 1));
 			if (!(var = get_env_var(str, &i, datas)))
 			{
 				free(new);
 				return (0);
 			}
-			if (tmp)
-			{
-				if (!(new = ft_strjoin(tmp, var)))
-				{
-					free(var);
-					free(tmp);
-					return (printc_stderr(0, strerror(errno), 0, 1));
-				}
-				free(tmp);
-				free(var);
-			}
-			else
-				new = var;
-			start = i + 1;
+			i++;
 		}
-		i++;
+		else
+		{
+			while (str[i] && str[i] != '\"')
+				i++;
+			if (!(var = ft_substr(str, start, i - start)))
+			{
+				free(new);
+				return (printc_stderr(0, strerror(errno), 0, 1));
+			}
+		}
+		if (tmp)
+		{
+			if (!(new = ft_strjoin(tmp, var)))
+			{
+				free(var);
+				free(tmp);
+				return (printc_stderr(0, strerror(errno), 0, 1));
+			}
+			free(tmp);
+			free(var);
+		}
+		else
+			new = var;
+		start = i;
 	}
-	if (!new)
-		new = ft_strdup(str);
 	return (new);
 }
 
