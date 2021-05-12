@@ -5,65 +5,128 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/11 22:16:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 23:11:52 by ndemont          ###   ########.fr       */
+/*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
+/*   Updated: 2021/05/12 15:25:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		count_args(char **arg, t_big *datas)
+char 		*get_str_var(char *str, int *i)
 {
-	int count;
-	int i;
-
-	i = 0;
-	count = 0;
-	while (datas->redirection_arg[count])
-		count++;
-	while (arg[i])
-		i++;
-	count += i;
-	return (count);
+	int		len;
+	char 	*var;
+	
+	*i = *i + 2;
+	len = 0;
+	while (str[*i + len] && str[*i + len] != '\"')
+		len++;
+	if (!(var = ft_substr(str, *i, len)))
+		return (printc_stderr(0, strerror(errno), 0, 1));
+	*i = *i + len;
+	return (var);
 }
 
-static char		**tab_join(char **tab1, t_big *datas)
+char 		*init_value(char *var)
 {
-	int		j;
+	char *value;
+	
+	if (!(value = malloc(sizeof(char))))
+	{
+		free(var);
+		return (printc_stderr(0, strerror(errno), 0, 1));
+	}
+	value[0] = '\0';
+	return (value);
+}
+
+char		*get_env_var(char *str, int *i, t_big *datas)
+{
+	t_list	*env;
+	char	*var;
+	char	*value;
+
+	if (!(var = get_str_var(str, i)))
+		return (0);
+	if (!(value = init_value(var)))
+		return (0);
+	env = *datas->env;
+	while (env)
+	{
+		if (!ft_strcmp(((t_var *)env->content)->var, var))
+		{
+			free(value);
+			if (!(value = ft_strdup(((t_var *)env->content)->value)))
+			{
+				free(var);
+				return (printc_stderr(0, strerror(errno), 0, 1));
+			}
+			break ;
+		}
+		env = env->next;
+	}
+	free(var);
+	return (value);
+}
+
+char	*check_variable(char *str, t_big *datas)
+{
 	int		i;
-	int		count;
-	char	**new;
+	int		start;
+	char	*var;
+	char 	*new;
+	char 	*tmp;
 
 	i = 0;
-	j = 0;
-	count = count_args(tab1, datas);
-	if (!(new = (char **)malloc(sizeof(char *) * (count + 1))))
-		return (print_stderr(0, strerror(errno), 0, 1));
-	new[count] = 0;
-	while (tab1[i])
+	start = 0;
+	new = 0;
+	while (str[i])
 	{
-		new[i] = tab1[i];
+		if (str[i] == '\"' && str[i + 1] == '$')
+		{
+			tmp = new;
+			if (!(new = ft_substr(str, start, i)))
+				return (printc_stderr(0, strerror(errno), 0, 1));
+			if (!(var = get_env_var(str, &i, datas)))
+			{
+				free(new);
+				return (0);
+			}
+			if (tmp)
+			{
+				if (!(new = ft_strjoin(tmp, var)))
+				{
+					free(var);
+					free(tmp);
+					return (printc_stderr(0, strerror(errno), 0, 1));
+				}
+				free(tmp);
+				free(var);
+			}
+			else
+				new = var;
+			start = i + 1;
+		}
 		i++;
 	}
-	free(tab1);
-	while (i < count)
-	{
-		if (!(new[i] = ft_strdup(datas->redirection_arg[j])))
-			return (print_stderr(0, strerror(errno), 0, 1));
-		i++;
-		j++;
-	}
+	if (!new)
+		new = ft_strdup(str);
 	return (new);
 }
 
-char	**replace_variable(char **arg, char *cmd, t_big *datas)
+char	**replace_variable(char **av, char *cmd, t_big *datas)
 {
+	int		i;
+	char 	*tmp;
+
 	(void)cmd;
-	if (datas->redirection_arg)
+	i = 0;
+	while (av[i])
 	{
-		if (!(arg = tab_join(arg, datas)))
-			return (print_stderr(0, strerror(errno), 0, 1));
-		datas->redirection_arg = 0;
+		tmp = av[i];
+		av[i] = check_variable(av[i], datas);
+		free(tmp);
+		i++;
 	}
-	return (arg);
+	return (av);
 }
