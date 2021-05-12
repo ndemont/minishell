@@ -15,14 +15,20 @@
 void	semicolon_node(t_node **tokens, t_big *datas, int i)
 {
 	t_node	*tmp;
+	int		j;
 
-	if (i == 0)
+	j = 0;
+	while (tokens && tokens[j])
+		j++;
+	if (j != i)
+		return ;
+	if (tokens && tokens[i] && i == 0)
 	{
 		datas->root = tokens[i]->right;
 		tokens[i]->right = 0;
 		datas->root->left = tokens[i];
 	}
-	else
+	else if (tokens && tokens[i])
 	{
 		tmp = datas->root;
 		datas->root = tokens[i]->right;
