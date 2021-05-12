@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 12:11:17 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/12 16:22:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ int		get_builtin(t_node *token)
 
 	i = 0;
 	count = count_arg(token->input);
+	if (!count)
+	{
+		token = 0;
+		return (1);
+	}
 	token->arg = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!token->arg)
 		return (print_errors_int(strerror(errno), 1));
