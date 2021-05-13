@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 23:04:07 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 16:25:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 21:09:11 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,13 @@ void	right_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev)
 		datas->root->left = tokens[i];
 	}
 	else 
-		datas->root->right = tokens[i];
+	{
+		datas->root->right = 0;
+		tokens[i]->left->left = datas->root;
+		datas->root = tokens[i]->right;
+		tokens[i]->right = 0;
+		datas->root->left = tokens[i];
+	}
 }
 
 void	left_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev)

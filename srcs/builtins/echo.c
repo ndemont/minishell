@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 11:11:18 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 20:03:54 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ int			ft_echo(char **arg, t_big *datas)
 	int i;
 	char *ret;
 
-	write(1, "echo begin\n", 12);
 	flag = 1;
 	i = 1;
 	while (arg[i] && check_echo_flag(arg[i]))
