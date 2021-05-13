@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 16:25:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 21:01:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ int		tree(t_node **tokens, t_big *datas)
 		create_tree(tokens, datas, tmp);
 	if (tmp)
 		free(tmp);
-/* 	printf("TREE");
+	printf("TREE");
 	printf("\n-----\n");
 	print_tree(datas->root);
-	printf("\n"); */
+	printf("\n");
 	free(tokens);
 	return (1);
 }

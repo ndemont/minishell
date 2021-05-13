@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 22:16:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 10:52:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 20:25:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		count_args(char **arg, t_big *datas)
 	count = 0;
 	while (datas->redirection_arg[count])
 		count++;
-	while (arg[i])
+	while (arg && arg[i])
 		i++;
 	count += i;
 	return (count);
@@ -40,12 +40,13 @@ static char		**tab_join(char **tab1, t_big *datas)
 	if (!(new = (char **)malloc(sizeof(char *) * (count + 1))))
 		return (printcc_stderr(0, strerror(errno), 0, 1));
 	new[count] = 0;
-	while (tab1[i])
+	while (tab1 && tab1[i])
 	{
 		new[i] = tab1[i];
 		i++;
 	}
-	free(tab1);
+	if (tab1)
+		free(tab1);
 	while (i < count)
 	{
 		if (!(new[i] = ft_strdup(datas->redirection_arg[j])))
@@ -56,14 +57,13 @@ static char		**tab_join(char **tab1, t_big *datas)
 	return (new);
 }
 
-char	**get_arguments(char **arg, char *cmd, t_big *datas)
+char	**get_arguments(t_node *root, t_big *datas)
 {
-	(void)cmd;
 	if (datas->redirection_arg)
 	{
-		if (!(arg = tab_join(arg, datas)))
+		if (!(root->arg = tab_join(root->arg, datas)))
 			return (printcc_stderr(0, strerror(errno), 0, 1));
 		datas->redirection_arg = 0;
 	}
-	return (arg);
+	return (root->arg);
 }

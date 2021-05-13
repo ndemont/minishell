@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 11:17:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 20:00:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	**replace_variable(t_node *root, t_big *datas)
 	char 	*tmp;
 
 	i = 0;
-	while (root->arg[i])
+	while (root->arg && root->arg[i])
 	{
 		tmp = root->arg[i];
 		root->arg[i] = check_variable(root->arg[i], datas);
