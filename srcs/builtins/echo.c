@@ -6,19 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 20:03:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 22:14:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char		*get_return_value(void)
-{
-	char *value;
-
-	value = ft_itoa(tcaps.ret);
-	return (value);
-}
 
 char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 {
