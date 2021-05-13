@@ -6,11 +6,19 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 20:00:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 22:26:37 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char		*get_return_value(void)
+{
+	char *value;
+
+	value = ft_itoa(tcaps.ret);
+	return (value);
+}
 
 char 		*get_str_var(char *str, int *i)
 {
@@ -43,9 +51,22 @@ char 		*init_value(char *var)
 char		*get_env_var(char *str, int *i, t_big *datas)
 {
 	t_list	*env;
+	int		start;
 	char	*var;
 	char	*value;
 
+	if (str[*i + 2] == '?')
+	{
+		value = get_return_value();
+		*i = *i + 3;
+		start = *i;
+		while (str[*i] && str[*i] != '\"')
+			*i = *i + 1;
+		var = ft_substr(str, start, *i - start);
+		if (var)
+			value = ft_strjoin(value, var);
+		return (value);
+	}
 	if (!(var = get_str_var(str, i)))
 		return (0);
 	if (!(value = init_value(var)))
