@@ -38,7 +38,7 @@ int		check_arg_conformity(char *line)
 	i = 0;
 	str = ft_split_on_equal(line);
 	tmp = str[0];
-	if (ft_isdigit(tmp[0]))
+	if (ft_isdigit(tmp[0]) || tmp[0] == 0)
 		return (0);
 	while (tmp[i])
 	{
@@ -178,10 +178,27 @@ void	add_hidden_add_export(char *line, t_big *datas)
 	ft_lstadd_back(datas->hidden, new);
 }
 
+char	*get_identifier(char *str)
+{
+	int		i;
+	char 	*identifier;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (str[0] == '=')
+		identifier = ft_strdup("=");
+	else
+		identifier = ft_substr(str, 0, i);
+	return (identifier);
+}
+
+
 int		ft_export(char **arg, t_big *datas)
 {
 	t_list	*tmp;
 	int		i;
+	char	*identifier;
 
 	i = 1;
 	if (!arg[i])
@@ -208,9 +225,11 @@ int		ft_export(char **arg, t_big *datas)
 		{
 			if (!check_arg_conformity(arg[i]))
 			{
-				ft_putstr_fd("minishellrose: export: `", STDOUT_FILENO);
-				ft_putstr_fd(arg[i], STDOUT_FILENO);
-				ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
+				identifier = get_identifier(arg[i]);
+				ft_putstr_fd("minishellrose: export: `", STDERR_FILENO);
+				ft_putstr_fd(identifier, STDERR_FILENO);
+				ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+				free(identifier);
 				tcaps.ret = 1;
 			} 
 			else if (!ft_strchr(arg[i], '=')) 																				//PAS DE '='; nas
