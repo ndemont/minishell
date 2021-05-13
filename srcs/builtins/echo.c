@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 13:48:15 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 11:11:18 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ char		*get_return_value(void)
 	return (value);
 }
 
-char		*ft_echo_cat(char **arg, int *i)
+char		*ft_echo_cat(char **arg, int *i, t_big *datas)
 {
 	char	*tmp1;
 	char	*tmp2;
 	char	*ret;
 	int		j;
 
+	(void)datas;
 	if (!(ret = (char *)malloc(sizeof(char))))
 		return (0);
 	ret[0] = 0;
@@ -65,7 +66,7 @@ char		*ft_echo_cat(char **arg, int *i)
 	return (ret);
 }
 
-char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag)
+char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag, t_big *datas)
 {
 	int		j;
 	int		len;
@@ -74,6 +75,7 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag)
 	char	*tmp2;
 	char	*tmp3;
 
+	(void)datas;
 	tmp3 = ret;
 	j = 0;
 	if (!(ret = (char *)malloc(sizeof(char))))
@@ -124,6 +126,43 @@ char 		*ft_echo_catlast(char *ret, char **arg, int *i, int flag)
 	return (ret);
 }
 
+char		**ft_add_arg(char **arg, t_big *datas)
+{
+	int		j;
+	int		i;
+	int		count;
+	char	**tmp;
+
+	count = 0;
+	while (datas->redirection_arg[count])
+		count++;
+	i = 0;
+	while (arg[i])
+		i++;
+	count += i;
+	tmp = arg;
+	if (!(arg = (char **)malloc(sizeof(char *) * (count + 1))))
+		return (0);
+	arg[count] = 0;
+	j = 0;
+	while (tmp[j])
+	{
+		arg[j] = tmp[j];
+		j++;
+	}
+	if (tmp)
+		free(tmp);
+	j = 0;
+	while (i < count)
+	{
+		if (!(arg[i] = ft_strdup(datas->redirection_arg[j])))
+			return (0);
+		i++;
+		j++;
+	}
+	return (arg);
+}
+
 int			check_echo_flag(char *str)
 {
 	int i;
@@ -150,6 +189,7 @@ int			ft_echo(char **arg, t_big *datas)
 	int i;
 	char *ret;
 
+	write(1, "echo begin\n", 12);
 	flag = 1;
 	i = 1;
 	while (arg[i] && check_echo_flag(arg[i]))
@@ -157,11 +197,9 @@ int			ft_echo(char **arg, t_big *datas)
 		flag = 0;
 		i++;
 	}
-	arg = get_arguments(arg, arg[0], datas);
-	replace_variable(arg, arg[0], datas);
-	if (!(ret = ft_echo_cat(arg, &i)))
+	if (!(ret = ft_echo_cat(arg, &i, datas)))
 		return (0);
-	if (!(ret = ft_echo_catlast(ret, arg, &i, flag)))
+	if (!(ret = ft_echo_catlast(ret, arg, &i, flag, datas)))
 		return (0);
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	if (ret)

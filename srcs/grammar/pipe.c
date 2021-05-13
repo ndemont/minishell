@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 17:04:10 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 13:57:18 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	tcaps.child = 1;
 	if (pid1 == 0)
 	{
+		if (builtin)
+		{
+			write(0, builtin, ft_strlen(builtin));
+			write(0, "1\n", 2);
+		}
 		tcaps.ret = 0;
 		datas->flag_bracket = 0;
 		dup2(datas->fd, STDIN_FILENO);
@@ -36,7 +41,16 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]); //initialement close(fd[1]);
 		if (builtin)
+		{
+			write(0, builtin, ft_strlen(builtin));
+			write(0, "2\n", 2);
+		}
+		if (builtin)
+		{
+			write(0, builtin, ft_strlen(builtin));
+			write(0, "\n", 1);
 			ret_status = exec_built_in(builtin, av, datas);
+		}
 		else
 			exec_binary(command, av, datas);
 		free_datas(datas);
@@ -53,6 +67,11 @@ void		exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas)
 {
 	datas->flag_pipe = 1;
 	datas->flag_left_bracket = 0;
+	write(1, "pipe begin\n", 12);
+	if (cmd)
+		printf("cmd = [%s]\n", cmd);
+	if (builtin)
+		printf("builtin = [%s]\n", builtin);
 	exec_child(cmd, builtin, av, datas);
 	if (datas->flag_bracket)
 	{
@@ -64,5 +83,6 @@ void		exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas)
 		datas->flag_pipe = 0;
 
 	}
+	write(1, "pipe end\n", 10);
 	datas->flag_bracket = 0;
 }
