@@ -56,7 +56,7 @@ char *create_line(t_big *datas)
 	{
 		non_print_flag = 0;
 		ft_bzero(buf, 7);
-		if ((ret = read(STDIN_FILENO, buf, 7)) < 0)
+		if ((ret = read(STDIN_FILENO, buf, 6)) < 0)
 			return (0);
 		if (tcaps.signal)
 		{
