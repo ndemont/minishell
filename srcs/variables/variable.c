@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 16:06:22 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 11:17:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,19 +120,22 @@ char	*check_variable(char *str, t_big *datas)
 	return (new);
 }
 
-char	**replace_variable(char **av, char *cmd, t_big *datas)
+char	**replace_variable(t_node *root, t_big *datas)
 {
 	int		i;
 	char 	*tmp;
 
-	(void)cmd;
 	i = 0;
-	while (av[i])
+	while (root->arg[i])
 	{
-		tmp = av[i];
-		av[i] = check_variable(av[i], datas);
+		tmp = root->arg[i];
+		root->arg[i] = check_variable(root->arg[i], datas);
 		free(tmp);
 		i++;
 	}
-	return (av);
+	if (root->command)
+		root->command = ft_strdup(root->arg[0]);
+	else if (root->builtin)
+		root->builtin = ft_strdup(root->arg[0]);
+	return (root->arg);
 }

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 13:30:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 11:04:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char 					**ft_split_on_equal(char *str);
 void					add_to_list(char *line, t_list **lst);
 void					actualize_return_status(int ret_status);
 char					**get_arguments(char **av, char *cmd, t_big *datas);
-char					**replace_variable(char **av, char *cmd, t_big *datas);
+char					**replace_variable(t_node *root, t_big *datas);
 
 //HISTORY
 int						init_history(t_big *datas);
