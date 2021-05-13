@@ -80,6 +80,5 @@ void		exec_semicolon_cmd(char *cmd, char **av, int is_builtin, t_big *datas)
 		datas->fd_out = STDOUT_FILENO;
 	}
 	datas->flag_bracket = 0;
-	ft_putnbr_fd(is_builtin, STDOUT_FILENO);
-
 }
+
