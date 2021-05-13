@@ -6,11 +6,39 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 11:24:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 16:25:06 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_tree(t_node *root)
+{
+	if (root->left)
+		print_tree(root->left);
+	if (root->right)
+		print_tree(root->right);
+	if (root->type)
+	{
+		if (root->type == 1)
+			write(1, "|", 1);
+		if (root->type == 2)
+			write(1, ">>", 2);
+		if (root->type == 3)
+			write(1, ">", 1);
+		if (root->type == 4)
+			write(1, "<", 1);
+		if (root->type == 5)
+			write(1, ";", 1);
+		write(1, "\n", 1);
+	}
+	else
+	{
+		if (root->arg[0])
+			write(1, root->arg[0], ft_strlen(root->arg[0]));
+		write(1, "\n", 1);
+	}
+}
 
 int		ft_count_nodes(t_node **tokens, t_big *datas)
 {
@@ -84,6 +112,10 @@ int		tree(t_node **tokens, t_big *datas)
 		create_tree(tokens, datas, tmp);
 	if (tmp)
 		free(tmp);
+/* 	printf("TREE");
+	printf("\n-----\n");
+	print_tree(datas->root);
+	printf("\n"); */
 	free(tokens);
 	return (1);
 }
