@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:04:11 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 17:02:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/13 16:24:54 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ void		exec_semicolon_cmd(char *cmd, char **av, int is_builtin, t_big *datas)
 	if (is_builtin == 1)
 		tcaps.ret = exec_built_in(cmd, av, datas);
 	else if (is_builtin == 2)
+	{
 		print_std(datas->fd);
+		if (datas->fd && datas->fd != STDIN_FILENO && datas->fd != STDOUT_FILENO)
+			close(datas->fd);
+		datas->fd = dup(STDIN_FILENO);
+	}
 	else if (is_builtin == 0 && !datas->flag_bracket)
 		exec_child(cmd, av, datas);
 	else if (is_builtin == 0 && datas->flag_bracket)
