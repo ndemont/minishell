@@ -51,6 +51,7 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 		i++;
 	}
 	i = 0;
+	tokens[j] = 0;
 	while (tokens[i])
 	{
 		if (tokens[i]->type == 5)

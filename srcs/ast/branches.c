@@ -14,27 +14,32 @@
 
 void	semicolon_node(t_node **tokens, t_big *datas, int i)
 {
-	t_node	*tmp;
-	int		j;
-
-	j = 0;
-	while (tokens && tokens[j])
-		j++;
-	if (j != i)
-		return ;
 	if (tokens && tokens[i] && i == 0)
 	{
-		datas->root = tokens[i]->right;
-		tokens[i]->right = 0;
-		datas->root->left = tokens[i];
+		if (tokens[i]->right)
+		{
+			datas->root = tokens[i]->right;
+			tokens[i]->right = 0;
+			datas->root->left = tokens[i];
+		}
+		else
+			datas->root = tokens[i];
 	}
 	else if (tokens && tokens[i])
 	{
-		tmp = datas->root;
-		datas->root = tokens[i]->right;
-		tokens[i]->left = tmp;
-		tokens[i]->right = 0;
-		datas->root->left = tokens[i];
+		if (tokens[i]->right)
+		{	
+			tokens[i]->left = datas->root;
+			datas->root = tokens[i]->right;
+			tokens[i]->right = 0;
+			datas->root->left = tokens[i];
+		}
+		else
+		{
+			tokens[i]->left = datas->root;
+			datas->root = tokens[i];
+		}
+		
 	}
 }
 
@@ -59,6 +64,13 @@ void	right_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev)
 		tokens[i]->right = 0;
 		tmp->right = tokens[i];
 	}
+	//WORK IN PROGRSS
+	else if (prev->type == 5)
+	{
+		tokens[i]->right = 0;
+		datas->root->right = tokens[i];
+	}
+	//
 	else
 		datas->root->right = tokens[i];
 }
