@@ -6,67 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 14:25:09 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:09:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char		*get_variable_quotes(char *str, int *k)
-{
-	char	*new;
-	char	*tmp;
-	int		start;
-
-	start = *k;
-	*k = *k + 1;
-	while (ft_isalnum(str[*k]) || str[*k] == '_')
-		*k = *k + 1;
-	if (!(new = ft_substr(str, start, *k - start)))
-		return (printc_stderr(0, strerror(errno), 0));
-	tmp = new;
-	if (!(new = ft_strjoin("\"", tmp)))
-	{
-		free(tmp);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
-	tmp = new;
-	if (!(new = ft_strjoin(tmp, "\"")))
-	{
-		free(tmp);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
-	free(tmp);
-	return (new);
-}
-
-char		*get_variable_str(char *input, int *i, int end, int j)
-{
-	char	*new;
-	char	*tmp;
-
-	new = ft_substr(input, j, end - j);
-	if (!new)
-		return (printc_stderr(0, strerror(errno), 0));
-	tmp = new;
-	new = ft_strjoin("\"", tmp);
-	if (!new)
-	{
-		free(tmp);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
-	free(tmp);
-	tmp = new;
-	new = ft_strjoin(new, "\"");
-	if (!new)
-	{
-		free(tmp);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
-	free(tmp);
-	*i = end;
-	return (new);
-}
 
 char		*get_str(char *str, int *i, int j)
 {
@@ -97,19 +41,18 @@ char		*get_second_part(char *input, int *i, char *arg)
 	char	*second_part;
 
 	j = *i;
-	while (input[*i] && input[*i] != ' ' && input[*i] != '\'' && \
-			input[*i] != '"' && input[*i] != '\t' && input[*i] != '\\')
+	while (input[*i] && input[*i] != ' ' && input[*i] != '~'\
+		&& input[*i] != '"' && input[*i] != '\'' && input[*i] != '"'\
+		&& input[*i] != '\t' && input[*i] != '\\')
 		*i = *i + 1;
 	if (input[*i] == '\\')
 		second_part = get_backslash(input, i, j);
 	else if (input[j] == '\'')
-	{
 		second_part = get_single_quote(input, i, &j);
-		if (!second_part)
-			return (print_errors(strerror(errno), 1));
-	}
 	else if (input[j] == '\"')
 		second_part = get_double_quote(input, i, j);
+	else if (input[j] == '~')
+		second_part = get_tilde(i);
 	else
 		second_part = get_str(input, i, j);
 	if (!second_part)
