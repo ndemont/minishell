@@ -14,39 +14,49 @@
 
 static void	actualize_env(t_list **lst)
 {
-	t_list *tmp;
-	char *current_pwd;
-	char *oldpwd;
+	t_list	*tmp;
+	char	*current_pwd;
+	char	*oldpwd;
+	int		pwd_flag;
 
 	tmp = *lst;
 	current_pwd = NULL;
 	oldpwd = NULL;
+	pwd_flag = 0;
 	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
 		tmp = tmp->next;
 	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
 	{
 		current_pwd = getcwd(current_pwd, 0);
 		if (((t_var *)tmp->content)->value)
+		{
+			pwd_flag = 1;
 			oldpwd = ft_strdup(((t_var *)tmp->content)->value);
+		}
 		if (current_pwd)
 		{
-			free(((t_var *)tmp->content)->value);
-			((t_var *)tmp->content)->value = NULL;
+			if (((t_var *)tmp->content)->value)
+				free(((t_var *)tmp->content)->value);
 			((t_var *)tmp->content)->value = ft_strdup(current_pwd);
 		}
-
 	}
-	tmp = *lst;
-	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
-		tmp = tmp->next;
-	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
+	if (pwd_flag)
 	{
-		if (((t_var *)tmp->content)->value)
-			free(((t_var *)tmp->content)->value);
-		if (oldpwd)
-			((t_var *)tmp->content)->value = oldpwd;
+		tmp = *lst;
+		while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
+			tmp = tmp->next;
+		if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
+		{
+			if (((t_var *)tmp->content)->value)
+				free(((t_var *)tmp->content)->value);
+			if (oldpwd)
+				((t_var *)tmp->content)->value = ft_strdup(oldpwd);
+		}
 	}
-	free(current_pwd);
+	if (oldpwd)
+		free(oldpwd);
+	if (current_pwd)
+		free(current_pwd);
 }
 
 void	actualize_variables(t_big *datas)
