@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 12:47:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 13:56:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ char					*get_arg(char *input, int *i);
 int						ft_count_tokens(char *input);
 int						ft_is_grammar(char *str, int i);
 char					*get_variable(char *input, int *k);
+char					*get_variable_quotes(char *str, int *k);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);

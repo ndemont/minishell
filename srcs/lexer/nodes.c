@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 11:59:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:20:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_node	*ft_init_grammar_node(int type)
 
 	new = (t_node *)malloc(sizeof(t_node));
 	if (!new)
+	{
+		printc_stderr(0, strerror(errno), 0);
 		return (0);
+	}
 	new->type = type;
 	new->input = 0;
 	new->arg = 0;
@@ -33,14 +36,20 @@ t_node	*ft_init_buildin_node(char *input, int type)
 {
 	t_node *new;
 
+	if (!input)
+	{
+		printc_stderr(0, strerror(errno), 0);
+		return (0);
+	}
 	new = (t_node *)malloc(sizeof(t_node));
 	if (!new)
+	{
+		free(input);
+		printc_stderr(0, strerror(errno), 0);
 		return (0);
+	}
 	new->type = type;
-	if (!input)
-		return (0);
-	if (!(new->input = input))
-		return (0);
+	new->input = input;
 	new->arg = 0;
 	new->builtin = 0;
 	new->left = 0;
@@ -89,7 +98,7 @@ t_node	*ft_new_node(char *input, int *i)
 	{
 		new_node = ft_init_grammar_node(type);
 		if (!new_node)
-			return (print_errors(strerror(errno), 1));
+			return (0);
 		*i = *i + 1;
 		if (type == 2)
 			*i = *i + 1;
@@ -98,7 +107,7 @@ t_node	*ft_new_node(char *input, int *i)
 	{
 		new_node = ft_new_builtin_node(i, input);
 		if (!new_node)
-			return (print_errors(strerror(errno), 1));
+			return (0);
 	}
 	return (new_node);
 }
@@ -121,13 +130,22 @@ t_node	**ft_create_nodes(char *input, int nb)
 		if (!nodes[j])
 			return (0);
 		if (j == 0 && nodes[j]->type)
-			return (print_errors("minishellrose: syntax error", 0));
+		{
+			printc_stderr(0, "syntax error", 0);
+			return (0);
+		}
 		else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
-			return (print_errors("minishellrose: syntax error", 0));
+		{
+			printc_stderr(0, "syntax error", 0);
+			return (0);
+		}
 		j++;
 	}
 	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0] && \
 		nodes[j - 2]->type < 5)
-		return (print_errors("minishellrose: missing command at end of line", 0));
+	{
+		printc_stderr(0, "missing command at end of line", 0);
+		return (0);
+	}
 	return (nodes);
 }
