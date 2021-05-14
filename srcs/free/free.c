@@ -30,10 +30,15 @@ void	free_tokens(t_node **tokens)
 				while (tokens[i]->arg[j])
 				{
 					free(tokens[i]->arg[j]);
+					tokens[i]->arg[j] = 0;
 					j++;
 				}
 				free(tokens[i]->arg);
 			}
+			if (tokens[i]->builtin)
+				free(tokens[i]->builtin);
+			if (tokens[i]->command)
+				free(tokens[i]->command);
 			free(tokens[i]);
 			i++;
 		}
