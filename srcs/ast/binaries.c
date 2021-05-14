@@ -190,6 +190,8 @@ void	execute_tree(t_node *root, int n, t_big *datas, int side)
 			execute_tree(root->right, root->type, datas, 2);
 		if (n != 2 && n != 3 && n != 4 && !root->type)
 		{
+			if (n == 1)
+				tcaps.ret = 0;
 			root->arg = get_arguments(root, datas);
 			replace_variable(root, datas);
 		}

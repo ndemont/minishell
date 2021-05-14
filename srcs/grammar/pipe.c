@@ -29,12 +29,11 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	tcaps.child = 1;
 	if (pid1 == 0)
 	{
-		tcaps.ret = 0;
 		datas->flag_bracket = 0;
 		dup2(datas->fd, STDIN_FILENO);
 		close(datas->fd);
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]); //initialement close(fd[1]);
+		close(fd[0]);
 		if (builtin)
 			ret_status = exec_built_in(builtin, av, datas);
 		else
