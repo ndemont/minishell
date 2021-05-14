@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:26 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 13:34:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 12:05:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,47 +28,35 @@ int		print_errors_int(char *error, int exit)
 	return (0);
 }
 
-char	**printcc_stderr(char *str1, char *str2, char *str3, int exit)
+char	**printcc_stderr(char *cmd, char *sterror, int exit)
 {
-	if (str1)
-		ft_putstr_fd(str1, STDERR_FILENO);
-	else 
-		ft_putstr_fd("minishellrose :", STDERR_FILENO);
-	ft_putstr_fd(str2, STDERR_FILENO);
-	if (str3)
-		ft_putstr_fd(str3, STDERR_FILENO);
-	else
-		ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("minishellrose: ", STDERR_FILENO);
+	if (cmd)
+		ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(sterror, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	tcaps.exit = exit;
 	return (0);
 }
 
-char	*printc_stderr(char *str1, char *str2, char *str3, int exit)
+char	*printc_stderr(char *cmd, char *sterror, int exit)
 {
-	if (str1)
-		ft_putstr_fd(str1, STDERR_FILENO);
-	else 
-		ft_putstr_fd("minishellrose :", STDERR_FILENO);
-	ft_putstr_fd(str2, STDERR_FILENO);
-	if (str3)
-		ft_putstr_fd(str3, STDERR_FILENO);
-	else
-		ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("minishellrose: ", STDERR_FILENO);
+	if (cmd)
+		ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(sterror, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	tcaps.exit = exit;
 	return (0);
 }
 
-int		printi_stderr(char *str1, char *str2, char *str3, int exit)
+int		printi_stderr(char *cmd, char *sterror, int exit)
 {
-	if (str1)
-		ft_putstr_fd(str1, STDERR_FILENO);
-	else 
-		ft_putstr_fd("minishellrose :", STDERR_FILENO);
-	ft_putstr_fd(str2, STDERR_FILENO);
-	if (str3)
-		ft_putstr_fd(str3, STDERR_FILENO);
-	else
-		ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("minishellrose: ", STDERR_FILENO);
+	if (cmd)
+		ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(sterror, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	tcaps.exit = exit;
 	return (0);
 }
