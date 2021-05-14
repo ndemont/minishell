@@ -155,8 +155,14 @@ char	**replace_variable(t_node *root, t_big *datas)
 		i++;
 	}
 	if (root->command)
+	{
+		free(root->command);
 		root->command = ft_strdup(root->arg[0]);
+	}
 	else if (root->builtin)
+	{
+		free(root->builtin);
 		root->builtin = ft_strdup(root->arg[0]);
+	}
 	return (root->arg);
 }
