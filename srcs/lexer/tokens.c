@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 16:40:17 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 14:58:33 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		ft_check_char(int *i, int *j, char *input)
 		*i = *i + 2;
 	else if (input[*i] == '\\' && !input[*i + 1])
 		return (-1);
-	else if (type  > 0)
+	else if (type > 0)
 	{
 		if (type == 2)
 			*i = *i + 1;

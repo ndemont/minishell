@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:29:43 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 12:48:18 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 14:57:48 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,53 @@ char		*get_single_quote(char *input, int *i, int *j)
 	return (arg);
 }
 
+char		*get_first_quote(char *new, char *input, int *i, int start)
+{
+	char	*first;
+	char	*tmp;
+
+	tmp = new;
+	if (!(first = ft_substr(input, start, *i - start)))
+	{
+		free(tmp);
+		return (printc_stderr(0, strerror(errno), 0));
+	}
+	if (!(new = ft_strjoin(new, first)))
+	{
+		free(tmp);
+		free(first);
+		return (printc_stderr(0, strerror(errno), 0));
+	}
+	free(tmp);
+	free(first);
+	return (new);
+}
+
+char		*get_variable_part(char *new, char *input, int *i)
+{
+	char	*variable;
+	char	*tmp;
+
+	if (!(variable = get_variable_quotes(input, i)))
+	{
+		free(new);
+		return (0);
+	}
+	tmp = new;
+	if (!(new = ft_strjoin(new, variable)))
+	{
+		free(tmp);
+		return (printc_stderr(0, strerror(errno), 0));
+	}
+	free(tmp);
+	free(variable);
+	return (new);
+}
+
 char		*get_double_quote(char *input, int *i, int j)
 {
 	char	*new;
-	char	*tmp;
-	char	*first_part;
-	char	*second_part;
-	int 	start;
+	int		start;
 
 	if (!(new = ft_substr(input, j, *i - j)))
 		return (printc_stderr(0, strerror(errno), 0));
@@ -85,54 +125,17 @@ char		*get_double_quote(char *input, int *i, int j)
 	{
 		if (input[*i] == '$')
 		{
-			tmp = new;
-			if (!(first_part = ft_substr(input, start, *i - start)))
-			{
-				free(tmp);
-				return (printc_stderr(0, strerror(errno), 0));
-			}
-			if (!(new = ft_strjoin(new, first_part)))
-			{
-				free(tmp);
-				free(first_part);
-				return (printc_stderr(0, strerror(errno), 0));
-			}
-			free(tmp);
-			free(first_part);
-			if (!(second_part = get_variable(input, i)))
-			{
-				free(first_part);
-				free(new);
-				return (printc_stderr(0, strerror(errno), 0));
-			}
-			tmp = new;
-			if (!(new = ft_strjoin(new, second_part)))
-			{
-				free(first_part);
-				free(tmp);
-				return (printc_stderr(0, strerror(errno), 0));
-			}
-			free(tmp);
-			free(second_part);
+			if (!(new = get_first_quote(new, input, i, start)))
+				return (0);
+			if (!(new = get_variable_part(new, input, i)))
+				return (0);
 			start = *i;
 		}
 		else
 			*i = *i + 1;
 	}
-	tmp = new;
-	if (!(first_part = ft_substr(input, start, *i - start)))
-	{
-		free(new);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
-	if (!(new = ft_strjoin(new, first_part)))
-	{
-		free(tmp);
-		free(first_part);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
-	free(tmp);
-	free(first_part);
+	if (!(new = get_first_quote(new, input, i, start)))
+		return (0);
 	*i = *i + 1;
 	return (new);
 }

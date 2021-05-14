@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/12 16:41:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:19:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_node		**ft_lexer(char *input)
 	token_nb = ft_count_tokens(input);
 	if (token_nb < 0)
 	{
-		printf("minishellrose: missing char at end of line\n");
+		printcc_stderr(0, "missing char at end of line", 1);
 		return (0);
 	}
 	if (!token_nb)
