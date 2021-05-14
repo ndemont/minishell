@@ -6,16 +6,52 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:22:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 15:24:12 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 15:41:46 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		skip_isspace(char *input, int *i, int count)
+{
+	if (!(*i))
+	{
+		while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
+			*i = *i + *i;
+	}
+	else
+	{
+		while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
+			*i = *i + 1;
+		if (input[*i])
+			count++;
+	}
+	return (count);
+}
+
+void	count_special_char(char *input, int *i)
+{
+	if (input[*i] == '\\' && input[*i + 1])
+		*i = *i + 2;
+	else if (input[*i] == '\'')
+	{
+		*i = *i + 1;
+		while (input[*i] != '\'')
+			*i = *i + 1;
+		*i = *i + 1;
+	}
+	else if (input[*i] == '"')
+	{
+		*i = *i + 1;
+		while (input[*i] != '"')
+			*i = *i + 1;
+		*i = *i + 1;
+	}
+}
+
 int		count_arg(char *input)
 {
 	int count;
-	int	newword;
 	int i;
 
 	count = 0;
@@ -24,43 +60,15 @@ int		count_arg(char *input)
 		return (0);
 	while (input[i])
 	{
-		newword = 0;
-		if (!i)
-			while (input[i] && (input[i] == ' ' || input[i] == '\t'))
-				i++;
-		else
-		{
-			while (input[i] && (input[i] == ' ' || input[i] == '\t'))
-			{
-				if (!newword)
-					newword = 1;
-				i++;
-			}
-			if (input[i])
-				count += newword;
-		}
+		count = skip_isspace(input, &i, count);
 		if (!input[i])
 			break ;
-		while (input[i] && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '\t' && input[i] != '\\')
+		while (input[i] && input[i] != ' ' && input[i] != '\'' && \
+		input[i] != '"' && input[i] != '\t' && input[i] != '\\')
 			i++;
-		if (input[i] == '\\' && input[i + 1])
-			i += 2;
-		else if (input[i] == '\'')
-		{
-			i++;
-			while (input[i] != '\'')
-				i++;
-			i++;
-		}
-		else if (input[i] == '"')
-		{
-			i++;
-			while (input[i] != '"')
-				i++;
-			i++;
-		}
-		else if (!input[i])
+		if (!input[i])
 			break ;
+		count_special_char(input, &i);
 	}
 	count++;
 	return (count);
