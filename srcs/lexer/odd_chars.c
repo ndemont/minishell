@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes.c                                           :+:      :+:    :+:   */
+/*   odd_chars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:29:43 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 14:57:48 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:00:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char		*get_tilde(int *i)
+{
+	char *tilde;
+
+	tilde = ft_strdup("\"$HOME\"");
+	if (!tilde)
+		printc_stderr(0, strerror(errno), 0);
+	*i = *i + 1;
+	return (tilde);
+}
 
 char		*get_backslash(char *input, int *i, int j)
 {
@@ -88,27 +99,6 @@ char		*get_first_quote(char *new, char *input, int *i, int start)
 	}
 	free(tmp);
 	free(first);
-	return (new);
-}
-
-char		*get_variable_part(char *new, char *input, int *i)
-{
-	char	*variable;
-	char	*tmp;
-
-	if (!(variable = get_variable_quotes(input, i)))
-	{
-		free(new);
-		return (0);
-	}
-	tmp = new;
-	if (!(new = ft_strjoin(new, variable)))
-	{
-		free(tmp);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
-	free(tmp);
-	free(variable);
 	return (new);
 }
 

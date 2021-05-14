@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 17:12:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 17:41:51 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,9 @@ t_node	*ft_new_node(char *input, int *i)
 int		ft_check_node_error(t_node **nodes, int j)
 {
 	if (j == 0 && nodes[j]->type)
-	{
-		printc_stderr(0, "syntax error", 1);
-		return (0);
-	}
+		return (printi_stderr(0, "syntax error", 1));
 	else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
-	{
-		printc_stderr(0, "syntax error", 1);
-		return (0);
-	}
+		return (printi_stderr(0, "syntax error", 1));
 	return (1);
 }
 

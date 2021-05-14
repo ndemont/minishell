@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 16:57:12 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 18:01:04 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void					clean_datas(t_big *datas);
 //ERRORS
 char					**printcc_stderr(char *cmd, char *strerror, int exit);
 char					*printc_stderr(char *cmd, char *strerror, int exit);
-int 					print_stderr(char *cmd, char *strerror, int exit);
+int 					printi_stderr(char *cmd, char *strerror, int exit);
 
 //AST
 int						read_input(t_big *datas);
@@ -162,12 +162,15 @@ char					*get_double_quote(char *input, int *i, int j);
 char					*get_single_quote(char *input, int *i, int *j);
 char					*get_backslash(char *input, int *i, int j);
 char					*get_arg(char *input, int *i);
+char					*get_variable_part(char *new, char *input, int *i);
+char					*get_variable_str(char *input, int *i, int end, int j);
 int						ft_count_tokens(char *input);
 int						ft_is_grammar(char *str, int i);
 char					*get_variable(char *input, int *k);
 char					*get_variable_quotes(char *str, int *k);
 t_node					*ft_init_grammar_node(int type);
 t_node					*ft_init_buildin_node(char *input, int type);
+char					*get_tilde(int *i);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);
