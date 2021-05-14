@@ -25,23 +25,23 @@ void	move_cursor(int c, int l)
 
 void	cursor_position(void)
 {
-	char buf[100];
-	int i;
+	char	buf[100];
+	int		i;
 
 	term_size();
 	ft_bzero(buf, 100);
 	write(STDOUT_FILENO, "\033[6n", 4);
 	read(STDOUT_FILENO, buf, 100);
 	i = 0;
-	while(buf[i] && i < 100 && !ft_isdigit(buf[i]))
+	while (buf[i] && i < 100 && !ft_isdigit(buf[i]))
 		i++;
 	tcaps.l_pos = ft_atoi(buf + i) - 1;
-	while(buf[i] && i < 100 && ft_isdigit(buf[i]))
+	while (buf[i] && i < 100 && ft_isdigit(buf[i]))
 		i++;
-	while(buf[i] && i < 100 && !ft_isdigit(buf[i]))
+	while (buf[i] && i < 100 && !ft_isdigit(buf[i]))
 		i++;
 	tcaps.c_pos = ft_atoi(buf + i) - 1;
-	if (tcaps.l_pos < 0 || tcaps.c_pos < 0) //PROTECTION contre BUG de Write ci dessus, NECESSAIRE ? 
+	if (tcaps.l_pos < 0 || tcaps.c_pos < 0)
 	{
 		tcaps.l_pos = 0;
 		tcaps.c_pos = 0;
@@ -50,7 +50,8 @@ void	cursor_position(void)
 
 void	move_cursor_left(void)
 {
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
+	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || \
+	(tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
 	{
 		move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
 		tcaps.cursor_pos--;

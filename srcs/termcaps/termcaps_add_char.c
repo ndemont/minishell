@@ -31,31 +31,36 @@ char	*add_line_edition(char c, int *i, char **line)
 	return (tmp);
 }
 
-void 	add_at_cursor(char c, int *i, char **line)
+void	do_some_things(int *c_next, int *l_next)
 {
-	char *tmp;
-	int c_next;
-	int l_next;
-	int	old_line_lvl;
+	clear_after_cursor();
+	if (tcaps.c_pos + 1 < tcaps.c_max)
+	{
+		*c_next = tcaps.c_pos + 1;
+		*l_next = tcaps.l_pos;
+		tcaps.cursor_pos++;
+	}
+	else if (tcaps.c_pos + 1 == tcaps.c_max && tcaps.l_pos + 1 < tcaps.l_max)
+	{
+		*c_next = 0;
+		*l_next = tcaps.l_pos + 1;
+		tcaps.cursor_lvl++;
+		tcaps.cursor_pos++;
+	}
+}
+
+void	add_at_cursor(char c, int *i, char **line)
+{
+	char	*tmp;
+	int		c_next;
+	int		l_next;
+	int		old_line_lvl;
 
 	c_next = 0;
 	l_next = 0;
 	old_line_lvl = tcaps.line_lvl;
 	tmp = add_line_edition(c, i, line);
-	clear_after_cursor();
-	if (tcaps.c_pos + 1 < tcaps.c_max)
-	{
-		c_next = tcaps.c_pos + 1;
-		l_next = tcaps.l_pos;
-		tcaps.cursor_pos++;
-	}
-	else if (tcaps.c_pos + 1 == tcaps.c_max && tcaps.l_pos + 1 < tcaps.l_max)
-	{
-		c_next = 0;
-		l_next = tcaps.l_pos + 1;
-		tcaps.cursor_lvl++;
-		tcaps.cursor_pos++;
-	}
+	do_some_things(&c_next, &l_next);
 	ft_putchar_fd(c, STDIN_FILENO);
 	ft_putstr_fd(tmp, STDIN_FILENO);
 	if (tmp)

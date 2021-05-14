@@ -50,7 +50,7 @@ void	delete_at_cursor(int *i, char **line)
 
 void	ctrl_d(t_big *datas, char **line, int *i)
 {
-	if (*line && !(*line)[0]) //pas convaincu, revoir
+	if (*line && !(*line)[0])
 	{
 		write(0, "exit\n", 5);
 		update_history_file(datas);

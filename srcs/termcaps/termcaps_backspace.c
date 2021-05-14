@@ -12,18 +12,6 @@
 
 #include "minishell.h"
 
-void	get_cursor_max(void)
-{
-	cursor_position();
-	tcaps.cursor_max = tcaps.c_pos;
-}
-
-void	actualize_cursor(int new_c_pos, int new_l_pos)
-{
-	tcaps.c_pos = new_c_pos;
-	tcaps.l_pos = new_l_pos;
-}
-
 void	backspace_line_edition(int *i, char **line)
 {
 	char *oldline;
@@ -45,8 +33,9 @@ void	backspace(int *i, char **line)
 	dc_cap = tgetstr("dc", NULL);
 	ce_cap = tgetstr("ce", NULL);
 	if (!dc_cap || !ce_cap)
-		exit(0); //EXIT AVEC NOTRE FONCTION D'EXIT ET DE FREE
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
+		exit(0);
+	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || \
+	(tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
 	{
 		move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
 		tputs(dc_cap, 1, ft_putchar2);
@@ -82,13 +71,22 @@ void	backspace_middleline_edition(int *i, char **line)
 		free(tmp);
 }
 
+void	print_and_get_max(char **line)
+{
+	ft_putstr_fd(*line, STDIN_FILENO);
+	get_cursor_max();
+}
+
 void	backspace_at_cursor(int *i, char **line)
 {
-	int		c_next = 0;
-	int		l_next = 0;
+	int		c_next;
+	int		l_next;
 
+	c_next = 0;
+	l_next = 0;
 	backspace_middleline_edition(i, line);
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
+	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || \
+	(tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
 	{
 		c_next = tcaps.c_pos - 1;
 		l_next = tcaps.l_pos;
@@ -104,7 +102,6 @@ void	backspace_at_cursor(int *i, char **line)
 		tcaps.cursor_lvl--;
 	}
 	clear_after_cursor();
-	ft_putstr_fd(*line, STDIN_FILENO);
-	get_cursor_max();
+	print_and_get_max(line);
 	move_cursor(c_next, l_next);
 }

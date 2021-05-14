@@ -12,7 +12,26 @@
 
 #include "minishell.h"
 
-void	move_cursor_up(void)
+void		get_cursor_max(void)
+{
+	cursor_position();
+	tcaps.cursor_max = tcaps.c_pos;
+}
+
+void		actualize_cursor(int new_c_pos, int new_l_pos)
+{
+	tcaps.c_pos = new_c_pos;
+	tcaps.l_pos = new_l_pos;
+}
+
+static void	actualize_some_things(int new_c_pos)
+{
+	tcaps.cursor_pos = tcaps.cursor_pos - tcaps.c_pos - \
+	(tcaps.c_max - new_c_pos);
+	tcaps.cursor_lvl--;
+}
+
+void		move_cursor_up(void)
 {
 	int new_c_pos;
 
@@ -37,18 +56,18 @@ void	move_cursor_up(void)
 		move_cursor(tcaps.c_pos, tcaps.l_pos - 1);
 		new_c_pos = tcaps.c_pos;
 	}
-	tcaps.cursor_pos = tcaps.cursor_pos - tcaps.c_pos - (tcaps.c_max - new_c_pos);
-	tcaps.cursor_lvl--;
+	actualize_some_things(new_c_pos);
 }
 
-void	move_cursor_down(void)
+void		move_cursor_down(void)
 {
 	int	new_c_pos;
 
 	cursor_position();
 	if (tcaps.cursor_lvl == tcaps.line_lvl)
 		return ;
-	else if (tcaps.c_pos > tcaps.cursor_max && tcaps.cursor_lvl + 1 == tcaps.line_lvl)
+	else if (tcaps.c_pos > tcaps.cursor_max && \
+	tcaps.cursor_lvl + 1 == tcaps.line_lvl)
 	{
 		move_cursor(tcaps.cursor_max, tcaps.l_pos + 1);
 		new_c_pos = tcaps.cursor_max;
@@ -58,6 +77,7 @@ void	move_cursor_down(void)
 		move_cursor(tcaps.c_pos, tcaps.l_pos + 1);
 		new_c_pos = tcaps.c_pos;
 	}
-	tcaps.cursor_pos = tcaps.cursor_pos + (tcaps.c_max - tcaps.c_pos) + new_c_pos;
+	tcaps.cursor_pos = tcaps.cursor_pos + \
+	(tcaps.c_max - tcaps.c_pos) + new_c_pos;
 	tcaps.cursor_lvl++;
 }

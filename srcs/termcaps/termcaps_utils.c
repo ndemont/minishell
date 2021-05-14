@@ -25,10 +25,10 @@ void	normal_mode(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &tcaps.save);
 }
 
-int	termcaps_init(void)
+int		termcaps_init(void)
 {
-	int ret;
-	char *term;
+	int		ret;
+	char	*term;
 
 	term = getenv("TERM");
 	if (!term || (ret = tgetent(NULL, term)) <= 0)
