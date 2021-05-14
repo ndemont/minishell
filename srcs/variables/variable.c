@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 22:26:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 12:45:01 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char 		*get_str_var(char *str, int *i)
 	while (str[*i + len] && str[*i + len] != '\"')
 		len++;
 	if (!(var = ft_substr(str, *i, len)))
-		return (printc_stderr(0, strerror(errno), 0, 1));
+		return (printc_stderr(0, strerror(errno), 0));
 	*i = *i + len;
 	return (var);
 }
@@ -42,7 +42,7 @@ char 		*init_value(char *var)
 	if (!(value = malloc(sizeof(char))))
 	{
 		free(var);
-		return (printc_stderr(0, strerror(errno), 0, 1));
+		return (printc_stderr(0, strerror(errno), 0));
 	}
 	value[0] = '\0';
 	return (value);
@@ -80,7 +80,7 @@ char		*get_env_var(char *str, int *i, t_big *datas)
 			if (!(value = ft_strdup(((t_var *)env->content)->value)))
 			{
 				free(var);
-				return (printc_stderr(0, strerror(errno), 0, 1));
+				return (printc_stderr(0, strerror(errno), 0));
 			}
 			break ;
 		}
@@ -120,7 +120,7 @@ char	*check_variable(char *str, t_big *datas)
 			if (!(var = ft_substr(str, start, i - start)))
 			{
 				free(new);
-				return (printc_stderr(0, strerror(errno), 0, 1));
+				return (printc_stderr(0, strerror(errno), 0));
 			}
 		}
 		if (tmp)
@@ -129,7 +129,7 @@ char	*check_variable(char *str, t_big *datas)
 			{
 				free(var);
 				free(tmp);
-				return (printc_stderr(0, strerror(errno), 0, 1));
+				return (printc_stderr(0, strerror(errno), 0));
 			}
 			free(tmp);
 			free(var);

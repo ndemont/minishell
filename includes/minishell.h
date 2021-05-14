@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 20:12:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 12:47:44 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,9 @@ void					free_tree(t_node *root);
 void					clean_datas(t_big *datas);
 
 //ERRORS
-char					**printcc_stderr(char *str1, char *str2, char *str3, int exit);
-char					*printc_stderr(char *str1, char *str2, char *str3, int exit);
-int 					print_stderr(char *str1, char *str2, char *str3, int exit);
+char					**printcc_stderr(char *cmd, char *strerror, int exit);
+char					*printc_stderr(char *cmd, char *strerror, int exit);
+int 					print_stderr(char *cmd, char *strerror, int exit);
 
 //AST
 int						read_input(t_big *datas);
@@ -158,10 +158,13 @@ void					pipe_node(t_node **tokens, t_big *datas, int i);
 //LEXER
 t_node					**ft_create_nodes(char *input, int nb);
 int						count_arg(char *input);
+char					*get_double_quote(char *input, int *i, int j);
 char					*get_single_quote(char *input, int *i, int *j);
+char					*get_backslash(char *input, int *i, int j);
 char					*get_arg(char *input, int *i);
 int						ft_count_tokens(char *input);
 int						ft_is_grammar(char *str, int i);
+char					*get_variable(char *input, int *k);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);

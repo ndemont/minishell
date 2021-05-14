@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 22:16:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/13 20:25:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 12:47:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char		**tab_join(char **tab1, t_big *datas)
 	j = 0;
 	count = count_args(tab1, datas);
 	if (!(new = (char **)malloc(sizeof(char *) * (count + 1))))
-		return (printcc_stderr(0, strerror(errno), 0, 1));
+		return (printcc_stderr(0, strerror(errno), 0));
 	new[count] = 0;
 	while (tab1 && tab1[i])
 	{
@@ -50,7 +50,7 @@ static char		**tab_join(char **tab1, t_big *datas)
 	while (i < count)
 	{
 		if (!(new[i] = ft_strdup(datas->redirection_arg[j])))
-			return (printcc_stderr(0, strerror(errno), 0, 1));
+			return (printcc_stderr(0, strerror(errno), 0));
 		i++;
 		j++;
 	}
@@ -62,7 +62,7 @@ char	**get_arguments(t_node *root, t_big *datas)
 	if (datas->redirection_arg)
 	{
 		if (!(root->arg = tab_join(root->arg, datas)))
-			return (printcc_stderr(0, strerror(errno), 0, 1));
+			return (printcc_stderr(0, strerror(errno), 0));
 		datas->redirection_arg = 0;
 	}
 	return (root->arg);
