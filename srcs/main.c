@@ -65,11 +65,6 @@ void	init_data(t_big *datas)
 	tcaps.cursor_pos = 0;
 }
 
-void	sigint_handler(int sig)
-{
-	(void)sig;
-}
-
 int		main(int ac, char **av, char **env)
 {
 	t_big	datas;
