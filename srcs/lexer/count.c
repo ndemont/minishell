@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:22:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 15:41:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 17:10:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		skip_isspace(char *input, int *i, int count)
 	if (!(*i))
 	{
 		while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
-			*i = *i + *i;
+			*i = *i + 1;
 	}
 	else
 	{

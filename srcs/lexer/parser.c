@@ -6,15 +6,40 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 15:23:43 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 17:13:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		get_builtin(t_node *token)
+void	search_builtin(t_node *token)
 {
-	static char	*list[7] = {"echo", "export", "env", "cd", "pwd", "unset", "exit"};
+	static char	*list[7] = \
+	{"echo", "export", "env", "cd", "pwd", "unset", "exit"};
+	int			i;
+
+	i = 0;
+	while (i < 7)
+	{
+		if (!token->arg[0])
+			break ;
+		if (!ft_strcmp(list[i], token->arg[0]))
+		{
+			token->builtin = token->command;
+			token->command = 0;
+			break ;
+		}
+		i++;
+	}
+	if (token->command && ft_strchr(token->command, '='))
+	{
+		token->builtin = token->command;
+		token->command = 0;
+	}
+}
+
+int		get_command(t_node *token)
+{
 	int			i;
 	int			j;
 	int			count;
@@ -37,28 +62,11 @@ int		get_builtin(t_node *token)
 	}
 	token->arg[j] = 0;
 	token->command = ft_strdup(token->arg[0]);
-	i = 0;
-	while (i < 7)
-	{
-		if (!token->arg[0])
-			break ;
-		if (!ft_strcmp(list[i], token->arg[0]))
-		{
-			token->builtin = token->command;
-			token->command = 0;
-			break ;
-		}
-		i++;
-	}
-	if (token->command && ft_strchr(token->command, '='))
-	{
-		token->builtin = token->command;
-		token->command = 0;
-	}
+	search_builtin(token);
 	return (1);
 }
 
-t_node		**ft_builtin_parser(t_node **token_tab)
+t_node	**ft_parser(t_node **token_tab)
 {
 	int i;
 
@@ -66,10 +74,10 @@ t_node		**ft_builtin_parser(t_node **token_tab)
 	while (token_tab[i])
 	{
 		if (!token_tab[i]->type)
-			get_builtin(token_tab[i]);
+			get_command(token_tab[i]);
 		i++;
 	}
 	if (token_tab[i - 1]->type > 0 && token_tab[i - 1]->type < 5)
-		return (print_errors("Missing command at end of line", 0));
+		return (print_errors("Missing command at end of line", 1));
 	return (token_tab);
 }

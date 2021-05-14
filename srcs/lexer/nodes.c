@@ -6,56 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 15:20:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 17:12:57 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_node	*ft_init_grammar_node(int type)
-{
-	t_node *new;
-
-	new = (t_node *)malloc(sizeof(t_node));
-	if (!new)
-	{
-		printc_stderr(0, strerror(errno), 0);
-		return (0);
-	}
-	new->type = type;
-	new->input = 0;
-	new->arg = 0;
-	new->builtin = 0;
-	new->command = 0;
-	new->left = 0;
-	new->right = 0;
-	return (new);
-}
-
-t_node	*ft_init_buildin_node(char *input, int type)
-{
-	t_node *new;
-
-	if (!input)
-	{
-		printc_stderr(0, strerror(errno), 0);
-		return (0);
-	}
-	new = (t_node *)malloc(sizeof(t_node));
-	if (!new)
-	{
-		free(input);
-		printc_stderr(0, strerror(errno), 0);
-		return (0);
-	}
-	new->type = type;
-	new->input = input;
-	new->arg = 0;
-	new->builtin = 0;
-	new->left = 0;
-	new->right = 0;
-	return (new);
-}
 
 t_node	*ft_new_builtin_node(int *i, char *input)
 {
@@ -112,39 +67,45 @@ t_node	*ft_new_node(char *input, int *i)
 	return (new_node);
 }
 
+int		ft_check_node_error(t_node **nodes, int j)
+{
+	if (j == 0 && nodes[j]->type)
+	{
+		printc_stderr(0, "syntax error", 1);
+		return (0);
+	}
+	else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
+	{
+		printc_stderr(0, "syntax error", 1);
+		return (0);
+	}
+	return (1);
+}
+
 t_node	**ft_create_nodes(char *input, int nb)
 {
 	t_node	**nodes;
-	int		i;
 	int		j;
+	int		i;
 
-	nodes = (t_node **)malloc(sizeof(t_node) * (nb + 1));
-	if (!nodes)
+	if (!(nodes = (t_node **)malloc(sizeof(t_node) * (nb + 1))))
 		return (0);
 	nodes[nb] = 0;
-	i = 0;
 	j = 0;
+	i = 0;
 	while (j < nb)
 	{
 		nodes[j] = ft_new_node(input, &i);
 		if (!nodes[j])
 			return (0);
-		if (j == 0 && nodes[j]->type)
-		{
-			printc_stderr(0, "syntax error", 0);
+		if (!(ft_check_node_error(nodes, j)))
 			return (0);
-		}
-		else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
-		{
-			printc_stderr(0, "syntax error", 0);
-			return (0);
-		}
 		j++;
 	}
 	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0] && \
 		nodes[j - 2]->type < 5)
 	{
-		printc_stderr(0, "missing command at end of line", 0);
+		printc_stderr(0, "missing command at end of line", 1);
 		return (0);
 	}
 	return (nodes);
