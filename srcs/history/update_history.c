@@ -22,11 +22,12 @@ int		update_history_file(t_big *datas)
 	history = 0;
 	if (datas->history)
 		history = *datas->history;
-	while (history && history->next->status != 0)
+	while (history && history->next && history->next->status != 0)
 		history = history->next;
 	while (history)
 	{
-		write(fd, history->command, ft_strlen(history->command));
+		if (history->command)
+			write(fd, history->command, ft_strlen(history->command));
 		write(fd, "\n", 1);
 		history = history->prev;
 	}
