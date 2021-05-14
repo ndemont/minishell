@@ -60,17 +60,29 @@ int		ft_hidden(char **arg, t_big *datas)
 	k = 0;
 	while (arg[k])
 	{
-		if (!check_duplicate(*datas->hidden, arg[k]))
-			add_to_list(arg[k], datas->hidden);
+		if (check_arg_conformity(arg[k]))
+		{	
+			if (!check_duplicate(*datas->hidden, arg[k]))
+				add_to_list(arg[k], datas->hidden);
+			else
+			{
+				actualize_list(arg[k], *datas->hidden);
+				if (check_duplicate(*datas->export, arg[k]))
+					actualize_list(arg[k], *datas->export);
+				if (check_duplicate(*datas->env, arg[k]))
+					actualize_list(arg[k], *datas->env);
+				else
+					add_to_list(arg[k], datas->env);
+			}
+		}
 		else
 		{
-			actualize_list(arg[k], *datas->hidden);
-			if (check_duplicate(*datas->export, arg[k]))
-				actualize_list(arg[k], *datas->export);
-			if (check_duplicate(*datas->env, arg[k]))
-				actualize_list(arg[k], *datas->env);
+			ft_putstr_fd("minishellrose: ", STDERR_FILENO);
+			ft_putstr_fd(arg[k], STDERR_FILENO);
+			ft_putstr_fd(":command not found\n", STDERR_FILENO);
+			tcaps.ret = 127;
 		}
 		k++;
 	}
-	return (0);
+	return (tcaps.ret);
 }

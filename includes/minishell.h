@@ -122,6 +122,7 @@ void					add_to_list(char *line, t_list **lst);
 void					actualize_return_status(int ret_status);
 char					**get_arguments(t_node *root, t_big *datas);
 char					**replace_variable(t_node *root, t_big *datas);
+int						check_arg_conformity(char *line);
 
 //HISTORY
 int						init_history(t_big *datas);
