@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 13:56:05 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/14 16:57:12 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int 					print_stderr(char *cmd, char *strerror, int exit);
 //AST
 int						read_input(t_big *datas);
 t_node					**ft_lexer(char *input);
-t_node					**ft_builtin_parser(t_node **token_tab);
+t_node					**ft_parser(t_node **token_tab);
 void					executions(t_big *datas);
 int						tree(t_node **tokens, t_big *datas);
 void					*print_errors(char *error, int exit);
@@ -165,6 +165,8 @@ int						ft_count_tokens(char *input);
 int						ft_is_grammar(char *str, int i);
 char					*get_variable(char *input, int *k);
 char					*get_variable_quotes(char *str, int *k);
+t_node					*ft_init_grammar_node(int type);
+t_node					*ft_init_buildin_node(char *input, int type);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);
