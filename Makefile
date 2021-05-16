@@ -25,7 +25,7 @@ SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c l
 	lexer/arguments.c errors/errors.c builtins/echo.c builtins/cd.c builtins/env.c builtins/pwd.c \
 	builtins/exit.c builtins/export.c builtins/unset.c builtins/hidden.c grammar/pipe.c \
 	grammar/semicolon.c grammar/redirection.c history/init_history.c variables/variable.c \
-	history/update_history.c history/browse_history.c history/save_history.c variables/arguments.c\
+	history/update_history.c history/browse_history.c history/browse_up_history.c history/browse_down_history.c history/save_history.c variables/arguments.c\
 	DEVELOPMENT_MODE.c signals/signals.c termcaps/ctrl_d.c termcaps/termcaps.c \
 	termcaps/termcaps_utils.c termcaps/termcaps_scroll.c termcaps/termcaps_cursor.c \
 	termcaps/termcaps_backspace.c termcaps/termcaps_add_char.c \
