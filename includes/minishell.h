@@ -131,7 +131,7 @@ int						check_arg_conformity(char *line);
 //HISTORY
 int						init_history(t_big *datas);
 void					save_history(char *line, t_big *datas);
-void					browse_history(t_big *datas, char **line, int signal);
+int						browse_history(t_big *datas, char **line, int signal);
 int						update_history_list(t_history **begin, char *line, int status);
 int						update_history_file(t_big *datas);
 
@@ -220,8 +220,8 @@ void					scroll_n_times(int n);
 void					clear_term(void);
 int						clear_after_cursor(void);
 void					print_at_cursor(char c);
-void					move_cursor_left(void);
-void					move_cursor_right(void);
+int						move_cursor_left(void);
+int						move_cursor_right(void);
 void 					add_at_cursor(char c, int *i, char **line);
 int						backspace(int *i, char **line);
 int						backspace_at_cursor(int *i, char **line);
