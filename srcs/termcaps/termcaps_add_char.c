@@ -91,7 +91,7 @@ int	add_at_cursor(char c, int *i, char **line)
 		clean_free(&tmp);
 		return (ERROR);
 	}
-	print_at_cursor(c, &tmp);
+	print_new_char(c, &tmp);
 	ret = get_cursor_max();
 	if (!ret)
 		return (ERROR);
