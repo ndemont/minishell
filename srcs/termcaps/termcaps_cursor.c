@@ -12,23 +12,30 @@
 
 #include "minishell.h"
 
-void	move_cursor(int c, int l)
+int	move_cursor(int c, int l)
 {
-	char *cm_cap;
+	int		ret;
+	char	*cm_cap;
 
 	cm_cap = tgetstr("cm", NULL);
 	if (!cm_cap)
-		exit(0);
-	tputs(tgoto(cm_cap, c, l), 1, ft_putchar2);
+		return (printi_stderr(0, strerror(errno), 0));
+	ret = tputs(tgoto(cm_cap, c, l), 1, ft_putchar2);
+	if (ret == ERR)
+		return (printi_stderr(0, "tputs failed in move_cursor", 0));
 	actualize_cursor(c, l);
+	return (1);
 }
 
-void	cursor_position(void)
+int	cursor_position(void)
 {
+	int		ret;
 	char	buf[100];
 	int		i;
 
-	term_size();
+	ret = term_size();
+	if (!ret)
+		return(ret);
 	ft_bzero(buf, 100);
 	write(STDOUT_FILENO, "\033[6n", 4);
 	read(STDOUT_FILENO, buf, 100);
@@ -46,6 +53,7 @@ void	cursor_position(void)
 		tcaps.l_pos = 0;
 		tcaps.c_pos = 0;
 	}
+	return (1);
 }
 
 void	move_cursor_left(void)

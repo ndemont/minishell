@@ -36,13 +36,17 @@ int		termcaps_init(void)
 	return (1);
 }
 
-void	term_size(void)
+int	term_size(void)
 {
+	int				ret;
 	struct winsize	w;
 
-	ioctl(0, TIOCGWINSZ, &w);
+	ret = ioctl(0, TIOCGWINSZ, &w);
+	if (ret < 0)
+		return(printi_stderr(0, strerror(errno), 0));
 	tcaps.l_max = w.ws_row;
 	tcaps.c_max = w.ws_col;
+	return (1);
 }
 
 int		ft_putchar2(int c)

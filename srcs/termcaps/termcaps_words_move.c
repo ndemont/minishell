@@ -52,9 +52,8 @@ void	word_left(char **line)
 
 	next_c_pos = tcaps.c_pos;
 	next_l_pos = tcaps.l_pos;
-	if ((*line)[tcaps.cursor_pos] && tcaps.cursor_pos - 1 >= 0 && (*line)[tcaps.cursor_pos] > 32 && \
-	(*line)[tcaps.cursor_pos] < 127 && (*line)[tcaps.cursor_pos - 1] == ' ') \
-	|| (tcaps.cursor_pos > 0 && tcaps.c_pos == tcaps.cursor_max))
+	if (((*line)[tcaps.cursor_pos] && tcaps.cursor_pos - 1 >= 0 && (*line)[tcaps.cursor_pos] > 32 && \
+	(*line)[tcaps.cursor_pos] < 127 && (*line)[tcaps.cursor_pos - 1] == ' ') || (tcaps.cursor_pos > 0 && tcaps.c_pos == tcaps.cursor_max))
 	{
 		ghost_move_cursor_left(&next_c_pos, &next_l_pos);
 		tcaps.cursor_pos--;

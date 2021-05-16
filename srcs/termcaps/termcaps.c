@@ -39,7 +39,7 @@ void	go_end(int *i)
 	tcaps.cursor_pos = *i;
 }
 
-void	do_the_right_thing2(int *i, char *buf, char **line)
+int	do_the_right_thing2(int *i, char *buf, char **line)
 {
 	if (buf[0] > 31 && buf[0] < 127)
 		add_at_cursor(buf[0], i, line);
@@ -59,13 +59,18 @@ void	do_the_right_thing2(int *i, char *buf, char **line)
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 49 && buf[3] == 59 &&
 	buf[4] == 53 && buf[5] == 67)
 		word_right(i, line);
+	return (1);
 }
 
-void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
+int	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 {
-	cursor_position();
+	int ret;
+
+	ret = cursor_position();
+	if (!ret)
+		return (ERROR);
 	if (buf[0] == 127 && tcaps.cursor_pos == *i)
-		backspace(i, line);
+		return (backspace(i, line));
 	else if (buf[0] == 127 && tcaps.cursor_pos < *i && tcaps.cursor_pos > 0)
 		backspace_at_cursor(i, line);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
@@ -82,4 +87,5 @@ void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 		ctrl_d(datas, line, i);
 	else
 		do_the_right_thing2(i, buf, line);
+	return (1);
 }

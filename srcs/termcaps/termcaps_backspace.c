@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	backspace_line_edition(int *i, char **line)
+char	*backspace_line_edition(int *i, char **line)
 {
 	char *oldline;
 
@@ -22,34 +22,45 @@ void	backspace_line_edition(int *i, char **line)
 	*line = ft_substr(oldline, 0, *i);
 	if (oldline)
 		free(oldline);
+	return (*line);
 }
 
-void	backspace(int *i, char **line)
+int	backspace(int *i, char **line)
 {
-	char *dc_cap;
-	char *ce_cap;
+	int		ret;
+	char 	*dc_cap;
+	char 	*ce_cap;
 
-	backspace_line_edition(i, line);
+	*line = backspace_line_edition(i, line);
 	dc_cap = tgetstr("dc", NULL);
 	ce_cap = tgetstr("ce", NULL);
-	if (!dc_cap || !ce_cap)
-		exit(0);
+	if (!(*line) || !dc_cap || !ce_cap)
+		return(printi_stderr(0, strerror(errno), 0));
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || \
 	(tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
 	{
-		move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
-		tputs(dc_cap, 1, ft_putchar2);
+		ret = move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
+		if (!ret)
+			return (ERROR);
+		ret = tputs(dc_cap, 1, ft_putchar2);
+		if (ret == ERR)
+			return (printi_stderr(0, "tputs failed in ft_backspace\n", 0));
 		tcaps.cursor_max--;
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
 	{
-		move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
-		tputs(ce_cap, 1, ft_putchar2);
+		ret = move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
+		if (!ret)
+			return (ERROR);
+		ret = tputs(ce_cap, 1, ft_putchar2);
+		if (ret == ERR)
+			return (printi_stderr(0, "tputs failed in ft_backspace\n", 0));
 		tcaps.line_lvl--;
 		tcaps.cursor_lvl--;
 		tcaps.cursor_max = tcaps.c_max - 1;
 	}
 	tcaps.cursor_pos = *i;
+	return (1);
 }
 
 void	backspace_middleline_edition(int *i, char **line)

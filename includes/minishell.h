@@ -44,6 +44,10 @@
 
 # define CLEAR "\e[H\e[2J"
 
+//MACRO ERRORS
+# define ERROR 0
+# define SUCCESS 1
+
 typedef struct			s_caps
 {
 	struct termios		term;
@@ -201,17 +205,17 @@ int						display_prompt(void);
 
 
 //TERMCAPS
-void					term_size(void);
+int						term_size(void);
 int						termcaps_init(void);
 void					raw_mode(void);
 void					normal_mode(void);
-void					cursor_position(void);
-void					do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
+int						cursor_position(void);
+int						do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
 int						ft_putchar2(int);
 void					print_at_cursor(char c);
 void					ctrl_d(t_big *datas, char **line, int *i);
 void					lines_added(char *str);
-void					move_cursor(int c, int l);
+int						move_cursor(int c, int l);
 void					scroll_n_times(int n);
 void					clear_term(void);
 void					clear_after_cursor(void);
@@ -219,7 +223,7 @@ void					print_at_cursor(char c);
 void					move_cursor_left(void);
 void					move_cursor_right(void);
 void 					add_at_cursor(char c, int *i, char **line);
-void					backspace(int *i, char **line);
+int						backspace(int *i, char **line);
 void					backspace_at_cursor(int *i, char **line);
 void					get_cursor_max(void);
 void					move_cursor_up(void);
