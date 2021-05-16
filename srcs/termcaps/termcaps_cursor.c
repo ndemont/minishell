@@ -35,7 +35,7 @@ int	cursor_position(void)
 
 	ret = term_size();
 	if (!ret)
-		return(ret);
+		return (ret);
 	ft_bzero(buf, 100);
 	write(STDOUT_FILENO, "\033[6n", 4);
 	read(STDOUT_FILENO, buf, 100);
@@ -58,7 +58,7 @@ int	cursor_position(void)
 
 int	move_cursor_left(void)
 {
-	int ret;
+	int	ret;
 
 	ret = SUCCESS;
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || \
@@ -78,7 +78,7 @@ int	move_cursor_left(void)
 
 int	move_cursor_right(void)
 {
-	int ret;
+	int	ret;
 
 	ret = SUCCESS;
 	if (tcaps.cursor_lvl == tcaps.line_lvl)
