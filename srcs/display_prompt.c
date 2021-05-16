@@ -82,7 +82,6 @@ char *create_line(t_big *datas)
 			datas->flag_history = 0;
 		if (non_print_flag || tcaps.cursor_pos < i)
 		{
-			//DEVELOPMENT_MODE_print_sequence(buf);
 			if (buf[0] == 10)
 			{
 				execute_line(i, &line, buf);

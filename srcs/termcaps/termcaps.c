@@ -63,9 +63,6 @@ void	do_the_right_thing2(int *i, char *buf, char **line)
 
 void	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 {
-	int sig;
-
-	sig = 0;
 	cursor_position();
 	if (buf[0] == 127 && tcaps.cursor_pos == *i)
 		backspace(i, line);

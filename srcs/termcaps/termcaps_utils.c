@@ -38,7 +38,7 @@ int		termcaps_init(void)
 
 void	term_size(void)
 {
-	struct winsize w;
+	struct winsize	w;
 
 	ioctl(0, TIOCGWINSZ, &w);
 	tcaps.l_max = w.ws_row;
