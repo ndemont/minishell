@@ -14,14 +14,13 @@
 
 char	*add_line_edition(char c, int *i, char **line)
 {
-	char *oldline;
-	char *tmp;
+	char	*oldline;
+	char	*tmp;
 
 	oldline = *line;
 	*line = ft_substr(oldline, 0, tcaps.cursor_pos);
 	tmp = ft_substr(oldline, tcaps.cursor_pos, *i);
-	if (oldline)
-		free(oldline);
+	clean_free(&oldline);
 	if (!(*line) || !tmp)
 	{
 		clean_free(&tmp);
@@ -44,7 +43,7 @@ char	*add_line_edition(char c, int *i, char **line)
 
 int	do_some_things(int *c_next, int *l_next)
 {
-	int ret;
+	int	ret;
 
 	ret = clear_after_cursor();
 	if (!ret)
@@ -65,12 +64,19 @@ int	do_some_things(int *c_next, int *l_next)
 	return (SUCCESS);
 }
 
+void	print_new_char(char c, char **tmp)
+{
+	ft_putchar_fd(c, STDIN_FILENO);
+	ft_putstr_fd(*tmp, STDIN_FILENO);
+	clean_free(tmp);
+}
+
 int	add_at_cursor(char c, int *i, char **line)
 {
-	int	ret;
-	int	c_next;
-	int	l_next;
-	int	old_line_lvl;
+	int		ret;
+	int		c_next;
+	int		l_next;
+	int		old_line_lvl;
 	char	*tmp;
 
 	c_next = 0;
@@ -85,10 +91,7 @@ int	add_at_cursor(char c, int *i, char **line)
 		clean_free(&tmp);
 		return (ERROR);
 	}
-	ft_putchar_fd(c, STDIN_FILENO);
-	ft_putstr_fd(tmp, STDIN_FILENO);
-	if (tmp)
-		free(tmp);
+	print_at_cursor(c, &tmp);
 	ret = get_cursor_max();
 	if (!ret)
 		return (ERROR);
