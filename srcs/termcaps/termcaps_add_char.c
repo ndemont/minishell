@@ -20,9 +20,20 @@ char	*add_line_edition(char c, int *i, char **line)
 	oldline = *line;
 	*line = ft_substr(oldline, 0, tcaps.cursor_pos);
 	tmp = ft_substr(oldline, tcaps.cursor_pos, *i);
-	if (*line)
+	if (oldline)
 		free(oldline);
+	if (!(*line) || !tmp)
+	{
+		clean_free(&tmp);
+		clean_free(line);
+		return (printc_stderr(0, strerror(errno), 0));
+	}
 	*line = ft_realloc(*line, ft_strlen(*line) + 1 + ft_strlen(tmp) + 1);
+	if (!(*line))
+	{
+		clean_free(&tmp);
+		return (printc_stderr(0, strerror(errno), 0));
+	}
 	(*line)[tcaps.cursor_pos] = c;
 	(*line)[tcaps.cursor_pos + 1] = 0;
 	ft_strlcat(*line, tmp, ft_strlen(*line) + ft_strlen(tmp) + 1);
@@ -31,9 +42,13 @@ char	*add_line_edition(char c, int *i, char **line)
 	return (tmp);
 }
 
-void	do_some_things(int *c_next, int *l_next)
+int	do_some_things(int *c_next, int *l_next)
 {
-	clear_after_cursor();
+	int ret;
+
+	ret = clear_after_cursor();
+	if (!ret)
+		return (ERROR);
 	if (tcaps.c_pos + 1 < tcaps.c_max)
 	{
 		*c_next = tcaps.c_pos + 1;
@@ -47,28 +62,39 @@ void	do_some_things(int *c_next, int *l_next)
 		tcaps.cursor_lvl++;
 		tcaps.cursor_pos++;
 	}
+	return (SUCCESS);
 }
 
-void	add_at_cursor(char c, int *i, char **line)
+int	add_at_cursor(char c, int *i, char **line)
 {
+	int	ret;
+	int	c_next;
+	int	l_next;
+	int	old_line_lvl;
 	char	*tmp;
-	int		c_next;
-	int		l_next;
-	int		old_line_lvl;
 
 	c_next = 0;
 	l_next = 0;
 	old_line_lvl = tcaps.line_lvl;
 	tmp = add_line_edition(c, i, line);
-	do_some_things(&c_next, &l_next);
+	if (!tmp)
+		return (ERROR);
+	ret = do_some_things(&c_next, &l_next);
+	if (!ret)
+	{
+		clean_free(&tmp);
+		return (ERROR);
+	}
 	ft_putchar_fd(c, STDIN_FILENO);
 	ft_putstr_fd(tmp, STDIN_FILENO);
 	if (tmp)
 		free(tmp);
-	get_cursor_max();
+	ret = get_cursor_max();
+	if (!ret)
+		return (ERROR);
 	if (tcaps.line_lvl > old_line_lvl && tcaps.l_pos + 1 == tcaps.l_max)
 		l_next--;
-	move_cursor(c_next, l_next);
+	return (move_cursor(c_next, l_next));
 }
 
 void	print_at_cursor(char c)
