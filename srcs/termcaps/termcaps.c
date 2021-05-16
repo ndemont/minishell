@@ -91,7 +91,7 @@ int	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67)
 		return (move_cursor_right());
 	else if (buf[0] == 12)
-		clear_term();
+		return (clear_term());
 	else if (buf[0] == 4)
 		ctrl_d(datas, line, i);
 	else
