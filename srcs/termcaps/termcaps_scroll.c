@@ -14,8 +14,8 @@
 
 int	scroll_n_times(int n)
 {
-	int ret;
-	char *sf_cap;
+	int		ret;
+	char	*sf_cap;
 
 	ret = 0;
 	sf_cap = tgetstr("sf", NULL);
