@@ -33,19 +33,25 @@ int	history_older(int *i, char **line, t_big *datas, int flag)
 	return (ret);
 }
 
-void	go_home(void)
+int	go_home(void)
 {
-	move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
+	int ret;
+	
+	ret = move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
 	tcaps.cursor_lvl = 0;
 	tcaps.cursor_pos = 0;
+	return (ret);
 }
 
-void	go_end(int *i)
+int	go_end(int *i)
 {
-	move_cursor(tcaps.cursor_max, tcaps.l_pos + \
+	int ret;
+
+	ret = move_cursor(tcaps.cursor_max, tcaps.l_pos + \
 	(tcaps.line_lvl - tcaps.cursor_lvl));
 	tcaps.cursor_lvl = tcaps.line_lvl;
 	tcaps.cursor_pos = *i;
+	return (ret);
 }
 
 int	do_the_right_thing2(int *i, char *buf, char **line)
@@ -53,9 +59,9 @@ int	do_the_right_thing2(int *i, char *buf, char **line)
 	if (buf[0] > 31 && buf[0] < 127)
 		return (add_at_cursor(buf[0], i, line));
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 72)
-		go_home();
+		return (go_home());
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 70)
-		go_end(i);
+		return (go_end(i));
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 49 && buf[3] == 59 &&
 	buf[4] == 53 && buf[5] == 65)
 		move_cursor_up();
@@ -68,7 +74,7 @@ int	do_the_right_thing2(int *i, char *buf, char **line)
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 49 && buf[3] == 59 &&
 	buf[4] == 53 && buf[5] == 67)
 		word_right(i, line);
-	return (1);
+	return (SUCCESS);
 }
 
 int	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
