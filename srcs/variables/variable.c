@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 12:45:01 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/16 20:06:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ char		*get_return_value(void)
 	return (value);
 }
 
-char 		*get_str_var(char *str, int *i)
+char		*get_str_var(char *str, int *i)
 {
 	int		len;
-	char 	*var;
-	
+	char	*var;
+
 	*i = *i + 2;
 	len = 0;
 	while (str[*i + len] && str[*i + len] != '\"')
@@ -35,10 +35,10 @@ char 		*get_str_var(char *str, int *i)
 	return (var);
 }
 
-char 		*init_value(char *var)
+char		*init_value(char *var)
 {
 	char *value;
-	
+
 	if (!(value = malloc(sizeof(char))))
 	{
 		free(var);
@@ -95,8 +95,8 @@ char	*check_variable(char *str, t_big *datas)
 	int		i;
 	int		start;
 	char	*var;
-	char 	*new;
-	char 	*tmp;
+	char	*new;
+	char	*tmp;
 
 	i = 0;
 	start = 0;
@@ -144,7 +144,7 @@ char	*check_variable(char *str, t_big *datas)
 char	**replace_variable(t_node *root, t_big *datas)
 {
 	int		i;
-	char 	*tmp;
+	char	*tmp;
 
 	i = 0;
 	while (root->arg && root->arg[i])
