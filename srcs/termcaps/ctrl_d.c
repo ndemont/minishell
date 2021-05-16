@@ -14,8 +14,8 @@
 
 char	*delete_line_edition(int *i, char **line)
 {
-	char *oldline;
-	char *tmp;
+	char	*oldline;
+	char	*tmp;
 
 	oldline = *line;
 	*line = ft_substr(oldline, 0, tcaps.cursor_pos);
@@ -41,6 +41,14 @@ char	*delete_line_edition(int *i, char **line)
 	return (tmp);
 }
 
+void	print_new_string(char **tmp, int *c_pos, int *l_pos)
+{
+	*c_pos = tcaps.c_pos;
+	*l_pos = tcaps.l_pos;
+	ft_putstr_fd(*tmp, STDIN_FILENO);
+	clean_free(tmp);
+}
+
 int	delete_at_cursor(int *i, char **line)
 {
 	char	ret;
@@ -63,10 +71,7 @@ int	delete_at_cursor(int *i, char **line)
 		clean_free(&tmp);
 		return (ERROR);
 	}
-	c_pos = tcaps.c_pos;
-	l_pos = tcaps.l_pos;
-	ft_putstr_fd(tmp, STDIN_FILENO);
-	clean_free(&tmp);
+	print_new_string(&tmp, &c_pos, &l_pos);
 	ret = get_cursor_max();
 	if (!ret)
 		return (ERROR);
