@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 18:01:04 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/16 18:39:26 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,10 @@ int						check_arg_conformity(char *line);
 int						init_history(t_big *datas);
 void					save_history(char *line, t_big *datas);
 void					browse_history(t_big *datas, char **line, int signal);
+t_history				*browse_up(t_history *current, char **browse, t_big *datas, char *input);
+t_history				*browse_down(t_history *current, char **browse, t_big *datas, char *input);
 int						update_history_list(t_history **begin, char *line, int status);
+int						cmp_history(char **browse, t_history *tmp);
 int						update_history_file(t_big *datas);
 
 //FREE
