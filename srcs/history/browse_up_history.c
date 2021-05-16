@@ -38,7 +38,7 @@ t_history	*new_up(t_history *going, char **browse, char *str)
 		{
 			ret = cmp_history(browse, tmp);
 			if (!ret)
-				return (0);
+				return (ERROR);
 			going = tmp;
 			return (going);
 		}
@@ -64,7 +64,7 @@ t_history	*next_up(t_history *going, char **browse, char *str)
 		{
 			ret = cmp_history(browse, tmp);
 			if (!ret)
-				return (0);
+				return (ERROR);
 			going = tmp;
 			return (going);
 		}

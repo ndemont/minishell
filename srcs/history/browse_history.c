@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-void		lines_added(char *str)
+void	lines_added(char *str)
 {
-	int size;
-	int line_len;
+	int	size;
+	int	line_len;
 
 	tcaps.line_lvl = 0;
 	size = tcaps.c_max - tcaps.c_start;
@@ -30,7 +30,7 @@ void		lines_added(char *str)
 	}
 }
 
-int		browse_history(t_big *datas, char **line, int signal)
+int	browse_history(t_big *datas, char **line, int signal)
 {
 	static t_history	*current = 0;
 
@@ -47,13 +47,13 @@ int		browse_history(t_big *datas, char **line, int signal)
 	{
 		current = browse_up(current, &datas->browse, datas, datas->input);
 		if (!current)
-			return (printi_stderr(0, "Error in history browse_up function\n", 0));
+			return (ERROR);
 	}
 	if (signal == 0)
 	{
 		current = browse_down(current, &datas->browse, datas, datas->input);
 		if (!current)
-			return (printi_stderr(0, "Error in history browse_down function\n", 0));
+			return (ERROR);
 	}
 	if (datas->browse)
 	{

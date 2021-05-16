@@ -4,7 +4,8 @@ int main(void)
 {
 	char *str;
 
-	str = ft_strdup("helloJoliefille");
+	str = malloc(sizeof(char) * 11)
+	str = "helloworld";
 	printf("ADDRESS OF STR = [%p]\n", str);
 	printf("CONTENT OF STR = [%s]\n", str);
 	clean_free(&str);
