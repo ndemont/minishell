@@ -17,7 +17,7 @@ int	down_first_case(int *new_c_pos)
 	int	ret;
 
 	ret = move_cursor(tcaps.cursor_max, tcaps.l_pos + 1);
-	new_c_pos = tcaps.cursor_max;
+	*new_c_pos = tcaps.cursor_max;
 	return (ret);
 }
 
@@ -26,7 +26,7 @@ int	down_second_case(int *new_c_pos)
 	int	ret;
 
 	ret = move_cursor(tcaps.c_pos, tcaps.l_pos + 1);
-	new_c_pos = tcaps.c_pos;
+	*new_c_pos = tcaps.c_pos;
 	return (ret);
 }
 

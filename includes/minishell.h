@@ -207,8 +207,8 @@ int						display_prompt(void);
 //TERMCAPS
 int						term_size(void);
 int						termcaps_init(void);
-void					raw_mode(void);
-void					normal_mode(void);
+int						raw_mode(void);
+int						normal_mode(void);
 int						cursor_position(void);
 int						do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
 int						ft_putchar2(int);
