@@ -73,9 +73,9 @@ char	*backspace_middleline_edition(int *i, char **line)
 	tmp = ft_substr(oldline, tcaps.cursor_pos, *i);
 	if (!tmp || !(*line))
 	{
-		clean_free(tmp);
-		clean_free(oldline);
-		clean_free(*line);
+		clean_free(&tmp);
+		clean_free(&oldline);
+		clean_free(line);
 		return (printc_stderr(0, strerror(errno), 0));
 	}
 	if (oldline)
