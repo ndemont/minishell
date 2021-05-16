@@ -56,43 +56,51 @@ int	cursor_position(void)
 	return (1);
 }
 
-void	move_cursor_left(void)
+int	move_cursor_left(void)
 {
+	int ret;
+
+	ret = SUCCESS;
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || \
 	(tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
 	{
-		move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
+		ret = move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
 		tcaps.cursor_pos--;
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.cursor_lvl)
 	{
-		move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
+		ret = move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
 		tcaps.cursor_lvl--;
 		tcaps.cursor_pos--;
 	}
+	return (ret);
 }
 
-void	move_cursor_right(void)
+int	move_cursor_right(void)
 {
+	int ret;
+
+	ret = SUCCESS;
 	if (tcaps.cursor_lvl == tcaps.line_lvl)
 	{
 		if (tcaps.c_pos + 1 <= tcaps.cursor_max)
 		{
-			move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
+			ret = move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
 			tcaps.cursor_pos++;
 		}
 	}
 	else if (tcaps.cursor_lvl < tcaps.line_lvl)
 	{
 		if (tcaps.c_pos + 1 < tcaps.c_max)
-			move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
+			ret = move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
 		else
 		{
-			move_cursor(0, tcaps.l_pos + 1);
+			ret = move_cursor(0, tcaps.l_pos + 1);
 			tcaps.cursor_lvl++;
 		}
 		tcaps.cursor_pos++;
 	}
+	return (ret);
 }
 
 int	clear_after_cursor(void)
