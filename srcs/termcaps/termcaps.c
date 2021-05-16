@@ -51,7 +51,7 @@ void	go_end(int *i)
 int	do_the_right_thing2(int *i, char *buf, char **line)
 {
 	if (buf[0] > 31 && buf[0] < 127)
-		add_at_cursor(buf[0], i, line);
+		return (add_at_cursor(buf[0], i, line));
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 72)
 		go_home();
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 70)
@@ -93,8 +93,7 @@ int	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 	else if (buf[0] == 12)
 		return (clear_term());
 	else if (buf[0] == 4)
-		ctrl_d(datas, line, i);
+		return (ctrl_d(datas, line, i));
 	else
-		do_the_right_thing2(i, buf, line);
-	return (1);
+		return(do_the_right_thing2(i, buf, line));
 }
