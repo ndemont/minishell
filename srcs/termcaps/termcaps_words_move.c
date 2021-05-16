@@ -45,7 +45,7 @@ void	ghost_move_cursor_right(int *c_pos, int *l_pos)
 	}
 }
 
-void	word_left(char **line)
+int	word_left(char **line)
 {
 	int next_c_pos;
 	int next_l_pos;
@@ -69,10 +69,10 @@ void	word_left(char **line)
 		ghost_move_cursor_left(&next_c_pos, &next_l_pos);
 		tcaps.cursor_pos--;
 	}
-	move_cursor(next_c_pos, next_l_pos);
+	return (move_cursor(next_c_pos, next_l_pos));
 }
 
-void	word_right(int *i, char **line)
+int	word_right(int *i, char **line)
 {
 	int next_c_pos;
 	int next_l_pos;
@@ -90,5 +90,5 @@ void	word_right(int *i, char **line)
 		ghost_move_cursor_right(&next_c_pos, &next_l_pos);
 		tcaps.cursor_pos++;
 	}
-	move_cursor(next_c_pos, next_l_pos);
+	return(move_cursor(next_c_pos, next_l_pos));
 }

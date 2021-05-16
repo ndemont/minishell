@@ -228,8 +228,8 @@ int						backspace_at_cursor(int *i, char **line);
 int						get_cursor_max(void);
 int						move_cursor_up(void);
 int						move_cursor_down(void);
-void					word_left(char **line);
-void					word_right(int *i, char **line);
+int						word_left(char **line);
+int						word_right(int *i, char **line);
 void					actualize_cursor(int new_c_pos, int new_l_pos);
 
 

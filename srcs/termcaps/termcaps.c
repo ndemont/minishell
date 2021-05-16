@@ -70,10 +70,10 @@ int	do_the_right_thing2(int *i, char *buf, char **line)
 		return (move_cursor_down());
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 49 && buf[3] == 59 &&
 	buf[4] == 53 && buf[5] == 68)
-		word_left(line);
+		return (word_left(line));
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 49 && buf[3] == 59 &&
 	buf[4] == 53 && buf[5] == 67)
-		word_right(i, line);
+		return (word_right(i, line));
 	return (SUCCESS);
 }
 
