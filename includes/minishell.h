@@ -231,7 +231,7 @@ int						move_cursor_down(void);
 int						word_left(char **line);
 int						word_right(int *i, char **line);
 void					actualize_cursor(int new_c_pos, int new_l_pos);
-
+void					clean_the_mess(char **tmp, char **oldline, char **line);
 
 //FLAGS
 void					ft_signals(int sig);
