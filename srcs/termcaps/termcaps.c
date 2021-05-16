@@ -72,7 +72,7 @@ int	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 	if (buf[0] == 127 && tcaps.cursor_pos == *i)
 		return (backspace(i, line));
 	else if (buf[0] == 127 && tcaps.cursor_pos < *i && tcaps.cursor_pos > 0)
-		backspace_at_cursor(i, line);
+		return (backspace_at_cursor(i, line));
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
 		history_older(i, line, datas, 1);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)

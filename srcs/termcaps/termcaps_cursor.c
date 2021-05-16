@@ -95,12 +95,16 @@ void	move_cursor_right(void)
 	}
 }
 
-void	clear_after_cursor(void)
+int	clear_after_cursor(void)
 {
-	char *cd_cap;
+	int		ret;
+	char	*cd_cap;
 
 	cd_cap = tgetstr("cd", NULL);
 	if (!cd_cap)
-		exit(0);
-	tputs(cd_cap, 1, ft_putchar2);
+		return (printi_stderr(0, strerror(errno), 0));
+	ret = tputs(cd_cap, 1, ft_putchar2);
+	if (ret == ERR)
+		return (printi_stderr(0, "tputs failed in move_cursor", 0));
+	return (1);
 }

@@ -12,10 +12,13 @@
 
 #include "minishell.h"
 
-void		get_cursor_max(void)
+int		get_cursor_max(void)
 {
-	cursor_position();
+	int ret;
+	
+	ret = cursor_position();
 	tcaps.cursor_max = tcaps.c_pos;
+	return (ret);
 }
 
 void		actualize_cursor(int new_c_pos, int new_l_pos)

@@ -63,7 +63,7 @@ int	backspace(int *i, char **line)
 	return (1);
 }
 
-void	backspace_middleline_edition(int *i, char **line)
+char	*backspace_middleline_edition(int *i, char **line)
 {
 	char	*oldline;
 	char	*tmp;
@@ -71,48 +71,72 @@ void	backspace_middleline_edition(int *i, char **line)
 	oldline = *line;
 	*line = ft_substr(oldline, 0, tcaps.cursor_pos - 1);
 	tmp = ft_substr(oldline, tcaps.cursor_pos, *i);
+	if (!tmp || !(*line))
+	{
+		clean_free(tmp);
+		clean_free(oldline);
+		clean_free(*line);
+		return (printc_stderr(0, strerror(errno), 0));
+	}
 	if (oldline)
 		free(oldline);
 	*line = ft_realloc(*line, ft_strlen(*line) + ft_strlen(tmp) + 1);
+	if (!(*line))
+	{
+		clean_free(&tmp);
+		return (printc_stderr(0, strerror(errno), 0));
+	}
 	ft_strlcat(*line, tmp, ft_strlen(*line) + ft_strlen(tmp) + 1);
 	if (*i > 0)
 		(*i)--;
 	lines_added(*line);
 	if (tmp)
 		free(tmp);
+	return (*line);
 }
 
-void	print_and_get_max(char **line)
+int		print_and_get_max(char **line)
 {
 	ft_putstr_fd(*line, STDIN_FILENO);
-	get_cursor_max();
+	return (get_cursor_max());
 }
 
-void	backspace_at_cursor(int *i, char **line)
+int		backspace_at_cursor(int *i, char **line)
 {
-	int		c_next;
-	int		l_next;
+	int	ret;
+	int	c_next;
+	int	l_next;
 
+	ret = 1;
 	c_next = 0;
 	l_next = 0;
-	backspace_middleline_edition(i, line);
+	*line = backspace_middleline_edition(i, line);
+	if (!(*line))
+		return(printi_stderr(0, strerror(errno), 0));
 	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || \
 	(tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
 	{
 		c_next = tcaps.c_pos - 1;
 		l_next = tcaps.l_pos;
 		tcaps.cursor_pos--;
-		move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
+		ret = move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
 	}
 	else if (tcaps.c_pos - 1 < 0 && tcaps.cursor_lvl)
 	{
 		c_next = tcaps.c_max - 1;
 		l_next = tcaps.l_pos - 1;
 		tcaps.cursor_pos--;
-		move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
+		ret = move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
 		tcaps.cursor_lvl--;
 	}
-	clear_after_cursor();
-	print_and_get_max(line);
-	move_cursor(c_next, l_next);
+	if (!ret)
+		return (ERROR);
+	ret = clear_after_cursor();
+	if (!ret)
+		return (ERROR);
+	ret = print_and_get_max(line);
+	if (!ret)
+		return (ERROR);
+	ret = move_cursor(c_next, l_next);
+	return (ret);
 }
