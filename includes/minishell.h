@@ -44,6 +44,10 @@
 
 # define CLEAR "\e[H\e[2J"
 
+//MACRO ERRORS
+# define ERROR 0
+# define SUCCESS 1
+
 typedef struct			s_caps
 {
 	struct termios		term;
@@ -127,9 +131,10 @@ int						check_arg_conformity(char *line);
 //HISTORY
 int						init_history(t_big *datas);
 void					save_history(char *line, t_big *datas);
-void					browse_history(t_big *datas, char **line, int signal);
+int						browse_history(t_big *datas, char **line, int signal);
 t_history				*browse_up(t_history *current, char **browse, t_big *datas, char *input);
 t_history				*browse_down(t_history *current, char **browse, t_big *datas, char *input);
+
 int						update_history_list(t_history **begin, char *line, int status);
 int						cmp_history(char **browse, t_history *tmp);
 int						update_history_file(t_big *datas);
@@ -204,33 +209,33 @@ int						display_prompt(void);
 
 
 //TERMCAPS
-void					term_size(void);
+int						term_size(void);
 int						termcaps_init(void);
-void					raw_mode(void);
-void					normal_mode(void);
-void					cursor_position(void);
-void					do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
+int						raw_mode(void);
+int						normal_mode(void);
+int						cursor_position(void);
+int						do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
 int						ft_putchar2(int);
 void					print_at_cursor(char c);
-void					ctrl_d(t_big *datas, char **line, int *i);
+int						ctrl_d(t_big *datas, char **line, int *i);
 void					lines_added(char *str);
-void					move_cursor(int c, int l);
-void					scroll_n_times(int n);
-void					clear_term(void);
-void					clear_after_cursor(void);
+int						move_cursor(int c, int l);
+int						scroll_n_times(int n);
+int						clear_term(void);
+int						clear_after_cursor(void);
 void					print_at_cursor(char c);
-void					move_cursor_left(void);
-void					move_cursor_right(void);
-void 					add_at_cursor(char c, int *i, char **line);
-void					backspace(int *i, char **line);
-void					backspace_at_cursor(int *i, char **line);
-void					get_cursor_max(void);
-void					move_cursor_up(void);
-void					move_cursor_down(void);
-void					word_left(char **line);
-void					word_right(int *i, char **line);
+int						move_cursor_left(void);
+int						move_cursor_right(void);
+int 					add_at_cursor(char c, int *i, char **line);
+int						backspace(int *i, char **line);
+int						backspace_at_cursor(int *i, char **line);
+int						get_cursor_max(void);
+int						move_cursor_up(void);
+int						move_cursor_down(void);
+int						word_left(char **line);
+int						word_right(int *i, char **line);
 void					actualize_cursor(int new_c_pos, int new_l_pos);
-
+void					clean_the_mess(char **tmp, char **oldline, char **line);
 
 //FLAGS
 void					ft_signals(int sig);

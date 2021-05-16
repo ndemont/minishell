@@ -12,21 +12,9 @@
 
 #include "minishell.h"
 
-void	get_cursor_max(void)
+char	*backspace_line_edition(int *i, char **line)
 {
-	cursor_position();
-	tcaps.cursor_max = tcaps.c_pos;
-}
-
-void	actualize_cursor(int new_c_pos, int new_l_pos)
-{
-	tcaps.c_pos = new_c_pos;
-	tcaps.l_pos = new_l_pos;
-}
-
-void	backspace_line_edition(int *i, char **line)
-{
-	char *oldline;
+	char	*oldline;
 
 	oldline = *line;
 	if (*i > 0)
@@ -34,77 +22,63 @@ void	backspace_line_edition(int *i, char **line)
 	*line = ft_substr(oldline, 0, *i);
 	if (oldline)
 		free(oldline);
+	return (*line);
 }
 
-void	backspace(int *i, char **line)
+void	initiate_deletion_caps(char **dc_cap, char **ce_cap, int *ret)
 {
-	char *dc_cap;
-	char *ce_cap;
+	*dc_cap = tgetstr("dc", NULL);
+	*ce_cap = tgetstr("ce", NULL);
+	*ret = SUCCESS;
+}
 
-	backspace_line_edition(i, line);
-	dc_cap = tgetstr("dc", NULL);
-	ce_cap = tgetstr("ce", NULL);
-	if (!dc_cap || !ce_cap)
-		exit(0); //EXIT AVEC NOTRE FONCTION D'EXIT ET DE FREE
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
-	{
-		move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
-		tputs(dc_cap, 1, ft_putchar2);
-		tcaps.cursor_max--;
-	}
+int	backspace_first_case(char *dc_cap)
+{
+	int	ret;
+
+	ret = move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
+	if (!ret)
+		return (ERROR);
+	ret = tputs(dc_cap, 1, ft_putchar2);
+	if (ret == ERR)
+		return (printi_stderr(0, "tputs failed in backspace_first_case\n", 0));
+	tcaps.cursor_max--;
+	return (SUCCESS);
+}
+
+int	backspace_second_case(char *ce_cap)
+{
+	int	ret;
+
+	ret = move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
+	if (!ret)
+		return (ERROR);
+	ret = tputs(ce_cap, 1, ft_putchar2);
+	if (ret == ERR)
+		return (printi_stderr(0, "tputs failed in backspace_first_case\n", 0));
+	tcaps.line_lvl--;
+	tcaps.cursor_lvl--;
+	tcaps.cursor_max = tcaps.c_max - 1;
+	return (SUCCESS);
+}
+
+int	backspace(int *i, char **line)
+{
+	int		ret;
+	char	*dc_cap;
+	char	*ce_cap;
+
+	*line = backspace_line_edition(i, line);
+	initiate_deletion_caps(&dc_cap, &ce_cap, &ret);
+	if (!(*line) || !dc_cap || !ce_cap)
+		return (printi_stderr(0, strerror(errno), 0));
+	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || \
+	(tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
+		ret = backspace_first_case(dc_cap);
 	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
-	{
-		move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
-		tputs(ce_cap, 1, ft_putchar2);
-		tcaps.line_lvl--;
-		tcaps.cursor_lvl--;
-		tcaps.cursor_max = tcaps.c_max - 1;
-	}
+		ret = backspace_second_case(ce_cap);
 	tcaps.cursor_pos = *i;
-}
-
-void	backspace_middleline_edition(int *i, char **line)
-{
-	char	*oldline;
-	char	*tmp;
-
-	oldline = *line;
-	*line = ft_substr(oldline, 0, tcaps.cursor_pos - 1);
-	tmp = ft_substr(oldline, tcaps.cursor_pos, *i);
-	if (oldline)
-		free(oldline);
-	*line = ft_realloc(*line, ft_strlen(*line) + ft_strlen(tmp) + 1);
-	ft_strlcat(*line, tmp, ft_strlen(*line) + ft_strlen(tmp) + 1);
-	if (*i > 0)
-		(*i)--;
-	lines_added(*line);
-	if (tmp)
-		free(tmp);
-}
-
-void	backspace_at_cursor(int *i, char **line)
-{
-	int		c_next = 0;
-	int		l_next = 0;
-
-	backspace_middleline_edition(i, line);
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || (tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
-	{
-		c_next = tcaps.c_pos - 1;
-		l_next = tcaps.l_pos;
-		tcaps.cursor_pos--;
-		move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
-	}
-	else if (tcaps.c_pos - 1 < 0 && tcaps.cursor_lvl)
-	{
-		c_next = tcaps.c_max - 1;
-		l_next = tcaps.l_pos - 1;
-		tcaps.cursor_pos--;
-		move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
-		tcaps.cursor_lvl--;
-	}
-	clear_after_cursor();
-	ft_putstr_fd(*line, STDIN_FILENO);
-	get_cursor_max();
-	move_cursor(c_next, l_next);
+	if (!ret)
+		return (ERROR);
+	return (SUCCESS);
 }

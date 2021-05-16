@@ -88,5 +88,6 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					get_next_line(int fd, char **line);
 void				free_double(char **arr);
+void				clean_free(char **str);
 
 #endif

@@ -30,7 +30,7 @@ void		lines_added(char *str)
 	}
 }
 
-void		browse_history(t_big *datas, char **line, int signal)
+int		browse_history(t_big *datas, char **line, int signal)
 {
 	static t_history	*current = 0;
 
@@ -40,11 +40,21 @@ void		browse_history(t_big *datas, char **line, int signal)
 		if (datas->input)
 			free(datas->input);
 		datas->input = ft_strdup(*line);
+		if (!datas->input)
+			return (printi_stderr(0, strerror(errno), 0));
 	}
 	if (signal == 1)
+	{
 		current = browse_up(current, &datas->browse, datas, datas->input);
+		if (!current)
+			return (printi_stderr(0, "Error in history browse_up function\n", 0));
+	}
 	if (signal == 0)
+	{
 		current = browse_down(current, &datas->browse, datas, datas->input);
+		if (!current)
+			return (printi_stderr(0, "Error in history browse_down function\n", 0));
+	}
 	if (datas->browse)
 	{
 		lines_added(datas->browse);
@@ -53,5 +63,8 @@ void		browse_history(t_big *datas, char **line, int signal)
 		if (*line)
 			free(*line);
 		*line = ft_strdup(datas->browse);
+		if (!(*line))
+			return (printi_stderr(0, strerror(errno), 0));
 	}
+	return (1);
 }
