@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/16 18:39:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/17 12:59:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,10 @@ t_var					*fill_tmp(char *str);
 void					init_data(t_big *datas);
 void					actualize_data(t_big *datas);
 int						display_prompt(void);
+
+
+
+char					*get_env_var(char *str, int *i, t_big *datas);
 
 
 //TERMCAPS

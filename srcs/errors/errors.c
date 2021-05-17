@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:26 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 12:05:10 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/17 10:47:08 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*print_errors(char *error, int exit)
 	return (0);
 }
 
-int		print_errors_int(char *error, int exit)
+int	print_errors_int(char *error, int exit)
 {
 	write(1, error, ft_strlen(error));
 	write(1, "\n", 1);
