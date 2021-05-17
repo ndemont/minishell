@@ -12,146 +12,70 @@
 
 #include "minishell.h"
 
-t_var	*fill_tmp(char *str)
-{
-	int i;
-	t_var *tmp;
-
-	i = 0;
-	if (!(tmp = (t_var *)malloc(sizeof(t_var))))
-		return (0);
-	tmp->var = NULL;
-	tmp->value = NULL;
-	while(str[i] && str[i] != '=')
-		i++;
-	if (!(tmp->var = ft_substr(str, 0, i)))
-	{
-		free(tmp);
-		return (0);
-	}
-	if (str[i] == '=')
-		i++;
-	if (!(tmp->value = ft_substr(str, i, (ft_strlen(str) - i))))
-	{
-		free(tmp->var);
-		free(tmp);
-		return (0);
-	}
-	return (tmp);
-}
-
-int		cmp_list(t_var *lst, t_var *lst2)
+int	cmp_list(t_var *lst, t_var *lst2)
 {
 	return (ft_strcmp(lst->var, lst2->var));
 }
 
-int		store_export(char **env, t_big *datas)
+int	store_export(char **env, t_big *datas)
 {
-	int k;
-	void *content;
-	t_list *tmp;
-	t_list **start;
+	int		ret;
+	int		k;
+	t_list	**start;
 
 	k = 0;
-	if (!(start = (t_list **)malloc(sizeof(t_list))))
-		return (0);
-	if (!(content = fill_tmp(env[k])))
-	{
-		free(start);
-		return (0);
-	}
-	if (!(*start = ft_lstnew(content)))
-	{
-		free(content);
-		free(start);
-		return (0);
-	}
+	start = store_first_elem(env[k]);
+	if (!start)
+		return (ERROR);
 	datas->export = start;
 	while (env[++k])
-	{
-		if (!(content = fill_tmp(env[k])))
-			return (0);
-		if (!(tmp = ft_lstnew(content)))
-		{
-			free(content);
-			return (0);
-		}
-		ft_lstadd_back(start, tmp);
-	}
+		ret = store_others_elem(env[k], start);
+	if (!ret)
+		return (ERROR);
 	*start = ft_lst_sort(*start, &cmp_list);
-	return (1);
+	return (SUCCESS);
 }
 
-int		store_hidden(char **env, t_big *datas)
+int	store_hidden(char **env, t_big *datas)
 {
-	int k;
-	void *content;
-	t_list *tmp;
-	t_list **start;
+	int		ret;
+	int		k;
+	t_list	**start;
 
 	k = 0;
-	if (!(start = (t_list **)malloc(sizeof(t_list))))
-		return (0);
-	if (!(content = fill_tmp(env[k])))
-	{
-		free(start);
-		return (0);
-	}
-	if (!(*start = ft_lstnew(content)))
-	{
-		free(start);
-		free(content);
-		return (0);
-	}
+	start = store_first_elem(env[k]);
+	if (!start)
+		return (ERROR);
 	datas->hidden = start;
 	while (env[++k])
-	{
-		if (!(content = fill_tmp(env[k])))
-			return (0);
-		if (!(tmp = ft_lstnew(content)))
-			return (0);
-		ft_lstadd_back(start, tmp);
-	}
-	return (1);
+		ret = store_others_elem(env[k], start);
+	if (!ret)
+		return (ERROR);
+	return (SUCCESS);
 }
 
-int		store_env(char **env, t_big *datas)
+int	store_env(char **env, t_big *datas)
 {
-	int k;
-	void *content;
-	t_list *tmp;
-	t_list **start;
+	int		ret;
+	int		k;
+	t_list	**start;
 
 	k = 0;
-	if (!(start = (t_list **)malloc(sizeof(t_list))))
-		return (0);
-	if (!(content = fill_tmp(env[k])))
-	{
-		free(start);
-		return (0);
-	}
-	if (!(*start = ft_lstnew(content)))
-	{
-		free(content);
-		free(start);
-		return (0);
-	}
+	start = store_first_elem(env[k]);
+	if (!start)
+		return (ERROR);
 	datas->env = start;
 	while (env[++k])
-	{
-		content = fill_tmp(env[k]);
-		tmp = ft_lstnew(content);
-		ft_lstadd_back(start, tmp);
-	}
-	if (!store_export(env, datas) || !store_hidden(env, datas) || !shell_lvl(datas))
-		return (0);
-	return (1);
+		ret = store_others_elem(env[k], start);
+	if (!ret || !store_export(env, datas) || !store_hidden(env, datas) || \
+	!shell_lvl(datas))
+		return (ERROR);
+	return (SUCCESS);
 }
 
-int		ft_env(char **av, t_big *datas)
+int	ft_env(char **av, t_big *datas)
 {
-
-	t_list *tmp;
+	t_list	*tmp;
 
 	if (av && *av && av[1])
 	{
