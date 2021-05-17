@@ -85,7 +85,6 @@ int	ctrl_d(t_big *datas, char **line, int *i)
 		clean_free(line);
 		write(0, "exit\n", 5);
 		update_history_file(datas);
-		//free_tokens(token_tab);
 		free_datas(datas);
 		exit(1);
 	}
