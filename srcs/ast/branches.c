@@ -6,111 +6,46 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 23:04:07 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 11:44:01 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/17 23:30:56 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	semicolon_node(t_node **tokens, t_big *datas, int i)
+void	first_semicolon(t_node **tokens, t_big *datas, int i)
 {
-	if (tokens && tokens[i] && i == 0)
+	if (tokens[i]->right)
 	{
-		if (tokens[i]->right)
-		{
-			datas->root = tokens[i]->right;
-			tokens[i]->right = 0;
-			datas->root->left = tokens[i];
-		}
-		else
-			datas->root = tokens[i];
-	}
-	else if (tokens && tokens[i])
-	{
-		if (tokens[i]->right)
-		{	
-			tokens[i]->left = datas->root;
-			datas->root = tokens[i]->right;
-			tokens[i]->right = 0;
-			datas->root->left = tokens[i];
-		}
-		else
-		{
-			tokens[i]->left = datas->root;
-			datas->root = tokens[i];
-		}
-		
-	}
-}
-
-void	right_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev)
-{
-	t_node	*tmp;
-
-	tmp = tokens[i]->right;
-	tokens[i]->right = tokens[i]->left;
-	tokens[i]->left = tmp;
-	if (i == 0)
-	{
-		datas->root = tokens[i]->right;
-		tokens[i]->right = 0;
-		datas->root->left = tokens[i];
-	}
-	else if (prev->type >= 2 && prev->type <= 4)
-	{
-		tmp = prev;
-		while (tmp->right)
-			tmp = tmp->right;
-		tokens[i]->right = 0;
-		tmp->right = tokens[i];
-	}
-	else if (prev->type == 5)
-	{
-		tokens[i]->left->left = datas->root->left;
-		datas->root = tokens[i]->right;
-		tokens[i]->right = 0;
-		datas->root->left = tokens[i];
-	}
-	else 
-	{
-		datas->root->right = 0;
-		tokens[i]->left->left = datas->root;
-		datas->root = tokens[i]->right;
-		tokens[i]->right = 0;
-		datas->root->left = tokens[i];
-	}
-}
-
-void	left_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev)
-{
-	t_node	*tmp;
-
-	tmp = tokens[i]->right;
-	tokens[i]->right = tokens[i]->left;
-	tokens[i]->left = tmp;
-	if (i == 0)
-	{
-		datas->root = tokens[i]->right;
-		tokens[i]->right = 0;
-		datas->root->left = tokens[i];
-	}
-	else if (prev->type >= 2 && prev->type <= 4)
-	{
-		tmp = prev;
-		while (tmp->right)
-			tmp = tmp->right;
-		tokens[i]->right = 0;
-		tmp->right = tokens[i];
-	}
-	else if (prev->type == 5)
-	{
-		tokens[i]->left->left = datas->root->left;
 		datas->root = tokens[i]->right;
 		tokens[i]->right = 0;
 		datas->root->left = tokens[i];
 	}
 	else
-		datas->root->right = tokens[i];
+		datas->root = tokens[i];
+}
+
+void	next_semicolon(t_node **tokens, t_big *datas, int i)
+{
+	if (tokens[i]->right)
+	{
+		tokens[i]->left = datas->root;
+		datas->root = tokens[i]->right;
+		tokens[i]->right = 0;
+		datas->root->left = tokens[i];
+	}
+	else
+	{
+		tokens[i]->left = datas->root;
+		datas->root = tokens[i];
+	}
+}
+
+void	semicolon_node(t_node **tokens, t_big *datas, int i)
+{
+	if (tokens && tokens[i] && i == 0)
+		first_semicolon(tokens, datas, i);
+	else if (tokens && tokens[i])
+		next_semicolon(tokens, datas, i);
 }
 
 void	pipe_node(t_node **tokens, t_big *datas, int i)
