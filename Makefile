@@ -6,7 +6,7 @@
 #    By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 14:42:49 by gpetit            #+#    #+#              #
-#    Updated: 2021/05/17 23:15:35 by ndemont          ###   ########.fr        #
+#    Updated: 2021/05/17 23:45:04 by ndemont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ IFLAGS = -I${INC_DIR}
 LIBFT = -Llibft -lft -ltermcap
 
 SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c lexer/count.c lexer/initialisation.c\
-	lexer/nodes.c lexer/tokens.c lexer/variables.c lexer/odd_chars.c free/free.c ast/binaries.c ast/redirection_node.c ast/tree.c ast/branches.c\
+	lexer/nodes.c lexer/tokens.c lexer/variables.c lexer/odd_chars.c free/free.c ast/exec_tree.c ast/exec_builtin.c ast/exec_binary.c ast/redirection_node.c ast/tree.c ast/semicolon_node.c ast/pipe_node.c\
 	lexer/arguments.c errors/errors.c builtins/echo.c builtins/cd.c builtins/env.c builtins/env2.c builtins/env3.c builtins/pwd.c \
 	builtins/exit.c builtins/export.c builtins/unset.c builtins/hidden.c grammar/pipe.c \
 	grammar/semicolon.c grammar/redirection.c history/init_history.c \
