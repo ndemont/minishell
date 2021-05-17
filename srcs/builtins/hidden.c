@@ -53,6 +53,17 @@ void	actualize_list(char *line, t_list *list)
 	free_double(str);
 }
 
+void	actualize_duplicate(char *arg, t_big *datas)
+{
+	actualize_list(arg, *datas->hidden);
+	if (check_duplicate(*datas->export, arg))
+		actualize_list(arg, *datas->export);
+	if (check_duplicate(*datas->env, arg))
+		actualize_list(arg, *datas->env);
+	else
+		add_to_list(arg, datas->env);
+}
+
 int		ft_hidden(char **arg, t_big *datas)
 {
 	int k;
@@ -61,19 +72,11 @@ int		ft_hidden(char **arg, t_big *datas)
 	while (arg[k])
 	{
 		if (check_arg_conformity(arg[k]))
-		{	
+		{
 			if (!check_duplicate(*datas->hidden, arg[k]))
 				add_to_list(arg[k], datas->hidden);
 			else
-			{
-				actualize_list(arg[k], *datas->hidden);
-				if (check_duplicate(*datas->export, arg[k]))
-					actualize_list(arg[k], *datas->export);
-				if (check_duplicate(*datas->env, arg[k]))
-					actualize_list(arg[k], *datas->env);
-				else
-					add_to_list(arg[k], datas->env);
-			}
+				actualize_duplicate(arg[k], datas);
 		}
 		else
 		{
