@@ -20,7 +20,7 @@ int	ft_pwd(t_big *datas)
 	(void)datas;
 	tmp = *datas->env;
 	pwd = NULL;
-	pwd = getcwd(pwd, 0); //Should I control errno ??
+	pwd = getcwd(pwd, 0);
 	if (!pwd)
 	{
 		while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
