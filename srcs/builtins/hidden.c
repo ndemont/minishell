@@ -64,7 +64,7 @@ void	actualize_duplicate(char *arg, t_big *datas)
 		add_to_list(arg, datas->env);
 }
 
-int		ft_hidden(char **arg, t_big *datas)
+int	ft_hidden(char **arg, t_big *datas)
 {
 	int k;
 
