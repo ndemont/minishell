@@ -76,7 +76,7 @@ void	ft_lst_remove(t_list **list, char *var)
 
 int	ft_unset(char **arg, t_big *datas)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (arg[i])

@@ -66,7 +66,7 @@ void	actualize_duplicate(char *arg, t_big *datas)
 
 int	ft_hidden(char **arg, t_big *datas)
 {
-	int k;
+	int	k;
 
 	k = 0;
 	while (arg[k])
