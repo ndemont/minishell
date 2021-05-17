@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 12:59:25 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/17 23:25:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,8 @@ int						tree(t_node **tokens, t_big *datas);
 void					*print_errors(char *error, int exit);
 int 					print_errors_int(char *error, int exit);
 void					semicolon_node(t_node **tokens, t_big *datas, int i);
-void					right_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev);
-void					left_redirection_node(t_node **tokens, t_big *datas, int i, t_node *prev);
+void					right_redir_node(t_node **tokens, t_big *datas, int i, t_node *prev);
+void					left_redir_node(t_node **tokens, t_big *datas, int i, t_node *prev);
 void					pipe_node(t_node **tokens, t_big *datas, int i);
 
 //LEXER
