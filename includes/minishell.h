@@ -130,6 +130,8 @@ int						check_arg_conformity(char *line);
 t_list					**store_first_elem(char *env_elem);
 int						store_others_elem(char *env_elem, t_list **start);
 t_var					*fill_tmp(char *str);
+int						cd_actualize_env(t_list **lst);
+
 
 //HISTORY
 int						init_history(t_big *datas);

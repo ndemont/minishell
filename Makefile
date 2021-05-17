@@ -31,8 +31,8 @@ SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c l
 	termcaps/termcaps_backspace.c termcaps/termcaps_add_char.c \
 	termcaps/termcaps_cursor_move_up.c termcaps/termcaps_words_move.c \
 	termcaps/termcaps_backspace_middle_line.c termcaps/termcaps_backspace_middle_line2.c \
-	termcaps/termcaps_cursor_move_down.c variables/replace_variables.c variables/update_arguments.c variables/update_variables.c \
-	builtins/env_utils.c)
+	variables/replace_variables.c variables/update_arguments.c variables/update_variables.c \
+	builtins/env_utils.c termcaps/termcaps_cursor_move_down.c builtins/cd_actualize_env.c)
 
 INC_DIR = includes
 

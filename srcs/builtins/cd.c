@@ -12,104 +12,70 @@
 
 #include "minishell.h"
 
-static void	actualize_env(t_list **lst)
-{
-	t_list	*tmp;
-	char	*current_pwd;
-	char	*oldpwd;
-	int		pwd_flag;
-
-	tmp = *lst;
-	current_pwd = NULL;
-	oldpwd = NULL;
-	pwd_flag = 0;
-	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
-		tmp = tmp->next;
-	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
-	{
-		current_pwd = getcwd(current_pwd, 0);
-		if (((t_var *)tmp->content)->value)
-		{
-			pwd_flag = 1;
-			oldpwd = ft_strdup(((t_var *)tmp->content)->value);
-		}
-		if (current_pwd)
-		{
-			if (((t_var *)tmp->content)->value)
-				free(((t_var *)tmp->content)->value);
-			((t_var *)tmp->content)->value = ft_strdup(current_pwd);
-		}
-	}
-	if (pwd_flag)
-	{
-		tmp = *lst;
-		while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
-			tmp = tmp->next;
-		if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
-		{
-			if (((t_var *)tmp->content)->value)
-				free(((t_var *)tmp->content)->value);
-			if (oldpwd)
-				((t_var *)tmp->content)->value = ft_strdup(oldpwd);
-		}
-	}
-	if (oldpwd)
-		free(oldpwd);
-	if (current_pwd)
-		free(current_pwd);
-}
-
 void	actualize_variables(t_big *datas)
 {
-	actualize_env(datas->env);
-	actualize_env(datas->export);
-	actualize_env(datas->hidden);
+	cd_actualize_env(datas->env);
+	cd_actualize_env(datas->export);
+	cd_actualize_env(datas->hidden);
 }
 
-int		ft_cd(char **arg, t_big *datas)
+int	come_back_home(t_list *tmp)
 {
-	t_list *tmp;
+	int	ret;
+
+	ret = 0;
+	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
+		tmp = tmp->next;
+	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
+	{
+		ret = chdir(((t_var *)tmp->content)->value);
+		if (ret == ERR)
+			return (printi_stderr("cd", strerror(errno), 1));
+		return (SUCCESS);
+	}
+	else
+		return (printi_stderr("cd", "HOME not set", 1));
+}
+
+int	previous_path(t_list *tmp)
+{
+	int	ret;
+
+	ret = 0;
+	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
+		tmp = tmp->next;
+	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
+	{
+		ret = chdir(((t_var *)tmp->content)->value);
+		if (ret == ERR)
+			return (printi_stderr("cd", strerror(errno), 1));
+		ft_putstr(((t_var *)tmp->content)->value);
+		ft_putchar('\n');
+		return (SUCCESS);
+	}
+	else
+		return (printi_stderr("cd", "OLDPWD not set", 1));
+}
+
+int	ft_cd(char **arg, t_big *datas)
+{
+	int		ret;
+	t_list	*tmp;
 
 	tmp = *datas->env;
 	if (!arg[1] || !ft_strcmp(arg[1], "~"))
-	{
-		while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
-			tmp = tmp->next;
-		if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
-			chdir(((t_var *)tmp->content)->value);
-		else
-		{
-			ft_putstr("minishellrose: cd: HOME not set\n"); //ECRIRE SUR LE STDOUT, MAIS BREAK MEME SI PIPE 
-			return (1);
-		}
-	}
+		come_back_home(tmp);
 	else
 	{
 		if (!ft_strcmp(arg[1], "-"))
-		{
-			while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
-				tmp = tmp->next;
-			if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "OLDPWD"))
-			{
-				chdir(((t_var *)tmp->content)->value);
-				ft_putstr(((t_var *)tmp->content)->value);
-				ft_putchar('\n');
-			}
-			else
-			{
-				ft_putstr("minishellrose: cd: OLDPWD not set\n"); //ECRIRE SUR LE STDOUT, MAIS BREAK MEME SI PIPE 
-				return (1);
-			}
-		}
+			previous_path(tmp);
 		else
 		{
-			if (chdir(arg[1]) < 0)
-			{
-				printf("minishellrose: cd: %s: No such file or directory\n", arg[1]);
-				return (1);
-			}
+			ret = chdir(arg[1]);
+			if (ret == ERR)
+				printi_stderr("cd", strerror(errno), 1);
 		}
 	}
 	actualize_variables(datas);
-	return (0);	
+	return (0);
 }
