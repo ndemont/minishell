@@ -36,9 +36,25 @@ void	ft_delete_elem(t_list *elem)
 	}
 }
 
-int		ft_lst_remove(t_list **list, char *var)
+void	delete_first_elem(t_list **del_me, t_list **lst, t_list **list)
 {
-	int count;
+	*del_me = *lst;
+	*lst = (*del_me)->next;
+	*list = *lst;
+	ft_delete_elem(*del_me);
+}
+
+void	delete_middle_elem(t_list **del_me, t_list **lst, t_list **previous)
+{
+	*del_me = *lst;
+	*lst = (*del_me)->next;
+	ft_delete_elem(*del_me);
+	(*previous)->next = *lst;
+}
+
+void	ft_lst_remove(t_list **list, char *var)
+{
+	int		count;
 	t_list	*lst;
 	t_list	*del_me;
 	t_list	*previous;
@@ -48,28 +64,17 @@ int		ft_lst_remove(t_list **list, char *var)
 	while (lst)
 	{
 		if (!ft_strcmp(((t_var *)lst->content)->var, var) && !count)
-		{
-			del_me = lst;
-			lst = del_me->next;
-			*list = lst;
-			ft_delete_elem(del_me);
-		}
+			delete_first_elem(&del_me, &lst, list);
 		else if (!ft_strcmp(((t_var *)lst->content)->var, var) && count)
-		{
-			del_me = lst;
-			lst = del_me->next;
-			ft_delete_elem(del_me);
-			previous->next = lst;
-		}
+			delete_middle_elem(&del_me, &lst, &previous);
 		previous = lst;
 		if (lst)
 			lst = lst->next;
 		count++;
 	}
-	return (1);
 }
 
-int		ft_unset(char **arg, t_big *datas)
+int	ft_unset(char **arg, t_big *datas)
 {
 	int i;
 
