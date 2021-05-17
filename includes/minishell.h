@@ -127,6 +127,9 @@ void					actualize_return_status(int ret_status);
 char					**get_arguments(t_node *root, t_big *datas);
 char					**replace_variable(t_node *root, t_big *datas);
 int						check_arg_conformity(char *line);
+t_list					**store_first_elem(char *env_elem);
+int						store_others_elem(char *env_elem, t_list **start);
+t_var					*fill_tmp(char *str);
 
 //HISTORY
 int						init_history(t_big *datas);
