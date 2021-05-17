@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 16:37:11 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/17 17:57:01 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ char	**replace_variable(t_node *root, t_big *datas)
 		tmp = root->arg[i];
 		root->arg[i] = check_variable(root->arg[i], datas);
 		free(tmp);
+		if (!root->arg[i])
+			return (printcc_stderr(0, strerror(errno), 0));
 		i++;
 	}
 	if (root->command)
