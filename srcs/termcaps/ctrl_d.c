@@ -86,6 +86,7 @@ int	ctrl_d(t_big *datas, char **line, int *i)
 		write(0, "exit\n", 5);
 		update_history_file(datas);
 		free_datas(datas);
+		normal_mode();
 		exit(1);
 	}
 	else if (*line && (*line)[0] && tcaps.cursor_pos < *i)
