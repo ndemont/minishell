@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 17:48:26 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/16 18:44:12 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/17 08:57:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ t_history	*next_down(t_history *current, char **browse, char *input)
 				free(*browse);
 			*browse = ft_strdup(tmp->command);
 			if (!(*browse))
-				return (printi_stderr(0, strerror(errno), 0));
+			{
+				printi_stderr(0, strerror(errno), 0);
+				return (0);
+			}
 			current = tmp;
 			return (current);
 		}
@@ -44,7 +47,10 @@ t_history	*last_down(t_history *going, char **browse, char *str)
 		free(*browse);
 	*browse = ft_strdup(str);
 	if (!(*browse))
-		return (printi_stderr(0, strerror(errno), 0));
+	{
+		printi_stderr(0, strerror(errno), 0);
+		return (0);
+	}
 	return (going);
 }
 
