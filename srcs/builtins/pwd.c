@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	print_pwd_and_return(char *pwd)
+{
+	ft_putstr(pwd);
+	ft_putchar('\n');
+}
+
 int	ft_pwd(t_big *datas)
 {
 	char	*pwd;
@@ -28,12 +34,15 @@ int	ft_pwd(t_big *datas)
 		if (((t_var *)tmp->content)->var && \
 			!ft_strcmp(((t_var *)tmp->content)->var, "PWD"))
 			pwd = ft_strdup(((t_var *)tmp->content)->value);
-		ft_putstr(pwd);
-		ft_putchar('\n');
+		if (!pwd)
+		{
+			printi_stderr(0, strerror(errno), 0);
+			return (BUILT_IN_FAILURE);
+		}
+		print_pwd_and_return(pwd);
 		return (0);
 	}
-	ft_putstr(pwd);
-	ft_putchar('\n');
+	print_pwd_and_return(pwd);
 	free(pwd);
 	return (0);
 }
