@@ -143,6 +143,7 @@ int						check_arg_conformity(char *line);
 int						is_plus_left(char *line);
 void					print_export(t_list **list);
 
+void					close_pipes(int *fd);
 
 
 //HISTORY
