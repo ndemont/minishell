@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:04:11 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 11:28:25 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 11:29:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	int		ret_status;
 
 	pid1 = fork();
+	tcaps.child = 1;
 	if (pid1 == 0)
 	{
 		ret_status = exec_binary(command, argv, datas);
@@ -27,6 +28,7 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	}
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);
+	tcaps.child = 0;
 	close(datas->fd);
 }
 
