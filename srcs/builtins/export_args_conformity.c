@@ -92,6 +92,11 @@ int		check_duplicate(t_list *list, char *ref)
 	while (ref[i] && ref[i] != '=')
 		i++;
 	str = ft_substr(ref, 0, i);
+	if (!str)
+	{
+		printi_stderr(0, strerror(errno), 0);
+		return (ERR);
+	}
 	tmp = list;
 	count = 0;
 	while (tmp)
