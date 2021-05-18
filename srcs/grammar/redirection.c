@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 14:56:33 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 15:09:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,21 +98,9 @@ void	redirections(int type, char **argv, t_big *datas)
 	int ret;
 
 	if (type == 2)
-	{
 		ret = exec_double_anglebracket_right(argv, datas);
-		if (!ret)
-			tcaps.exit = 0;
-	}
 	else if (type == 3)
-	{
 		ret = exec_anglebracket_right(argv, datas);
-		if (!ret)
-			tcaps.exit = 0;
-	}
 	else if (type == 4)
-	{
 		ret = exec_anglebracket_left(argv, datas);
-		if (!ret)
-			tcaps.exit = 0;
-	}
 }
