@@ -47,6 +47,7 @@
 //MACRO ERRORS
 # define ERROR 0
 # define SUCCESS 1
+# define BUILT_IN_FAILURE -1
 
 typedef struct			s_caps
 {
@@ -121,9 +122,9 @@ int						ft_env(char **av, t_big *datas);
 int						store_env(char **env, t_big *datas);
 int						ft_hidden(char **argv, t_big *datas);
 int						check_duplicate(t_list *list, char *ref);
-void					actualize_list(char *line, t_list *lst);
+int						actualize_list(char *line, t_list *lst);
 char 					**ft_split_on_equal(char *str);
-void					add_to_list(char *line, t_list **lst);
+int						add_to_list(char *line, t_list **lst);
 void					actualize_return_status(int ret_status);
 char					**get_arguments(t_node *root, t_big *datas);
 char					**replace_variable(t_node *root, t_big *datas);
