@@ -78,7 +78,7 @@ int	actualize_list(char *line, t_list *list)
 int	actualize_duplicate(char *arg, t_big *datas)
 {
 	int	ret;
-	int ret2;
+	int	ret2;
 	int	ret3;
 	int	ret4;
 

@@ -14,7 +14,7 @@
 
 void	print_export(t_list **list)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = *list;
 	while (tmp)

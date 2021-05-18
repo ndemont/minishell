@@ -84,48 +84,81 @@ int	add_hidden_to_env_export(char *line, t_big *datas)
 	return (add_to_both_list(&content, &content2, datas));
 }
 
-void	actualize_export_add_env(char *line, t_big *datas)
+int	create_and_add_new_elem(char *line, t_big *datas, t_list *tmp)
+{
+	t_var	*content;
+
+	content = fill_tmp(line);
+	if (!content)
+		return (ERROR);
+	tmp = ft_lstnew(content);
+	if (!tmp)
+		return (printi_stderr(0, strerror(errno), 0));
+	ft_lstadd_back(datas->env, tmp);
+	return (SUCCESS);
+}
+
+int	actualize_export_add_env(char *line, t_big *datas)
 {
 	t_list	*tmp;
 	char	**str;
-	t_var	*content;
 
 	tmp = *datas->export;
 	str = ft_split_on_equal(line);
-	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
+	if (!str)
+		return (ERROR);
+	while (tmp && ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
 	clean_free(&(((t_var *)tmp->content)->value));
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
-	content = fill_tmp(line);
-	tmp = ft_lstnew(content);
-	ft_lstadd_back(datas->env, tmp);
 	free_double(str);
+	if (!(((t_var *)tmp->content)->value))
+		return (printi_stderr(0, strerror(errno), 0));
+	return (create_and_add_new_elem(line, datas, tmp));
 }
 
-void	actualize_export_actualize_env(char *line, t_big *datas)
+int	actualize_export_actualize_env(char *line, t_big *datas)
 {
 	t_list	*tmp;
 	char	**str;
 
 	tmp = *datas->env;
 	str = ft_split_on_equal(line);
+	if (!str)
+		return (ERROR);
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
 	clean_free(&(((t_var *)tmp->content)->value));
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
+	if (!(((t_var *)tmp->content)->value))
+	{
+		free_double(str);
+		return (printi_stderr(0, strerror(errno), 0));
+	}
 	tmp = *datas->export;
 	while (ft_strcmp(str[0], ((t_var *)tmp->content)->var))
 		tmp = tmp->next;
 	clean_free(&(((t_var *)tmp->content)->value));
 	((t_var *)tmp->content)->value = ft_strdup(str[1]);
 	free_double(str);
+	if (!(((t_var *)tmp->content)->value))
+		return (printi_stderr(0, strerror(errno), 0));
+	return (SUCCESS);
 }
 
-void	add_hidden_add_export_add_env(char *line, t_big *datas)
+int	add_hidden_add_export_add_env(char *line, t_big *datas)
 {
-	add_to_list(line, datas->env);
-	add_to_list(line, datas->export);
-	add_to_list(line, datas->hidden);
+	int	ret;
+	int	ret2;
+	int	ret3;
+
+	ret = add_to_list(line, datas->env);
+	ret2 = add_to_list(line, datas->export);
+	ret3 = add_to_list(line, datas->hidden);
+	if (!ret || !ret2 || !ret3)
+		return (ERROR);
+	else
+		return (SUCCESS);
 }
 
 t_list	*create_content_value_zero(char *line)

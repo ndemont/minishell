@@ -81,6 +81,7 @@ t_var	*fill_tmp(char *str)
 	if (!(tmp->var))
 	{
 		free(tmp);
+		printi_stderr(0, strerror(errno), 0);
 		return (ERROR);
 	}
 	if (str[i] == '=')
@@ -90,6 +91,7 @@ t_var	*fill_tmp(char *str)
 	{
 		free(tmp->var);
 		free(tmp);
+		printi_stderr(0, strerror(errno), 0);
 		return (ERROR);
 	}
 	return (tmp);
