@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:04:11 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 11:38:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 16:52:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);
 	tcaps.child = 0;
+	if (tcaps.ret == ERR)
+		tcaps.exit = 0;
 	close(datas->fd);
 }
 
@@ -78,7 +80,7 @@ void	exec_semicolon_cmd(char *cmd, char **av, int is_bltn, t_big *datas)
 		exec_child(cmd, av, datas);
 	else if (is_bltn == 0 && (datas->flag_bracket || datas->flag_left_bracket))
 		exec_child2(cmd, av, datas);
-	if (datas->flag_bracket)
+	if (datas->flag_bracket && tcaps.exit)
 	{
 		print_std_fd(datas->fd, datas->fd_out);
 		ft_putstr_fd("\n", datas->fd);

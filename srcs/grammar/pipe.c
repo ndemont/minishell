@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:08:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 14:36:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 16:51:48 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);
 	dup2(fd[0], datas->fd);
+	if (tcaps.ret == ERR)
+		tcaps.exit = 0;
 	close_pipes(fd);
 }
 
@@ -59,7 +61,7 @@ void	exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas)
 	tcaps.child = 1;
 	exec_child(cmd, builtin, av, datas);
 	tcaps.child = 0;
-	if (datas->flag_bracket)
+	if (datas->flag_bracket && tcaps.exit)
 	{
 		print_std_fd(datas->fd, datas->fd_out);
 		ft_putstr_fd("\n", datas->fd);
