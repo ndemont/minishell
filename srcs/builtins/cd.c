@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:59:15 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/06 11:18:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 16:18:30 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,14 @@ int	ft_cd(char **arg, t_big *datas)
 {
 	int		ret;
 	t_list	*tmp;
+	char	*home;
 
 	tmp = *datas->env;
-	if (!arg[1] || !ft_strcmp(arg[1], "~"))
+	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
+		tmp = tmp->next;
+	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
+		home = ft_strdup(((t_var *)tmp->content)->value);
+	if (!arg[1] || (home && !ft_strcmp(arg[1], home)))
 		come_back_home(tmp);
 	else
 	{
@@ -77,5 +82,9 @@ int	ft_cd(char **arg, t_big *datas)
 		}
 	}
 	actualize_variables(datas);
+	tcaps.current_dir = getcwd(0, 0);
+	tcaps.current_dir = ft_strrchr(tcaps.current_dir, '/');
+	if (strcmp(tcaps.current_dir, "/"))
+		tcaps.current_dir++;
 	return (0);
 }
