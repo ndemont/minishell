@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 13:57:10 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 14:57:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	actualize_data(t_big *datas)
 	tcaps.line_lvl = 0;
 	tcaps.child = 0;
 	tcaps.signal = 0;
-	tcaps.exit = 0;
+	tcaps.exit = 1;
 	tcaps.cursor_max = 0;
 	tcaps.cursor_lvl = 0;
 	tcaps.cursor_pos = 0;

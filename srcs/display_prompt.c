@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 17:11:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 14:58:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ int	read_input(t_big *datas)
 	}
 	tree(token_tab, datas);
 	executions(datas);
+	if (!tcaps.exit)
+		return (0);
 	clean_datas(datas);
 	return (1);
 }

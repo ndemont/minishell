@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 23:40:03 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 23:46:15 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 14:57:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	print_std(int fd)
 
 void	execute_tree(t_node *root, int n, t_big *datas, int side)
 {
-	if (!datas->quit)
+	if (tcaps.exit)
 	{
 		if (root->left)
 			execute_tree(root->left, root->type, datas, 1);
@@ -74,6 +74,8 @@ void	executions(t_big *datas)
 	datas->flag_pipe = 0;
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas, 0);
+	if (!tcaps.ret)
+		return ;
 	if (datas->flag_pipe)
 		print_std(datas->fd);
 	if (datas->flag_bracket)
