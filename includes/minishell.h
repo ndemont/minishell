@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 15:32:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 19:54:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,9 @@ int						update_history_file(t_big *datas);
 int						free_datas(t_big *datas);
 void					free_tokens(t_node **token_tab);
 void					free_tree(t_node *root);
+void					free_list(t_list **list);
+void					free_history(t_history **list);
+void					free_arg(char **arg);
 void					clean_datas(t_big *datas);
 
 //ERRORS

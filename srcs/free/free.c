@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/11 16:39:09 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 19:54:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	free_tokens(t_node **tokens)
 {
 	int i;
-	int j;
 
 	i = 0;
 	if (tokens)
@@ -23,27 +22,20 @@ void	free_tokens(t_node **tokens)
 		while (tokens[i])
 		{
 			if (tokens[i]->input)
-				free(tokens[i]->input);
+				clean_free(&tokens[i]->input);
 			if (tokens[i]->arg)
 			{
-				j = 0;
-				while (tokens[i]->arg[j])
-				{
-					free(tokens[i]->arg[j]);
-					tokens[i]->arg[j] = 0;
-					j++;
-				}
+				free_arg(tokens[i]->arg);
 				free(tokens[i]->arg);
 			}
 			if (tokens[i]->builtin)
-				free(tokens[i]->builtin);
+				clean_free(&tokens[i]->builtin);
 			if (tokens[i]->command)
-				free(tokens[i]->command);
+				clean_free(&tokens[i]->command);
 			free(tokens[i]);
 			i++;
 		}
 		free(tokens);
-		tokens = 0;
 	}
 }
 
@@ -60,25 +52,16 @@ void	free_list(t_list **list)
 			if (elem->content)
 			{
 				if (((t_var *)elem->content)->var)
-				{
-					free(((t_var *)elem->content)->var);
-					((t_var *)elem->content)->var = 0;
-				}
+					clean_free(&(((t_var *)elem->content)->var));
 				if (((t_var *)elem->content)->value)
-				{
-					free(((t_var *)elem->content)->value);
-					((t_var *)elem->content)->value = 0;
-				}
-				free(elem->content);
-				elem->content = 0;
+					clean_free(&(((t_var *)elem->content)->value));
+				clean_free(elem->content);
 			}
 			tmp = elem;
 			elem = elem->next;
 			free(tmp);
-			tmp = 0;
 		}
 		free(list);
-		list = 0;
 	}
 }
 
@@ -100,58 +83,6 @@ void	free_history(t_history **list)
 		free(list);
 }
 
-void	free_arg(char **arg)
-{
-	int i;
-
-	i = 0;
-	while (arg[i])
-	{
-		free(arg[i]);
-		arg[i] = 0;
-		i++;
-	}
-}
-
-
-void	free_tree(t_node *root)
-{
-	if (root->left)
-	{
-		free_tree(root->left);
-	}
-	if (root->right)
-	{
-		free_tree(root->right);
-	}
-	if (root->input)
-	{
-		free(root->input);
-		root->input = 0;
-	}
-	if (root->arg)
-	{
-		free_arg(root->arg);
-		free(root->arg);
-		root->arg = 0;
-	}
-	if (root->builtin)
-	{
-		free(root->builtin);
-		root->builtin = 0;
-	}
-	if (root->command)
-	{
-		free(root->command);
-		root->command = 0;
-	}
-	if (root)
-	{
-		free(root);
-		root = 0;
-	}
-}
-
 void	clean_datas(t_big *datas)
 {
 	free_double(datas->redirection_arg);
@@ -162,30 +93,4 @@ void	clean_datas(t_big *datas)
 		free(datas->input);
 	if (datas->browse)
 		free(datas->browse);
-}
-
-int		free_datas(t_big *datas)
-{
-	if (datas)
-	{
-		if (datas->redirection_arg)
-			free_double(datas->redirection_arg);
-		if (datas && datas->file_name)
-			free(datas->file_name);
-		if (datas->env)
-			free_list(datas->env);
-		if (datas->export)
-			free_list(datas->export);
-		if (datas->hidden)
-			free_list(datas->hidden);
-		if (datas->history)
-			free_history(datas->history);
-		if (datas->root)
-			free_tree(datas->root);
-		if (datas->input)
-			free(datas->input);
-		if (datas->browse)
-			free(datas->browse);
-	}
-	return (1);
 }
