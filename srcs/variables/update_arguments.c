@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arguments.c                                        :+:      :+:    :+:   */
+/*   update_arguments.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 22:16:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/16 19:12:20 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 14:01:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ static int	count_args(char **arg, t_big *datas)
 
 	i = 0;
 	count = 0;
-	while (datas->redirection_arg[count])
-		count++;
+	if (datas->redirection_arg)
+	{
+		while (datas->redirection_arg[count])
+			count++;
+	}
 	while (arg && arg[i])
 		i++;
 	count += i;

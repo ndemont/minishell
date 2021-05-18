@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 23:25:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 12:58:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,8 +206,9 @@ void					print_std(int fd);
 void					exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas);
 void					exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
 void					redirections(int type, char **argv, t_big *datas);
-void					exec_anglebracket_right(char **argv, t_big *datas);
+int						exec_anglebracket_right(char **argv, t_big *datas);
 void					print_std_fd(int fd_in, int fd_out);
+int						ft_copy_arg(char **argv, t_big *datas);
 
 //BUILTINS
 int						ft_echo(char **arg, t_big *datas);

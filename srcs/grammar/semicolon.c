@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:04:11 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 11:29:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 11:38:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	exec_child2(char *command, char **av, t_big *datas)
 		dup2(datas->fd, STDIN_FILENO);
 		close(datas->fd);
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]); //initialement close(fd[1]);
+		close(fd[0]);
 		exec_binary(command, av, datas);
 		free_datas(datas);
 		exit(ret_status);
@@ -61,22 +61,22 @@ static void	exec_child2(char *command, char **av, t_big *datas)
 	close(fd[1]);
 }
 
-void		exec_semicolon_cmd(char *cmd, char **av, int is_builtin, t_big *datas)
+void	exec_semicolon_cmd(char *cmd, char **av, int is_bltn, t_big *datas)
 {
 	datas->flag_pipe = 0;
 	datas->flag_left_bracket = 0;
-	if (is_builtin == 1)
+	if (is_bltn == 1)
 		tcaps.ret = exec_built_in(cmd, av, datas);
-	else if (is_builtin == 2)
+	else if (is_bltn == 2)
 	{
 		print_std(datas->fd);
-		if (datas->fd && datas->fd != STDIN_FILENO && datas->fd != STDOUT_FILENO)
+		if (datas->fd && datas->fd != STDIN_FILENO && datas->fd != 1)
 			close(datas->fd);
 		datas->fd = dup(STDIN_FILENO);
 	}
-	else if (is_builtin == 0 && !datas->flag_bracket && !datas->flag_left_bracket)
+	else if (is_bltn == 0 && !datas->flag_bracket && !datas->flag_left_bracket)
 		exec_child(cmd, av, datas);
-	else if (is_builtin == 0 && (datas->flag_bracket || datas->flag_left_bracket))
+	else if (is_bltn == 0 && (datas->flag_bracket || datas->flag_left_bracket))
 		exec_child2(cmd, av, datas);
 	if (datas->flag_bracket)
 	{
@@ -88,4 +88,3 @@ void		exec_semicolon_cmd(char *cmd, char **av, int is_builtin, t_big *datas)
 	}
 	datas->flag_bracket = 0;
 }
-
