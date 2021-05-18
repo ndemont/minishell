@@ -12,26 +12,76 @@
 
 #include "minishell.h"
 
-void	add_hidden_to_env_export(char *line, t_big *datas)
+t_var	*create_content_and_dup(char *str, char *str2)
+{
+	t_var *content;
+
+	content = (t_var *)malloc(sizeof(t_var));
+	if (!content)
+	{
+		printi_stderr(0, strerror(errno), 0);
+		return (0);
+	}
+	content->var = ft_strdup(str);
+	if (!content->var)
+	{
+		free(content);
+		printi_stderr(0, strerror(errno), 0);
+		return (0);
+	}
+	content->value = ft_strdup(str2);
+	if (!content->value)
+	{
+		free(content->var);
+		free(content);
+		printi_stderr(0, strerror(errno), 0);
+		return (0);
+	}
+	return (content);
+}
+
+int	add_to_both_list(t_var **content, t_var **content2, t_big *datas)
+{
+	t_list	*tmp;
+
+	tmp = ft_lstnew(*content);
+	if (!tmp)
+	{
+		free(*content);
+		return (printi_stderr(0, strerror(errno), 0));
+	}
+	ft_lstadd_back(datas->export, tmp);
+	tmp = ft_lstnew(*content2);
+	if (!tmp)
+	{
+		free(*content2);
+		return (printi_stderr(0, strerror(errno), 0));
+	}
+	ft_lstadd_back(datas->env, tmp);
+	return (SUCCESS);
+}
+
+int	add_hidden_to_env_export(char *line, t_big *datas)
 {
 	t_list	*hidden;
-	t_list	*tmp;
 	t_var	*content;
 	t_var	*content2;
 
 	hidden = *datas->hidden;
 	while (hidden && ft_strcmp(line, ((t_var *)hidden->content)->var))
 		hidden = hidden->next;
-	content = (t_var *)malloc(sizeof(t_var));
-	content->var = ft_strdup(((t_var *)hidden->content)->var);
-	content->value = ft_strdup(((t_var *)hidden->content)->value);
-	content2 = (t_var *)malloc(sizeof(t_var));
-	content2->var = ft_strdup(((t_var *)hidden->content)->var);
-	content2->value = ft_strdup(((t_var *)hidden->content)->value);
-	tmp = ft_lstnew(content);
-	ft_lstadd_back(datas->export, tmp);
-	tmp = ft_lstnew(content2);
-	ft_lstadd_back(datas->env, tmp);
+	content = create_content_and_dup(((t_var *)hidden->content)->var, \
+	((t_var *)hidden->content)->value);
+	if (!content)
+		return (ERROR);
+	content2 = create_content_and_dup(((t_var *)hidden->content)->var, \
+	((t_var *)hidden->content)->value);
+	if (!content2)
+	{
+		free(content);
+		return (ERROR);
+	}
+	return (add_to_both_list(&content, &content2, datas));
 }
 
 void	actualize_export_add_env(char *line, t_big *datas)
@@ -78,19 +128,47 @@ void	add_hidden_add_export_add_env(char *line, t_big *datas)
 	add_to_list(line, datas->hidden);
 }
 
-void	add_hidden_add_export(char *line, t_big *datas)
+t_list	*create_content_value_zero(char *line)
 {
-	t_var	*content;
 	t_list	*new;
+	t_var	*content;
 
 	content = (t_var *)malloc(sizeof(t_var));
+	if (!content)
+	{
+		printi_stderr(0, strerror(errno), 0);
+		return (ERROR);
+	}
 	content->var = ft_strdup(line);
+	if (!content->var)
+	{
+		free(content);
+		printi_stderr(0, strerror(errno), 0);
+		return (ERROR);
+	}
 	content->value = 0;
 	new = ft_lstnew(content);
+	if (!new)
+	{
+		free(content->var);
+		free(content);
+		printi_stderr(0, strerror(errno), 0);
+		return (ERROR);
+	}
+	return (new);
+}
+
+int	add_hidden_add_export(char *line, t_big *datas)
+{
+	t_list	*new;
+
+	new = create_content_value_zero(line);
+	if (!new)
+		return (ERROR);
 	ft_lstadd_back(datas->export, new);
-	content = (t_var *)malloc(sizeof(t_var));
-	content->var = ft_strdup(line);
-	content->value = 0;
-	new = ft_lstnew(content);
+	new = create_content_value_zero(line);
+	if (!new)
+		return (ERROR);
 	ft_lstadd_back(datas->hidden, new);
+	return (SUCCESS);
 }
