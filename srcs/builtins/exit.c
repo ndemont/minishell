@@ -14,7 +14,7 @@
 
 int	ft_exit(char **av, t_big *datas)
 {
-	write(0, "exit\n", 5);
+	write(STDOUT_FILENO, "exit\n", 5);
 	if (av && *av && av[1])
 	{
 		tcaps.ret = 1;
