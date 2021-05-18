@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 19:54:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 19:56:51 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	free_tokens(t_node **tokens)
 			{
 				free_arg(tokens[i]->arg);
 				free(tokens[i]->arg);
+				tokens[i]->arg = 0;
 			}
 			if (tokens[i]->builtin)
 				clean_free(&tokens[i]->builtin);
@@ -36,6 +37,7 @@ void	free_tokens(t_node **tokens)
 			i++;
 		}
 		free(tokens);
+		tokens = 0;
 	}
 }
 
