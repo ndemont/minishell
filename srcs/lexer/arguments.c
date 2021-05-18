@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 18:09:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 16:59:34 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char		*get_str(char *str, int *i, int j)
 	else if (str[j] == '$')
 	{
 		end = j + 1;
-		while (ft_isalnum(str[end]) || str[end] == '_')
+		while (ft_isalnum(str[end]) || str[end] == '_' || str[end] == '?')
 			end++;
 		new = get_variable_str(str, i, end, j);
 		*i = end;
