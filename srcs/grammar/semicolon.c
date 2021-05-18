@@ -49,7 +49,7 @@ static void	exec_child2(char *command, char **av, t_big *datas)
 		dup2(datas->fd, STDIN_FILENO);
 		close(datas->fd);
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
+		close_pipes(fd);
 		exec_binary(command, av, datas);
 		free_datas(datas);
 		exit(ret_status);
@@ -58,7 +58,7 @@ static void	exec_child2(char *command, char **av, t_big *datas)
 	actualize_return_status(ret_status);
 	tcaps.child = 0;
 	dup2(fd[0], datas->fd);
-	close(fd[1]);
+	close_pipes(fd);
 }
 
 void	exec_semicolon_cmd(char *cmd, char **av, int is_bltn, t_big *datas)
