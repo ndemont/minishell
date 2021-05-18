@@ -12,11 +12,19 @@
 
 #include "minishell.h"
 
-void	actualize_variables(t_big *datas)
+int	actualize_variables(t_big *datas)
 {
-	cd_actualize_env(datas->env);
-	cd_actualize_env(datas->export);
-	cd_actualize_env(datas->hidden);
+	int	ret1;
+	int	ret2;
+	int	ret3;
+
+	ret1 = cd_actualize_env(datas->env);
+	ret2 = cd_actualize_env(datas->export);
+	ret3 = cd_actualize_env(datas->hidden);
+	if (!ret1 || !ret2 || !ret3)
+		return (ERROR);
+	else
+		return (SUCCESS);
 }
 
 int	come_back_home(t_list *tmp)
@@ -81,7 +89,9 @@ int	ft_cd(char **arg, t_big *datas)
 				printi_stderr("cd", strerror(errno), 1);
 		}
 	}
-	actualize_variables(datas);
+	ret = actualize_variables(datas);
+	if (!ret)
+		return (BUILT_IN_FAILURE);
 	tcaps.current_dir = getcwd(0, 0);
 	tcaps.current_dir = ft_strrchr(tcaps.current_dir, '/');
 	if (strcmp(tcaps.current_dir, "/"))
