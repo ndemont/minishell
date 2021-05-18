@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 23:40:03 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 14:57:22 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 18:59:12 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	executions(t_big *datas)
 	datas->flag_pipe = 0;
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas, 0);
-	if (!tcaps.ret)
+	if (!tcaps.exit)
 		return ;
 	if (datas->flag_pipe)
 		print_std(datas->fd);
