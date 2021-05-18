@@ -131,6 +131,18 @@ t_list					**store_first_elem(char *env_elem);
 int						store_others_elem(char *env_elem, t_list **start);
 t_var					*fill_tmp(char *str);
 int						cd_actualize_env(t_list **lst);
+void					add_hidden_to_env_export(char *line, t_big *datas);
+void					actualize_export_add_env(char *line, t_big *datas);
+void					actualize_export_actualize_env(char *line, t_big *datas);
+void					add_hidden_add_export_add_env(char *line, t_big *datas);
+void					add_hidden_add_export(char *line, t_big *datas);
+char					*get_identifier(char *str);
+int						check_duplicate(t_list *list, char *ref);
+int						check_plus_conformity(char *line);
+int						check_arg_conformity(char *line);
+int						is_plus_left(char *line);
+void					print_export(t_list **list);
+
 
 
 //HISTORY
