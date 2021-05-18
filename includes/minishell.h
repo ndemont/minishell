@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 12:58:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 15:32:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct			s_caps
 	int					cursor_max;
 	int					cursor_lvl;
 	int					cursor_pos;
+	char				*current_dir;
 }						t_caps;
 
 typedef struct			s_node

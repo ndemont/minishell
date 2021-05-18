@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 15:16:01 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 16:33:32 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@ int	display_prompt(void)
 {
 	write(STDOUT_FILENO, PURPLE, 7);
 	write(STDOUT_FILENO, "minishellrose$ ", 15);
+	write(STDOUT_FILENO, CYAN,  7);
+	write(STDOUT_FILENO, "(", 1);
+	write(STDOUT_FILENO, tcaps.current_dir, ft_strlen(tcaps.current_dir));
+	write(STDOUT_FILENO, ") ", 2);
 	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
 	cursor_position();
