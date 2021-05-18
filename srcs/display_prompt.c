@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 14:58:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 15:16:01 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		execute_line(int i, char **line, char *buf)
 char *create_line(t_big *datas)
 {
 	int		ret;
+	int		error;
 	char	buf[7];
 	char	*line;
 	int		i;
@@ -87,7 +88,9 @@ char *create_line(t_big *datas)
 				execute_line(i, &line, buf);
 				break ;
 			}
-			do_the_right_thing(&i, buf, &line, datas);
+			error = do_the_right_thing(&i, buf, &line, datas);
+			if (!error)
+				return (0);
 		}
 		else
 		{
