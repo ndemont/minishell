@@ -284,10 +284,4 @@ void					clean_the_mess(char **tmp, char **oldline, char **line);
 //FLAGS
 void					ft_signals(int sig);
 
-//DEVELOPPEMENT MODE
-void					DEVELOPMENT_MODE_print_sequence(char *buf);
-void					DEVELOPMENT_MODE_print_termcaps(char *str);
-void					DEVELOPMENT_MODE_print_str(char *buf);
-void					DEVELOPMENT_MODE_print_nbr(long n);
-
 #endif
