@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:59:15 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/18 17:16:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 10:49:00 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,22 @@ int	previous_path(t_list *tmp)
 		return (printi_stderr("cd", "OLDPWD not set", 1));
 }
 
+int		get_regular_path(char **arg, t_list *tmp)
+{
+	int ret;
+
+	ret = 1;
+	if (!ft_strcmp(arg[1], "-"))
+		previous_path(tmp);
+	else
+	{
+		ret = chdir(arg[1]);
+		if (ret == ERR)
+			return (printi_stderr("cd", strerror(errno), 1));
+	}
+	return (1);
+}
+
 int	ft_cd(char **arg, t_big *datas)
 {
 	int		ret;
@@ -72,6 +88,7 @@ int	ft_cd(char **arg, t_big *datas)
 	char	*home;
 
 	tmp = *datas->env;
+	ret = 1;
 	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
 		tmp = tmp->next;
 	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
@@ -79,16 +96,9 @@ int	ft_cd(char **arg, t_big *datas)
 	if (!arg[1] || (home && !ft_strcmp(arg[1], home)))
 		come_back_home(tmp);
 	else
-	{
-		if (!ft_strcmp(arg[1], "-"))
-			previous_path(tmp);
-		else
-		{
-			ret = chdir(arg[1]);
-			if (ret == ERR)
-				printi_stderr("cd", strerror(errno), 1);
-		}
-	}
+		ret = get_regular_path(arg, tmp);
+	if (!ret)
+		return (0);
 	ret = actualize_variables(datas);
 	if (!ret)
 		return (BUILT_IN_FAILURE);
