@@ -14,8 +14,8 @@
 
 t_list	*ft_lst_sort(t_list *lst, int (*f)())
 {
-	t_list *start;
-	void *hold;
+	t_list	*start;
+	void	*hold;
 
 	if (!lst)
 		return (NULL);
@@ -35,4 +35,3 @@ t_list	*ft_lst_sort(t_list *lst, int (*f)())
 	lst = start;
 	return (lst);
 }
-

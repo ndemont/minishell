@@ -22,7 +22,7 @@ static void	ft_hexaconvertor(char *stock, unsigned long nb, unsigned long i)
 		stock[i] = rosetta[nb % 16];
 }
 
-char		*ft_print_hexa(unsigned long nb)
+char	*ft_print_hexa(unsigned long nb)
 {
 	char			*stock;
 	unsigned long	x;

@@ -25,7 +25,7 @@ static void	ft_fill(char *dst, char const *s, int *i)
 	}
 }
 
-char		*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*dst;
 	int		i;

@@ -50,7 +50,7 @@ static void	ft_fill_tab(char *tab, const char *str, int i, int j)
 	tab[r] = '\0';
 }
 
-char		*ft_split2(char const *s, char c, int *i, int *j)
+char	*ft_split2(char const *s, char c, int *i, int *j)
 {
 	char	*tab;
 
@@ -65,7 +65,7 @@ char		*ft_split2(char const *s, char c, int *i, int *j)
 	return (tab);
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		i;
 	int		j;
@@ -76,7 +76,7 @@ char		**ft_split(char const *s, char c)
 	k = 0;
 	if (!s)
 		return (NULL);
-	tab = malloc(sizeof(char*) * (count_words(s, c) + 1));
+	tab = malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!tab)
 		return (NULL);
 	while (s[i] && k < count_words(s, c))

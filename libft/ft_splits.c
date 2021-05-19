@@ -14,7 +14,7 @@
 
 static int	ft_is_in_sep(char *str, int i, char *charset)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (charset[j])
@@ -28,15 +28,15 @@ static int	ft_is_in_sep(char *str, int i, char *charset)
 
 static int	ft_wordcount(char *str, char *charset)
 {
-	int i;
-	int wordcount;
+	int	i;
+	int	wordcount;
 
 	i = 0;
 	wordcount = 0;
 	while (str[i])
 	{
-		if (!(ft_is_in_sep(str, i, charset))
-				&& (ft_is_in_sep(str, i + 1, charset) || str[i + 1] == '\0'))
+		if (!(ft_is_in_sep(str, i, charset)) \
+		&& (ft_is_in_sep(str, i + 1, charset) || str[i + 1] == '\0'))
 			wordcount++;
 		i++;
 	}
@@ -45,7 +45,7 @@ static int	ft_wordcount(char *str, char *charset)
 
 static void	ft_fill_tab(char *tab, char *str, int i, int j)
 {
-	int r;
+	int	r;
 
 	r = 0;
 	while (j < i)
@@ -57,7 +57,7 @@ static void	ft_fill_tab(char *tab, char *str, int i, int j)
 	tab[r] = '\0';
 }
 
-char		**ft_splits(char *str, char *charset)
+char	**ft_splits(char *str, char *charset)
 {
 	char	**tab;
 	int		i;
@@ -66,7 +66,8 @@ char		**ft_splits(char *str, char *charset)
 
 	i = 0;
 	k = 0;
-	if (!(tab = malloc(sizeof(char*) * (ft_wordcount(str, charset) + 1))))
+	tab = malloc(sizeof(char *) * (ft_wordcount(str, charset) + 1));
+	if (!tab)
 		return (NULL);
 	while (str[i] && k < ft_wordcount(str, charset))
 	{
@@ -75,7 +76,8 @@ char		**ft_splits(char *str, char *charset)
 		j = i;
 		while (!(ft_is_in_sep(str, i, charset)) && str[i])
 			i++;
-		if (!(tab[k] = malloc(sizeof(char) * ((i - j) + 1))))
+		tab[k] = malloc(sizeof(char) * ((i - j) + 1));
+		if (!(tab[k]))
 			return (NULL);
 		ft_fill_tab(tab[k], str, i, j);
 		k++;
