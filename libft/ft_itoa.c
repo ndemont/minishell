@@ -32,7 +32,7 @@ static int	ft_size(long nb)
 	return (count);
 }
 
-char		*ft_itoa(long nb)
+char	*ft_itoa(long nb)
 {
 	char	*stock;
 	int		i;

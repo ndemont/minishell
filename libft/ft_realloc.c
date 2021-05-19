@@ -14,15 +14,16 @@
 
 void	*ft_realloc(void *ptr, size_t size)
 {
-	size_t i;
-	char *new;
+	size_t	i;
+	char	*new;
 
 	i = 0;
 	if (!ptr)
 		return (ptr = malloc(size));
 	if (!size)
 		return (NULL);
-	if (!(new = malloc(size)))
+	new = malloc(size);
+	if (!new)
 		return (0);
 	while (new && ((char *)ptr)[i] && i < size)
 	{
@@ -31,7 +32,6 @@ void	*ft_realloc(void *ptr, size_t size)
 	}
 	new[i] = 0;
 	free(ptr);
-	ptr = new;	
+	ptr = new;
 	return (ptr);
 }
-

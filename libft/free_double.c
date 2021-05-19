@@ -14,7 +14,7 @@
 
 void	free_double(char **arr)
 {
-	int k;
+	int	k;
 
 	k = 0;
 	while (arr && arr[k])
@@ -25,4 +25,3 @@ void	free_double(char **arr)
 	if (arr)
 		free(arr);
 }
-

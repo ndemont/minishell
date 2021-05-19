@@ -76,7 +76,7 @@ static int	ft_fork(char **stock, char **line, ssize_t by)
 	}
 }
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	ssize_t		by;
 	char		buff[BUFFER_SIZE + 1];
