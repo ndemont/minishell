@@ -116,12 +116,12 @@ int	ft_hidden(char **arg, t_big *datas)
 		}
 		else
 		{
-			tcaps.ret = 127;
+			g_tcaps.ret = 127;
 			printi_stderr(arg[k], ":command not found", 1);
 		}
 		if (!ret)
 			return (BUILT_IN_FAILURE);
 		k++;
 	}
-	return (tcaps.ret);
+	return (g_tcaps.ret);
 }

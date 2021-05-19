@@ -42,16 +42,16 @@ int	cursor_position(void)
 	i = 0;
 	while (buf[i] && i < 100 && !ft_isdigit(buf[i]))
 		i++;
-	tcaps.l_pos = ft_atoi(buf + i) - 1;
+	g_tcaps.l_pos = ft_atoi(buf + i) - 1;
 	while (buf[i] && i < 100 && ft_isdigit(buf[i]))
 		i++;
 	while (buf[i] && i < 100 && !ft_isdigit(buf[i]))
 		i++;
-	tcaps.c_pos = ft_atoi(buf + i) - 1;
-	if (tcaps.l_pos < 0 || tcaps.c_pos < 0)
+	g_tcaps.c_pos = ft_atoi(buf + i) - 1;
+	if (g_tcaps.l_pos < 0 || g_tcaps.c_pos < 0)
 	{
-		tcaps.l_pos = 0;
-		tcaps.c_pos = 0;
+		g_tcaps.l_pos = 0;
+		g_tcaps.c_pos = 0;
 	}
 	return (1);
 }
@@ -61,17 +61,17 @@ int	move_cursor_left(void)
 	int	ret;
 
 	ret = SUCCESS;
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || \
-	(tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
+	if ((g_tcaps.c_pos - 1 >= g_tcaps.c_start && !g_tcaps.cursor_lvl) || \
+	(g_tcaps.c_pos - 1 >= 0 && g_tcaps.cursor_lvl))
 	{
-		ret = move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
-		tcaps.cursor_pos--;
+		ret = move_cursor(g_tcaps.c_pos - 1, g_tcaps.l_pos);
+		g_tcaps.cursor_pos--;
 	}
-	else if (tcaps.c_pos - 1 < 0 && tcaps.cursor_lvl)
+	else if (g_tcaps.c_pos - 1 < 0 && g_tcaps.cursor_lvl)
 	{
-		ret = move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
-		tcaps.cursor_lvl--;
-		tcaps.cursor_pos--;
+		ret = move_cursor(g_tcaps.c_max - 1, g_tcaps.l_pos - 1);
+		g_tcaps.cursor_lvl--;
+		g_tcaps.cursor_pos--;
 	}
 	return (ret);
 }
@@ -81,24 +81,24 @@ int	move_cursor_right(void)
 	int	ret;
 
 	ret = SUCCESS;
-	if (tcaps.cursor_lvl == tcaps.line_lvl)
+	if (g_tcaps.cursor_lvl == g_tcaps.line_lvl)
 	{
-		if (tcaps.c_pos + 1 <= tcaps.cursor_max)
+		if (g_tcaps.c_pos + 1 <= g_tcaps.cursor_max)
 		{
-			ret = move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
-			tcaps.cursor_pos++;
+			ret = move_cursor(g_tcaps.c_pos + 1, g_tcaps.l_pos);
+			g_tcaps.cursor_pos++;
 		}
 	}
-	else if (tcaps.cursor_lvl < tcaps.line_lvl)
+	else if (g_tcaps.cursor_lvl < g_tcaps.line_lvl)
 	{
-		if (tcaps.c_pos + 1 < tcaps.c_max)
-			ret = move_cursor(tcaps.c_pos + 1, tcaps.l_pos);
+		if (g_tcaps.c_pos + 1 < g_tcaps.c_max)
+			ret = move_cursor(g_tcaps.c_pos + 1, g_tcaps.l_pos);
 		else
 		{
-			ret = move_cursor(0, tcaps.l_pos + 1);
-			tcaps.cursor_lvl++;
+			ret = move_cursor(0, g_tcaps.l_pos + 1);
+			g_tcaps.cursor_lvl++;
 		}
-		tcaps.cursor_pos++;
+		g_tcaps.cursor_pos++;
 	}
 	return (ret);
 }

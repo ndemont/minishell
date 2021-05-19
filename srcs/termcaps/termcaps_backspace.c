@@ -36,13 +36,13 @@ int	backspace_first_case(char *dc_cap)
 {
 	int	ret;
 
-	ret = move_cursor(tcaps.c_pos - 1, tcaps.l_pos);
+	ret = move_cursor(g_tcaps.c_pos - 1, g_tcaps.l_pos);
 	if (!ret)
 		return (ERROR);
 	ret = tputs(dc_cap, 1, ft_putchar2);
 	if (ret == ERR)
 		return (printi_stderr(0, "tputs failed in backspace_first_case\n", 0));
-	tcaps.cursor_max--;
+	g_tcaps.cursor_max--;
 	return (SUCCESS);
 }
 
@@ -50,15 +50,15 @@ int	backspace_second_case(char *ce_cap)
 {
 	int	ret;
 
-	ret = move_cursor(tcaps.c_max - 1, tcaps.l_pos - 1);
+	ret = move_cursor(g_tcaps.c_max - 1, g_tcaps.l_pos - 1);
 	if (!ret)
 		return (ERROR);
 	ret = tputs(ce_cap, 1, ft_putchar2);
 	if (ret == ERR)
 		return (printi_stderr(0, "tputs failed in backspace_first_case\n", 0));
-	tcaps.line_lvl--;
-	tcaps.cursor_lvl--;
-	tcaps.cursor_max = tcaps.c_max - 1;
+	g_tcaps.line_lvl--;
+	g_tcaps.cursor_lvl--;
+	g_tcaps.cursor_max = g_tcaps.c_max - 1;
 	return (SUCCESS);
 }
 
@@ -72,12 +72,12 @@ int	backspace(int *i, char **line)
 	initiate_deletion_caps(&dc_cap, &ce_cap, &ret);
 	if (!(*line) || !dc_cap || !ce_cap)
 		return (printi_stderr(0, strerror(errno), 0));
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.line_lvl) || \
-	(tcaps.c_pos - 1 >= 0 && tcaps.line_lvl))
+	if ((g_tcaps.c_pos - 1 >= g_tcaps.c_start && !g_tcaps.line_lvl) || \
+	(g_tcaps.c_pos - 1 >= 0 && g_tcaps.line_lvl))
 		ret = backspace_first_case(dc_cap);
-	else if (tcaps.c_pos - 1 < 0 && tcaps.line_lvl)
+	else if (g_tcaps.c_pos - 1 < 0 && g_tcaps.line_lvl)
 		ret = backspace_second_case(ce_cap);
-	tcaps.cursor_pos = *i;
+	g_tcaps.cursor_pos = *i;
 	if (!ret)
 		return (ERROR);
 	return (SUCCESS);

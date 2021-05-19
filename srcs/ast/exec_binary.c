@@ -79,12 +79,12 @@ int	exec_binary(char *command, char **argv, t_big *datas)
 	if (ret == -1)
 	{
 		if (errno == 2)
-			tcaps.ret = RET_ERROR;
+			g_tcaps.ret = RET_ERROR;
 		else if (errno == 13)
-			tcaps.ret = 126;
+			g_tcaps.ret = 126;
 		printi_stderr(argv[0], ": command not found\n", 1);
 	}
 	free_double(cmd);
 	free_double(env);
-	return (tcaps.ret);
+	return (g_tcaps.ret);
 }

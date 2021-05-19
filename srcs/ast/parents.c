@@ -18,7 +18,7 @@ void	no_parent(t_node *root, int n, t_big *datas, int side)
 	if (!datas->quit && n == 0 && root->command)
 		exec_semicolon_cmd(root->command, root->arg, 0, datas);
 	if (!datas->quit && n == 0 && root->builtin)
-		tcaps.ret = exec_built_in(root->builtin, root->arg, datas);
+		g_tcaps.ret = exec_built_in(root->builtin, root->arg, datas);
 }
 
 void	pipe_parent(t_node *root, int n, t_big *datas, int side)

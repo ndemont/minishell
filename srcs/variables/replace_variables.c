@@ -16,7 +16,7 @@ char	*get_return_value(void)
 {
 	char	*value;
 
-	value = ft_itoa(tcaps.ret);
+	value = ft_itoa(g_tcaps.ret);
 	return (value);
 }
 

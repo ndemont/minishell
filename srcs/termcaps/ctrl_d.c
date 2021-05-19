@@ -18,8 +18,8 @@ char	*delete_line_edition(int *i, char **line)
 	char	*tmp;
 
 	oldline = *line;
-	*line = ft_substr(oldline, 0, tcaps.cursor_pos);
-	tmp = ft_substr(oldline, tcaps.cursor_pos + 1, *i);
+	*line = ft_substr(oldline, 0, g_tcaps.cursor_pos);
+	tmp = ft_substr(oldline, g_tcaps.cursor_pos + 1, *i);
 	if (oldline)
 		free(oldline);
 	if (!(*line) || !tmp)
@@ -43,8 +43,8 @@ char	*delete_line_edition(int *i, char **line)
 
 void	print_new_string(char **tmp, int *c_pos, int *l_pos)
 {
-	*c_pos = tcaps.c_pos;
-	*l_pos = tcaps.l_pos;
+	*c_pos = g_tcaps.c_pos;
+	*l_pos = g_tcaps.l_pos;
 	ft_putstr_fd(*tmp, STDIN_FILENO);
 	clean_free(tmp);
 }
@@ -89,7 +89,7 @@ int	ctrl_d(t_big *datas, char **line, int *i)
 		normal_mode();
 		exit(1);
 	}
-	else if (*line && (*line)[0] && tcaps.cursor_pos < *i)
+	else if (*line && (*line)[0] && g_tcaps.cursor_pos < *i)
 		return (delete_at_cursor(i, line));
 	return (SUCCESS);
 }

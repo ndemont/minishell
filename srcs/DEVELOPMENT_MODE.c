@@ -15,7 +15,7 @@
 void	DEVELOPMENT_MODE_print_str(char *buf)
 {
 	int fd = open("DEBUG_str", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	dprintf(fd, "str = [%s] || line_level = [%i]\n", buf, tcaps.line_lvl);
+	dprintf(fd, "str = [%s] || line_level = [%i]\n", buf, g_tcaps.line_lvl);
 	close(fd);
 }
 
@@ -46,15 +46,15 @@ void	DEVELOPMENT_MODE_print_termcaps(char *str)
 
 	//cursor_position();
 	dprintf(fd, "%s\n\n", str);
-	dprintf(fd, "Max Column = %i\n", tcaps.c_max);
-	dprintf(fd, "Max Line = %i\n", tcaps.l_max);
-	dprintf(fd, "Current_Column_position = %i\n", tcaps.c_pos);
-	dprintf(fd, "Current_Line_position = %i\n", tcaps.l_pos);
-	dprintf(fd, "Start = %i\n", tcaps.c_start);
-	dprintf(fd, "Cursor_max = %i\n", tcaps.cursor_max);
-	dprintf(fd, "Cursor_onString = %i\n", tcaps.cursor_pos);
-	dprintf(fd, "line_depth = %i\n", tcaps.line_lvl);
-	dprintf(fd, "cursor_depth = %i\n", tcaps.cursor_lvl);
+	dprintf(fd, "Max Column = %i\n", g_tcaps.c_max);
+	dprintf(fd, "Max Line = %i\n", g_tcaps.l_max);
+	dprintf(fd, "Current_Column_position = %i\n", g_tcaps.c_pos);
+	dprintf(fd, "Current_Line_position = %i\n", g_tcaps.l_pos);
+	dprintf(fd, "Start = %i\n", g_tcaps.c_start);
+	dprintf(fd, "Cursor_max = %i\n", g_tcaps.cursor_max);
+	dprintf(fd, "Cursor_onString = %i\n", g_tcaps.cursor_pos);
+	dprintf(fd, "line_depth = %i\n", g_tcaps.line_lvl);
+	dprintf(fd, "cursor_depth = %i\n", g_tcaps.cursor_lvl);
 	dprintf(fd, "<===============================>\n");
 	close(fd);
 }

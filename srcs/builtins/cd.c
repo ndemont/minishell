@@ -102,9 +102,9 @@ int	ft_cd(char **arg, t_big *datas)
 	ret = actualize_variables(datas);
 	if (!ret)
 		return (BUILT_IN_FAILURE);
-	tcaps.current_dir = getcwd(0, 0);
-	tcaps.current_dir = ft_strrchr(tcaps.current_dir, '/');
-	if (ft_strcmp(tcaps.current_dir, "/"))
-		tcaps.current_dir++;
+	g_tcaps.current_dir = getcwd(0, 0);
+	g_tcaps.current_dir = ft_strrchr(g_tcaps.current_dir, '/');
+	if (ft_strcmp(g_tcaps.current_dir, "/"))
+		g_tcaps.current_dir++;
 	return (0);
 }

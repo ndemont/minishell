@@ -79,7 +79,7 @@ int	ft_env(char **av, t_big *datas)
 
 	if (av && *av && av[1])
 	{
-		tcaps.ret = RET_ERROR;
+		g_tcaps.ret = RET_ERROR;
 		printf("env: %s: No such file or directory\n", av[1]);
 		return (127);
 	}

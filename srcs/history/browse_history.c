@@ -17,16 +17,16 @@ void	lines_added(char *str)
 	int	size;
 	int	line_len;
 
-	tcaps.line_lvl = 0;
-	size = tcaps.c_max - tcaps.c_start;
+	g_tcaps.line_lvl = 0;
+	size = g_tcaps.c_max - g_tcaps.c_start;
 	line_len = ft_strlen(str);
 	if (line_len > size)
 	{
 		line_len -= size;
-		size = tcaps.c_max;
-		tcaps.line_lvl += line_len / size;
+		size = g_tcaps.c_max;
+		g_tcaps.line_lvl += line_len / size;
 		if (line_len % size)
-			tcaps.line_lvl++;
+			g_tcaps.line_lvl++;
 	}
 }
 
@@ -35,7 +35,7 @@ int	actualize_line(char **line, t_big *datas)
 	if (datas->browse)
 	{
 		lines_added(datas->browse);
-		tcaps.cursor_lvl = tcaps.line_lvl;
+		g_tcaps.cursor_lvl = g_tcaps.line_lvl;
 		ft_putstr_fd(datas->browse, STDIN_FILENO);
 		if (*line)
 			free(*line);

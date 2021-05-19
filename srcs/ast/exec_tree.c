@@ -32,7 +32,7 @@ void	print_std(int fd)
 
 void	execute_tree(t_node *root, int parent, t_big *datas, int side)
 {
-	if (tcaps.exit)
+	if (g_tcaps.exit)
 	{
 		if (root->left)
 			execute_tree(root->left, root->type, datas, 1);
@@ -41,7 +41,7 @@ void	execute_tree(t_node *root, int parent, t_big *datas, int side)
 		if (parent != 2 && parent != 3 && parent != 4 && !root->type)
 		{
 			if (parent == 1)
-				tcaps.ret = 0;
+				g_tcaps.ret = 0;
 			root->arg = get_arguments(root, datas);
 			replace_variable(root, datas);
 		}
@@ -66,7 +66,7 @@ void	executions(t_big *datas)
 	datas->flag_pipe = 0;
 	datas->fd = dup(STDIN_FILENO);
 	execute_tree(datas->root, 0, datas, 0);
-	if (!tcaps.exit)
+	if (!g_tcaps.exit)
 		return ;
 	if (datas->flag_pipe)
 		print_std(datas->fd);

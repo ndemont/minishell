@@ -39,9 +39,9 @@ int	clear_term(void)
 
 	ret = SUCCESS;
 	cursor_flag = 0;
-	if (tcaps.l_max - 1 <= tcaps.cursor_lvl)
+	if (g_tcaps.l_max - 1 <= g_tcaps.cursor_lvl)
 		return (SUCCESS);
-	decrement = tcaps.l_max - 1 - tcaps.cursor_lvl;
+	decrement = g_tcaps.l_max - 1 - g_tcaps.cursor_lvl;
 	if (decrement)
 	{
 		cursor_flag = 1;
@@ -50,6 +50,6 @@ int	clear_term(void)
 			return (ERROR);
 	}
 	if (cursor_flag)
-		ret = move_cursor(tcaps.c_pos, tcaps.cursor_lvl);
+		ret = move_cursor(g_tcaps.c_pos, g_tcaps.cursor_lvl);
 	return (ret);
 }

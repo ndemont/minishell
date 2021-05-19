@@ -22,13 +22,13 @@ void	actualize_data(t_big *datas)
 	datas->flag_history = 0;
 	datas->quit = 0;
 	datas->root = 0;
-	tcaps.line_lvl = 0;
-	tcaps.child = 0;
-	tcaps.signal = 0;
-	tcaps.exit = 1;
-	tcaps.cursor_max = 0;
-	tcaps.cursor_lvl = 0;
-	tcaps.cursor_pos = 0;
+	g_tcaps.line_lvl = 0;
+	g_tcaps.child = 0;
+	g_tcaps.signal = 0;
+	g_tcaps.exit = 1;
+	g_tcaps.cursor_max = 0;
+	g_tcaps.cursor_lvl = 0;
+	g_tcaps.cursor_pos = 0;
 	datas->redirection_arg = 0;
 	datas->file_name = 0;
 	datas->browse = 0;
@@ -45,20 +45,20 @@ void	init_data(t_big *datas)
 	datas->history = 0;
 	datas->quit = 0;
 	datas->root = 0;
-	tcaps.ret = 0;
-	tcaps.c_max = 0;
-	tcaps.l_max = 0;
-	tcaps.c_pos = 0;
-	tcaps.l_pos = 0;
-	tcaps.c_start = 0;
-	tcaps.line_lvl = 0;
-	tcaps.signal = 0;
-	tcaps.cursor_max = 0;
-	tcaps.cursor_lvl = 0;
-	tcaps.cursor_pos = 0;
-	tcaps.current_dir = getcwd(0, 0);
-	tcaps.current_dir = ft_strrchr(tcaps.current_dir, '/');
-	tcaps.current_dir++;
+	g_tcaps.ret = 0;
+	g_tcaps.c_max = 0;
+	g_tcaps.l_max = 0;
+	g_tcaps.c_pos = 0;
+	g_tcaps.l_pos = 0;
+	g_tcaps.c_start = 0;
+	g_tcaps.line_lvl = 0;
+	g_tcaps.signal = 0;
+	g_tcaps.cursor_max = 0;
+	g_tcaps.cursor_lvl = 0;
+	g_tcaps.cursor_pos = 0;
+	g_tcaps.current_dir = getcwd(0, 0);
+	g_tcaps.current_dir = ft_strrchr(g_tcaps.current_dir, '/');
+	g_tcaps.current_dir++;
 }
 
 int	main(int ac, char **av, char **env)
