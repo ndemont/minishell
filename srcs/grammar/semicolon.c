@@ -18,7 +18,7 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	int		ret_status;
 
 	pid1 = fork();
-	tcaps.child = 1;
+	g_tcaps.child = 1;
 	if (pid1 == 0)
 	{
 		ret_status = exec_binary(command, argv, datas);
@@ -28,9 +28,9 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	}
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);
-	tcaps.child = 0;
-	if (tcaps.ret == ERR)
-		tcaps.exit = 0;
+	g_tcaps.child = 0;
+	if (g_tcaps.ret == ERR)
+		g_tcaps.exit = 0;
 	close(datas->fd);
 }
 
@@ -43,10 +43,10 @@ static void	exec_child2(char *command, char **av, t_big *datas)
 	pipe(fd);
 	ret_status = 127;
 	pid1 = fork();
-	tcaps.child = 1;
+	g_tcaps.child = 1;
 	if (pid1 == 0)
 	{
-		tcaps.ret = 0;
+		g_tcaps.ret = 0;
 		datas->flag_bracket = 0;
 		dup2(datas->fd, STDIN_FILENO);
 		close(datas->fd);
@@ -58,7 +58,7 @@ static void	exec_child2(char *command, char **av, t_big *datas)
 	}
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);
-	tcaps.child = 0;
+	g_tcaps.child = 0;
 	dup2(fd[0], datas->fd);
 	close_pipes(fd);
 }
@@ -68,7 +68,7 @@ void	exec_semicolon_cmd(char *cmd, char **av, int is_bltn, t_big *datas)
 	datas->flag_pipe = 0;
 	datas->flag_left_bracket = 0;
 	if (is_bltn == 1)
-		tcaps.ret = exec_built_in(cmd, av, datas);
+		g_tcaps.ret = exec_built_in(cmd, av, datas);
 	else if (is_bltn == 2)
 	{
 		print_std(datas->fd);
@@ -80,7 +80,7 @@ void	exec_semicolon_cmd(char *cmd, char **av, int is_bltn, t_big *datas)
 		exec_child(cmd, av, datas);
 	else if (is_bltn == 0 && (datas->flag_bracket || datas->flag_left_bracket))
 		exec_child2(cmd, av, datas);
-	if (datas->flag_bracket && tcaps.exit)
+	if (datas->flag_bracket && g_tcaps.exit)
 	{
 		print_std_fd(datas->fd, datas->fd_out);
 		if (datas->fd_out != STDOUT_FILENO)

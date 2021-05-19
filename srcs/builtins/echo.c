@@ -120,6 +120,6 @@ int	ft_echo(char **arg, t_big *datas)
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	if (ret)
 		free(ret);
-	tcaps.ret = 0;
-	return (tcaps.ret);
+	g_tcaps.ret = 0;
+	return (g_tcaps.ret);
 }

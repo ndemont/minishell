@@ -18,8 +18,8 @@ char	*backspace_middleline_edition(int *i, char **line)
 	char	*tmp;
 
 	oldline = *line;
-	*line = ft_substr(oldline, 0, tcaps.cursor_pos - 1);
-	tmp = ft_substr(oldline, tcaps.cursor_pos, *i);
+	*line = ft_substr(oldline, 0, g_tcaps.cursor_pos - 1);
+	tmp = ft_substr(oldline, g_tcaps.cursor_pos, *i);
 	if (!tmp || !(*line))
 	{
 		clean_the_mess(&tmp, &oldline, line);
@@ -49,21 +49,21 @@ int	print_and_get_max(char **line)
 
 int	at_cursor_first_case(int *c_next, int *l_next)
 {
-	*c_next = tcaps.c_pos - 1;
-	*l_next = tcaps.l_pos;
-	tcaps.cursor_pos--;
-	return (move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl));
+	*c_next = g_tcaps.c_pos - 1;
+	*l_next = g_tcaps.l_pos;
+	g_tcaps.cursor_pos--;
+	return (move_cursor(g_tcaps.c_start, g_tcaps.l_pos - g_tcaps.cursor_lvl));
 }
 
 int	at_cursor_second_case(int *c_next, int *l_next)
 {
 	int	ret;
 
-	*c_next = tcaps.c_max - 1;
-	*l_next = tcaps.l_pos - 1;
-	tcaps.cursor_pos--;
-	ret = move_cursor(tcaps.c_start, tcaps.l_pos - tcaps.cursor_lvl);
-	tcaps.cursor_lvl--;
+	*c_next = g_tcaps.c_max - 1;
+	*l_next = g_tcaps.l_pos - 1;
+	g_tcaps.cursor_pos--;
+	ret = move_cursor(g_tcaps.c_start, g_tcaps.l_pos - g_tcaps.cursor_lvl);
+	g_tcaps.cursor_lvl--;
 	return (ret);
 }
 
@@ -79,10 +79,10 @@ int	backspace_at_cursor(int *i, char **line)
 	*line = backspace_middleline_edition(i, line);
 	if (!(*line))
 		return (ERROR);
-	if ((tcaps.c_pos - 1 >= tcaps.c_start && !tcaps.cursor_lvl) || \
-	(tcaps.c_pos - 1 >= 0 && tcaps.cursor_lvl))
+	if ((g_tcaps.c_pos - 1 >= g_tcaps.c_start && !g_tcaps.cursor_lvl) || \
+	(g_tcaps.c_pos - 1 >= 0 && g_tcaps.cursor_lvl))
 		ret = at_cursor_first_case(&c_next, &l_next);
-	else if (tcaps.c_pos - 1 < 0 && tcaps.cursor_lvl)
+	else if (g_tcaps.c_pos - 1 < 0 && g_tcaps.cursor_lvl)
 		ret = at_cursor_second_case(&c_next, &l_next);
 	if (!ret)
 		return (ERROR);

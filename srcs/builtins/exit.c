@@ -17,10 +17,10 @@ int	ft_exit(char **av, t_big *datas)
 	write(STDOUT_FILENO, "exit\n", 5);
 	if (av && *av && av[1])
 	{
-		tcaps.ret = 1;
+		g_tcaps.ret = 1;
 		printf("minishellrose: exit: %s: numeric argument required\n", av[1]);
 	}
 	free_datas(datas);
 	exit(1);
-	return (tcaps.ret);
+	return (g_tcaps.ret);
 }

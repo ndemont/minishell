@@ -14,7 +14,7 @@
 
 void	actualize_return_status(int ret_status)
 {
-	tcaps.ret = WEXITSTATUS(ret_status);
+	g_tcaps.ret = WEXITSTATUS(ret_status);
 }
 
 void	close_pipes(int *fd)
@@ -49,8 +49,8 @@ static void	exec_child(char *command, char *builtin, char **av, t_big *datas)
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);
 	dup2(fd[0], datas->fd);
-	if (tcaps.ret == ERR)
-		tcaps.exit = 0;
+	if (g_tcaps.ret == ERR)
+		g_tcaps.exit = 0;
 	close_pipes(fd);
 }
 
@@ -58,10 +58,10 @@ void	exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas)
 {
 	datas->flag_pipe = 1;
 	datas->flag_left_bracket = 0;
-	tcaps.child = 1;
+	g_tcaps.child = 1;
 	exec_child(cmd, builtin, av, datas);
-	tcaps.child = 0;
-	if (datas->flag_bracket && tcaps.exit)
+	g_tcaps.child = 0;
+	if (datas->flag_bracket && g_tcaps.exit)
 	{
 		print_std_fd(datas->fd, datas->fd_out);
 		if (datas->fd_out != STDOUT_FILENO)

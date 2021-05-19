@@ -16,12 +16,12 @@ int	raw_mode(void)
 {
 	int	ret;
 
-	ret = tcgetattr(STDIN_FILENO, &tcaps.save);
+	ret = tcgetattr(STDIN_FILENO, &g_tcaps.save);
 	if (ret == ERR)
 		return (printi_stderr(0, strerror(errno), 0));
-	tcaps.term = tcaps.save;
-	tcaps.term.c_lflag &= ~(ECHO | ICANON);
-	ret = tcsetattr(STDIN_FILENO, TCSAFLUSH, &tcaps.term);
+	g_tcaps.term = g_tcaps.save;
+	g_tcaps.term.c_lflag &= ~(ECHO | ICANON);
+	ret = tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_tcaps.term);
 	if (ret == ERR)
 		return (printi_stderr(0, strerror(errno), 0));
 	return (SUCCESS);
@@ -31,7 +31,7 @@ int	normal_mode(void)
 {
 	int	ret;
 
-	ret = tcsetattr(STDIN_FILENO, TCSAFLUSH, &tcaps.save);
+	ret = tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_tcaps.save);
 	if (ret == ERR)
 		return (printi_stderr(0, strerror(errno), 0));
 	return (SUCCESS);
@@ -59,8 +59,8 @@ int	term_size(void)
 	ret = ioctl(0, TIOCGWINSZ, &w);
 	if (ret < 0)
 		return (printi_stderr(0, strerror(errno), 0));
-	tcaps.l_max = w.ws_row;
-	tcaps.c_max = w.ws_col;
+	g_tcaps.l_max = w.ws_row;
+	g_tcaps.c_max = w.ws_col;
 	return (SUCCESS);
 }
 

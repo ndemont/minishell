@@ -19,20 +19,20 @@ void	ft_signals(int sig)
 
 	if (sig == SIGINT)
 	{
-		level = tcaps.l_pos + (tcaps.line_lvl - tcaps.cursor_lvl);
-		ret = move_cursor(tcaps.cursor_max, level);
+		level = g_tcaps.l_pos + (g_tcaps.line_lvl - g_tcaps.cursor_lvl);
+		ret = move_cursor(g_tcaps.cursor_max, level);
 		if (!ret)
 			return ;
 		write(0, "\n", 1);
-		if (!tcaps.child)
+		if (!g_tcaps.child)
 		{
-			tcaps.signal = 1;
+			g_tcaps.signal = 1;
 			display_prompt();
 		}
 	}
 	if (sig == SIGQUIT)
 	{
-		if (tcaps.child)
+		if (g_tcaps.child)
 			write(0, "Quit: 3\n", 8);
 	}
 }

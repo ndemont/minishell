@@ -18,16 +18,16 @@ int	display_prompt(void)
 	write(STDOUT_FILENO, "minishellrose$ ", 15);
 	write(STDOUT_FILENO, CYAN, 7);
 	write(STDOUT_FILENO, "(", 1);
-	write(STDOUT_FILENO, tcaps.current_dir, ft_strlen(tcaps.current_dir));
+	write(STDOUT_FILENO, g_tcaps.current_dir, ft_strlen(g_tcaps.current_dir));
 	write(STDOUT_FILENO, ") ", 2);
 	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
 	cursor_position();
-	tcaps.line_lvl = 0;
-	tcaps.cursor_lvl = 0;
-	tcaps.c_start = tcaps.c_pos;
-	tcaps.cursor_max = tcaps.c_start;
-	tcaps.cursor_pos = 0;
+	g_tcaps.line_lvl = 0;
+	g_tcaps.cursor_lvl = 0;
+	g_tcaps.c_start = g_tcaps.c_pos;
+	g_tcaps.cursor_max = g_tcaps.c_start;
+	g_tcaps.cursor_pos = 0;
 	normal_mode();
 	return (1);
 }
@@ -63,13 +63,13 @@ char	*create_line(t_big *datas)
 		ft_bzero(buf, 7);
 		if ((ret = read(STDIN_FILENO, buf, 6)) < 0)
 			return (0);
-		if (tcaps.signal)
+		if (g_tcaps.signal)
 		{
 			if (line)
 				free(line);
 			if (!(line = ft_strdup("")))
 				return (0);
-			tcaps.signal = 0;
+			g_tcaps.signal = 0;
 			i = 0;
 		}
 		if (ret == 0)
@@ -85,7 +85,7 @@ char	*create_line(t_big *datas)
 		}
 		if 	(buf[0] != 27 || buf[1] != 91 || (buf[2] != 65 && buf[2] != 66))
 			datas->flag_history = 0;
-		if (non_print_flag || tcaps.cursor_pos < i)
+		if (non_print_flag || g_tcaps.cursor_pos < i)
 		{
 			if (buf[0] == 10)
 			{
@@ -112,7 +112,7 @@ char	*create_line(t_big *datas)
 			}
 			print_at_cursor(line[i]);
 			i++;
-			tcaps.cursor_pos = i;
+			g_tcaps.cursor_pos = i;
 		}
 	}
 	normal_mode();
@@ -132,13 +132,13 @@ int	read_input(t_big *datas)
 	token_tab = 0;
 	line = create_line(datas);
 	if (!line)
-		return (tcaps.exit);
+		return (g_tcaps.exit);
 	else if (!line[0])
 		return (1);
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
 	if (!token_tab)
-		return (tcaps.exit);
+		return (g_tcaps.exit);
 	if (!ft_parser(token_tab))
 	{
 		free_tokens(token_tab);
@@ -146,7 +146,7 @@ int	read_input(t_big *datas)
 	}
 	tree(token_tab, datas);
 	executions(datas);
-	if (!tcaps.exit)
+	if (!g_tcaps.exit)
 		return (0);
 	clean_datas(datas);
 	return (1);

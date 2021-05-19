@@ -28,7 +28,7 @@ int	non_conform_argument(char *arg)
 	ft_strlen(error_str) + 1);
 	printi_stderr("export: '", identifier, 1);
 	free(identifier);
-	tcaps.ret = 1;
+	g_tcaps.ret = 1;
 	return (SUCCESS);
 }
 
@@ -108,5 +108,5 @@ int	ft_export(char **arg, t_big *datas)
 		}
 	}
 	*datas->export = ft_lst_sort(*datas->export, &cmp_list);
-	return (tcaps.ret);
+	return (g_tcaps.ret);
 }
