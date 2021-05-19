@@ -144,6 +144,7 @@ int						check_plus_conformity(char *line);
 int						check_arg_conformity(char *line);
 void					print_export(t_list **list);
 int						treat_list(char *arg, t_big *datas);
+char					**build_array(char *command, t_list *env);
 
 
 void					close_pipes(int *fd);
