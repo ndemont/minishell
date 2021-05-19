@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 19:54:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/18 23:47:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,11 @@ char					*get_tilde(int *i);
 int						exec_built_in(char *command, char **argv, t_big *datas);
 int						exec_binary(char *command, char **argv, t_big *datas);
 void					print_std(int fd);
+void					no_parent(t_node *root, int n, t_big *datas, int side);
+void					pipe_parent(t_node *root, int n, t_big *datas, int side);
+void					semicolon_parent(t_node *root, int n, t_big *datas, int side);
+void					right_redir_parent(t_node *root, int n, t_big *datas, int side);
+void					left_redir_parent(t_node *root, int n, t_big *datas, int side);
 
 //GRAMMAR
 void					exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas);
