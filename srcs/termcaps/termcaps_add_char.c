@@ -54,7 +54,8 @@ int	do_some_things(int *c_next, int *l_next)
 		*l_next = g_tcaps.l_pos;
 		g_tcaps.cursor_pos++;
 	}
-	else if (g_tcaps.c_pos + 1 == g_tcaps.c_max && g_tcaps.l_pos + 1 < g_tcaps.l_max)
+	else if (g_tcaps.c_pos + 1 == g_tcaps.c_max && \
+	g_tcaps.l_pos + 1 < g_tcaps.l_max)
 	{
 		*c_next = 0;
 		*l_next = g_tcaps.l_pos + 1;
@@ -105,13 +106,15 @@ void	print_at_cursor(char c)
 	ft_putchar_fd(c, STDIN_FILENO);
 	if (g_tcaps.c_pos + 1 < g_tcaps.c_max)
 		move_cursor(g_tcaps.c_pos + 1, g_tcaps.l_pos);
-	else if (g_tcaps.c_pos + 1 == g_tcaps.c_max && g_tcaps.l_pos + 1 != g_tcaps.l_max)
+	else if (g_tcaps.c_pos + 1 == g_tcaps.c_max && \
+	g_tcaps.l_pos + 1 != g_tcaps.l_max)
 	{
 		move_cursor(0, g_tcaps.l_pos + 1);
 		g_tcaps.line_lvl++;
 		g_tcaps.cursor_lvl++;
 	}
-	else if (g_tcaps.c_pos + 1 == g_tcaps.c_max && g_tcaps.l_pos + 1 == g_tcaps.l_max)
+	else if (g_tcaps.c_pos + 1 == g_tcaps.c_max && \
+	g_tcaps.l_pos + 1 == g_tcaps.l_max)
 	{
 		scroll_n_times(1);
 		move_cursor(0, g_tcaps.l_pos);
