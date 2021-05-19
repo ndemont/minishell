@@ -34,24 +34,21 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	close(datas->fd);
 }
 
-static void	exec_child2(char *command, char **av, t_big *datas)
+static int	exec_child2(char *command, char **av, t_big *datas)
 {
+	int		ret;
 	int		ret_status;
 	int		fd[2];
 	pid_t	pid1;
 
-	pipe(fd);
-	ret_status = 127;
-	pid1 = fork();
+	ret = create_pipe_do_fork(fd, &pid1, &ret_status);
+	if (ret == ERR)
+		return (ERR);
 	g_tcaps.child = 1;
 	if (pid1 == 0)
 	{
 		g_tcaps.ret = 0;
-		datas->flag_bracket = 0;
-		dup2(datas->fd, STDIN_FILENO);
-		close(datas->fd);
-		dup2(fd[1], STDOUT_FILENO);
-		close_pipes(fd);
+		pipe_magic(fd, datas);
 		exec_binary(command, av, datas);
 		free_datas(datas);
 		exit(ret_status);
@@ -61,6 +58,7 @@ static void	exec_child2(char *command, char **av, t_big *datas)
 	g_tcaps.child = 0;
 	dup2(fd[0], datas->fd);
 	close_pipes(fd);
+	return (SUCCESS);
 }
 
 void	exec_semicolon_cmd(char *cmd, char **av, int is_bltn, t_big *datas)
