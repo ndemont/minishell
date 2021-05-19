@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 15:07:25 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:27:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 int display_directory(void)
 {
+	char *tmp;
+
 	write(STDOUT_FILENO, CYAN, 7);
 	write(STDOUT_FILENO, "(", 1);
 	if (!ft_strcmp(g_tcaps.current_dir, "/"))
 		write(STDOUT_FILENO, "\\", 1);
 	else
 	{
-		g_tcaps.current_dir = strrchr(g_tcaps.current_dir, '/');
-		write(STDOUT_FILENO, g_tcaps.current_dir + 1 , ft_strlen(g_tcaps.current_dir) - 1);
+		tmp = ft_strrchr(g_tcaps.current_dir, '/');
+		write(STDOUT_FILENO, tmp + 1 , ft_strlen(tmp) - 1);
 	}
 	write(STDOUT_FILENO, ") ", 2);
 	write(STDOUT_FILENO, RESET, 6);
