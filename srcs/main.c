@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 14:11:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:07:56 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	init_data(t_big *datas)
 	g_tcaps.cursor_lvl = 0;
 	g_tcaps.cursor_pos = 0;
 	g_tcaps.current_dir = getcwd(0, 0);
-	g_tcaps.current_dir = ft_strrchr(g_tcaps.current_dir, '/');
-	g_tcaps.current_dir++;
 }
 
 int	main(int ac, char **av, char **env)
