@@ -67,7 +67,8 @@ int	word_left(char **line)
 	(*line)[g_tcaps.cursor_pos] == ' ')
 		move_register_ghost_pos(&next_c_pos, &next_l_pos);
 	while (g_tcaps.cursor_pos - 1 >= 0 && (*line)[g_tcaps.cursor_pos] && \
-	(*line)[g_tcaps.cursor_pos - 1] > 32 && (*line)[g_tcaps.cursor_pos - 1] < 127)
+	(*line)[g_tcaps.cursor_pos - 1] > 32 && \
+	(*line)[g_tcaps.cursor_pos - 1] < 127)
 		move_register_ghost_pos(&next_c_pos, &next_l_pos);
 	return (move_cursor(next_c_pos, next_l_pos));
 }
