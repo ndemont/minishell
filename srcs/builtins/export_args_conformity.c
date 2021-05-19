@@ -12,27 +12,7 @@
 
 #include "minishell.h"
 
-int		is_plus_left(char *line)
-{
-	int		i;
-	char	**str;
-
-	i = 0;
-	str = ft_split_on_equal(line);
-	while (str[0] && str[0][i])
-	{
-		if (str[0][i] == '+')
-		{
-			free_double(str);
-			return (1);
-		}
-		i++;
-	}
-	free_double(str);
-	return (0);
-}
-
-int		check_arg_conformity(char *line)
+int	check_arg_conformity(char *line)
 {
 	int		i;
 	char	**str;
@@ -61,7 +41,7 @@ int		check_arg_conformity(char *line)
 	return (1);
 }
 
-int		check_plus_conformity(char *line)
+int	check_plus_conformity(char *line)
 {
 	int		i;
 	char	**str;
@@ -81,22 +61,30 @@ int		check_plus_conformity(char *line)
 	return (1);
 }
 
-int		check_duplicate(t_list *list, char *ref)
+char	*create_substring(char *ref)
 {
-	t_list	*tmp;
-	int		count;
 	char	*str;
 	int		i;
 
 	i = 0;
-	while (ref[i] && ref[i] != '=')
+	while (ref && ref[i] && ref[i] != '=')
 		i++;
 	str = ft_substr(ref, 0, i);
 	if (!str)
-	{
-		printi_stderr(0, strerror(errno), 0);
+		return (printc_stderr(0, strerror(errno), 0));
+	else
+		return (str);
+}
+
+int	check_duplicate(t_list *list, char *ref)
+{
+	t_list	*tmp;
+	int		count;
+	char	*str;
+
+	str = create_substring(ref);
+	if (!str)
 		return (ERR);
-	}
 	tmp = list;
 	count = 0;
 	while (tmp)

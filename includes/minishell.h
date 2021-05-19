@@ -142,8 +142,9 @@ char					*get_identifier(char *str);
 int						check_duplicate(t_list *list, char *ref);
 int						check_plus_conformity(char *line);
 int						check_arg_conformity(char *line);
-int						is_plus_left(char *line);
 void					print_export(t_list **list);
+int						treat_list(char *arg, t_big *datas);
+
 
 void					close_pipes(int *fd);
 
@@ -167,6 +168,8 @@ void					free_list(t_list **list);
 void					free_history(t_history **list);
 void					free_arg(char **arg);
 void					clean_datas(t_big *datas);
+void					free_elems_print_error(char **str, t_var **tmp);
+
 
 //ERRORS
 char					**printcc_stderr(char *cmd, char *strerror, int exit);

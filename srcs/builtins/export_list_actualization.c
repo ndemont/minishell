@@ -12,111 +12,6 @@
 
 #include "minishell.h"
 
-t_var	*create_content_and_dup(char *str, char *str2)
-{
-	t_var *content;
-
-	content = (t_var *)malloc(sizeof(t_var));
-	if (!content)
-	{
-		printi_stderr(0, strerror(errno), 0);
-		return (0);
-	}
-	content->var = ft_strdup(str);
-	if (!content->var)
-	{
-		free(content);
-		printi_stderr(0, strerror(errno), 0);
-		return (0);
-	}
-	content->value = ft_strdup(str2);
-	if (!content->value)
-	{
-		free(content->var);
-		free(content);
-		printi_stderr(0, strerror(errno), 0);
-		return (0);
-	}
-	return (content);
-}
-
-int	add_to_both_list(t_var **content, t_var **content2, t_big *datas)
-{
-	t_list	*tmp;
-
-	tmp = ft_lstnew(*content);
-	if (!tmp)
-	{
-		free(*content);
-		return (printi_stderr(0, strerror(errno), 0));
-	}
-	ft_lstadd_back(datas->export, tmp);
-	tmp = ft_lstnew(*content2);
-	if (!tmp)
-	{
-		free(*content2);
-		return (printi_stderr(0, strerror(errno), 0));
-	}
-	ft_lstadd_back(datas->env, tmp);
-	return (SUCCESS);
-}
-
-int	add_hidden_to_env_export(char *line, t_big *datas)
-{
-	t_list	*hidden;
-	t_var	*content;
-	t_var	*content2;
-
-	hidden = *datas->hidden;
-	while (hidden && ft_strcmp(line, ((t_var *)hidden->content)->var))
-		hidden = hidden->next;
-	content = create_content_and_dup(((t_var *)hidden->content)->var, \
-	((t_var *)hidden->content)->value);
-	if (!content)
-		return (ERROR);
-	content2 = create_content_and_dup(((t_var *)hidden->content)->var, \
-	((t_var *)hidden->content)->value);
-	if (!content2)
-	{
-		free(content);
-		return (ERROR);
-	}
-	return (add_to_both_list(&content, &content2, datas));
-}
-
-int	create_and_add_new_elem(char *line, t_big *datas, t_list *tmp)
-{
-	t_var	*content;
-
-	content = fill_tmp(line);
-	if (!content)
-		return (ERROR);
-	tmp = ft_lstnew(content);
-	if (!tmp)
-		return (printi_stderr(0, strerror(errno), 0));
-	ft_lstadd_back(datas->env, tmp);
-	return (SUCCESS);
-}
-
-int	actualize_export_add_env(char *line, t_big *datas)
-{
-	t_list	*tmp;
-	char	**str;
-
-	tmp = *datas->export;
-	str = ft_split_on_equal(line);
-	if (!str)
-		return (ERROR);
-	while (tmp && ft_strcmp(str[0], ((t_var *)tmp->content)->var))
-		tmp = tmp->next;
-	clean_free(&(((t_var *)tmp->content)->value));
-	((t_var *)tmp->content)->value = ft_strdup(str[1]);
-	free_double(str);
-	if (!(((t_var *)tmp->content)->value))
-		return (printi_stderr(0, strerror(errno), 0));
-	return (create_and_add_new_elem(line, datas, tmp));
-}
-
 int	actualize_export_actualize_env(char *line, t_big *datas)
 {
 	t_list	*tmp;
@@ -183,9 +78,7 @@ t_list	*create_content_value_zero(char *line)
 	new = ft_lstnew(content);
 	if (!new)
 	{
-		free(content->var);
-		free(content);
-		printi_stderr(0, strerror(errno), 0);
+		free_elems_print_error(&content->var, &content);
 		return (ERROR);
 	}
 	return (new);
@@ -204,4 +97,29 @@ int	add_hidden_add_export(char *line, t_big *datas)
 		return (ERROR);
 	ft_lstadd_back(datas->hidden, new);
 	return (SUCCESS);
+}
+
+int	treat_list(char *arg, t_big *datas)
+{
+	int	ret;
+	int	ret2;
+	int	ret3;
+	int	ret_final;
+
+	ret = actualize_list(arg, *datas->hidden);
+	ret2 = check_duplicate(*datas->export, arg);
+	ret3 = check_duplicate(*datas->env, arg);
+	ret_final = SUCCESS;
+	if (!ret || ret2 == ERR || ret3 == ERR)
+		return (ERROR);
+	if (ret2 && !ret3)
+		ret_final = actualize_export_add_env(arg, datas);
+	else if (ret2 && ret3)
+		ret_final = actualize_export_actualize_env(arg, datas);
+	else if (!ret2)
+		ret_final = add_hidden_to_env_export(arg, datas);
+	if (!ret_final)
+		return (ERROR);
+	else
+		return (SUCCESS);
 }
