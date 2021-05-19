@@ -12,14 +12,15 @@
 
 #include "minishell.h"
 
-char		*ft_add_space(char **arg, char *ret, int *i)
+char	*ft_add_space(char **arg, char *ret, int *i)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (arg[*i + 1])
 	{
 		tmp = ret;
-		if (!(ret = ft_strjoin(ret, " ")))
+		ret = ft_strjoin(ret, " ");
+		if (!ret)
 		{
 			clean_free(&tmp);
 			return (printc_stderr(0, strerror(errno), 0));
@@ -29,7 +30,7 @@ char		*ft_add_space(char **arg, char *ret, int *i)
 	return (ret);
 }
 
-char		*ft_echo_cat(char **arg, int *i)
+char	*ft_echo_cat(char **arg, int *i)
 {
 	char	*tmp;
 	char	*ret;
@@ -58,9 +59,9 @@ char		*ft_echo_cat(char **arg, int *i)
 	return (ret);
 }
 
-int			check_echo_flag(char *str)
+int	check_echo_flag(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!ft_strcmp(str, "-n"))
@@ -78,14 +79,15 @@ int			check_echo_flag(char *str)
 	return (1);
 }
 
-char		*ft_echo_option(int flag, char *ret)
+char	*ft_echo_option(int flag, char *ret)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (flag)
 	{
 		tmp = ret;
-		if (!(ret = ft_strjoin(ret, "\n")))
+		ret = ft_strjoin(ret, "\n");
+		if (!ret)
 		{
 			free(tmp);
 			return (0);
@@ -95,7 +97,7 @@ char		*ft_echo_option(int flag, char *ret)
 	return (ret);
 }
 
-int			ft_echo(char **arg, t_big *datas)
+int	ft_echo(char **arg, t_big *datas)
 {
 	int		i;
 	int		flag;
@@ -109,10 +111,12 @@ int			ft_echo(char **arg, t_big *datas)
 		flag = 0;
 		i++;
 	}
-	if (!(ret = ft_echo_cat(arg, &i)))
-		return (0);
-	if (!(ret = ft_echo_option(flag, ret)))
-		return (0);
+	ret = ft_echo_cat(arg, &i);
+	if (!ret)
+		return (BUILT_IN_FAILURE);
+	ret = ft_echo_option(flag, ret);
+	if (!ret)
+		return (BUILT_IN_FAILURE);
 	ft_putstr_fd(ret, STDOUT_FILENO);
 	if (ret)
 		free(ret);
