@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:36:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 19:36:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:31:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		free_datas(t_big *datas)
+int	free_datas(t_big *datas)
 {
 	if (datas)
 	{

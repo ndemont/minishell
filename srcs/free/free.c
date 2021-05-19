@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 13:19:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 19:56:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:31:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_tokens(t_node **tokens)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (tokens)
@@ -43,8 +43,8 @@ void	free_tokens(t_node **tokens)
 
 void	free_list(t_list **list)
 {
-	t_list *tmp;
-	t_list *elem;
+	t_list	*tmp;
+	t_list	*elem;
 
 	if (list)
 	{
@@ -69,8 +69,8 @@ void	free_list(t_list **list)
 
 void	free_history(t_history **list)
 {
-	t_history *tmp;
-	t_history *del;
+	t_history	*tmp;
+	t_history	*del;
 
 	tmp = *list;
 	while (tmp)
