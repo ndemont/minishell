@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 23:41:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 23:47:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:31:20 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	exec_binary(char *command, char **argv, t_big *datas)
 			g_tcaps.ret = RET_ERROR;
 		else if (errno == 13)
 			g_tcaps.ret = 126;
-		printi_stderr(argv[0], ": command not found\n", 1);
+		printi_stderr(argv[0], ": command not found", 1);
 	}
 	free_double(cmd);
 	free_double(env);
