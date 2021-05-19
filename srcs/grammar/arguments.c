@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 12:00:16 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 14:32:32 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:35:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	count_len_total(char **argv, t_big *datas)
 {
-	int len_new;
-	int len_old;
+	int	len_new;
+	int	len_old;
 
 	len_new = 1;
 	len_old = 0;
@@ -37,7 +37,7 @@ static int	count_len_total(char **argv, t_big *datas)
 
 int	copy_old_args(t_big *datas, char **tmp)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (tmp && tmp[len])
@@ -55,7 +55,7 @@ int	copy_old_args(t_big *datas, char **tmp)
 
 int	copy_new_args(char **argv, t_big *datas, int len)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (argv && argv[i])
