@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 15:09:14 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:36:18 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	print_std_fd(int fd_in, int fd_out)
 	char	*line;
 	int		ret;
 
-	while ((ret = get_next_line(fd_in, &line)) > 0)
+	ret = 1;
+	while (ret > 0)
 	{
+		ret = get_next_line(fd_in, &line);
 		ft_putstr_fd(line, fd_out);
 		ft_putstr_fd("\n", fd_out);
 		free(line);
@@ -32,7 +34,7 @@ void	print_std_fd(int fd_in, int fd_out)
 
 int	exec_anglebracket_right(char **argv, t_big *datas)
 {
-	int ret;
+	int	ret;
 
 	datas->flag_pipe = 0;
 	datas->flag_left_bracket = 1;
@@ -74,7 +76,7 @@ int	exec_anglebracket_left(char **argv, t_big *datas)
 
 int	exec_double_anglebracket_right(char **argv, t_big *datas)
 {
-	int ret;
+	int	ret;
 
 	datas->flag_pipe = 0;
 	datas->flag_left_bracket = 1;
@@ -95,7 +97,7 @@ int	exec_double_anglebracket_right(char **argv, t_big *datas)
 
 void	redirections(int type, char **argv, t_big *datas)
 {
-	int ret;
+	int	ret;
 
 	if (type == 2)
 		ret = exec_double_anglebracket_right(argv, datas);
