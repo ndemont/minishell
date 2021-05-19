@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:22:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 17:10:40 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:39:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		skip_isspace(char *input, int *i, int count)
+int	skip_isspace(char *input, int *i, int count)
 {
 	if (!(*i))
 	{
@@ -49,10 +49,10 @@ void	count_special_char(char *input, int *i)
 	}
 }
 
-int		count_arg(char *input)
+int	count_arg(char *input)
 {
-	int count;
-	int i;
+	int	count;
+	int	i;
 
 	count = 0;
 	i = 0;

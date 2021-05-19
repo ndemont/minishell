@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 17:13:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:42:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	search_builtin(t_node *token)
 	}
 }
 
-int		get_command(t_node *token)
+int	get_command(t_node *token)
 {
 	int			i;
 	int			j;
@@ -68,7 +68,7 @@ int		get_command(t_node *token)
 
 t_node	**ft_parser(t_node **token_tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (token_tab[i])

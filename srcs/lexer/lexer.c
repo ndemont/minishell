@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 13:06:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 17:12:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:39:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_isspace(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i])
@@ -26,7 +26,7 @@ static int	check_isspace(char *input)
 	return (0);
 }
 
-t_node		**ft_lexer(char *input)
+t_node	**ft_lexer(char *input)
 {
 	int		token_nb;
 	t_node	**nodes_tab;

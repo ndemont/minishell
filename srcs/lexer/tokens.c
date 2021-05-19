@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 17:43:21 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:42:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_is_grammar(char *str, int i)
+int	ft_is_grammar(char *str, int i)
 {
 	if (str[i] == '|')
 		return (1);
@@ -31,9 +31,9 @@ int		ft_is_grammar(char *str, int i)
 		return (0);
 }
 
-int		ft_is_quote(char *input, int i)
+int	ft_is_quote(char *input, int i)
 {
-	int j;
+	int	j;
 
 	j = i;
 	if (input[i] == '\'')
@@ -59,9 +59,9 @@ int		ft_is_quote(char *input, int i)
 	return (0);
 }
 
-int		ft_check_char(int *i, int *j, char *input)
+int	ft_check_char(int *i, int *j, char *input)
 {
-	int type;
+	int	type;
 
 	while (input[*i] && !ft_is_grammar(input, *i) && \
 		!ft_is_quote(input, *i) && input[*i] != '\\')
@@ -85,11 +85,11 @@ int		ft_check_char(int *i, int *j, char *input)
 	return (type);
 }
 
-int		ft_count_tokens(char *input)
+int	ft_count_tokens(char *input)
 {
-	int i;
-	int j;
-	int type;
+	int	i;
+	int	j;
+	int	type;
 
 	i = 0;
 	j = 0;

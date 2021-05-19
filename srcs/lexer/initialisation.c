@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 16:07:14 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 16:11:05 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:39:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_node	*ft_init_grammar_node(int type)
 {
-	t_node *new;
+	t_node	*new;
 
 	new = (t_node *)malloc(sizeof(t_node));
 	if (!new)
@@ -34,7 +34,7 @@ t_node	*ft_init_grammar_node(int type)
 
 t_node	*ft_init_buildin_node(char *input, int type)
 {
-	t_node *new;
+	t_node	*new;
 
 	if (!input)
 	{
