@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:26 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 15:09:17 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:33:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*printc_stderr(char *cmd, char *sterror, int exit)
 	return (0);
 }
 
-int		printi_stderr(char *cmd, char *sterror, int exit)
+int	printi_stderr(char *cmd, char *sterror, int exit)
 {
 	ft_putstr_fd("minishellrose: ", STDERR_FILENO);
 	if (cmd)
