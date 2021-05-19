@@ -49,7 +49,7 @@
 # define SUCCESS 1
 # define BUILT_IN_FAILURE -1
 
-typedef struct			s_caps
+typedef struct s_global
 {
 	struct termios		term;
 	struct termios		save;
@@ -57,19 +57,19 @@ typedef struct			s_caps
 	int					l_max;
 	int					c_pos;
 	int					l_pos;
-	int 				c_start;
+	int					c_start;
 	int					line_lvl;
 	int					child;
-	int 				signal;
+	int					signal;
 	int					ret;
 	int					exit;
 	int					cursor_max;
 	int					cursor_lvl;
 	int					cursor_pos;
 	char				*current_dir;
-}						t_caps;
+}	t_global;
 
-typedef struct			s_node
+typedef struct s_node
 {
 	int					type;
 	char				*input;
@@ -78,23 +78,23 @@ typedef struct			s_node
 	char				*command;
 	struct s_node		*left;
 	struct s_node		*right;
-}						t_node;
+}	t_node;
 
-typedef struct			s_var
+typedef struct s_var
 {
-	char *var;
-	char *value;
-}						t_var;
+	char	*var;
+	char	*value;
+}	t_var;
 
-typedef struct			s_history
+typedef struct s_history
 {
 	int					status;
 	char				*command;
 	struct s_history	*prev;
 	struct s_history	*next;
-}						t_history;
+}	t_history;
 
-typedef struct			s_big
+typedef struct s_big
 {
 	int					fd;
 	int					fd_out;
@@ -112,10 +112,10 @@ typedef struct			s_big
 	t_node				*root;
 	char				*browse;
 	char				*input;
-}						t_big;
+}	t_big;
 
 //DECLARE OF A GLOBAL STRUCT, MANDATORY FOR TERMCAPS MANAGMENT 
-t_caps					tcaps;
+t_global				g_tcaps;
 
 //ENV
 int						ft_env(char **av, t_big *datas);
@@ -123,7 +123,7 @@ int						store_env(char **env, t_big *datas);
 int						ft_hidden(char **argv, t_big *datas);
 int						check_duplicate(t_list *list, char *ref);
 int						actualize_list(char *line, t_list *lst);
-char 					**ft_split_on_equal(char *str);
+char					**ft_split_on_equal(char *str);
 int						add_to_list(char *line, t_list **lst);
 void					actualize_return_status(int ret_status);
 char					**get_arguments(t_node *root, t_big *datas);
@@ -135,7 +135,8 @@ t_var					*fill_tmp(char *str);
 int						cd_actualize_env(t_list **lst);
 int						add_hidden_to_env_export(char *line, t_big *datas);
 int						actualize_export_add_env(char *line, t_big *datas);
-int						actualize_export_actualize_env(char *line, t_big *datas);
+int						actualize_export_actualize_env(char *line, \
+t_big *datas);
 int						add_hidden_add_export_add_env(char *line, t_big *datas);
 int						add_hidden_add_export(char *line, t_big *datas);
 char					*get_identifier(char *str);
@@ -145,19 +146,18 @@ int						check_arg_conformity(char *line);
 void					print_export(t_list **list);
 int						treat_list(char *arg, t_big *datas);
 char					**build_array(char *command, t_list *env);
-
-
 void					close_pipes(int *fd);
-
 
 //HISTORY
 int						init_history(t_big *datas);
 void					save_history(char *line, t_big *datas);
 int						browse_history(t_big *datas, char **line, int signal);
-t_history				*browse_up(t_history *current, char **browse, t_big *datas, char *input);
-t_history				*browse_down(t_history *current, char **browse, t_big *datas, char *input);
-
-int						update_history_list(t_history **begin, char *line, int status);
+t_history				*browse_up(t_history *current, char **browse, \
+t_big *datas, char *input);
+t_history				*browse_down(t_history *current, char **browse, \
+t_big *datas, char *input);
+int						update_history_list(t_history **begin, char *line, \
+int status);
 int						cmp_history(char **browse, t_history *tmp);
 int						update_history_file(t_big *datas);
 
@@ -171,11 +171,10 @@ void					free_arg(char **arg);
 void					clean_datas(t_big *datas);
 void					free_elems_print_error(char **str, t_var **tmp);
 
-
 //ERRORS
 char					**printcc_stderr(char *cmd, char *strerror, int exit);
 char					*printc_stderr(char *cmd, char *strerror, int exit);
-int 					printi_stderr(char *cmd, char *strerror, int exit);
+int						printi_stderr(char *cmd, char *strerror, int exit);
 
 //AST
 int						read_input(t_big *datas);
@@ -184,10 +183,12 @@ t_node					**ft_parser(t_node **token_tab);
 void					executions(t_big *datas);
 int						tree(t_node **tokens, t_big *datas);
 void					*print_errors(char *error, int exit);
-int 					print_errors_int(char *error, int exit);
+int						print_errors_int(char *error, int exit);
 void					semicolon_node(t_node **tokens, t_big *datas, int i);
-void					right_redir_node(t_node **tokens, t_big *datas, int i, t_node *prev);
-void					left_redir_node(t_node **tokens, t_big *datas, int i, t_node *prev);
+void					right_redir_node(t_node **tokens, t_big *datas, int i, \
+t_node *prev);
+void					left_redir_node(t_node **tokens, t_big *datas, int i, \
+t_node *prev);
 void					pipe_node(t_node **tokens, t_big *datas, int i);
 
 //LEXER
@@ -212,14 +213,20 @@ int						exec_built_in(char *command, char **argv, t_big *datas);
 int						exec_binary(char *command, char **argv, t_big *datas);
 void					print_std(int fd);
 void					no_parent(t_node *root, int n, t_big *datas, int side);
-void					pipe_parent(t_node *root, int n, t_big *datas, int side);
-void					semicolon_parent(t_node *root, int n, t_big *datas, int side);
-void					right_redir_parent(t_node *root, int n, t_big *datas, int side);
-void					left_redir_parent(t_node *root, int n, t_big *datas, int side);
+void					pipe_parent(t_node *root, int n, t_big *datas, \
+int side);
+void					semicolon_parent(t_node *root, int n, t_big *datas, \
+int side);
+void					right_redir_parent(t_node *root, int n, t_big *datas, \
+int side);
+void					left_redir_parent(t_node *root, int n, t_big *datas, \
+int side);
 
 //GRAMMAR
-void					exec_piped_cmd(char *cmd, char *builtin, char **av, t_big *datas);
-void					exec_semicolon_cmd(char *command, char **argv, int is_built_in, t_big *datas);
+void					exec_piped_cmd(char *cmd, char *builtin, char **av, \
+t_big *datas);
+void					exec_semicolon_cmd(char *command, char **argv, \
+int is_built_in, t_big *datas);
 void					redirections(int type, char **argv, t_big *datas);
 int						exec_anglebracket_right(char **argv, t_big *datas);
 void					print_std_fd(int fd_in, int fd_out);
@@ -240,13 +247,9 @@ void					actualize_data(t_big *datas);
 int						display_prompt(void);
 int						shell_lvl(t_big *datas);
 int						increment_shell_lvl(char **level, t_list *tmp);
-void					clean_if_mallocked(char **level, char **var, char **value);
-
-
-
-
+void					clean_if_mallocked(char **level, char **var, \
+char **value);
 char					*get_env_var(char *str, int *i, t_big *datas);
-
 
 //TERMCAPS
 int						term_size(void);
@@ -254,8 +257,9 @@ int						termcaps_init(void);
 int						raw_mode(void);
 int						normal_mode(void);
 int						cursor_position(void);
-int						do_the_right_thing(int *i, char *buf, char **line, t_big *datas);
-int						ft_putchar2(int);
+int						do_the_right_thing(int *i, char *buf, char **line, \
+t_big *datas);
+int						ft_putchar2(int c);
 void					print_at_cursor(char c);
 int						ctrl_d(t_big *datas, char **line, int *i);
 void					lines_added(char *str);
@@ -266,7 +270,7 @@ int						clear_after_cursor(void);
 void					print_at_cursor(char c);
 int						move_cursor_left(void);
 int						move_cursor_right(void);
-int 					add_at_cursor(char c, int *i, char **line);
+int						add_at_cursor(char c, int *i, char **line);
 int						backspace(int *i, char **line);
 int						backspace_at_cursor(int *i, char **line);
 int						get_cursor_max(void);
@@ -280,12 +284,10 @@ void					clean_the_mess(char **tmp, char **oldline, char **line);
 //FLAGS
 void					ft_signals(int sig);
 
-
 //DEVELOPPEMENT MODE
-void					DEVELOPMENT_MODE_print_sequence(char *buf); //DELETE BEFORE PUSH
-void					DEVELOPMENT_MODE_print_termcaps(char *str); //DELETE BEFORE PUSH
+void					DEVELOPMENT_MODE_print_sequence(char *buf);
+void					DEVELOPMENT_MODE_print_termcaps(char *str);
 void					DEVELOPMENT_MODE_print_str(char *buf);
 void					DEVELOPMENT_MODE_print_nbr(long n);
-
 
 #endif
