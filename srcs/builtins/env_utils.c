@@ -66,6 +66,13 @@ t_var	*create_single_tmp(void)
 	return (tmp);
 }
 
+void	free_elems_print_error(char **str, t_var **tmp)
+{
+	clean_free(str);
+	free(*tmp);
+	printi_stderr(0, strerror(errno), 0);
+}
+
 t_var	*fill_tmp(char *str)
 {
 	int		i;
@@ -89,9 +96,7 @@ t_var	*fill_tmp(char *str)
 	tmp->value = ft_substr(str, i, (ft_strlen(str) - i));
 	if (!(tmp->value))
 	{
-		free(tmp->var);
-		free(tmp);
-		printi_stderr(0, strerror(errno), 0);
+		free_elems_print_error(&tmp->var, &tmp);
 		return (ERROR);
 	}
 	return (tmp);
