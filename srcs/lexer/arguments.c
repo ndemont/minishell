@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 16:59:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:52:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char		*get_str(char *str, int *i, int j)
+char	*get_str(char *str, int *i, int j)
 {
 	char	*new;
 	int		end;
@@ -35,7 +35,7 @@ char		*get_str(char *str, int *i, int j)
 	return (new);
 }
 
-char		*get_second_part(char *input, int *i, char *arg)
+char	*get_second_part(char *input, int *i, char *arg)
 {
 	int		j;
 	char	*second_part;
@@ -63,23 +63,36 @@ char		*get_second_part(char *input, int *i, char *arg)
 	return (second_part);
 }
 
-char		*get_arg(char *input, int *i)
+char	*init_arg(void)
+{
+	char	*arg;
+
+	arg = malloc(sizeof(char));
+	if (!(arg))
+		return (printc_stderr(0, strerror(errno), 0));
+	arg[0] = '\0';
+	return (arg);
+}
+
+char	*get_arg(char *input, int *i)
 {
 	char	*arg;
 	char	*first_part;
 	char	*second_part;
 
-	if (!(arg = malloc(sizeof(char))))
+	arg = init_arg();
+	if (!(arg))
 		return (printc_stderr(0, strerror(errno), 0));
-	arg[0] = '\0';
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
 		*i = *i + 1;
 	while (input[*i] && input[*i] != ' ' && input[*i] != '\t')
 	{
 		first_part = arg;
-		if (!(second_part = get_second_part(input, i, arg)))
+		second_part = get_second_part(input, i, arg);
+		if (!(second_part))
 			return (0);
-		if (!(arg = ft_strjoin(first_part, second_part)))
+		arg = ft_strjoin(first_part, second_part);
+		if (!(arg))
 		{
 			free(first_part);
 			free(second_part);

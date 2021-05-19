@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/14 17:41:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 12:16:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_node	*ft_new_node(char *input, int *i)
 	new_node = 0;
 	while (input[*i] && input[*i] == ' ' && input[*i] == '\t')
 		*i = *i + 1;
-	if ((type = ft_is_grammar(input, *i)))
+	type = ft_is_grammar(input, *i);
+	if ((type))
 	{
 		new_node = ft_init_grammar_node(type);
 		if (!new_node)
@@ -67,7 +68,7 @@ t_node	*ft_new_node(char *input, int *i)
 	return (new_node);
 }
 
-int		ft_check_node_error(t_node **nodes, int j)
+int	ft_check_node_error(t_node **nodes, int j)
 {
 	if (j == 0 && nodes[j]->type)
 		return (printi_stderr(0, "syntax error", 1));
@@ -78,29 +79,29 @@ int		ft_check_node_error(t_node **nodes, int j)
 
 t_node	**ft_create_nodes(char *input, int nb)
 {
-	t_node	**nodes;
+	t_node	**node;
 	int		j;
 	int		i;
 
-	if (!(nodes = (t_node **)malloc(sizeof(t_node) * (nb + 1))))
+	node = (t_node **)malloc(sizeof(t_node) * (nb + 1));
+	if (!(node))
 		return (0);
-	nodes[nb] = 0;
+	node[nb] = 0;
 	j = 0;
 	i = 0;
 	while (j < nb)
 	{
-		nodes[j] = ft_new_node(input, &i);
-		if (!nodes[j])
+		node[j] = ft_new_node(input, &i);
+		if (!node[j])
 			return (0);
-		if (!(ft_check_node_error(nodes, j)))
+		if (!(ft_check_node_error(node, j)))
 			return (0);
 		j++;
 	}
-	if (!nodes[j - 1]->type && !nodes[j - 1]->input[0] && \
-		nodes[j - 2]->type < 5)
+	if (!node[j - 1]->type && !node[j - 1]->input[0] && node[j - 2]->type < 5)
 	{
 		printc_stderr(0, "missing command at end of line", 1);
 		return (0);
 	}
-	return (nodes);
+	return (node);
 }
