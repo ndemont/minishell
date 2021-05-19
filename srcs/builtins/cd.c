@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:59:15 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/19 15:27:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:35:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	ft_cd(char **arg, t_big *datas)
 
 	tmp = *datas->env;
 	ret = 1;
+	home = 0;
 	while (tmp && ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
 		tmp = tmp->next;
 	if (tmp && !ft_strcmp(((t_var *)tmp->content)->var, "HOME"))
@@ -97,6 +98,7 @@ int	ft_cd(char **arg, t_big *datas)
 		come_back_home(tmp);
 	else
 		ret = get_regular_path(arg, tmp);
+	clean_free(&home);
 	if (!ret)
 		return (0);
 	ret = actualize_variables(datas);
