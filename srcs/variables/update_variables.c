@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 17:57:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:28:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*get_str(char *str, t_big *datas, int *i)
 	return (var);
 }
 
-char		*join_variable(char *tmp, char *var, char *new)
+char	*join_variable(char *tmp, char *var, char *new)
 {
 	if (tmp)
 	{
@@ -56,7 +56,7 @@ char		*join_variable(char *tmp, char *var, char *new)
 	return (new);
 }
 
-char		*check_variable(char *str, t_big *datas)
+char	*check_variable(char *str, t_big *datas)
 {
 	int		i;
 	char	*var;

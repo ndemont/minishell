@@ -6,21 +6,21 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:38:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 15:45:27 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:26:26 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char		*get_return_value(void)
+char	*get_return_value(void)
 {
-	char *value;
+	char	*value;
 
 	value = ft_itoa(tcaps.ret);
 	return (value);
 }
 
-char		*get_str_var(char *str, int *i)
+char	*get_str_var(char *str, int *i)
 {
 	int		len;
 	char	*var;
@@ -29,17 +29,19 @@ char		*get_str_var(char *str, int *i)
 	len = 0;
 	while (str[*i + len] && str[*i + len] != '\"')
 		len++;
-	if (!(var = ft_substr(str, *i, len)))
+	var = ft_substr(str, *i, len);
+	if (!(var))
 		return (printc_stderr(0, strerror(errno), 0));
 	*i = *i + len;
 	return (var);
 }
 
-char		*init_value(char *var)
+char	*init_value(char *var)
 {
-	char *value;
+	char	*value;
 
-	if (!(value = malloc(sizeof(char))))
+	value = malloc(sizeof(char));
+	if (!(value))
 	{
 		free(var);
 		return (printc_stderr(0, strerror(errno), 0));
@@ -48,7 +50,7 @@ char		*init_value(char *var)
 	return (value);
 }
 
-char		*find_var(char *var, char *value, t_big *datas)
+char	*find_var(char *var, char *value, t_big *datas)
 {
 	t_list	*env;
 
@@ -72,7 +74,7 @@ char		*find_var(char *var, char *value, t_big *datas)
 	return (value);
 }
 
-char		*get_env_var(char *str, int *i, t_big *datas)
+char	*get_env_var(char *str, int *i, t_big *datas)
 {
 	int		start;
 	char	*var;
@@ -90,9 +92,11 @@ char		*get_env_var(char *str, int *i, t_big *datas)
 			value = ft_strjoin(value, var);
 		return (value);
 	}
-	if (!(var = get_str_var(str, i)))
+	var = get_str_var(str, i);
+	if (!(var))
 		return (0);
-	if (!(value = init_value(var)))
+	value = init_value(var);
+	if (!(value))
 		return (0);
 	value = find_var(var, value, datas);
 	return (value);

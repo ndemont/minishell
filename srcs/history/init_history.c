@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:15:32 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/15 17:44:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:21:58 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		create_history(t_big *datas)
+int	create_history(t_big *datas)
 {
 	datas->history = (t_history **)malloc(sizeof(t_history));
 	if (!(datas->history))
@@ -30,7 +30,7 @@ int		create_history(t_big *datas)
 	return (1);
 }
 
-int		copy_history(t_big *datas, int fd)
+int	copy_history(t_big *datas, int fd)
 {
 	int		ret;
 	int		error;
@@ -57,7 +57,7 @@ int		copy_history(t_big *datas, int fd)
 	return (ret);
 }
 
-int		init_history(t_big *datas)
+int	init_history(t_big *datas)
 {
 	int			fd;
 	int			ret;

@@ -6,15 +6,15 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:58:06 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/15 17:37:31 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:23:57 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		history_add_front(t_history **begin, t_history *new)
+void	history_add_front(t_history **begin, t_history *new)
 {
-	t_history *tmp;
+	t_history	*tmp;
 
 	tmp = *begin;
 	tmp->prev = new;
@@ -24,11 +24,13 @@ void		history_add_front(t_history **begin, t_history *new)
 
 t_history	*new_history_elem(char *command, int status)
 {
-	t_history *new;
+	t_history	*new;
 
-	if (!(new = (t_history *)malloc(sizeof(t_history))))
+	new = (t_history *)malloc(sizeof(t_history));
+	if (!(new))
 		return (0);
-	if (!(new->command = ft_strdup(command)))
+	new->command = ft_strdup(command);
+	if (!(new->command))
 	{
 		free(new);
 		return (0);
@@ -39,7 +41,7 @@ t_history	*new_history_elem(char *command, int status)
 	return (new);
 }
 
-int			update_history_file(t_big *datas)
+int	update_history_file(t_big *datas)
 {
 	int			fd;
 	t_history	*history;
@@ -63,11 +65,12 @@ int			update_history_file(t_big *datas)
 	return (1);
 }
 
-int			update_history_list(t_history **begin, char *line, int status)
+int	update_history_list(t_history **begin, char *line, int status)
 {
 	t_history	*new;
 
-	if (!(new = new_history_elem(line, status)))
+	new = new_history_elem(line, status);
+	if (!(new))
 		return (0);
 	history_add_front(begin, new);
 	return (1);

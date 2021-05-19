@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 22:16:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 14:01:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:28:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	count_args(char **arg, t_big *datas)
 {
-	int count;
-	int i;
+	int	count;
+	int	i;
 
 	i = 0;
 	count = 0;
@@ -69,11 +69,12 @@ static char	**tab_join(char **tab1, t_big *datas)
 	return (new);
 }
 
-char		**get_arguments(t_node *root, t_big *datas)
+char	**get_arguments(t_node *root, t_big *datas)
 {
 	if (datas->redirection_arg)
 	{
-		if (!(root->arg = tab_join(root->arg, datas)))
+		root->arg = tab_join(root->arg, datas);
+		if (!(root->arg))
 			return (printcc_stderr(0, strerror(errno), 0));
 		datas->redirection_arg = 0;
 	}
