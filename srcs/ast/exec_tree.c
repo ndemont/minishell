@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 23:40:03 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 23:47:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 14:05:03 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ void	print_std(int fd)
 	int		ret;
 
 	line = NULL;
-	while ((ret = get_next_line(fd, &line)) > 0)
+	ret = get_next_line(fd, &line);
+	while (ret > 0)
 	{
 		ft_putstr(line);
 		ft_putchar('\n');
 		free(line);
+		ret = get_next_line(fd, &line);
 	}
 	ft_putstr(line);
 	free(line);
@@ -58,7 +60,7 @@ void	execute_tree(t_node *root, int parent, t_big *datas, int side)
 
 void	executions(t_big *datas)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	datas->flag_pipe = 0;

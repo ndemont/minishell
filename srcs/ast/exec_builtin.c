@@ -6,15 +6,15 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 23:42:51 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 23:46:30 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 14:03:37 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		exec_built_in(char *command, char **argv, t_big *datas)
+int	exec_built_in(char *command, char **argv, t_big *datas)
 {
-	int ret;
+	int	ret;
 
 	if (datas->flag_bracket)
 	{

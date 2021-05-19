@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 15:13:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/17 23:25:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 14:05:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_count_nodes(t_node **tokens, t_big *datas)
+int	ft_count_nodes(t_node **tokens, t_big *datas)
 {
 	int	count;
 	int	i;
@@ -65,7 +65,7 @@ void	create_tree(t_node **tokens, t_big *datas, t_node **tmp)
 	}
 }
 
-int		tree(t_node **tokens, t_big *datas)
+int	tree(t_node **tokens, t_big *datas)
 {
 	int		count;
 	t_node	**tmp;
