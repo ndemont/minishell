@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 19:36:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:31:39 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:28:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	free_datas(t_big *datas)
 			free(datas->input);
 		if (datas->browse)
 			free(datas->browse);
+		if (g_tcaps.current_dir)
+			clean_free(&g_tcaps.current_dir);
 	}
 	return (1);
 }
