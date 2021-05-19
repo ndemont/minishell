@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 17:47:50 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/16 18:39:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:21:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			cmp_history(char **browse, t_history *tmp)
+int	cmp_history(char **browse, t_history *tmp)
 {
 	if (*browse)
 		free(*browse);
