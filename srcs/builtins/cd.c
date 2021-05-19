@@ -65,9 +65,9 @@ int	previous_path(t_list *tmp)
 		return (printi_stderr("cd", "OLDPWD not set", 1));
 }
 
-int		get_regular_path(char **arg, t_list *tmp)
+int	get_regular_path(char **arg, t_list *tmp)
 {
-	int ret;
+	int	ret;
 
 	ret = 1;
 	if (!ft_strcmp(arg[1], "-"))
