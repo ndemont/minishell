@@ -49,31 +49,6 @@ int	argument_without_equal(char *arg, t_big *datas)
 		return (SUCCESS);
 }
 
-int	treat_list(char *arg, t_big *datas)
-{
-	int	ret;
-	int	ret2;
-	int	ret3;
-	int	ret_final;
-
-	ret = actualize_list(arg, *datas->hidden);
-	ret2 = check_duplicate(*datas->export, arg);
-	ret3 = check_duplicate(*datas->env, arg);
-	ret_final = SUCCESS;
-	if (!ret || ret2 == ERR || ret3 == ERR)
-		return (ERROR);
-	if (ret2 && !ret3)
-		ret_final = actualize_export_add_env(arg, datas);
-	else if (ret2 && ret3)
-		ret_final = actualize_export_actualize_env(arg, datas);
-	else if (!ret2)
-		ret_final = add_hidden_to_env_export(arg, datas);
-	if (!ret_final)
-		return (ERROR);
-	else
-		return (SUCCESS);
-}
-
 int	argument_with_equal(char *arg, t_big *datas)
 {
 	int	ret;
@@ -96,7 +71,7 @@ int	argument_with_equal(char *arg, t_big *datas)
 int	treat_argument(char *arg, t_big *datas)
 {
 	int	ret;
-	int ret2;
+	int	ret2;
 	int	ret_final;
 
 	ret_final = SUCCESS;
@@ -115,7 +90,7 @@ int	treat_argument(char *arg, t_big *datas)
 	return (SUCCESS);
 }
 
-int		ft_export(char **arg, t_big *datas)
+int	ft_export(char **arg, t_big *datas)
 {
 	int	i;
 	int	ret;
