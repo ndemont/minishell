@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 16:13:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 14:09:20 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ void	actualize_data(t_big *datas)
 
 void	init_data(t_big *datas)
 {
-	datas->fd = -1;
-	datas->fd_out = STDOUT_FILENO;
-	datas->flag_pipe = 0;
-	datas->flag_bracket = 0;
-	datas->flag_left_bracket = 0;
-	datas->flag_history = 0;
-	datas->redirection_arg = 0;
 	datas->file_name = 0;
 	datas->env = 0;
 	datas->quit = 0;
@@ -68,9 +61,10 @@ void	init_data(t_big *datas)
 	tcaps.current_dir++;
 }
 
-int		main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	t_big	datas;
+	int		ret;
 
 	(void)ac;
 	(void)av;
@@ -80,10 +74,12 @@ int		main(int ac, char **av, char **env)
 	if (!(init_history(&datas)))
 		return (free_datas(&datas));
 	if (!(store_env(env, &datas)))
-		return (free_datas(&datas)); 
+		return (free_datas(&datas));
 	signal(SIGINT, ft_signals);
 	signal(SIGQUIT, ft_signals);
-	while (read_input(&datas));
+	ret = 1;
+	while (ret)
+		ret = read_input(&datas));
 	if (!(update_history_file(&datas)))
 		return (free_datas(&datas));
 	free_datas(&datas);
