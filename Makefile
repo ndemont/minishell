@@ -6,7 +6,7 @@
 #    By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/22 14:42:49 by gpetit            #+#    #+#              #
-#    Updated: 2021/05/19 12:18:29 by ndemont          ###   ########.fr        #
+#    Updated: 2021/05/19 12:27:28 by ndemont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,8 @@ IFLAGS = -I${INC_DIR}
 
 LIBFT = -Llibft -lft -ltermcap
 
-SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/parser.c lexer/count.c lexer/initialisation.c\
-<<<<<<< HEAD
-	lexer/nodes.c lexer/tokens.c lexer/variables.c lexer/odd_chars.c free/free_datas.c free/free_tree.c free/free.c ast/parents.c ast/exec_tree.c ast/exec_builtin.c ast/exec_binary.c ast/redirection_node.c ast/tree.c ast/semicolon_node.c ast/pipe_node.c\
-=======
-	lexer/nodes.c lexer/tokens.c lexer/quotes.c lexer/variables.c lexer/odd_chars.c free/free_datas.c free/free_tree.c free/free.c ast/exec_tree.c ast/exec_builtin.c ast/exec_binary.c ast/redirection_node.c ast/tree.c ast/semicolon_node.c ast/pipe_node.c\
->>>>>>> Lexer norme
+SRCS = $(addprefix srcs/, main.c display_prompt.c lexer/lexer.c lexer/quotes.c lexer/parser.c lexer/count.c lexer/initialisation.c\
+	lexer/nodes.c lexer/tokens.c lexer/variables.c lexer/odd_chars.c free/free_datas.c free/free_tree.c free/free.c ast/parents.c ast/exec_tree.c ast/exec_builtin.c ast/exec_binary.c ast/redirection_node.c ast/tree.c ast/semicolon_node.c ast/pipe_node.c \
 	lexer/arguments.c errors/errors.c builtins/echo.c builtins/cd.c builtins/env.c builtins/env_shell_lvl.c builtins/env_shell_lvl_2.c builtins/pwd.c \
 	builtins/exit.c builtins/unset.c builtins/hidden.c grammar/pipe.c \
 	grammar/semicolon.c grammar/redirection.c grammar/arguments.c history/init_history.c \
