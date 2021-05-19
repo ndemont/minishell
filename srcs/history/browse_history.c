@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:09:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/16 18:38:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 11:12:48 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,24 @@ void	lines_added(char *str)
 	}
 }
 
-int	browse_history(t_big *datas, char **line, int signal)
+int	actualize_line(char **line, t_big *datas)
 {
-	static t_history	*current = 0;
+	if (datas->browse)
+	{
+		lines_added(datas->browse);
+		tcaps.cursor_lvl = tcaps.line_lvl;
+		ft_putstr_fd(datas->browse, STDIN_FILENO);
+		if (*line)
+			free(*line);
+		*line = ft_strdup(datas->browse);
+		if (!(*line))
+			return (printi_stderr(0, strerror(errno), 0));
+	}
+	return (1);
+}
 
+t_history	*initialize_browsing(t_big *datas, char **line, t_history *current)
+{
 	if (!datas->flag_history)
 	{
 		current = *datas->history;
@@ -41,8 +55,22 @@ int	browse_history(t_big *datas, char **line, int signal)
 			free(datas->input);
 		datas->input = ft_strdup(*line);
 		if (!datas->input)
-			return (printi_stderr(0, strerror(errno), 0));
+		{
+			printi_stderr(0, strerror(errno), 0);
+			return (0);
+		}
 	}
+	return (current);
+}
+
+int	browse_history(t_big *datas, char **line, int signal)
+{
+	static t_history	*current = 0;
+	int					ret;
+
+	current = initialize_browsing(datas, line, current);
+	if (!current)
+		return (ERROR);
 	if (signal == 1)
 	{
 		current = browse_up(current, &datas->browse, datas, datas->input);
@@ -55,16 +83,8 @@ int	browse_history(t_big *datas, char **line, int signal)
 		if (!current)
 			return (ERROR);
 	}
-	if (datas->browse)
-	{
-		lines_added(datas->browse);
-		tcaps.cursor_lvl = tcaps.line_lvl;
-		ft_putstr_fd(datas->browse, STDIN_FILENO);
-		if (*line)
-			free(*line);
-		*line = ft_strdup(datas->browse);
-		if (!(*line))
-			return (printi_stderr(0, strerror(errno), 0));
-	}
+	ret = actualize_line(line, datas);
+	if (!ret)
+		return (0);
 	return (1);
 }
