@@ -6,20 +6,33 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:02:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 14:10:17 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:07:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int display_directory(void)
+{
+	write(STDOUT_FILENO, CYAN, 7);
+	write(STDOUT_FILENO, "(", 1);
+	if (!ft_strcmp(g_tcaps.current_dir, "/"))
+		write(STDOUT_FILENO, "\\", 1);
+	else
+	{
+		g_tcaps.current_dir = strrchr(g_tcaps.current_dir, '/');
+		write(STDOUT_FILENO, g_tcaps.current_dir + 1 , ft_strlen(g_tcaps.current_dir) - 1);
+	}
+	write(STDOUT_FILENO, ") ", 2);
+	write(STDOUT_FILENO, RESET, 6);
+	return (1);
+}
+
 int	display_prompt(void)
 {
 	write(STDOUT_FILENO, PURPLE, 7);
 	write(STDOUT_FILENO, "minishellrose$ ", 15);
-	write(STDOUT_FILENO, CYAN, 7);
-	write(STDOUT_FILENO, "(", 1);
-	write(STDOUT_FILENO, g_tcaps.current_dir, ft_strlen(g_tcaps.current_dir));
-	write(STDOUT_FILENO, ") ", 2);
+	display_directory();
 	write(STDOUT_FILENO, RESET, 6);
 	raw_mode();
 	cursor_position();

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:59:15 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/19 10:49:00 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:04:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,5 @@ int	ft_cd(char **arg, t_big *datas)
 		return (BUILT_IN_FAILURE);
 	g_tcaps.current_dir = getcwd(0, 0);
 	g_tcaps.current_dir = ft_strrchr(g_tcaps.current_dir, '/');
-	if (ft_strcmp(g_tcaps.current_dir, "/"))
-		g_tcaps.current_dir++;
 	return (0);
 }
