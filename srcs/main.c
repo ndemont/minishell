@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 10:19:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 15:13:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:29:34 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	init_data(t_big *datas)
 	g_tcaps.cursor_max = 0;
 	g_tcaps.cursor_lvl = 0;
 	g_tcaps.cursor_pos = 0;
-	g_tcaps.current_dir = NULL;
 	g_tcaps.current_dir = getcwd(g_tcaps.current_dir, 0);
 }
 
