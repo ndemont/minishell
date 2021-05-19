@@ -87,7 +87,6 @@ static int	exec_child(char *command, char *builtin, char **av, t_big *datas)
 		free_datas(datas);
 		exit(ret_status);
 	}
-	happening_in_parents();
 	waitpid(pid1, &ret_status, 0);
 	actualize_return_status(ret_status);
 	dup2(fd[0], datas->fd);
