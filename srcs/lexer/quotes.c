@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 12:00:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 12:23:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 12:30:55 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,7 @@ char	*get_double_quote(char *input, int *i, int j)
 	tmp = new;
 	new = get_first_quote(new, input, i, start);
 	if (!(new))
-	{	
-		clean_free(&tmp);
 		return (0);
-	}
-	clean_free(&tmp);
 	*i = *i + 1;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:04:11 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 16:52:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 12:42:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	exec_semicolon_cmd(char *cmd, char **av, int is_bltn, t_big *datas)
 	if (datas->flag_bracket && tcaps.exit)
 	{
 		print_std_fd(datas->fd, datas->fd_out);
-		ft_putstr_fd("\n", datas->fd);
 		if (datas->fd_out != STDOUT_FILENO)
 			close(datas->fd_out);
 		datas->fd_out = STDOUT_FILENO;

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:36:18 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/19 12:53:11 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ void	print_std_fd(int fd_in, int fd_out)
 	while (ret > 0)
 	{
 		ret = get_next_line(fd_in, &line);
-		ft_putstr_fd(line, fd_out);
-		ft_putstr_fd("\n", fd_out);
-		free(line);
-		line = 0;
+		if (ret > 0)
+		{
+			ft_putstr_fd(line, fd_out);
+			ft_putstr_fd("\n", fd_out);
+			free(line);
+			line = 0;
+		}
 	}
 	ft_putstr_fd(line, fd_out);
 	if (line)
