@@ -57,7 +57,7 @@ void	free_list(t_list **list)
 					clean_free(&(((t_var *)elem->content)->var));
 				if (((t_var *)elem->content)->value)
 					clean_free(&(((t_var *)elem->content)->value));
-				clean_free(elem->content);
+				free(elem->content);
 			}
 			tmp = elem;
 			elem = elem->next;
