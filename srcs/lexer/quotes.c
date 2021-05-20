@@ -6,11 +6,37 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 12:00:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 17:53:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 18:55:59 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_backslash_quotes(char *input, int *i, int *start)
+{
+	char	*prev;
+	char	*new;
+	char	*final;
+
+	if (input[*i] == '\\' && !input[*i + 1])
+		return (printc_stderr(0, "missing char at end of line", 1));
+	prev = ft_substr(input, *start, *i - *start);
+	if (!prev)
+		return (printc_stderr(0, strerror(errno), 0));
+	new = malloc(sizeof(char) * 2);
+	if (!new)
+	{
+		free(prev);
+		return (0);
+	}
+	new[0] = input[*i + 1];
+	new[1] = 0;
+	final = ft_strjoin(prev, new);
+	free(prev);
+	free(new);
+	*i = *i + 2;
+	return (final);
+}
 
 char	*get_single_quote(char *input, int *i, int *j)
 {
@@ -76,12 +102,17 @@ char	*get_var_quotes(char *input, int *i, char *new, int *start)
 			return (0);
 		tmp = new;
 		new = get_variable_part(new, input, i);
-		if (!(new))
-			return (0);
+		*start = *i;
+	}
+	else if (input[*i] == '\\' && (input[*i + 1] == '"' || input[*i + 1] == '\\' || input[*i + 1] == '`'))
+	{
+		new = get_backslash_quotes(input, i, start);
 		*start = *i;
 	}
 	else
 		*i = *i + 1;
+	if (!(new))
+		return (0);
 	return (new);
 }
 

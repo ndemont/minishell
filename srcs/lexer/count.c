@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:22:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:39:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 19:16:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ void	count_special_char(char *input, int *i)
 	else if (input[*i] == '"')
 	{
 		*i = *i + 1;
-		while (input[*i] != '"')
+		while (input[*i] && input[*i] != '"')
+		{
+			if (input[*i] == '\\' && input[*i + 1] == '"')
+				*i = *i + 1;
 			*i = *i + 1;
+		}
 		*i = *i + 1;
 	}
 }
