@@ -12,16 +12,21 @@
 
 #include "minishell.h"
 
+static void	variable_init(char **line, t_node ***token_tab, t_big *datas)
+{
+	actualize_data(datas);
+	*line = NULL;
+	datas->quit = 0;
+	display_prompt();
+	*token_tab = 0;
+}
+
 int	read_input(t_big *datas)
 {
 	char	*line;
 	t_node	**token_tab;
 
-	actualize_data(datas);
-	line = NULL;
-	datas->quit = 0;
-	display_prompt();
-	token_tab = 0;
+	variable_init(&line, &token_tab, datas);
 	line = create_line(datas);
 	if (!line)
 		return (g_tcaps.exit);
