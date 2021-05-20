@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 09:35:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:44:54 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ void					redirections(int type, char **argv, t_big *datas);
 int						exec_anglebracket_right(char **argv, t_big *datas);
 void					print_std_fd(int fd_in, int fd_out);
 int						ft_copy_arg(char **argv, t_big *datas);
+int						check_ambiguous_arg(char **argv, t_big *datas);
 
 //BUILTINS
 int						ft_echo(char **arg, t_big *datas);

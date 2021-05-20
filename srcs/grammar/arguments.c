@@ -6,11 +6,26 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 12:00:16 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:35:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:45:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		check_ambiguous_arg(char **argv, t_big *datas)
+{
+	if (argv && argv[0] && argv[0][0] && argv[0][1])
+	{
+		if (argv[0][0] == '"' && argv[0][1] == '$')
+		{
+			g_tcaps.ret = 1;
+			datas->flag_bracket = 1;
+			datas->fd_out = open(".hidden", O_CREAT |  O_WRONLY | O_TRUNC, 0644);
+			return (printi_stderr(0, "ambiguous redirect", 1));
+		}
+	}
+	return (1);
+}
 
 static int	count_len_total(char **argv, t_big *datas)
 {
