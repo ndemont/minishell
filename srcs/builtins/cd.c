@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:59:15 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/19 15:35:35 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:00:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	get_regular_path(char **arg, t_list *tmp)
 	{
 		ret = chdir(arg[1]);
 		if (ret == ERR)
-			return (printi_stderr("cd", strerror(errno), 1));
+			return (printi_stderr("cd: ", strerror(errno), 1));
 	}
 	return (1);
 }
