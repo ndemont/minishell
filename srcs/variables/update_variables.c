@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:28:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 17:58:37 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static char	*get_str(char *str, t_big *datas, int *i)
 	}
 	else
 	{
+		*i = *i + 1;
 		while (str[*i] && str[*i] != '\"')
 			*i = *i + 1;
 		var = ft_substr(str, start, *i - start);
