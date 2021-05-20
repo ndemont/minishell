@@ -12,12 +12,17 @@
 
 #include "minishell.h"
 
-static void	exec_child(char *command, char **argv, t_big *datas)
+static int	exec_child(char *command, char **argv, t_big *datas)
 {
 	pid_t	pid1;
 	int		ret_status;
 
 	pid1 = fork();
+	if (pid1 == ERR)
+	{
+		printi_stderr(0, strerror(errno), 0);
+		return (ERR);
+	}
 	g_tcaps.child = 1;
 	if (pid1 == 0)
 	{
@@ -32,6 +37,7 @@ static void	exec_child(char *command, char **argv, t_big *datas)
 	if (g_tcaps.ret == ERR)
 		g_tcaps.exit = 0;
 	close(datas->fd);
+	return (SUCCESS);
 }
 
 static int	exec_child2(char *command, char **av, t_big *datas)
