@@ -14,7 +14,7 @@
 
 int	display_directory(void)
 {
-	char *tmp;
+	char	*tmp;
 
 	write(STDOUT_FILENO, CYAN, 7);
 	write(STDOUT_FILENO, "(", 1);
