@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 12:16:23 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:50:32 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,15 @@ t_node	*ft_new_node(char *input, int *i)
 int	ft_check_node_error(t_node **nodes, int j)
 {
 	if (j == 0 && nodes[j]->type)
+	{
+		g_tcaps.ret = 2;
 		return (printi_stderr(0, "syntax error", 1));
+	}
 	else if (j != 0 && nodes[j]->type && nodes[j - 1]->type)
+	{
+		g_tcaps.ret = 2;
 		return (printi_stderr(0, "syntax error", 1));
+	}
 	return (1);
 }
 
@@ -100,7 +106,8 @@ t_node	**ft_create_nodes(char *input, int nb)
 	}
 	if (!node[j - 1]->type && !node[j - 1]->input[0] && node[j - 2]->type < 5)
 	{
-		printc_stderr(0, "missing command at end of line", 1);
+		g_tcaps.ret = 2;
+		printc_stderr(0, "syntax error", 1);
 		return (0);
 	}
 	return (node);
