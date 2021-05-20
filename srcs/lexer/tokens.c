@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:42:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 19:06:51 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ int	ft_is_quote(char *input, int i)
 	{
 		j++;
 		while (input[j] && input[j] != '"')
+		{
+			if (input[j] == '\\' && input[j + 1] == '"')
+				j++;
 			j++;
+		}
 		if (input[j] == '"')
 			return (j + 1);
 		else
