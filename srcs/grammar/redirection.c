@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 12:53:11 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:37:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,16 @@ int	exec_double_anglebracket_right(char **argv, t_big *datas)
 {
 	int	ret;
 
+	if (argv && argv[0] && argv[0][0] && argv[0][1])
+	{
+		if (argv[0][0] == '"' && argv[0][1] == '$')
+		{
+			g_tcaps.ret = 1;
+			datas->flag_bracket = 1;
+			datas->fd_out = open(".hidden", O_CREAT |  O_WRONLY | O_TRUNC, 0644);
+			return (printi_stderr(0, "ambiguous redirect", 1));
+		}
+	}
 	datas->flag_pipe = 0;
 	datas->flag_left_bracket = 1;
 	if (datas->fd_out != STDOUT_FILENO)
