@@ -48,6 +48,7 @@
 # define ERROR 0
 # define SUCCESS 1
 # define BUILT_IN_FAILURE -1
+# define BREAK_LOOP 2
 
 typedef struct s_global
 {
@@ -268,14 +269,13 @@ int						cursor_position(void);
 int						do_the_right_thing(int *i, char *buf, char **line, \
 t_big *datas);
 int						ft_putchar2(int c);
-void					print_at_cursor(char c);
+int						print_at_cursor(char c);
 int						ctrl_d(t_big *datas, char **line, int *i);
 void					lines_added(char *str);
 int						move_cursor(int c, int l);
 int						scroll_n_times(int n);
 int						clear_term(void);
 int						clear_after_cursor(void);
-void					print_at_cursor(char c);
 int						move_cursor_left(void);
 int						move_cursor_right(void);
 int						add_at_cursor(char c, int *i, char **line);

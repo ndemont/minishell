@@ -101,25 +101,31 @@ int	add_at_cursor(char c, int *i, char **line)
 	return (move_cursor(c_next, l_next));
 }
 
-void	print_at_cursor(char c)
+int	print_at_cursor(char c)
 {
+	int	ret;
+
+	ret = SUCCESS;
 	ft_putchar_fd(c, STDIN_FILENO);
 	if (g_tcaps.c_pos + 1 < g_tcaps.c_max)
-		move_cursor(g_tcaps.c_pos + 1, g_tcaps.l_pos);
+		ret = move_cursor(g_tcaps.c_pos + 1, g_tcaps.l_pos);
 	else if (g_tcaps.c_pos + 1 == g_tcaps.c_max && \
 	g_tcaps.l_pos + 1 != g_tcaps.l_max)
 	{
-		move_cursor(0, g_tcaps.l_pos + 1);
+		ret = move_cursor(0, g_tcaps.l_pos + 1);
 		g_tcaps.line_lvl++;
 		g_tcaps.cursor_lvl++;
 	}
 	else if (g_tcaps.c_pos + 1 == g_tcaps.c_max && \
 	g_tcaps.l_pos + 1 == g_tcaps.l_max)
 	{
-		scroll_n_times(1);
-		move_cursor(0, g_tcaps.l_pos);
+		ret = scroll_n_times(1);
+		if (!ret)
+			return (ERROR);
+		ret = move_cursor(0, g_tcaps.l_pos);
 		g_tcaps.line_lvl++;
 		g_tcaps.cursor_lvl++;
 	}
 	g_tcaps.cursor_max = g_tcaps.c_pos;
+	return (ret);
 }
