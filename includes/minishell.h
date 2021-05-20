@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/18 23:47:25 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 09:35:37 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,10 @@ int						update_history_list(t_history **begin, char *line, \
 int status);
 int						cmp_history(char **browse, t_history *tmp);
 int						update_history_file(t_big *datas);
+
+//PROMPT
+int						display_prompt(void);
+int						display_directory(void);
 
 //FREE
 int						free_datas(t_big *datas);
