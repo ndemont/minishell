@@ -292,4 +292,12 @@ void					clean_the_mess(char **tmp, char **oldline, char **line);
 //FLAGS
 void					ft_signals(int sig);
 
+//LINE_CREATION
+char					*create_line(t_big *datas);
+void					check_if_non_print(char *buf, int *non_print_flag, \
+t_big *datas);
+int						launch_termcaps(char *buf, char **line, int *i, \
+t_big *datas);
+int						edit_and_print_line(char *buf, char **line, int *i);
+
 #endif
