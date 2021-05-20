@@ -33,7 +33,9 @@ SRCS = $(addprefix srcs/, main.c input/read_input.c lexer/lexer.c lexer/quotes.c
 	termcaps/termcaps_backspace_middle_line.c termcaps/termcaps_backspace_middle_line2.c \
 	variables/replace_variables.c variables/update_arguments.c variables/update_variables.c \
 	builtins/env_utils.c termcaps/termcaps_cursor_move_down.c builtins/cd_actualize_env.c \
-	builtins/export.c builtins/export_list_actualization.c builtins/export_list_actualization_2.c builtins/export_args_conformity.c builtins/export_printer.c ast/exec_binary_input_tabs.c)
+	builtins/export.c builtins/export_list_actualization.c \
+	builtins/export_list_actualization_2.c builtins/export_args_conformity.c \
+	builtins/export_printer.c ast/exec_binary_input_tabs.c grammar/pipe_utils.c)
 
 INC_DIR = includes
 
