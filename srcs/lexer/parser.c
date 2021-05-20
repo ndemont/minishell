@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:42:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/20 15:51:01 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ t_node	**ft_parser(t_node **token_tab)
 		i++;
 	}
 	if (token_tab[i - 1]->type > 0 && token_tab[i - 1]->type < 5)
-		return (print_errors("Missing command at end of line", 1));
+	{
+		g_tcaps.ret = 2;
+		return (print_errors("syntax error", 1));
+	}
 	return (token_tab);
 }
