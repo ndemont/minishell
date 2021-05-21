@@ -73,9 +73,9 @@ int	exec_binary(char *command, char **argv, t_big *datas)
 	if (!cmd || !env)
 		return (ERR);
 	k = 0;
-	ret = execve(cmd[k], argv, env);
+	ret = -1;
 	while (cmd[k] && ret == -1)
-		ret = execve(cmd[++k], argv, env);
+		ret = execve(cmd[k++], argv, env);
 	if (ret == -1)
 	{
 		if (errno == 2)
