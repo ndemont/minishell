@@ -79,11 +79,6 @@ int	do_the_right_thing2(int *i, char *buf, char **line)
 
 int	do_the_right_thing(int *i, char *buf, char **line, t_big *datas)
 {
-	int	ret;
-
-	ret = cursor_position();
-	if (!ret)
-		return (ERROR);
 	if (buf[0] == 127 && g_tcaps.cursor_pos == *i)
 		return (backspace(i, line));
 	else if (buf[0] == 127 && g_tcaps.cursor_pos < *i && g_tcaps.cursor_pos > 0)
