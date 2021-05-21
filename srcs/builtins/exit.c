@@ -12,15 +12,43 @@
 
 #include "minishell.h"
 
+int    string_is_num(char *str)
+{
+    int    i;
+
+    i = 0;
+    if (!ft_isdigit(str[i]) && (str[i] != '-' && str[i] != '+'))
+        return (0);
+    while (str[++i])
+    {
+        if (!ft_isdigit(str[i]))
+            return (0);
+    }
+    return (1);
+}
+
 int	ft_exit(char **av, t_big *datas)
 {
+	char c;
+
+	g_tcaps.ret = 1;
 	write(STDOUT_FILENO, "exit\n", 5);
-	if (av && *av && av[1])
+	if (av[1] && !string_is_num(av[1]))
 	{
-		g_tcaps.ret = 1;
-		printf("minishellrose: exit: %s: numeric argument required\n", av[1]);
+		g_tcaps.ret = 2;
+		printi_stderr("exit", ": numeric argument required", 1);
+	}
+	else if (av[1] && string_is_num(av[1]))
+	{
+		if (av[2])
+		{
+			printi_stderr("exit", ": too many arguments", 1);
+			return (g_tcaps.ret);
+		}
+		c = ft_atoi(av[1]);
+		g_tcaps.ret = (int)c;
 	}
 	free_datas(datas);
-	exit(1);
+	exit(g_tcaps.ret);
 	return (g_tcaps.ret);
 }
