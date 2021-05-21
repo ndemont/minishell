@@ -45,15 +45,16 @@ void	execute_tree(t_node *root, int parent, t_big *datas, int side)
 			g_tcaps.ret = 0;
 		root->arg = get_arguments(root, datas);
 	}
-	if (parent == 0 && root->arg && root->arg[0])
+	if (parent == 0 && ((root->arg && root->arg[0]) || root->type))
 		no_parent(root, parent, datas, side);
-	if (parent == 1 && root->arg && root->arg[0])
+	if (parent == 1 && ((root->arg && root->arg[0]) || root->type))
 		pipe_parent(root, parent, datas, side);
-	if ((parent == 2 || parent == 3) && root->arg && root->arg[0])
+	if ((parent == 2 || parent == 3) && ((root->arg && root->arg[0]) || \
+	root->type))
 		right_redir_parent(root, parent, datas, side);
-	if (parent == 4 && root->arg && root->arg[0])
+	if (parent == 4 && ((root->arg && root->arg[0]) || root->type))
 		left_redir_parent(root, parent, datas, side);
-	if (parent == 5 && root->arg && root->arg[0])
+	if (parent == 5 && ((root->arg && root->arg[0]) || root->type))
 		semicolon_parent(root, parent, datas, side);
 }
 
