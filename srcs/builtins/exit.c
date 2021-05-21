@@ -12,24 +12,24 @@
 
 #include "minishell.h"
 
-int    string_is_num(char *str)
+int	string_is_num(char *str)
 {
-    int    i;
+	int	i;
 
-    i = 0;
-    if (!ft_isdigit(str[i]) && (str[i] != '-' && str[i] != '+'))
-        return (0);
-    while (str[++i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (0);
-    }
-    return (1);
+	i = 0;
+	if (!ft_isdigit(str[i]) && (str[i] != '-' && str[i] != '+'))
+		return (0);
+	while (str[++i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+	}
+	return (1);
 }
 
 int	ft_exit(char **av, t_big *datas)
 {
-	char c;
+	char	c;
 
 	g_tcaps.ret = 1;
 	write(STDOUT_FILENO, "exit\n", 5);
