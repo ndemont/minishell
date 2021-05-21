@@ -46,6 +46,5 @@ int	read_input(t_big *datas)
 	executions(datas);
 	if (!g_tcaps.exit)
 		return (0);
-	clean_datas(datas);
 	return (1);
 }

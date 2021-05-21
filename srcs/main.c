@@ -14,6 +14,7 @@
 
 void	actualize_data(t_big *datas)
 {
+	clean_datas(datas);
 	datas->fd = -1;
 	datas->fd_out = STDOUT_FILENO;
 	datas->flag_pipe = 0;
@@ -38,6 +39,15 @@ void	actualize_data(t_big *datas)
 
 void	init_data(t_big *datas)
 {
+	datas->fd = -1;
+	datas->fd_out = STDOUT_FILENO;
+	datas->flag_pipe = 0;
+	datas->flag_bracket = 0;
+	datas->flag_left_bracket = 0;
+	datas->flag_history = 0;
+	datas->redirection_arg = 0;
+	datas->browse = 0;
+	datas->input = 0;
 	datas->file_name = 0;
 	datas->env = 0;
 	datas->quit = 0;

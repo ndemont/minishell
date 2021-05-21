@@ -87,12 +87,12 @@ void	free_history(t_history **list)
 
 void	clean_datas(t_big *datas)
 {
-	free_double(datas->redirection_arg);
+	if (datas->redirection_arg)
+		free_double(datas->redirection_arg);
 	if (datas && datas->file_name)
 		free(datas->file_name);
-	free_tree(datas->root);
-	if (datas->input)
-		free(datas->input);
-	if (datas->browse)
-		free(datas->browse);
+	if (datas->root)
+		free_tree(datas->root);
+	clean_free(&datas->input);
+	clean_free(&datas->browse);
 }
