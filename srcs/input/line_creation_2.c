@@ -67,7 +67,7 @@ int	edit_and_print_line(char *buf, char **line, int *i)
 	if (!(*line))
 		return (printi_stderr(0, strerror(errno), 0));
 	ft_strlcat(*line, buf, ft_strlen(*line) + 2);
-	if (buf[0] != '\n' && (*line)[*i] && (*line)[*i + 1])
+	if (buf[0] != '\n')
 	{
 		(*line)[*i] = buf[0];
 		(*line)[*i + 1] = 0;
