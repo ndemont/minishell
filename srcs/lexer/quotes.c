@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 12:00:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 12:11:48 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 23:37:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,11 @@ char	*get_first_quote(char *new, char *input, int *i, int start)
 
 char	*get_var_quotes(char *input, int *i, char *new, int *start)
 {
-	char	*tmp;
-
 	if (input[*i] == '$')
 	{	
-		tmp = new;
 		new = get_first_quote(new, input, i, *start);
 		if (!(new))
 			return (0);
-		tmp = new;
 		new = get_variable_part(new, input, i);
 		*start = *i;
 	}

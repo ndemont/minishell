@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 15:44:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 23:41:26 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ char					*get_variable_quotes(char *str, int *k);
 t_node					*ft_init_grammar_node(int type);
 t_node					*ft_init_buildin_node(char *input, int type);
 char					*get_tilde(int *i);
+char					*get_first_quote(char *new, char *input, int *i, int start);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);

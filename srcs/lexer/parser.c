@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 21:09:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/22 00:00:34 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	search_builtin(t_node *token)
 
 int	get_command(t_node *token)
 {
-	int			i;
-	int			j;
-	int			count;
+	int	i;
+	int	j;
+	int	count;
 
 	i = 0;
 	count = count_arg(token->input);

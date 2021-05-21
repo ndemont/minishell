@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 22:16:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 12:03:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/22 00:01:30 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static char	**init_tab(char **tab1, t_big *datas)
 {
 	int		count;
 	char	**new;
+
 	count = count_args(tab1, datas);
 	new = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!(new))
@@ -41,6 +42,7 @@ static char	**init_tab(char **tab1, t_big *datas)
 	new[count] = 0;
 	return (new);
 }
+
 static char	**tab_join(char **tab1, t_big *datas)
 {
 	int		j;
