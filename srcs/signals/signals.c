@@ -15,14 +15,14 @@
 void	ft_signals(int sig)
 {
 	int	level;
-	int	ret;
 
 	if (sig == SIGINT)
 	{
-		level = g_tcaps.l_pos + (g_tcaps.line_lvl - g_tcaps.cursor_lvl);
-		ret = move_cursor(g_tcaps.cursor_max, level);
-		if (!ret)
-			return ;
+		if (!g_tcaps.enter)
+		{
+			level = g_tcaps.l_pos + (g_tcaps.line_lvl - g_tcaps.cursor_lvl);
+			move_cursor(g_tcaps.cursor_max, level);
+		}
 		write(0, "\n", 1);
 		if (!g_tcaps.child)
 		{
