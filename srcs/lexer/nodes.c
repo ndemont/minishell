@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 11:22:11 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 12:10:44 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,8 @@ t_node	**ft_create_nodes(char *input, int nb)
 		node[j] = ft_new_node(input, &i);
 		if (!node[j])
 			return (0);
-		if (!(ft_check_node_error(node, j)))
+		if (!(ft_check_node_error(node, j++)))
 			return (0);
-		j++;
 	}
 	if (!node[j - 1]->type && !node[j - 1]->input[0] && node[j - 2]->type < 5)
 	{
