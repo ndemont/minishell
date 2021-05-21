@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 19:20:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 11:23:03 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ char	*check_variable(char *str, t_big *datas)
 	char	*tmp;
 
 	i = 0;
-	new = 0;
+	new = malloc(sizeof(char));
+	if (!new)
+		return (printc_stderr(0, strerror(errno), 0));
+	new[0] = 0;
 	while (str[i])
 	{
 		tmp = new;

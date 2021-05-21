@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 22:16:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 22:50:04 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 11:03:21 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ static char	**tab_join(char **tab1, t_big *datas)
 			new[j] = tab1[i];
 			j++;
 		}
-		//else
-		//	free(tab1[i]);
 		i++;
 	}
 	if (tab1)
