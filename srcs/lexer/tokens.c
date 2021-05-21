@@ -12,8 +12,14 @@
 
 #include "minishell.h"
 
-int	ft_is_grammar(char *str, int i)
+int	gram(char *str, int i, int *isspace)
 {
+	if (isspace)
+	{
+		*isspace = 0;
+		if (check_isspace(&str[i]))
+			*isspace = 1;
+	}
 	if (str[i] == '|')
 		return (1);
 	else if (str[i] == '>')
@@ -42,7 +48,7 @@ int	single_quote_manager(int *j, char *input)
 		return (-1);
 }
 
-int	ft_is_quote(char *input, int i)
+int	isqt(char *input, int i)
 {
 	int	j;
 	int	ret;
@@ -68,25 +74,20 @@ int	ft_is_quote(char *input, int i)
 	return (ret);
 }
 
-int	ft_check_char(int *i, int *j, int prev, char *input)
+int	ft_check_char(int *i, int *j, int prev, char *ipt)
 {
 	int	type;
-	int	isspace;
+	int	iss;
 
-	isspace = 0;
-	while (input[*i] && !ft_is_grammar(input, *i) && \
-		!ft_is_quote(input, *i) && input[*i] != '\\')
-	{
-		if (check_isspace(&input[*i]))
-			isspace = 1;
+	iss = 0;
+	while (ipt[*i] && !gram(ipt, *i, &iss) && !isqt(ipt, *i) && ipt[*i] != '\\')
 		*i = *i + 1;
-	}
-	type = ft_is_grammar(input, *i);
-	if (type == prev && !isspace)
+	type = gram(ipt, *i, &iss);
+	if (type == prev && !iss)
 		return (-1);
-	if (input[*i] == '\\' && input[*i + 1])
+	if (ipt[*i] == '\\' && ipt[*i + 1])
 		*i = *i + 2;
-	else if (input[*i] == '\\' && !input[*i + 1])
+	else if (ipt[*i] == '\\' && !ipt[*i + 1])
 		return (-1);
 	else if (type > 0)
 	{
@@ -95,9 +96,9 @@ int	ft_check_char(int *i, int *j, int prev, char *input)
 		*i = *i + 1;
 		*j = *j + 1;
 	}
-	else if (ft_is_quote(input, *i) > 0)
-		*i = ft_is_quote(input, *i);
-	else if (ft_is_quote(input, *i) < 0)
+	else if (isqt(ipt, *i) > 0)
+		*i = isqt(ipt, *i);
+	else if (isqt(ipt, *i) < 0)
 		return (-1);
 	return (type);
 }

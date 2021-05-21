@@ -211,7 +211,7 @@ char					*get_arg(char *input, int *i);
 char					*get_variable_part(char *new, char *input, int *i);
 char					*get_variable_str(char *input, int *i, int end, int j);
 int						ft_count_tokens(char *input);
-int						ft_is_grammar(char *str, int i);
+int						gram(char *str, int i, int *isspace);
 char					*get_variable(char *input, int *k);
 char					*get_variable_quotes(char *str, int *k);
 t_node					*ft_init_grammar_node(int type);

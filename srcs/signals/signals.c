@@ -29,10 +29,14 @@ void	ft_signals(int sig)
 			g_tcaps.signal = 1;
 			display_prompt();
 		}
+		g_tcaps.ret = 130;
 	}
 	if (sig == SIGQUIT)
 	{
 		if (g_tcaps.child)
+		{	
+			g_tcaps.ret = 131;
 			write(0, "Quit: 3\n", 8);
+		}
 	}
 }
