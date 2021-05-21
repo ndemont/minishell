@@ -44,10 +44,5 @@ t_node	**ft_lexer(char *input)
 	nodes_tab = ft_create_nodes(input, token_nb);
 	if (!nodes_tab)
 		return (0);
-	if (input)
-	{
-		free(input);
-		input = 0;
-	}
 	return (nodes_tab);
 }

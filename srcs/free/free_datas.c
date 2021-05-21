@@ -31,9 +31,9 @@ int	free_datas(t_big *datas)
 		if (datas->root)
 			free_tree(datas->root);
 		if (datas->input)
-			free(datas->input);
+			clean_free(&datas->input);
 		if (datas->browse)
-			free(datas->browse);
+			clean_free(&datas->browse);
 		if (g_tcaps.current_dir)
 			clean_free(&g_tcaps.current_dir);
 	}

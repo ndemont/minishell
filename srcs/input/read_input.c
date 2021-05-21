@@ -34,6 +34,7 @@ int	read_input(t_big *datas)
 		return (1);
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
+	clean_free(&line);
 	if (!token_tab)
 		return (g_tcaps.exit);
 	if (!ft_parser(token_tab))
