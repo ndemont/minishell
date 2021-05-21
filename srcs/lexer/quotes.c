@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 12:00:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 18:55:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 12:11:48 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ char	*get_var_quotes(char *input, int *i, char *new, int *start)
 		new = get_variable_part(new, input, i);
 		*start = *i;
 	}
-	else if (input[*i] == '\\' && (input[*i + 1] == '"' || input[*i + 1] == '\\' || input[*i + 1] == '`'))
+	else if (input[*i] == '\\' && (input[*i + 1] == '"' || \
+	input[*i + 1] == '\\' || input[*i + 1] == '`'))
 	{
 		new = get_backslash_quotes(input, i, start);
 		*start = *i;

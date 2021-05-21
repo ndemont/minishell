@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 19:06:51 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 12:17:20 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,26 @@ int	ft_is_grammar(char *str, int i)
 		return (0);
 }
 
+int	single_quote_manager(int *j, char *input)
+{
+	(*j)++;
+	while (input[*j] && input[*j] != '\'')
+		(*j)++;
+	if (input[*j] == '\'')
+		return (*j + 1);
+	else
+		return (-1);
+}
+
 int	ft_is_quote(char *input, int i)
 {
 	int	j;
+	int	ret;
 
 	j = i;
+	ret = 0;
 	if (input[i] == '\'')
-	{
-		j++;
-		while (input[j] && input[j] != '\'')
-			j++;
-		if (input[j] == '\'')
-			return (j + 1);
-		else
-			return (-1);
-	}
+		ret = single_quote_manager(&j, input);
 	else if (input[i] == '"')
 	{
 		j++;
@@ -56,11 +61,11 @@ int	ft_is_quote(char *input, int i)
 			j++;
 		}
 		if (input[j] == '"')
-			return (j + 1);
+			ret = j + 1;
 		else
-			return (-1);
+			ret = -1;
 	}
-	return (0);
+	return (ret);
 }
 
 int	ft_check_char(int *i, int *j, char *input)
