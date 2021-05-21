@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 12:00:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 23:37:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/22 00:16:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,18 @@ char	*get_first_quote(char *new, char *input, int *i, int start)
 	char	*first;
 	char	*tmp;
 
-	tmp = new;
 	first = ft_substr(input, start, *i - start);
 	if (!(first))
 	{
-		free(tmp);
+		clean_free(&new);
 		return (printc_stderr(0, strerror(errno), 0));
 	}
+	tmp = new;
 	new = ft_strjoin(new, first);
-	if (!(new))
-	{
-		clean_free(&tmp);
-		clean_free(&first);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
 	clean_free(&tmp);
 	clean_free(&first);
+	if (!(new))
+		return (printc_stderr(0, strerror(errno), 0));
 	return (new);
 }
 
