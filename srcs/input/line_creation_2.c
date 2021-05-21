@@ -42,14 +42,19 @@ void	check_if_non_print(char *buf, int *non_print_flag, t_big *datas)
 int	launch_termcaps(char *buf, char **line, int *i, t_big *datas)
 {
 	int	ret;
+	int	level;
 
+	level = g_tcaps.l_pos + (g_tcaps.line_lvl - g_tcaps.cursor_lvl);
 	if (buf[0] == 10)
 	{
 		ret = execute_line(i, line, buf);
 		if (!ret)
 			return (ERROR);
 		else
+		{
+			move_cursor(g_tcaps.cursor_max, level);
 			return (BREAK_LOOP);
+		}
 	}
 	ret = do_the_right_thing(i, buf, line, datas);
 	return (ret);

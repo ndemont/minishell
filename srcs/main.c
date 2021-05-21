@@ -22,6 +22,7 @@ void	actualize_data(t_big *datas)
 	datas->flag_history = 0;
 	datas->quit = 0;
 	datas->root = 0;
+	g_tcaps.enter = 0;
 	g_tcaps.line_lvl = 0;
 	g_tcaps.child = 0;
 	g_tcaps.signal = 0;
@@ -45,6 +46,7 @@ void	init_data(t_big *datas)
 	datas->history = 0;
 	datas->quit = 0;
 	datas->root = 0;
+	g_tcaps.enter = 0;
 	g_tcaps.ret = 0;
 	g_tcaps.c_max = 0;
 	g_tcaps.l_max = 0;

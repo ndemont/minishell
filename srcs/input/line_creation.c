@@ -101,5 +101,6 @@ char	*create_line(t_big *datas)
 	if (!ret)
 		return (ERROR);
 	ft_putchar('\n');
+	g_tcaps.enter = 1;
 	return (line);
 }

@@ -54,6 +54,7 @@ typedef struct s_global
 {
 	struct termios		term;
 	struct termios		save;
+	int					enter;
 	int					c_max;
 	int					l_max;
 	int					c_pos;
