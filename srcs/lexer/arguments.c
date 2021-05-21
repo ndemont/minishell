@@ -6,18 +6,26 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 21:08:30 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 23:45:44 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*cat_var(char *new, char *str, int *j, int start)
+{
+	new = get_first_quote(new, str, j, start);
+	if (!new)
+		return (0);
+	new = get_variable_part(new, str, j);
+	if (!new)
+		return (0);
+	return (new);
+}
+
 char	*get_str(char *str, int *i, int j)
 {
 	char	*new;
-	char	*tmp;
-	char	*tmp2;
-	int		end;
 	int		start;
 
 	new = malloc(sizeof(char));
@@ -27,24 +35,19 @@ char	*get_str(char *str, int *i, int j)
 	{
 		if (str[j] == '$')
 		{
-			tmp2 = ft_substr(str, start, j - start);
-			end = j + 1;
-			while (ft_isalnum(str[end]) || str[end] == '_')
-				end++;
-			tmp = get_variable_str(str, &j, end, j);
+			new = cat_var(new, str, &j, start);
+			if (!new)
+				return (0);
 			start = j;
-			new = ft_strjoin(new, tmp2);
-			new = ft_strjoin(new, tmp);
 		}
 		else
 			j++;
 	}
 	if (start != j)
 	{
-		tmp = ft_substr(str, start, j - start);
-		if (!tmp)
-			return (printc_stderr(0, strerror(errno), 0));
-		new = ft_strjoin(new, tmp);
+		new = get_first_quote(new, str, &j, start);
+		if (!new)
+			return (0);
 	}
 	return (new);
 }

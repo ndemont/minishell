@@ -6,11 +6,34 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 21:18:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/22 00:09:58 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*cat_var(char *str, int *i, t_big *datas, int *start)
+{
+	char	*var;
+
+	if (str[*i] == '\"' && str[*i + 1] == '$')
+	{
+		var = get_env_var(str, i, datas);
+		if (!(var))
+			return (0);
+		*i = *i + 1;
+		*start = *i;
+	}
+	else
+	{
+		while (str[*i] && (str[*i] != '\"' && str[*i + 1] != '$'))
+			*i = *i + 1;
+		var = ft_substr(str, *start, *i - *start);
+		if (!(var))
+			return (printc_stderr(0, strerror(errno), 0));
+	}
+	return (var);
+}
 
 static char	*get_str(char *str, t_big *datas, int *i)
 {
@@ -18,28 +41,19 @@ static char	*get_str(char *str, t_big *datas, int *i)
 	char	*var;
 	char	*new;
 
-	var = 0;
 	start = *i;
 	new = malloc(sizeof(char));
 	new[0] = 0;
 	while (str[*i])
 	{
-		if (str[*i] == '\"' && str[*i + 1] == '$')
-		{
-			var = get_env_var(str, i, datas);
-			if (!(var))
-				return (0);
-			*i = *i + 1;
-		}
-		else
-		{
-			while (str[*i] && (str[*i] != '\"' || str[*i + 1] != '$'))
-				*i = *i + 1;
-			var = ft_substr(str, start, *i - start);
-			if (!(var))
-				return (printc_stderr(0, strerror(errno), 0));
-		}
-		new = ft_strjoin(new, var); 
+		var = cat_var(str, i, datas, &start);
+		printf("var = %s\n", var);
+		if (!var)
+			return (0);
+		new = ft_strjoin(new, var);
+		clean_free(&var);
+		if (!new)
+			return (printc_stderr(0, strerror(errno), 0));
 	}
 	return (new);
 }
