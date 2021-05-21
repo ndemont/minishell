@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:52:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 21:08:30 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,36 @@
 char	*get_str(char *str, int *i, int j)
 {
 	char	*new;
+	char	*tmp;
+	char	*tmp2;
 	int		end;
+	int		start;
 
-	new = 0;
-	if (str[j] != '$')
+	new = malloc(sizeof(char));
+	new[0] = 0;
+	start = j;
+	while (j < *i)
 	{
-		new = ft_substr(str, j, *i - j);
-		if (!new)
-			return (printc_stderr(0, strerror(errno), 0));
+		if (str[j] == '$')
+		{
+			tmp2 = ft_substr(str, start, j - start);
+			end = j + 1;
+			while (ft_isalnum(str[end]) || str[end] == '_')
+				end++;
+			tmp = get_variable_str(str, &j, end, j);
+			start = j;
+			new = ft_strjoin(new, tmp2);
+			new = ft_strjoin(new, tmp);
+		}
+		else
+			j++;
 	}
-	else if (str[j] == '$')
+	if (start != j)
 	{
-		end = j + 1;
-		while (ft_isalnum(str[end]) || str[end] == '_' || str[end] == '?')
-			end++;
-		new = get_variable_str(str, i, end, j);
-		*i = end;
+		tmp = ft_substr(str, start, j - start);
+		if (!tmp)
+			return (printc_stderr(0, strerror(errno), 0));
+		new = ft_strjoin(new, tmp);
 	}
 	return (new);
 }
