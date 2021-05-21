@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 11:23:03 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 21:18:26 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,32 @@ static char	*get_str(char *str, t_big *datas, int *i)
 {
 	int		start;
 	char	*var;
+	char	*new;
 
 	var = 0;
 	start = *i;
-	if (str[*i] == '\"' && str[*i + 1] == '$')
+	new = malloc(sizeof(char));
+	new[0] = 0;
+	while (str[*i])
 	{
-		var = get_env_var(str, i, datas);
-		if (!(var))
-			return (0);
-		*i = *i + 1;
-	}
-	else
-	{
-		while (str[*i])
+		if (str[*i] == '\"' && str[*i + 1] == '$')
+		{
+			var = get_env_var(str, i, datas);
+			if (!(var))
+				return (0);
 			*i = *i + 1;
-		var = ft_substr(str, start, *i - start);
-		if (!(var))
-			return (printc_stderr(0, strerror(errno), 0));
+		}
+		else
+		{
+			while (str[*i] && (str[*i] != '\"' || str[*i + 1] != '$'))
+				*i = *i + 1;
+			var = ft_substr(str, start, *i - start);
+			if (!(var))
+				return (printc_stderr(0, strerror(errno), 0));
+		}
+		new = ft_strjoin(new, var); 
 	}
-	return (var);
+	return (new);
 }
 
 char	*join_variable(char *tmp, char *var, char *new)
