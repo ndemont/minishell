@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 11:29:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 11:47:51 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	exec_anglebracket_left(char **argv, t_big *datas)
 int	exec_double_anglebracket_right(char **argv, t_big *datas)
 {
 	int	ret;
-	
+
 	ret = check_ambiguous_arg(argv, datas);
 	if (!ret)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 22:16:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 11:03:21 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 12:00:06 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static int	count_args(char **arg, t_big *datas)
 {
-	int	count;
-	int j;
+	int	cnt;
+	int	j;
 	int	i;
 
 	i = 0;
 	j = 0;
-	count = 0;
+	cnt = 0;
 	if (datas->redirection_arg)
 	{
-		while (datas->redirection_arg[count] && datas->redirection_arg[count][0])
+		while (datas->redirection_arg[cnt] && datas->redirection_arg[cnt][0])
 			j++;
-		count++;
+		cnt++;
 	}
 	while (arg && arg[i])
 	{
@@ -49,28 +49,40 @@ static char	**init_tab(char **tab1, t_big *datas)
 	return (new);
 }
 
+char	**join_first(int *i, int *j, char **tab1, t_big *datas)
+{
+	char	**new;
+
+	*i = 0;
+	*j = 0;
+	new = init_tab(tab1, datas);
+	if (!new)
+		return (0);
+	while (tab1 && tab1[*i])
+	{
+		if (tab1[*i][0])
+		{
+			new[*j] = tab1[*i];
+			(*j)++;
+		}
+		else
+			clean_free(&tab1[*i]);
+		(*i)++;
+	}
+	if (tab1)
+		free(tab1);
+	return (new);
+}
+
 static char	**tab_join(char **tab1, t_big *datas)
 {
 	int		j;
 	int		i;
 	char	**new;
 
-	i = 0;
-	j = 0;
-	new = init_tab(tab1, datas);
+	new = join_first(&i, &j, tab1, datas);
 	if (!new)
 		return (0);
-	while (tab1 && tab1[i])
-	{
-		if (tab1[i][0])
-		{
-			new[j] = tab1[i];
-			j++;
-		}
-		i++;
-	}
-	if (tab1)
-		free(tab1);
 	i = 0;
 	while (datas->redirection_arg && datas->redirection_arg[i])
 	{
