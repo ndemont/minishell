@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 19:36:14 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 11:46:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,9 @@ char	*ft_echo_cat(char **arg, int *i)
 		j = 0;
 		tmp = ret;
 		ret = ft_strjoin(ret, arg[*i]);
-		if (!ret)
-		{
-			clean_free(&tmp);
-			return (printc_stderr(0, strerror(errno), 0));
-		}
 		clean_free(&tmp);
+		if (!ret)
+			return (printc_stderr(0, strerror(errno), 0));
 		if (ret[0])
 			ret = ft_add_space(arg, ret, i);
 		if (!ret)

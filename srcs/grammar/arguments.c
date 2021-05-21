@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 12:00:16 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 15:45:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 11:47:43 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_ambiguous_arg(char **argv, t_big *datas)
+int	check_ambiguous_arg(char **argv, t_big *datas)
 {
 	if (argv && argv[0] && argv[0][0] && argv[0][1])
 	{
@@ -20,7 +20,7 @@ int		check_ambiguous_arg(char **argv, t_big *datas)
 		{
 			g_tcaps.ret = 1;
 			datas->flag_bracket = 1;
-			datas->fd_out = open(".hidden", O_CREAT |  O_WRONLY | O_TRUNC, 0644);
+			datas->fd_out = open(".hidden", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			return (printi_stderr(0, "ambiguous redirect", 1));
 		}
 	}
