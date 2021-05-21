@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 14:10:15 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/20 15:44:56 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/21 11:29:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	exec_anglebracket_left(char **argv, t_big *datas)
 		printi_stderr(argv[0], ": No such file or directory", 1);
 		if (datas->flag_left_bracket == 0)
 			datas->fd = open(".hidden", O_CREAT | O_APPEND, 0644);
+		datas->quit = 1;
 	}
 	else
 	{
