@@ -68,14 +68,22 @@ int	ft_is_quote(char *input, int i)
 	return (ret);
 }
 
-int	ft_check_char(int *i, int *j, char *input)
+int	ft_check_char(int *i, int *j, int prev, char *input)
 {
 	int	type;
+	int	isspace;
 
+	isspace = 0;
 	while (input[*i] && !ft_is_grammar(input, *i) && \
 		!ft_is_quote(input, *i) && input[*i] != '\\')
+	{
+		if (check_isspace(&input[*i]))
+			isspace = 1;
 		*i = *i + 1;
+	}
 	type = ft_is_grammar(input, *i);
+	if (type == prev && !isspace)
+		return (-1);
 	if (input[*i] == '\\' && input[*i + 1])
 		*i = *i + 2;
 	else if (input[*i] == '\\' && !input[*i + 1])
@@ -107,9 +115,7 @@ int	ft_count_tokens(char *input)
 	type = 0;
 	while (input[i])
 	{
-		type = ft_check_char(&i, &j, input);
-		if (type == prev)
-			return (-1);
+		type = ft_check_char(&i, &j, prev, input);
 		if (type == -1)
 			return (-1);
 		prev = type;

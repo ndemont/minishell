@@ -37,6 +37,23 @@ void	actualize_data(t_big *datas)
 	datas->input = 0;
 }
 
+void	init_global(void)
+{
+	g_tcaps.enter = 0;
+	g_tcaps.ret = 0;
+	g_tcaps.c_max = 0;
+	g_tcaps.l_max = 0;
+	g_tcaps.c_pos = 0;
+	g_tcaps.l_pos = 0;
+	g_tcaps.c_start = 0;
+	g_tcaps.line_lvl = 0;
+	g_tcaps.signal = 0;
+	g_tcaps.cursor_max = 0;
+	g_tcaps.cursor_lvl = 0;
+	g_tcaps.cursor_pos = 0;
+	g_tcaps.current_dir = getcwd(g_tcaps.current_dir, 0);
+}
+
 void	init_data(t_big *datas)
 {
 	datas->fd = -1;
@@ -56,19 +73,7 @@ void	init_data(t_big *datas)
 	datas->history = 0;
 	datas->quit = 0;
 	datas->root = 0;
-	g_tcaps.enter = 0;
-	g_tcaps.ret = 0;
-	g_tcaps.c_max = 0;
-	g_tcaps.l_max = 0;
-	g_tcaps.c_pos = 0;
-	g_tcaps.l_pos = 0;
-	g_tcaps.c_start = 0;
-	g_tcaps.line_lvl = 0;
-	g_tcaps.signal = 0;
-	g_tcaps.cursor_max = 0;
-	g_tcaps.cursor_lvl = 0;
-	g_tcaps.cursor_pos = 0;
-	g_tcaps.current_dir = getcwd(g_tcaps.current_dir, 0);
+	init_global();
 }
 
 int	main(int ac, char **av, char **env)

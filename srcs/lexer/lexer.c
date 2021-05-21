@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	check_isspace(char *input)
+int	check_isspace(char *input)
 {
 	int	i;
 

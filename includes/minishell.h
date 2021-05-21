@@ -152,6 +152,7 @@ void					close_pipes(int *fd);
 void					pipe_magic(int fd[2], t_big *datas);
 int						create_pipe_do_fork(int fd[2], pid_t *pid1, \
 int *ret_status);
+int						check_isspace(char *input);
 
 //HISTORY
 int						init_history(t_big *datas);
