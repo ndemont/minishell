@@ -98,16 +98,21 @@ int	ft_count_tokens(char *input)
 {
 	int	i;
 	int	j;
+	int	prev;
 	int	type;
 
 	i = 0;
 	j = 0;
+	prev = 6;
 	type = 0;
 	while (input[i])
 	{
 		type = ft_check_char(&i, &j, input);
+		if (type == prev)
+			return (-1);
 		if (type == -1)
 			return (-1);
+		prev = type;
 	}
 	if (!i)
 		return (0);
