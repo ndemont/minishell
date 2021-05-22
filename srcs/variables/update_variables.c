@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/22 00:09:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/22 12:30:01 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char	*get_str(char *str, t_big *datas, int *i)
 	while (str[*i])
 	{
 		var = cat_var(str, i, datas, &start);
-		printf("var = %s\n", var);
 		if (!var)
 			return (0);
 		new = ft_strjoin(new, var);
