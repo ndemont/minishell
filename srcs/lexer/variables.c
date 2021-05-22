@@ -66,7 +66,7 @@ char	*get_variable_quotes(char *str, int *k)
 	return (new);
 }
 
-char	*get_variable_part(char *new, char *input, int *i)
+char	*get_variable_part(char **new, char *input, int *i)
 {
 	char	*variable;
 	char	*tmp;
@@ -74,17 +74,17 @@ char	*get_variable_part(char *new, char *input, int *i)
 	variable = get_variable_quotes(input, i);
 	if (!(variable))
 	{
-		free(new);
+		free(*new);
 		return (0);
 	}
-	tmp = new;
-	new = ft_strjoin(new, variable);
-	if (!(new))
+	tmp = *new;
+	*new = ft_strjoin(*new, variable);
+	if (!(*new))
 	{
 		free(tmp);
 		return (printc_stderr(0, strerror(errno), 0));
 	}
 	free(tmp);
 	free(variable);
-	return (new);
+	return (*new);
 }

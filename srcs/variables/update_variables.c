@@ -40,6 +40,7 @@ static char	*get_str(char *str, t_big *datas, int *i)
 	int		start;
 	char	*var;
 	char	*new;
+	char	*tmp;
 
 	start = *i;
 	new = malloc(sizeof(char));
@@ -50,7 +51,9 @@ static char	*get_str(char *str, t_big *datas, int *i)
 		printf("var = %s\n", var);
 		if (!var)
 			return (0);
+		tmp = new;
 		new = ft_strjoin(new, var);
+		clean_free(&tmp);
 		clean_free(&var);
 		if (!new)
 			return (printc_stderr(0, strerror(errno), 0));
@@ -58,22 +61,22 @@ static char	*get_str(char *str, t_big *datas, int *i)
 	return (new);
 }
 
-char	*join_variable(char *tmp, char *var, char *new)
+char	*join_variable(char **tmp, char **var, char *new)
 {
-	if (tmp)
+	if (*tmp)
 	{
-		new = ft_strjoin(tmp, var);
+		new = ft_strjoin(*tmp, *var);
 		if (!(new))
 		{
-			clean_free(&var);
-			clean_free(&tmp);
+			clean_free(var);
+			clean_free(tmp);
 			return (printc_stderr(0, strerror(errno), 0));
 		}
-		clean_free(&var);
-		clean_free(&tmp);
+		clean_free(var);
+		clean_free(tmp);
 	}
 	else
-		new = var;
+		new = *var;
 	return (new);
 }
 
@@ -98,7 +101,7 @@ char	*check_variable(char *str, t_big *datas)
 			clean_free(&new);
 			return (0);
 		}
-		new = join_variable(tmp, var, new);
+		new = join_variable(&tmp, &var, new);
 		if (!new)
 			return (0);
 	}

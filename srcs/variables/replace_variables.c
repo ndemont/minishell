@@ -79,7 +79,7 @@ char	*get_env_var(char *str, int *i, t_big *datas)
 	int		start;
 	char	*var;
 	char	*value;
-
+	char	*tmp;
 	if (str[*i + 2] == '?')
 	{
 		value = get_return_value();
@@ -89,9 +89,15 @@ char	*get_env_var(char *str, int *i, t_big *datas)
 			*i = *i + 1;
 		var = ft_substr(str, start, *i - start);
 		if (var)
+		{
+			tmp = value;
 			value = ft_strjoin(value, var);
+			clean_free(&var);
+			clean_free(&tmp);
+		}
 		return (value);
 	}
+	clean_free(&var);
 	var = get_str_var(str, i);
 	if (!(var))
 		return (0);

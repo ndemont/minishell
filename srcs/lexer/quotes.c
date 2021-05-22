@@ -66,7 +66,7 @@ char	*get_single_quote(char *input, int *i, int *j)
 	return (arg);
 }
 
-char	*get_first_quote(char *new, char *input, int *i, int start)
+char	*get_first_quote(char **new, char *input, int *i, int start)
 {
 	char	*first;
 	char	*tmp;
@@ -74,39 +74,39 @@ char	*get_first_quote(char *new, char *input, int *i, int start)
 	first = ft_substr(input, start, *i - start);
 	if (!(first))
 	{
-		clean_free(&new);
+		clean_free(new);
 		return (printc_stderr(0, strerror(errno), 0));
 	}
-	tmp = new;
-	new = ft_strjoin(new, first);
+	tmp = *new;
+	*new = ft_strjoin(*new, first);
 	clean_free(&tmp);
 	clean_free(&first);
-	if (!(new))
+	if (!(*new))
 		return (printc_stderr(0, strerror(errno), 0));
-	return (new);
+	return (*new);
 }
 
-char	*get_var_quotes(char *input, int *i, char *new, int *start)
+char	*get_var_quotes(char *input, int *i, char **new, int *start)
 {
 	if (input[*i] == '$')
 	{	
-		new = get_first_quote(new, input, i, *start);
-		if (!(new))
+		*new = get_first_quote(new, input, i, *start);
+		if (!(*new))
 			return (0);
-		new = get_variable_part(new, input, i);
+		*new = get_variable_part(new, input, i);
 		*start = *i;
 	}
 	else if (input[*i] == '\\' && (input[*i + 1] == '"' || \
 	input[*i + 1] == '\\' || input[*i + 1] == '`'))
 	{
-		new = get_backslash_quotes(input, i, start);
+		*new = get_backslash_quotes(input, i, start);
 		*start = *i;
 	}
 	else
 		*i = *i + 1;
-	if (!(new))
+	if (!(*new))
 		return (0);
-	return (new);
+	return (*new);
 }
 
 char	*get_double_quote(char *input, int *i, int j)
@@ -122,12 +122,12 @@ char	*get_double_quote(char *input, int *i, int j)
 	start = *i;
 	while (input[*i] && input[*i] != '\"')
 	{
-		new = get_var_quotes(input, i, new, &start);
+		new = get_var_quotes(input, i, &new, &start);
 		if (!new)
 			return (0);
 	}
 	tmp = new;
-	new = get_first_quote(new, input, i, start);
+	new = get_first_quote(&new, input, i, start);
 	if (!(new))
 		return (0);
 	*i = *i + 1;

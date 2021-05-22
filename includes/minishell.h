@@ -208,7 +208,7 @@ char					*get_double_quote(char *input, int *i, int j);
 char					*get_single_quote(char *input, int *i, int *j);
 char					*get_backslash(char *input, int *i, int j);
 char					*get_arg(char *input, int *i);
-char					*get_variable_part(char *new, char *input, int *i);
+char					*get_variable_part(char **new, char *input, int *i);
 char					*get_variable_str(char *input, int *i, int end, int j);
 int						ft_count_tokens(char *input);
 int						gram(char *str, int i, int *isspace);
@@ -217,7 +217,7 @@ char					*get_variable_quotes(char *str, int *k);
 t_node					*ft_init_grammar_node(int type);
 t_node					*ft_init_buildin_node(char *input, int type);
 char					*get_tilde(int *i);
-char					*get_first_quote(char *new, char *input, int *i, int start);
+char					*get_first_quote(char **new, char *input, int *i, int start);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);

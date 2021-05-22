@@ -12,21 +12,15 @@
 
 #include "minishell.h"
 
-char	*cat_var(char *new, char *str, int *j, int start)
+char	*cat_var(char **new, char *str, int *j, int start)
 {
-	char *tmp;
-
-	tmp = new;
-	new = get_first_quote(new, str, j, start);
-	free(tmp);
-	if (!new)
+	*new = get_first_quote(new, str, j, start);
+	if (!(*new))
 		return (0);
-	tmp = new;
-	new = get_variable_part(new, str, j);
-	free(tmp);
-	if (!new)
+	*new = get_variable_part(new, str, j);
+	if (!(*new))
 		return (0);
-	return (new);
+	return (*new);
 }
 
 char	*get_str(char *str, int *i, int j)
@@ -41,7 +35,7 @@ char	*get_str(char *str, int *i, int j)
 	{
 		if (str[j] == '$')
 		{
-			new = cat_var(new, str, &j, start);
+			new = cat_var(&new, str, &j, start);
 			if (!new)
 				return (0);
 			start = j;
@@ -51,7 +45,7 @@ char	*get_str(char *str, int *i, int j)
 	}
 	if (start != j)
 	{
-		new = get_first_quote(new, str, &j, start);
+		new = get_first_quote(&new, str, &j, start);
 		if (!new)
 			return (0);
 	}
