@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/22 12:30:01 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/22 12:38:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static char	*get_str(char *str, t_big *datas, int *i)
 	int		start;
 	char	*var;
 	char	*new;
+	char	*tmp;
 
 	start = *i;
 	new = malloc(sizeof(char));
@@ -49,7 +50,9 @@ static char	*get_str(char *str, t_big *datas, int *i)
 		var = cat_var(str, i, datas, &start);
 		if (!var)
 			return (0);
+		tmp = new;
 		new = ft_strjoin(new, var);
+		clean_free(&tmp);
 		clean_free(&var);
 		if (!new)
 			return (printc_stderr(0, strerror(errno), 0));
