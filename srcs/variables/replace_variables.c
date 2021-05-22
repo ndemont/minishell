@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:38:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:26:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/22 15:50:26 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,41 +36,32 @@ char	*get_str_var(char *str, int *i)
 	return (var);
 }
 
-char	*init_value(char *var)
-{
-	char	*value;
-
-	value = malloc(sizeof(char));
-	if (!(value))
-	{
-		free(var);
-		return (printc_stderr(0, strerror(errno), 0));
-	}
-	value[0] = '\0';
-	return (value);
-}
-
-char	*find_var(char *var, char *value, t_big *datas)
+char	*find_var(t_big *datas, char *str, int *i)
 {
 	t_list	*env;
+	char	*value;
+	char	*var;
+	char	*tmp;
 
 	env = *datas->env;
+	value = ft_strdup("");
+	var = get_str_var(str, i);
+	if (!(var))
+		return (0);
 	while (env)
 	{
 		if (!ft_strcmp(((t_var *)env->content)->var, var))
 		{
-			free(value);
+			tmp = value;
 			value = ft_strdup(((t_var *)env->content)->value);
-			if (!(value))
-			{
-				free(var);
-				return (printc_stderr(0, strerror(errno), 0));
-			}
+			clean_free(&tmp);
 			break ;
 		}
 		env = env->next;
 	}
-	free(var);
+	clean_free(&var);
+	if (!(value))
+		return (printc_stderr(0, strerror(errno), 0));
 	return (value);
 }
 
@@ -79,6 +70,7 @@ char	*get_env_var(char *str, int *i, t_big *datas)
 	int		start;
 	char	*var;
 	char	*value;
+	char	*tmp;
 
 	if (str[*i + 2] == '?')
 	{
@@ -88,16 +80,15 @@ char	*get_env_var(char *str, int *i, t_big *datas)
 		while (str[*i] && str[*i] != '\"')
 			*i = *i + 1;
 		var = ft_substr(str, start, *i - start);
+		tmp = value;
 		if (var)
+		{
 			value = ft_strjoin(value, var);
+			free(tmp);
+		}
+		clean_free(&var);
 		return (value);
 	}
-	var = get_str_var(str, i);
-	if (!(var))
-		return (0);
-	value = init_value(var);
-	if (!(value))
-		return (0);
-	value = find_var(var, value, datas);
+	value = find_var(datas, str, i);
 	return (value);
 }
