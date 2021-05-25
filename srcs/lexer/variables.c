@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 17:48:20 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 11:09:57 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 12:13:03 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ char	*get_variable_quotes(char *str, int *k)
 
 	start = *k;
 	*k = *k + 1;
-	while ((ft_isalnum(str[*k]) || str[*k] == '_' || str[*k] == '?') && str[*k - 1] != '?')
+	while ((ft_isalnum(str[*k]) || str[*k] == '_' || str[*k] == '?') \
+	&& str[*k - 1] != '?')
 		*k = *k + 1;
 	new = ft_substr(str, start, *k - start);
 	if (!(new))
