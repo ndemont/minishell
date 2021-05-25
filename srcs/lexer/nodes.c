@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 12:10:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 17:06:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_node	*ft_new_builtin_node(int *i, char *input)
 		else if (input[*i] == '"')
 		{
 			*i = *i + 1;
-			while (input[*i] && input[*i] != '"')
+			while (input[*i] && !(input[*i] == '"' && input[*i - 1] != '\\'))
 				*i = *i + 1;
 		}
 		*i = *i + 1;

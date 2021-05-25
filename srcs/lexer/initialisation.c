@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 16:07:14 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/19 11:39:22 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 16:49:21 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_node	*ft_init_buildin_node(char *input, int type)
 		return (0);
 	}
 	new->type = type;
-	new->input = input;
+	new->input = ft_strdup(input);
+	free(input);
 	new->arg = 0;
 	new->builtin = 0;
 	new->left = 0;

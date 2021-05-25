@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 15:22:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 11:22:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 16:46:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	count_arg(char *input)
 
 	count = 0;
 	i = 0;
-	if (!input[0])
+	if (input && !input[0])
 		return (0);
-	while (input[i])
+	while (input && input[i])
 	{
 		count = skip_isspace(input, &i, count);
 		if (!input[i])
