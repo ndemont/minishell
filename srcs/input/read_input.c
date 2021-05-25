@@ -21,6 +21,16 @@ static void	variable_init(char **line, t_node ***token_tab, t_big *datas)
 	*token_tab = 0;
 }
 
+static int	clean_line(char **str)
+{
+	if (str && *str)
+	{
+		free(*str);
+		*str = 0;
+	}
+	return (1);
+}
+
 int	read_input(t_big *datas)
 {
 	char	*line;
@@ -31,7 +41,7 @@ int	read_input(t_big *datas)
 	if (!line)
 		return (g_tcaps.exit);
 	else if (!line[0])
-		return (1);
+		return (clean_line(&line));
 	save_history(line, datas);
 	token_tab = ft_lexer(line);
 	clean_free(&line);
