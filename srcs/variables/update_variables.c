@@ -19,7 +19,6 @@ static char	*cat_var(char *str, int *i, t_big *datas, int *start)
 	if (str[*i] == '\"' && str[*i + 1] == '$')
 	{
 		var = get_env_var(str, i, datas);
-		printf("var = [%s]\n", var);
 		if (!(var))
 			return (0);
 		*i = *i + 1;
