@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 10:54:23 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 11:05:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ char	*ft_add_space(char **arg, char *ret, int *i)
 	return (ret);
 }
 
-char	*check_arg_var(char *str, char *ret)
+char	*check_arg_var(char *str)
 {
 	int i;
 	int start;
 	char *new;
+	char *tmp;
 	char *value;
 	
-	(void)ret;
 	i = 0;
 	start = 0;
 	new = ft_strdup("");
@@ -57,18 +57,26 @@ char	*check_arg_var(char *str, char *ret)
 		{
 			value = get_return_value();
 			if (!value)
+			{
+				free(new);
 				return (printc_stderr(0, strerror(errno), 0));
+			}
+			tmp = new;
 			new = ft_strjoin(new, value);
+			free(tmp);
+			free(value);
+			if (!new)
+				return (printc_stderr(0, strerror(errno), 0));
 			i += 4;
 			start = i;
 		}
 		else
 		{
-			printf("new = [%s]\n", new);
 			while (str[i] && str[i] != '"')
 				i++;
 			new = get_first_quote(new, str, &i, start);
-			printf("new = [%s]\n", new);
+			if (!new)
+				return (0);
 		}
 	}
 	return (new);
@@ -86,9 +94,12 @@ char	*ft_echo_cat(char **arg, int *i)
 	while (arg[*i])
 	{
 		tmp = ret;
-		arg[*i] = check_arg_var(arg[*i], ret);
+		arg[*i] = check_arg_var(arg[*i]);
 		if (!arg[*i])
+		{
+			clean_free(&ret);
 			return (printc_stderr(0, strerror(errno), 0));
+		}
 		ret = ft_strjoin(ret, arg[*i]);
 		clean_free(&tmp);
 		if (!ret)
