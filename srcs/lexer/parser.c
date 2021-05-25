@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 15:58:24 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/22 00:00:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 14:57:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_node	**ft_parser(t_node **token_tab)
 	int	i;
 
 	i = 0;
-	while (token_tab[i])
+	while (token_tab && token_tab[i])
 	{
 		if (!token_tab[i]->type)
 			get_command(token_tab[i]);

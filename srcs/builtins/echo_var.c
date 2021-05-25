@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:15:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 12:31:47 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 15:09:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*cat_value(char *new, int *i, int *start)
 
 static char	*cat_str(char *str, char *new, int *i, int start)
 {
-	while (str[*i] && str[*i] != '"')
+	while (str[*i] && (str[*i] != '"' || str[*i + 1] != '$'))
 		(*i)++;
 	new = get_first_quote(new, str, i, start);
 	if (!new)
