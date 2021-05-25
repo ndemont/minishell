@@ -66,17 +66,15 @@ char	*check_arg_var(char *str)
 	while (str[i])
 	{
 		if (str[i] == '"' && str[i + 1] == '$' && str[i + 2] == '?')
-		{
 			new = cat_value(new, &i, &start);
-			if (!new)
-				return (0);
-		}
 		else
-		{
 			new = cat_str(str, new, &i, start);
-			if (!new)
-				return (0);
+		if (!new)
+		{
+			clean_free(&str);
+			return (0);
 		}
 	}
+	clean_free(&str);
 	return (new);
 }
