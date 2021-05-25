@@ -42,7 +42,7 @@ static char	*cat_value(char *new, int *i, int *start)
 	return (new);
 }
 
-static char	*cat_str(char *str,char *new, int *i, int start)
+static char	*cat_str(char *str, char *new, int *i, int start)
 {
 	while (str[*i] && str[*i] != '"')
 		(*i)++;
