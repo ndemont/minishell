@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 11:27:25 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 12:32:03 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 15:03:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*cat_var(char *str, int *i, t_big *datas, int *start)
 	}
 	else
 	{
-		while (str[*i] && (str[*i] != '\"' && str[*i + 1] != '$'))
+		while (str[*i] && (str[*i] != '\"' || str[*i + 1] != '$'))
 			*i = *i + 1;
 		var = ft_substr(str, *start, *i - *start);
 		if (!(var))
