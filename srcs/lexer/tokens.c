@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 17:17:04 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 17:57:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	isqt(char *input, int i)
 		ret = single_quote_manager(&j, input);
 	else if (input[i] == '"')
 	{
-		while (input[++j] && input[j] != '"')
+		j++;
+		while (input[j] && input[j] != '"')
 		{
 			if (input[j] == '\\')
 				while (input[j] == '\\')
