@@ -217,7 +217,8 @@ char					*get_variable_quotes(char *str, int *k);
 t_node					*ft_init_grammar_node(int type);
 t_node					*ft_init_buildin_node(char *input, int type);
 char					*get_tilde(int *i);
-char					*get_first_quote(char *new, char *input, int *i, int start);
+char					*get_first_quote(char *new, char *input, int *i, \
+int start);
 char					*check_arg_var(char *str);
 
 //TREE
