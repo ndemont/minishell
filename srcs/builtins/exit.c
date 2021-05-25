@@ -48,6 +48,8 @@ int	ft_exit(char **av, t_big *datas)
 		c = ft_atoi(av[1]);
 		g_tcaps.ret = (int)c;
 	}
+	if (!(update_history_file(datas)))
+		g_tcaps.ret = 1;
 	free_datas(datas);
 	exit(g_tcaps.ret);
 	return (g_tcaps.ret);

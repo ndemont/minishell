@@ -84,10 +84,11 @@ int	ctrl_d(t_big *datas, char **line, int *i)
 	{
 		clean_free(line);
 		write(0, "exit\n", 5);
-		update_history_file(datas);
+		if (!update_history_file(datas))
+			g_tcaps.ret = 1;
 		free_datas(datas);
 		normal_mode();
-		exit(1);
+		exit(g_tcaps.ret);
 	}
 	else if (*line && (*line)[0] && g_tcaps.cursor_pos < *i)
 		return (delete_at_cursor(i, line));
