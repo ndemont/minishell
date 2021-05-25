@@ -65,12 +65,6 @@ int	delete_at_cursor(int *i, char **line)
 		clean_free(&tmp);
 		return (ERROR);
 	}
-	ret = cursor_position();
-	if (!ret)
-	{
-		clean_free(&tmp);
-		return (ERROR);
-	}
 	print_new_string(&tmp, &c_pos, &l_pos);
 	ret = get_cursor_max();
 	if (!ret)

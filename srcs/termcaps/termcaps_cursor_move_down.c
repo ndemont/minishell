@@ -36,9 +36,6 @@ int	move_cursor_down(void)
 	int	old_c_pos;
 	int	new_c_pos;
 
-	ret = cursor_position();
-	if (!ret)
-		return (ERROR);
 	old_c_pos = g_tcaps.c_pos;
 	if (g_tcaps.cursor_lvl == g_tcaps.line_lvl)
 		return (SUCCESS);
