@@ -52,6 +52,7 @@ int	exec_anglebracket_right(char **argv, t_big *datas)
 	ret = ft_copy_arg(argv, datas);
 	if (!ret)
 		return (0);
+	clean_free(&(datas->file_name));
 	datas->file_name = ft_strdup(argv[0]);
 	if (!datas->file_name)
 		return (printi_stderr(0, strerror(errno), 0));
@@ -98,6 +99,7 @@ int	exec_double_anglebracket_right(char **argv, t_big *datas)
 	ret = ft_copy_arg(argv, datas);
 	if (!ret)
 		return (0);
+	clean_free(&datas->file_name);
 	datas->file_name = ft_strdup(argv[0]);
 	if (!datas->file_name)
 		return (printi_stderr(0, strerror(errno), 0));
