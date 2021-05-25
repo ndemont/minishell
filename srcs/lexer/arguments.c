@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 11:27:45 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/22 12:28:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 17:05:47 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,9 @@ char	*init_arg(void)
 {
 	char	*arg;
 
-	arg = malloc(sizeof(char));
+	arg = ft_strdup("");
 	if (!(arg))
 		return (printc_stderr(0, strerror(errno), 0));
-	arg[0] = '\0';
 	return (arg);
 }
 
@@ -98,18 +97,18 @@ char	*get_arg(char *input, int *i)
 	char	*second_part;
 
 	arg = init_arg();
-	if (!(arg))
-		return (printc_stderr(0, strerror(errno), 0));
-	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
+	if (!arg)
+		return (0);
+	while (input && input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
 		*i = *i + 1;
-	while (input[*i] && input[*i] != ' ' && input[*i] != '\t')
+	while (input && input[*i] && input[*i] != ' ' && input[*i] != '\t')
 	{
 		first_part = arg;
 		second_part = get_second_part(input, i, arg);
 		if (!(second_part))
 			return (0);
 		arg = ft_strjoin(first_part, second_part);
-		if (!(arg))
+		if (!arg)
 		{
 			free(first_part);
 			free(second_part);

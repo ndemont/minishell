@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 12:16:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 17:08:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ char					*get_tilde(int *i);
 char					*get_first_quote(char *new, char *input, int *i, \
 int start);
 char					*check_arg_var(char *str);
+char					*get_backslash_quotes(char *input, int *i, int *start);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);
