@@ -6,11 +6,24 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 21:47:47 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 22:05:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	browse_quote(int *i, char *input)
+{
+	*i = *i + 1;
+	while (input[*i] && !(input[*i] == '"'))
+	{
+		if (input[*i] == '\\')
+			while (input[*i] == '\\')
+				*i = *i + 2;
+		else
+			*i = *i + 1;
+	}
+}
 
 t_node	*ft_new_builtin_node(int *i, char *input)
 {
@@ -30,17 +43,7 @@ t_node	*ft_new_builtin_node(int *i, char *input)
 				*i = *i + 1;
 		}
 		else if (input[*i] == '"')
-		{
-			*i = *i + 1;
-			while (input[*i] && !(input[*i] == '"'))
-			{
-				if (input[*i] == '\\')
-					while (input[*i] == '\\')
-						*i = *i + 2;
-				else
-					*i = *i + 1;
-			}
-		}
+			browse_quote(i, input);
 		*i = *i + 1;
 	}
 	new_node = ft_init_buildin_node(ft_substr(input, j, (*i - j)), 0);
