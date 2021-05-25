@@ -48,6 +48,7 @@ char	*ft_echo_cat(char **arg, int *i)
 			return (printc_stderr(0, strerror(errno), 0));
 		}
 		ret = ft_strjoin(ret, arg[*i]);
+		clean_free(&tmp);
 		if (ret && ret[0])
 			ret = ft_add_space(arg, ret, i);
 		if (!ret)
