@@ -108,5 +108,6 @@ int	ft_export(char **arg, t_big *datas)
 		}
 	}
 	*datas->export = ft_lst_sort(*datas->export, &cmp_list);
+	g_tcaps.ret = 0;
 	return (g_tcaps.ret);
 }
