@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 17:57:23 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 21:36:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_check_char(int *i, int *j, int prev, char *ipt)
 	while (ipt[*i] && !gram(ipt, *i, &iss) && !isqt(ipt, *i) && ipt[*i] != '\\')
 		*i = *i + 1;
 	type = gram(ipt, *i, &iss);
-	if (type == prev && !iss && type)
+	if ((type == prev && !iss && type) || (type && prev))
 		return (-1);
 	if (ipt[*i] == '\\' && ipt[*i + 1])
 		*i = *i + 2;
