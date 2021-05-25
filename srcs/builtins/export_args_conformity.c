@@ -14,11 +14,10 @@
 
 int	check_arg_conformity(char *line)
 {
-	int		i;
 	char	**str;
 	char	*tmp;
+	int		ret;
 
-	i = 0;
 	str = ft_split_on_equal(line);
 	if (!str)
 	{
@@ -27,18 +26,12 @@ int	check_arg_conformity(char *line)
 	}
 	tmp = str[0];
 	if (ft_isdigit(tmp[0]) || tmp[0] == 0)
-		return (0);
-	while (tmp[i])
 	{
-		if (!ft_isalnum(tmp[i]) && tmp[i] != '_')
-		{
-			free_double(str);
-			return (0);
-		}
-		i++;
+		free_double(str);
+		return (0);
 	}
-	free_double(str);
-	return (1);
+	ret = test_string(tmp, str);
+	return (ret);
 }
 
 int	check_plus_conformity(char *line)
