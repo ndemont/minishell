@@ -86,8 +86,12 @@ char	**mono_array(char *str)
 char	**build_array(char *command, t_list *env)
 {
 	char	**cmd;
+	t_list	*tmp;
 
-	if (ft_strchr(command, '/'))
+	tmp = env;
+	while (tmp && ft_strcmp(((t_var *)(tmp->content))->var, "PATH"))
+		tmp = tmp->next;
+	if (ft_strchr(command, '/') || !tmp)
 		cmd = mono_array(command);
 	else
 		cmd = path_array(command, env);
