@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:38:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 11:20:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 12:32:00 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ char	*get_env_var(char *str, int *i, t_big *datas)
 	{
 		value = ft_strdup("\"$?\"");
 		(*i) += 3;
-		printf("str[i] = %c", str[*i]);
 		if (!value)
 			printc_stderr(0, strerror(errno), 0);
 	}
