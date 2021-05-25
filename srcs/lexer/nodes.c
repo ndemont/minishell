@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:33:27 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 17:06:28 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 21:47:47 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,14 @@ t_node	*ft_new_builtin_node(int *i, char *input)
 		else if (input[*i] == '"')
 		{
 			*i = *i + 1;
-			while (input[*i] && !(input[*i] == '"' && input[*i - 1] != '\\'))
-				*i = *i + 1;
+			while (input[*i] && !(input[*i] == '"'))
+			{
+				if (input[*i] == '\\')
+					while (input[*i] == '\\')
+						*i = *i + 2;
+				else
+					*i = *i + 1;
+			}
 		}
 		*i = *i + 1;
 	}
@@ -102,12 +108,6 @@ t_node	**ft_create_nodes(char *input, int nb)
 			return (0);
 		if (!(ft_check_node_error(node, j++)))
 			return (0);
-	}
-	if (!node[j - 1]->type && !node[j - 1]->input[0] && node[j - 2]->type < 5)
-	{
-		g_tcaps.ret = 2;
-		printc_stderr(0, "syntax error", 1);
-		return (0);
 	}
 	return (node);
 }
