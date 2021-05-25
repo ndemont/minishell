@@ -49,7 +49,8 @@ void	count_special_char(char *input, int *i)
 				*i = *i + 1;
 			*i = *i + 1;
 		}
-		*i = *i + 1;
+		if (input[*i])
+			*i = *i + 1;
 	}
 }
 
