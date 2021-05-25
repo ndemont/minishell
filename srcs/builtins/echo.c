@@ -6,11 +6,19 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 18:31:28 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/21 11:46:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 10:54:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_return_value(void)
+{
+	char	*value;
+
+	value = ft_itoa(g_tcaps.ret);
+	return (value);
+}
 
 char	*ft_add_space(char **arg, char *ret, int *i)
 {
@@ -30,11 +38,46 @@ char	*ft_add_space(char **arg, char *ret, int *i)
 	return (ret);
 }
 
+char	*check_arg_var(char *str, char *ret)
+{
+	int i;
+	int start;
+	char *new;
+	char *value;
+	
+	(void)ret;
+	i = 0;
+	start = 0;
+	new = ft_strdup("");
+	if (!new)
+		return (printc_stderr(0, strerror(errno), 0));
+	while (str[i])
+	{
+		if (str[i] == '"' && str[i + 1] == '$' && str[i + 2] == '?')
+		{
+			value = get_return_value();
+			if (!value)
+				return (printc_stderr(0, strerror(errno), 0));
+			new = ft_strjoin(new, value);
+			i += 4;
+			start = i;
+		}
+		else
+		{
+			printf("new = [%s]\n", new);
+			while (str[i] && str[i] != '"')
+				i++;
+			new = get_first_quote(new, str, &i, start);
+			printf("new = [%s]\n", new);
+		}
+	}
+	return (new);
+}
+
 char	*ft_echo_cat(char **arg, int *i)
 {
 	char	*tmp;
 	char	*ret;
-	int		j;
 
 	ret = (char *)malloc(sizeof(char));
 	if (!(ret))
@@ -42,8 +85,10 @@ char	*ft_echo_cat(char **arg, int *i)
 	ret[0] = 0;
 	while (arg[*i])
 	{
-		j = 0;
 		tmp = ret;
+		arg[*i] = check_arg_var(arg[*i], ret);
+		if (!arg[*i])
+			return (printc_stderr(0, strerror(errno), 0));
 		ret = ft_strjoin(ret, arg[*i]);
 		clean_free(&tmp);
 		if (!ret)
