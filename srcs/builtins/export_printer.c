@@ -32,3 +32,21 @@ void	print_export(t_list **list)
 		tmp = tmp->next;
 	}
 }
+
+int	test_string(char *tmp, char **str)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		if (!ft_isalnum(tmp[i]) && tmp[i] != '_')
+		{
+			free_double(str);
+			return (0);
+		}
+		i++;
+	}
+	free_double(str);
+	return (1);
+}
