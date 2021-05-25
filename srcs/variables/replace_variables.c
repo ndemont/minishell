@@ -6,19 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 10:38:53 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/22 15:50:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/25 10:55:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_return_value(void)
-{
-	char	*value;
-
-	value = ft_itoa(g_tcaps.ret);
-	return (value);
-}
 
 char	*get_str_var(char *str, int *i)
 {
@@ -72,23 +64,17 @@ char	*get_env_var(char *str, int *i, t_big *datas)
 	char	*value;
 	char	*tmp;
 
+	(void)tmp;
+	(void)start;
+	(void)var;
 	if (str[*i + 2] == '?')
 	{
-		value = get_return_value();
-		*i = *i + 3;
-		start = *i;
-		while (str[*i] && str[*i] != '\"')
-			*i = *i + 1;
-		var = ft_substr(str, start, *i - start);
-		tmp = value;
-		if (var)
-		{
-			value = ft_strjoin(value, var);
-			free(tmp);
-		}
-		clean_free(&var);
-		return (value);
+		value = ft_strdup("\"$?\"");
+		(*i) += 4;
+		if (!value)
+			printc_stderr(0, strerror(errno), 0);
 	}
-	value = find_var(datas, str, i);
+	else
+		value = find_var(datas, str, i);
 	return (value);
 }
