@@ -63,6 +63,7 @@ int	exec_anglebracket_right(char **argv, t_big *datas)
 int	exec_anglebracket_left(char **argv, t_big *datas)
 {
 	int	fd;
+	int	ret;
 
 	datas->flag_pipe = 0;
 	fd = open(argv[0], O_RDONLY);
@@ -78,6 +79,9 @@ int	exec_anglebracket_left(char **argv, t_big *datas)
 		if (datas->flag_left_bracket == 0)
 			datas->fd = fd;
 	}
+	ret = ft_copy_arg(argv, datas);
+	if (!ret)
+		return (0);
 	datas->flag_bracket = 1;
 	return (1);
 }

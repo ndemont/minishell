@@ -76,7 +76,6 @@ char	**get_arguments(t_node *root, t_big *datas)
 		root->arg = tab_join(root->arg, datas);
 		if (!(root->arg))
 			return (printcc_stderr(0, strerror(errno), 0));
-		datas->redirection_arg = 0;
 	}
 	return (root->arg);
 }
