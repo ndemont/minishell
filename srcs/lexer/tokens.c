@@ -6,20 +6,14 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:32:08 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 21:36:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/26 11:14:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	gram(char *str, int i, int *isspace)
+int	gram(char *str, int i)
 {
-	if (isspace)
-	{
-		*isspace = 0;
-		if (check_isspace(&str[i]))
-			*isspace = 1;
-	}
 	if (str[i] == '|')
 		return (1);
 	else if (str[i] == '>')
@@ -79,13 +73,12 @@ int	isqt(char *input, int i)
 int	ft_check_char(int *i, int *j, int prev, char *ipt)
 {
 	int	type;
-	int	iss;
+	int	start;
+	int	space;
 
-	iss = 0;
-	while (ipt[*i] && !gram(ipt, *i, &iss) && !isqt(ipt, *i) && ipt[*i] != '\\')
-		*i = *i + 1;
-	type = gram(ipt, *i, &iss);
-	if ((type == prev && !iss && type) || (type && prev))
+	spaces(i, ipt, &start, &space);
+	type = gram(ipt, *i);
+	if ((type == prev && !space && type) || (type && prev && start == space))
 		return (-1);
 	if (ipt[*i] == '\\' && ipt[*i + 1])
 		*i = *i + 2;
@@ -114,7 +107,7 @@ int	ft_count_tokens(char *input)
 
 	i = 0;
 	j = 0;
-	prev = 6;
+	prev = -1;
 	type = 0;
 	while (input[i])
 	{

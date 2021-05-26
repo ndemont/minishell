@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 15:29:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 17:08:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/26 11:15:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ char					*get_arg(char *input, int *i);
 char					*get_variable_part(char *new, char *input, int *i);
 char					*get_variable_str(char *input, int *i, int end, int j);
 int						ft_count_tokens(char *input);
-int						gram(char *str, int i, int *isspace);
+int						gram(char *str, int i);
 char					*get_variable(char *input, int *k);
 char					*get_variable_quotes(char *str, int *k);
 t_node					*ft_init_grammar_node(int type);
@@ -222,6 +222,8 @@ char					*get_first_quote(char *new, char *input, int *i, \
 int start);
 char					*check_arg_var(char *str);
 char					*get_backslash_quotes(char *input, int *i, int *start);
+void					spaces(int *i, char *ipt, int *start, int *space);
+int						isqt(char *input, int i);
 
 //TREE
 int						exec_built_in(char *command, char **argv, t_big *datas);
@@ -305,6 +307,7 @@ void					check_if_non_print(char *buf, int *non_print_flag, \
 t_big *datas);
 int						launch_termcaps(char *buf, char **line, int *i, \
 t_big *datas);
-int						edit_and_print_line(char *buf, char **line, int *i);
+int						edit_and_print_line(char *buf, char **line, int *i, \
+t_big *datas);
 
 #endif

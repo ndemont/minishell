@@ -6,11 +6,24 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:29:43 by ndemont           #+#    #+#             */
-/*   Updated: 2021/05/25 17:09:18 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/05/26 11:14:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	spaces(int *i, char *ipt, int *start, int *space)
+{
+	*space = 0;
+	*start = 0;
+	while (ipt[*i] && !gram(ipt, *i) && !isqt(ipt, *i) && ipt[*i] != '\\')
+	{
+		if (ipt[*i] == ' ' || ipt[*i] == '\t')
+			(*space)++;
+		*i = *i + 1;
+		(*start)++;
+	}
+}
 
 char	*get_backslash_quotes(char *input, int *i, int *start)
 {
