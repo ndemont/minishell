@@ -58,6 +58,7 @@ int	copy_old_args(t_big *datas, char **tmp)
 	while (tmp && tmp[len])
 	{
 		datas->redirection_arg[len] = ft_strdup(tmp[len]);
+		clean_free(&tmp[len]);
 		if (!(datas->redirection_arg[len]))
 		{
 			printi_stderr(0, strerror(errno), 0);
