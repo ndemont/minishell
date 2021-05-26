@@ -32,7 +32,7 @@ t_node	*ft_new_builtin_node(int *i, char *input)
 
 	new_node = 0;
 	j = *i;
-	while (input[*i] && gram(input, *i, 0) <= 0)
+	while (input[*i] && gram(input, *i) <= 0)
 	{
 		if (input[*i] == '\\' && input[*i + 1])
 			*i = *i + 1;
@@ -58,7 +58,7 @@ t_node	*ft_new_node(char *input, int *i)
 	new_node = 0;
 	while (input[*i] && input[*i] == ' ' && input[*i] == '\t')
 		*i = *i + 1;
-	type = gram(input, *i, 0);
+	type = gram(input, *i);
 	if ((type))
 	{
 		new_node = ft_init_grammar_node(type);
