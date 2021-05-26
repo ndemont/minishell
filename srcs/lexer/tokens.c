@@ -78,7 +78,7 @@ int	ft_check_char(int *i, int *j, int prev, char *ipt)
 
 	spaces(i, ipt, &start, &space);
 	type = gram(ipt, *i);
-	if ((type == prev && !space && type) || (type && prev && start == space))
+	if (type && prev && start == space)
 		return (-1);
 	if (ipt[*i] == '\\' && ipt[*i + 1])
 		*i = *i + 2;

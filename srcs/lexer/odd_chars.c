@@ -23,6 +23,8 @@ void	spaces(int *i, char *ipt, int *start, int *space)
 		*i = *i + 1;
 		(*start)++;
 	}
+	if (!(*start))
+		*start = -1;
 }
 
 char	*get_backslash_quotes(char *input, int *i, int *start)
