@@ -50,7 +50,7 @@ int	read_input(t_big *datas)
 	if (!ft_parser(token_tab))
 	{
 		free_tokens(token_tab);
-		return (0);
+		return (g_tcaps.exit);
 	}
 	tree(token_tab, datas);
 	executions(datas);

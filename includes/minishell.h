@@ -181,6 +181,7 @@ void					free_history(t_history **list);
 void					free_arg(char **arg);
 void					clean_datas(t_big *datas);
 void					free_elems_print_error(char **str, t_var **tmp);
+void					free_node(t_node **node, int j);
 
 //ERRORS
 char					**printcc_stderr(char *cmd, char *strerror, int exit);

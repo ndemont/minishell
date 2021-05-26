@@ -118,7 +118,7 @@ int	ft_count_tokens(char *input)
 	}
 	if (!i)
 		return (0);
-	if (type == 5)
+	if (type)
 		return (j * 2);
 	return ((j * 2) + 1);
 }

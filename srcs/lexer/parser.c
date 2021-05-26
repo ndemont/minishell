@@ -77,10 +77,18 @@ t_node	**ft_parser(t_node **token_tab)
 			get_command(token_tab[i]);
 		i++;
 	}
-	if (token_tab[i - 1]->type > 0 && token_tab[i - 1]->type < 5)
+	if (i > 0 && token_tab[i - 1]->type > 0 && token_tab[i - 1]->type < 5)
 	{
 		g_tcaps.ret = 2;
 		return (print_errors("syntax error", 1));
+	}
+	else if (!token_tab[i - 1]->type && !token_tab[i - 1]->input[0])
+	{
+		if (i > 1 && token_tab[i - 2]->type > 0 && token_tab[i - 2]->type < 5)
+		{
+			g_tcaps.ret = 2;
+			return (print_errors("syntax error", 1));
+		}
 	}
 	return (token_tab);
 }

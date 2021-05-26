@@ -49,3 +49,14 @@ void	free_tree(t_node *root)
 		root = 0;
 	}
 }
+
+void	free_node(t_node **node, int j)
+{
+	while (j >= 0)
+	{
+		clean_free(&node[j]->input);
+		free(node[j]);
+		j--;
+	}
+	free(node);
+}

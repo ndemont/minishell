@@ -110,7 +110,10 @@ t_node	**ft_create_nodes(char *input, int nb)
 		if (!node[j])
 			return (0);
 		if (!(ft_check_node_error(node, j++)))
+		{
+			free_node(node, --j);
 			return (0);
+		}
 	}
 	return (node);
 }
