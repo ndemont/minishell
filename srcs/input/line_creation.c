@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_creation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpetit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:21:59 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/20 16:22:00 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/05/26 10:44:58 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	line_loop(int *i, char **line, t_big *datas)
 		if (non_print_flag || g_tcaps.cursor_pos < *i)
 			ret = launch_termcaps(buf, line, i, datas);
 		else
-			ret = edit_and_print_line(buf, line, i);
+			ret = edit_and_print_line(buf, line, i, datas);
 		if (ret == BREAK_LOOP)
 			break ;
 		if (!ret)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_creation_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpetit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:25:16 by gpetit            #+#    #+#             */
-/*   Updated: 2021/05/20 16:25:18 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/05/26 11:07:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	launch_termcaps(char *buf, char **line, int *i, t_big *datas)
 	return (ret);
 }
 
-int	edit_and_print_line(char *buf, char **line, int *i)
+int	edit_and_print_line(char *buf, char **line, int *i, t_big *datas)
 {
 	int	ret;
 
@@ -82,5 +82,6 @@ int	edit_and_print_line(char *buf, char **line, int *i)
 		return (ERROR);
 	(*i)++;
 	g_tcaps.cursor_pos = *i;
+	datas->flag_history = 0;
 	return (SUCCESS);
 }
